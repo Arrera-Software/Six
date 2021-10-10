@@ -5,3 +5,4 @@ Pour faire parler mon programme je vais utiliser le module python:
 
         gtts
         io
+        tkinter
