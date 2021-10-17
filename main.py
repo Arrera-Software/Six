@@ -2,14 +2,14 @@
 from gtts import gTTS
 from io import BytesIO
 from tkinter import*
-import os
-#importation variable pour lancer la voix
-mp3_fp = BytesIO()
+from playsound import playsound
 #fontion pour les requette de l'uttilisateur
 def reponse():
     requette=input.get()
     if(requette == "bonjour",requette == "Bonjour"):
-      open("voix/voix1.mp3")       
+      playsound('voix1.mp3', block = False)
+    else:
+      playsound('voix2.mp3', block = False)
 #creation fenetre
 screen=Tk()
 #declaration de la zone de texte pour prendre les requette 
