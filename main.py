@@ -3,17 +3,15 @@ from gtts import gTTS
 from io import BytesIO
 from tkinter import*
 from playsound import playsound
-#fontion pour les requette de l'uttilisateur
-def reponse():
-    requette=input.get()
-    if(requette == "bonjour",requette == "Bonjour"):
-      playsound('voix1.mp3', block = False)
-    else:
-      playsound('voix2.mp3', block = False)
 #creation fenetre
 screen=Tk()
 #declaration de la zone de texte pour prendre les requette 
 input= Entry(screen,width=100)
+#fontion pour traiter les requette de l'uttilisateur
+def var():
+  requette=input.get()
+  if (requette == "bonjour"):
+    playsound("voix1.mp3")
 #mise en place de parametre de la fenetre
 screen.maxsize("500","500")
 screen.minsize("500","500")
@@ -25,7 +23,12 @@ screen.config(bg="black")
 logo = PhotoImage(file='logo.png')
 label_image=Label(screen,image=logo,bg="black").pack()
 #afichage zone de text et bouton valider
-valider = Button(screen,height=1,width=100,text="Envoyer",bg="green",command=reponse).pack(side = BOTTOM)
+valider = Button(screen,height=1,width=100,text="Envoyer",bg="green",command=var).pack(side = BOTTOM)
 input.pack(side = BOTTOM)
+
+
+
+
+    
 
 screen.mainloop()
