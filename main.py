@@ -3,6 +3,7 @@ from gtts import gTTS
 from io import BytesIO
 from tkinter import*
 from playsound import playsound
+from requette import*
 #creation fenetre
 screen=Tk()
 #declaration de la zone de texte pour prendre les requette 
@@ -11,7 +12,9 @@ input= Entry(screen,width=100)
 def var():
   requette=input.get()
   if (requette == "bonjour"):
-    playsound("voix1.mp3")
+    bonjour()
+  if (requette == "T"):
+    playsound("sons/voix2.mp3")
 #mise en place de parametre de la fenetre
 screen.maxsize("500","500")
 screen.minsize("500","500")
