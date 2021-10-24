@@ -12,9 +12,9 @@ input= Entry(screen,width=100)
 def var():
   requette=input.get()
   if (requette == "bonjour"):
-    bonjour()
-  if (requette == "T"):
-    playsound("sons/voix2.mp3")
+    phrase1()
+  if (requette == "salut"):
+    phrase1Bis()
 #mise en place de parametre de la fenetre
 screen.maxsize("500","500")
 screen.minsize("500","500")
