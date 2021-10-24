@@ -4,6 +4,7 @@ from io import BytesIO
 from tkinter import*
 from playsound import playsound
 from requette import*
+from navigateur import*
 #creation fenetre
 screen=Tk()
 #declaration de la zone de texte pour prendre les requette 
@@ -15,6 +16,18 @@ def var():
     phrase1()
   if (requette == "salut"):
     phrase1Bis()
+  if (requette == "ouvre opera"):
+    phrase3()
+    ouvertureDUCKDUCKGO()
+  if (requette == "ouvre notion"):
+    phrase4()
+    ouvertureNOTION()
+  if (requette == "ouvre youtube music"):
+    phrase4bis()
+    ouvertureYM()
+  if (requette == "ouvre youtube"):
+    phrase4bisbis()
+    ouvertureY()
 #mise en place de parametre de la fenetre
 screen.maxsize("500","500")
 screen.minsize("500","500")
