@@ -13,3 +13,4 @@ def ouvertureYM():
 def ouvertureY():
     url = "https://www.youtube.com/"
     webbrowser.get(opera).open(url)
+

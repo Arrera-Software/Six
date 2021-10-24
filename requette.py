@@ -20,3 +20,15 @@ def phrase4bis():
 
 def phrase4bisbis():
     playsound("sons/voix4bisbis.mp3")
+
+def phrase5():
+    playsound("sons/voix5.mp3")
+
+def phrase6():
+    playsound("sons/voix6.mp3")
+
+def phrase7():
+    playsound("sons/voix7.mp3")
+
+def phrase8():
+    playsound("sons/voix8.mp3")

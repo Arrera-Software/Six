@@ -7,3 +7,7 @@ Pour faire parler mon programme je vais utiliser le module python:
         io
         tkinter
         playsound
+        os
+        webbrowser
+
+/!\ ce code a ete developer pour une sytheme fedora 34
