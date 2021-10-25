@@ -30,7 +30,7 @@ def var():
   if (requette == "ouvre youtube"):
     phrase4bisbis()
     ouvertureY()
-  if (requette == "ouvre l'explorateur de fichier"):
+  if (requette == "ouvre les fichier"):
     phrase5()
     explorateurFichier()
   if (requette == "ouvre libreoffice"):
@@ -42,6 +42,9 @@ def var():
   if (requette == "ouvre discord"):
     phrase8()
     discord()
+  if (requette == "quelle temps fait il"):
+    phrase9()
+    meteo()
 #mise en place de parametre de la fenetre
 screen.maxsize("500","500")
 screen.minsize("500","500")

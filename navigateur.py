@@ -13,4 +13,6 @@ def ouvertureYM():
 def ouvertureY():
     url = "https://www.youtube.com/"
     webbrowser.get(opera).open(url)
-
+def meteo():
+    url = "https://duckduckgo.com/?q=meteo&t=opera&ia=weather"
+    webbrowser.get(opera).open(url)
