@@ -1,9 +1,7 @@
-#fichier de l'assistant
+#importation des module
 from sys import displayhook
-from gtts import gTTS
-from io import BytesIO
 from tkinter import*
-from playsound import playsound
+#imoortation des fichier
 from requette import*
 from navigateur import*
 from application import*
