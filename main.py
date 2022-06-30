@@ -1,17 +1,16 @@
 import subprocess
-from turtle import speed, st
 import webbrowser
 from gtts import gTTS
 import os
 import datetime
 import random
-import meteofrance_api
-from numpy import take
 import speech_recognition as sr
 from ModuleInternet import TestInternet, duckduckgoSearch
-nrad = random.randint(1,2)
 import requests
 from translate import Translator
+from tkinter import*
+nrad = random.randint(1,2)
+
 
 api_key="ecffd157b2cc9eacbd0d35a45c3dc047"
 base_url="https://api.openweathermap.org/data/2.5/weather?"
@@ -96,16 +95,31 @@ if internet == True :
         if "stop" in statement or "bye" in statement or "au revoir" in statement:
             Arret()
             break
-        
+        if statement == "mute" or statement == "chut":
+            speak("Ok monsieur je vous laisse tranquille")
+            screen = Tk()
+            def anychar(event):
+                if event.keycode == 36 :
+                    screen.destroy()
+                    speak("Oui monsieur")
+            screen.title("SIX")
+            screen.wait_visibility(screen)
+            screen.wm_attributes('-alpha',0.9)
+            screen.config(bg="#08116f")
+            screen.maxsize(300,100)
+            screen.minsize(300,100)
+            LabelMute = Label(screen,text="Mute",font=("arial","24"),bg="#08116f",fg="white").place(relx=.5, rely=.5, anchor="center")
+            screen.bind("<Key>",anychar)
+            screen.mainloop()
         if "recherche" in statement :
             speak("Vous voulez rechercher quoi ?")
             recherche = takeCommand()
             speak("Ok,Voici le resultat")
             duckduckgoSearch(recherche)
         
-        if "toujours là"  in statement  or "es-tu là" in statement :
+        if "toujours là"  in statement  or "es-tu là" in statement or "6" in statement :
             speak("Oui")
-        if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement:
+        if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
             speak("Je suis SIX un assistant personnel cree par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.")
         if "fin de journée" in statement :
             Arret()
@@ -174,10 +188,75 @@ if internet == True :
             if "région" in r :
                 speak("Ok je vous ouvre meteo france")
                 webbrowser.open("https://meteofrance.com/previsions-meteo-france/hauts-de-france/1")
-        
+        if "un document" in statement :
+            speak("Ok j'ouvre libreoffice writer ")
+            os.popen("libreoffice --writer")
+        if "un diaporama" in statement :
+            speak("Ok j'ouvre libreoffice impress ")
+            os.popen("libreoffice --impress")
+        if "un tableur" in statement :
+            speak("Ok j'ouvre libreoffice calc ")
+            os.popen("libreoffice --calc")
+        if "google drive" in statement:
+            speak("Ok voici votre google drive principale")
+            webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
+        if "firefox" in statement or "navigateur internet" in statement :
+            speak("Ok j'ouvre votre navigateur internet")
+            os.popen("/usr/bin/firefox")
+        if "mes notes" in statement :
+            speak("Ok voici vos note monsieur")
+            webbrowser.open("https://www.notion.so/5599107ab8fe4e3d9909f6817cfe1dd4?v=ad3306defd0947aea0b9542029787a2b")
+        if "visual studio code" in statement:
+            os.popen("/usr/bin/code")
+        if "mes fichiers" in statement :
+            speak("Ok voici votre explorateur de fichier monsieur")
+            os.popen("nautilus")
+        if "jupiter" in statement :
+            os.popen("jupyter-notebook /home/baptistep/")
+        if "steam" in statement :
+            speak("Ok bon jeu monsieur")
+            os.popen("steam")
+        if "arduino" in statement :
+            os.popen("flatpak run cc.arduino.arduinoide")
+            speak("Desirez vous que j'ouvre le navigateur web pour vous aidez monsieur")
+            r = takeCommand()
+            if "oui" in r :
+                speak("Ok trés bien")
+                os.popen("/usr/bin/firefox")
+            if "non" in r :
+                speak("Ok je reste a votre service si vous avez besoins ")
+        if "gimp" in statement:
+            os.popen("gimp")
+        if "qui passe" in statement or "mots de passe" in statement or "mot de passe" in statement :
+            os.popen("keepassxc")
+        if "spider" in statement :
+            os.popen("spyder")
+        if "terminal" in statement:
+            os.popen("gnome-terminal")
+        if "tout savoir" in statement:
+            os.popen("./Script-Bash/toutsavoir.sh")
+        if "diabète elle" in statement:
+            os.popen("./Script-Bash/diabetehelp.sh")
+
+        if "voix du nord" in statement :
+            webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
+        if "libération" in statement:
+            webbrowser.open("https://www.liberation.fr/")
+        if "flipboard" in statement :
+            webbrowser.open("https://flipboard.com/")
+        if "instagram" in statement :
+            webbrowser.open("https://www.instagram.com/")
+        if "twitter" in statement :
+            webbrowser.open("https://twitter.com/home")
+        if "signal" in statement:
+            os.popen("flatpak run org.signal.Signal")
+        if "discorde" in statement:
+            os.popen("flatpak run com.discordapp.Discord")
         if "développement" in statement :
             break
-
+        if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
+            os.system("mpg123 " + "voc.mp3")
+        
 else :
     speakNoInternet()
     
