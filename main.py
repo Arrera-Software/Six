@@ -5,6 +5,7 @@ from gtts import gTTS
 import os
 import datetime
 import random
+from pandas import describe_option
 import speech_recognition as sr
 from ModuleInternet import TestInternet, duckduckgoSearch
 import requests
@@ -16,7 +17,8 @@ keyWeather="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlWeather="https://api.openweathermap.org/data/2.5/weather?"
 urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
 keyNew = "3b43e18afcf945888748071d177b8513"
-nombrePageNew = "5"
+nombrePageNew1 = "1"
+nombrePageNew2 = "5"
 
 
 def speak(text):
@@ -25,25 +27,61 @@ def speak(text):
     os.system("mpg123 " + "voc.mp3")
 def speakNoInternet():
     os.system("mpg123 " + "sons/speak1.mp3")
-
+def Resumer():
+    speak("Ok je vous prépare votre résumé")
+    hour=datetime.datetime.now().hour
+    CompleteURLNew = urlNew+"&pageSize="+nombrePageNew2+"&apiKey="+keyNew
+    article = requests.get(CompleteURLNew).json()["articles"]
+    Sujet1,Description1,URL1 = NetoyageActu(article[0])
+    Sujet2,Description2,URL2 = NetoyageActu(article[1])
+    Sujet3,Description3,URL3 = NetoyageActu(article[2])
+    Sujet4,Description4,URL4 = NetoyageActu(article[3])
+    Sujet5,Description5,URL5 = NetoyageActu(article[4])
+    file1 = open("villes.txt","r")
+    city_name1= file1.readlines()[0]
+    Temparure1,humiditer1,description1,ville1=Meteo(city_name1)
+    Temparure2,humiditer2,description2,ville2=Meteo("Landrethun-le-nord")
+    speak("La premier actualités et" + Description1 +".la second et"+ Description2+".la troisiéme et"+ Description3+".la quatriéme"+ Description4+".et la derniére et"+ Description5 )
+    speak("La metéo a votre lieu favori et"+ description1 + "avec une température de"+Temparure1+"degrés et un taux d'humiditer de"+humiditer1+"pourcent")
+    speak("Et la méteo a votre domicile et"+ description2 + "avec une température de"+Temparure2+"degrés et un taux d'humiditer de"+humiditer2+"pourcent")
+        
 def salutation():
     hour=datetime.datetime.now().hour
-    if hour>= 0 and hour<=13:
+    if hour == 0 and hour<= 9:
         if nrad == 1 :
-            speak("Bonjour monsieur,Je vous souhaite une bonne matinée")
+            speak("Bonjour monsieur,J'espére que vous passer une bonne nuit.Voulez-vous un petit résumer des actulités?")
         if nrad == 2 :
-            speak("Bonjour monsieur,Je vous souhaite un bon début de journée")
-    if hour>=13 and hour<20:
+            speak("Bonjour monsieur,J'espére que vous avez bien dormi.Voulez-vous un petit résumer des actulités? ")
+        print("J'attend votre reponse.")
+        while True:
+            r = takeCommand()
+            if "oui" in r:
+                Resumer()
+                speak("J'espére que sa vous sera utile monsieur")
+                break
+            if "non" in r:
+                speak("Ok passer un exelente journée monsieur")
+    if hour == 10 and hour<=13:
         if nrad == 1 :
-            speak("Bonjour monsieur,Je vous souhaite une bonne aprem")
+            speak("Bonjour monsieur,J'espére que vous passer une bonne matinée")
         if nrad == 2 :
-            speak("Bonjour monsieur,Je vous souhaite une bonne après-midi")
+            speak("Bonjour monsieur,J'espére que vous passer un bon début de journée")
+    if hour>=13 and hour<=17:
+        if nrad == 1 :
+            speak("Bonjour monsieur,J'espére que vous passer une bonne aprem")
+        if nrad == 2 :
+            speak("Bonjour monsieur,J'espére que vous passer une bonne après-midi")
+    if  hour>=18 and hour<=23:
+        if nrad == 1 :
+            speak("Bonsoir monsieu,comment se passe votre soirée?")
+        if nrad == 2 :
+            speak("Bonsoir monsieur,J'espére que votre soirée se passe bien")
+
 def NetoyageActu(dictionnnaire):
-    Auteur = dictionnnaire["author"]
     Sujet = dictionnnaire["content"]
     Description = dictionnnaire["description"]
     URL = dictionnnaire["url"]
-    return Auteur ,Sujet,Description,URL
+    return Sujet,Description,URL
 
 def Arret():
     hour=datetime.datetime.now().hour
@@ -57,11 +95,9 @@ def takeCommand():
     r=sr.Recognizer()
     with sr.Microphone() as source:
         audio=r.listen(source)
-
         try:
             Requette=r.recognize_google(audio,language='fr')
             print(Requette)
-
         except Exception as e:
             return "None"
         return Requette
@@ -72,7 +108,7 @@ def reboot():
     subprocess.run("reboot")
 
 def Meteo(ville):
-    complete_url=urlWeather+"appid="+keyWeather+"&q="+ville+"&lang=fr"
+    complete_url=urlWeather+"appid="+keyWeather+"&q="+ville+"&lang=fr"+"&units=metric"
     response = requests.get(complete_url)
     x=response.json()
     if x["cod"]!="404":
@@ -80,10 +116,10 @@ def Meteo(ville):
         current_temperature = str(y["temp"])
         current_humidiy = str(y["humidity"])
         weather_description = str(x["weather"][0]["description"])
-        speak("La méteo a"+ville+",est"+weather_description+"avec une température de"+current_temperature+" ,et un taux d'humiditer de"+current_humidiy+"pourcent ")
-
-
-
+        return current_temperature , current_humidiy , weather_description , ville
+def MeteoParole(city):
+    Temperature,humiditer,description,ville = Meteo(city)
+    speak("La météo à"+ville+ ",et"+description +".Avec un taux d'humiditer de"+humiditer+" pourcent et une température de"+Temperature+"degrés")
 #Programme principale
 internet = TestInternet()
 if internet == True :
@@ -92,7 +128,6 @@ if internet == True :
         statement = takeCommand().lower()
         if statement==0:
             continue
-    
         if "stop" in statement or "bye" in statement or "au revoir" in statement:
             Arret()
             break
@@ -118,18 +153,10 @@ if internet == True :
             speak("Ok,Voici le resultat")
             duckduckgoSearch(recherche)
         if "actualités" in statement:
-
-            CompleteURL = urlNew+"&pageSize="+nombrePageNew+"&apiKey="+keyNew
+            CompleteURL = urlNew+"&pageSize="+nombrePageNew1+"&apiKey="+keyNew
             article = requests.get(CompleteURL).json()["articles"]
-
-            Auteur1,Sujet1,Description1,URL1 = NetoyageActu(article[0])
-            Auteur2,Sujet2,Description2,URL2 = NetoyageActu(article[1])
-            Auteur3,Sujet3,Description3,URL3 = NetoyageActu(article[2])
-            Auteur4,Sujet4,Description4,URL4 = NetoyageActu(article[3])
-            Auteur5,Sujet5,Description5,URL5 = NetoyageActu(article[4])
-
-            speak("Les actualités aujourd'hui son"+Sujet1)
-
+            Sujet,Description,URL = NetoyageActu(article[0])
+            speak("L'actualités la plus récent est "+Description)
         if "toujours là"  in statement  or "es-tu là" in statement or "6" in statement :
             speak("Oui")
         if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
@@ -152,12 +179,11 @@ if internet == True :
             Constrution = "Il es",hour,"heure",minute
             parole = str(Constrution)
             speak(parole)
-        if "jour" in statement :
+        if "date" in statement :
             monthSTR = "Janvier"
             day = datetime.datetime.now().day
             month = datetime.datetime.now().month
             years = datetime.datetime.now().year
-            
             if month == 1 :
                 monthSTR = "Janvier"
             if month == 2 :
@@ -182,25 +208,22 @@ if internet == True :
                 monthSTR = "Decembre"
             if month == 11 :
                 monthSTR = "Janvier"
-            
             Constrution = "Aujourd'hui on est le",day,monthSTR,years
             parole = str(Constrution)
             speak(parole)
-        if statement == "quel temps fait-il" or "météo" in statement:
+        if "météo" in statement:
             speak("Ou desirez savoir la meteo monsieur ?")
             r= takeCommand()
             if "maison" in r or "chez moi" in r :
                 city = "Landrethun-le-nord"
-                Meteo(city)
+                MeteoParole(city)              
             if "Boulogne" in r or "boulogne" in r :
                 city = "Boulogne-sur-mer"
-                Meteo(city)
-            if "carte" in r or "France" in r or "france" in r :
-                speak("Ok je vous ouvre meteo france")
-                webbrowser.open("https://meteofrance.com/")
-            if "région" in r :
-                speak("Ok je vous ouvre meteo france")
-                webbrowser.open("https://meteofrance.com/previsions-meteo-france/hauts-de-france/1")
+                MeteoParole(city)
+        if "quel temps fait-il" in statement:
+            file = open("villes.txt","r")
+            city_name= file.readlines()[0]
+            MeteoParole(city_name)
         if "un document" in statement :
             speak("Ok j'ouvre libreoffice writer ")
             os.popen("libreoffice --writer")
@@ -269,7 +292,12 @@ if internet == True :
             break
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
-        
+        if "mode nuit" in statement or "mode sombre" in statement:
+            os.popen("./Script-Bash/Dark.sh")
+        if "mode jour" in statement or "mode clair" in statement:
+            os.popen("./Script-Bash/Light.sh")
+        if "résumé" in statement:
+            Resumer()
 else :
     speakNoInternet()
     
