@@ -5,6 +5,7 @@ from gtts import gTTS
 import os
 import datetime
 import random
+from numpy import take
 from pandas import describe_option
 import speech_recognition as sr
 from ModuleInternet import TestInternet, duckduckgoSearch
@@ -37,11 +38,10 @@ def Resumer():
     Sujet3,Description3,URL3 = NetoyageActu(article[2])
     Sujet4,Description4,URL4 = NetoyageActu(article[3])
     Sujet5,Description5,URL5 = NetoyageActu(article[4])
-    file1 = open("villes.txt","r")
-    city_name1= file1.readlines()[0]
+    city_name1 = Lecture("villes.txt")
     Temparure1,humiditer1,description1,ville1=Meteo(city_name1)
     Temparure2,humiditer2,description2,ville2=Meteo("Landrethun-le-nord")
-    speak("La premier actualités et" + Description1 +".la second et"+ Description2+".la troisiéme et"+ Description3+".la quatriéme"+ Description4+".et la derniére et"+ Description5 )
+    speak("La premier actualités et" + Description1 +".la second et"+ Description2+".la troisiéme et"+ Description3+".la quatriéme"+ Description4+".et la derniére et"+ Description5  )
     speak("La metéo a votre lieu favori et"+ description1 + "avec une température de"+Temparure1+"degrés et un taux d'humiditer de"+humiditer1+"pourcent")
     speak("Et la méteo a votre domicile et"+ description2 + "avec une température de"+Temparure2+"degrés et un taux d'humiditer de"+humiditer2+"pourcent")
         
@@ -61,7 +61,7 @@ def salutation():
                 break
             if "non" in r:
                 speak("Ok passer un exelente journée monsieur")
-    if hour == 10 and hour<=13:
+    if hour >= 10 and hour <=13:
         if nrad == 1 :
             speak("Bonjour monsieur,J'espére que vous passer une bonne matinée")
         if nrad == 2 :
@@ -77,12 +77,34 @@ def salutation():
         if nrad == 2 :
             speak("Bonsoir monsieur,J'espére que votre soirée se passe bien")
 
+def Ecriture(file,text):
+    doc = open(file,"w")
+    doc.truncate()
+    doc.write(text)
+    doc.close()
+    return text,file
+def Lecture(file):
+    fichier = open(file,"r")
+    contenu= fichier.readlines()[0]
+    fichier.close()
+    return contenu
+
 def NetoyageActu(dictionnnaire):
     Sujet = dictionnnaire["content"]
     Description = dictionnnaire["description"]
     URL = dictionnnaire["url"]
     return Sujet,Description,URL
-
+def EcritureNote(file):
+    speak("Voulez-vous dicter ou ecrire votre note monsieur")
+    r = takeCommand()
+    if "dictée" in r or "dicter" in r:
+        speak("Ok je vous ecoute")
+        Note = takeCommand()
+        Ecriture(file,Note)
+    if "écrire" in r :
+        speak("Ok ecrivé votre note monsieur")
+        Note = input("Votre note :")
+        Ecriture(file,Note)
 def Arret():
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<22:
@@ -224,6 +246,11 @@ if internet == True :
             file = open("villes.txt","r")
             city_name= file.readlines()[0]
             MeteoParole(city_name)
+        if "change la ville" in statement:
+            city = Lecture("villes.txt")
+            NewCity = input("Nouvelle ville favorite:")            
+            contenu,fichier = Ecriture("villes.txt",NewCity)
+            speak("Ok je vous changer votre ville en favorie"+city+",par"+contenu)
         if "un document" in statement :
             speak("Ok j'ouvre libreoffice writer ")
             os.popen("libreoffice --writer")
@@ -239,9 +266,15 @@ if internet == True :
         if "firefox" in statement or "navigateur internet" in statement :
             speak("Ok j'ouvre votre navigateur internet")
             os.popen("/usr/bin/firefox")
-        if "mes notes" in statement :
-            speak("Ok voici vos note monsieur")
+        if "mes notes internet" in statement :
+            speak("Ok voici vos note stoket sur internet monsieur")
             webbrowser.open("https://www.notion.so/5599107ab8fe4e3d9909f6817cfe1dd4?v=ad3306defd0947aea0b9542029787a2b")
+        if "mes cahiers des tâches" in statement:
+            webbrowser.open("https://www.notion.so/Cahier-de-tache-29b3259503584886b88b24f574f871ba")
+        if "ma todolist" in statement or "ma liste de tâches" in statement:
+            webbrowser.open("https://www.notion.so/3f037048d43048aa935f74d0700ee0d7?v=6e2e75eb40c94d719f73bbe6e90a52ed")
+        if "ma page de projet" in statement:
+            webbrowser.open("https://www.notion.so/e6b2105328f34126a0d2527e9fb1c917?v=3af36adfb00a4d29aa12c1187e7004ca")
         if "visual studio code" in statement:
             os.popen("/usr/bin/code")
         if "mes fichiers" in statement :
@@ -298,6 +331,46 @@ if internet == True :
             os.popen("./Script-Bash/Light.sh")
         if "résumé" in statement:
             Resumer()
+        if "écris dans mes notes locales" in statement:
+            speak("Quelle note voulez-vous modifier")
+            nbNote = takeCommand()
+            if "la première" in nbNote:
+                file = "note/note1.txt"
+                EcritureNote(file)
+            if "la deuxième" in nbNote and "la seconde" in nbNote:
+                file = "note/note2.txt"
+                EcritureNote(file)
+            if "la troisième" in nbNote:
+                file = "note/note3.txt"
+                EcritureNote(file)
+            if "la 4e" in nbNote:
+                file = "note/note4.txt"
+                EcritureNote(file)
+            if "la 5e" in nbNote:
+                file = "note/note5.txt"
+                EcritureNote(file)
+        if "lis mes notes local" in statement or "lis-moi mes notes locales" in statement: 
+            speak("Quelle note voulez-vous que je vous lise ?")
+            nbNote = takeCommand()
+            if "la première" in nbNote:
+                file = "note/note1.txt"
+                note = Lecture(file)
+                speak(note)
+            if "la deuxième" in nbNote or "la seconde" in nbNote:
+                file = "note/note2.txt"
+                note = Lecture(file)
+                speak(note)
+            if "la troisième" in nbNote:
+                file = "note/note3.txt"
+                note = Lecture(file)
+                speak(note)
+            if "la 4e" in nbNote:
+                file = "note/note4.txt"
+                Lecture(file)
+            if "la 5e" in nbNote:
+                file = "note/note5.txt"
+                note = Lecture(file)
+                speak(note)  
 else :
     speakNoInternet()
     
