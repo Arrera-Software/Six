@@ -119,7 +119,7 @@ def takeCommand():
         audio=r.listen(source)
         try:
             Requette=r.recognize_google(audio,language='fr')
-            print(Requette)
+            print("User = ",Requette)
         except Exception as e:
             return "None"
         return Requette
