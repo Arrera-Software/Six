@@ -39,7 +39,7 @@ def Resumer():
     city_name1 = Lecture("villes.txt")
     Temparure1,humiditer1,description1,ville1=Meteo(city_name1)
     Temparure2,humiditer2,description2,ville2=Meteo("Landrethun-le-nord")
-    speak("La premier actualités et" + Titre1 +".la second et"+ Titre2+".la troisiéme et"+ Titre3+".la quatriéme"+ Titre4+".et la derniére et"+ Titre5  )
+    speak("La premiére actualités et" + Titre1 +".la second et "+ Titre2+".la troisiéme et "+ Titre3+".La quatriéme et "+ Titre4+" .La derniére et "+ Titre5  )
     speak("La metéo a votre lieu favori et "+ description1 + " avec une température de "+Temparure1+" degrés et un taux d'humiditer de "+humiditer1+" pourcent")
     speak("Et la méteo a votre domicile et "+ description2 + " avec une température de "+Temparure2+" degrés et un taux d'humiditer de "+humiditer2+" pourcent")
     speak("Voulez-vous que j'ouvre les lien des actualités ?")
@@ -389,7 +389,13 @@ if internet == True :
         if "fais une grande recherche" in statement:
             speak("Que voulez vous que je vous recherche ?")
             r = takeCommand()
-            GrandRecherche(r)  
-else :
-    speakNoInternet()
-    
+            GrandRecherche(r)
+        if "peux-tu me lire un truc" in statement :
+            speak("Copier ce que vous voulez  que je vous lise")
+            lecture =str(input("Text :")) 
+            speak(lecture)
+        if "ouvre mes favoris"  in statement:
+            speak("Ok j'ouvre vos favoris")
+            webbrowser.open("favorie/index.html")
+else :           
+    speakNoInternet()   
