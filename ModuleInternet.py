@@ -78,6 +78,13 @@ def YTmusicSearch(query):
         lienYTmusic = urllink.url
         webbrowser.get(Navigateur).open(lienYTmusic)
 
+def GrandRecherche(query):
+    duckduckgoSearch(query)
+    googleSearch(query)
+    EcosiaSearch(query)
+    bingSearch(query)
+    QwantSearch(query)
+
 def notion():
     webbrowser.get(Navigateur).open("https://www.notion.so")
 
