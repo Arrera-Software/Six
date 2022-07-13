@@ -69,7 +69,7 @@ def salutation():
                 break
             if "non" in r:
                 speak("Ok passer un exelente journée monsieur")
-    if hour >= 10 and hour <=13:
+    if hour >= 10 and hour <=12:
         if nrad == 1 :
             speak("Bonjour monsieur,J'espére que vous passer une bonne matinée")
         if nrad == 2 :
