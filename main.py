@@ -10,6 +10,7 @@ from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche
 import requests
 from tkinter import*
 from mtranslate import translate
+import time
 
 
 nrad = random.randint(1,2)
@@ -89,7 +90,7 @@ def salutation():
             speak("Bonsoir monsieur,J'espére que votre début de soirée se passe bien")
     if  hour>=21 and hour<=23:
         if nrad == 1 :
-            speak("Bonsoir monsieu,comment se passe votre soirée?")
+            speak("Bonsoir monsieur,comment se passe votre soirée?")
         if nrad == 2 :
             speak("Bonsoir monsieur,J'espére que votre soirée se passe bien")
 
@@ -490,5 +491,47 @@ if internet == True :
             speak("Ok j'ouvre mes paramètre")
             Setting()
             speak("J'ai enregistrer tout vos modification")
-else :           
+        if "raconter une blague" in statement or "raconte-moi une blague" in statement :
+            nb = random.randint(1,10)
+            if nb == 1 :
+                speak("Que dit une noisette quand elle tombe dans l’eau ?")
+                time.sleep(1)
+                speak("Je me noix.")
+            if nb == 2 :
+                speak("Comment est-ce que les abeilles communiquent entre elles ?")
+                time.sleep(1)
+                speak("Par-miel.")
+            if nb == 3 :
+                speak("Quel est l’arbre préféré du chômeur ?")
+                time.sleep(1)
+                speak("Le bouleau.")
+            if nb == 4 :
+                speak("Qu’est-ce qu’une frite enceinte ?")
+                time.sleep(1)
+                speak("Une patate sautée.")
+            if nb == 5 :
+                speak("Que dit une mère à son fils geek quand le dîner est servi ?")
+                time.sleep(1)
+                speak("Alt Tab !")
+            if nb == 6 :
+                speak("Qu’est-ce qui est mieux que gagner une médaille d’or aux Jeux Paralympiques ?")
+                time.sleep(1)
+                speak("Marcher")
+            if nb == 7 :
+                speak("Pourquoi les Ch’tis aiment les fins de vacances au camping ?")
+                time.sleep(1)
+                speak("Parce que c’est le moment où ils peuvent démonter leur tente.")
+            if nb == 8 :
+                speak("Quelle est la partie de la voiture la plus dangereuse ?")
+                time.sleep(1)
+                speak("La conductrice.")
+            if nb == 9 :
+                speak("Pourquoi dit-on que les poissons travaillent illégalement ?")
+                time.sleep(1)
+                speak("Parce qu'ils n'ont pas de FISH de paie")
+            if nb == 10 :
+                speak("Mettre du sirop dans son gel douche")
+                time.sleep(1)
+                speak("En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible.")
+else :        
     speakNoInternet()   
