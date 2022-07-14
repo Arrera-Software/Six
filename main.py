@@ -1,4 +1,5 @@
 import subprocess
+from turtle import Screen, color
 import webbrowser
 from gtts import gTTS
 import os
@@ -8,9 +9,12 @@ import speech_recognition as sr
 from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche
 import requests
 from tkinter import*
+from mtranslate import translate
+
+
 nrad = random.randint(1,2)
-
-
+Color = "#08116f"
+TextColor = "white"
 keyWeather="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlWeather="https://api.openweathermap.org/data/2.5/weather?"
 urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
@@ -36,10 +40,9 @@ def Resumer():
     Sujet3,Description3,URL3,Titre3 = NetoyageActu(article[2])
     Sujet4,Description4,URL4,Titre4 = NetoyageActu(article[3])
     Sujet5,Description5,URL5,Titre5 = NetoyageActu(article[4])
-    city_name1 = Lecture("villes.txt")
-    Temparure1,humiditer1,description1,ville1=Meteo(city_name1)
-    Temparure2,humiditer2,description2,ville2=Meteo("Landrethun-le-nord")
-    speak("La premiére actualités et" + Titre1 +".la second et "+ Titre2+".la troisiéme et "+ Titre3+".La quatriéme et "+ Titre4+" .La derniére et "+ Titre5  )
+    Temparure1,humiditer1,description1,ville1=Meteo(3)
+    Temparure2,humiditer2,description2,ville2=Meteo(1)
+    speak("La première actualités et " + Titre1 +".La seconde et "+ Titre2+".La troisiéme et "+ Titre3+".La quatriéme et "+ Titre4+" .La derniére et "+ Titre5  )
     speak("La metéo a votre lieu favori et "+ description1 + " avec une température de "+Temparure1+" degrés et un taux d'humiditer de "+humiditer1+" pourcent")
     speak("Et la méteo a votre domicile et "+ description2 + " avec une température de "+Temparure2+" degrés et un taux d'humiditer de "+humiditer2+" pourcent")
     speak("Voulez-vous que j'ouvre les lien des actualités ?")
@@ -121,12 +124,20 @@ def EcritureNote(file):
         Ecriture(file,Note)
 def Arret():
     hour=datetime.datetime.now().hour
-    if hour>=0 and hour<22:
-       speak("Au revoir monsieur")
-    
+    if hour>=0 and hour<3:
+       speak("Au revoir monsieur , bonne nuit")
+    if hour>=3 and hour<9:
+        speak("Au revoir monsieur , passez une bonne matinée")
+    if hour>=9 and hour<12:
+        speak("Au revoir monsieur , passez une bonne journée")
+    if hour>=12 and hour<16:
+        speak("Au revoir monsieur , passez une bonne aprem")
+    if hour>=16 and hour<18:
+        speak("Au revoir monsieur , passez une bonne fin d'aprés-midi")
+    if hour>=18 and hour<22:
+        speak("Au revoir monsieur , passez une bonne soirée")
     if hour>=22 and hour<23:
         speak("Au revoir monsieur , bonne nuit")
-    
 def takeCommand():
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -142,8 +153,30 @@ def shutdown():
     subprocess.run("poweroff")
 def reboot():
     subprocess.run("reboot")
-
-def Meteo(ville):
+def Trad():
+    lang1 = "fr"
+    lang2 = Lecture("Config/Langue/Lang1.txt")
+    lang3 = Lecture("Config/Langue/Lang2.txt")
+    speak("Ok en quelle langue voulez-vous que je vous traduise votre texte monsieur?")
+    sortie = input("Choisissez entre 'fr' , 'lang1' ou 'lang2'##: ")
+    if sortie == "français" or "fr" == sortie:
+        text = input("Entrer votre texte : ")
+        textTraduit = translate(text, lang1)
+        print(textTraduit)
+    if sortie == "lang1":
+        text = input("Entrer votre texte : ") 
+        textTraduit = translate(text, lang2)
+        print(textTraduit)
+    if sortie == "lang2":
+        text = input("Entrer votre texte : ") 
+        textTraduit = translate(text, lang3)
+        print(textTraduit)
+    
+def Meteo(nbVille):
+    Nomfile = "Config/meteo/ville"+str(nbVille)+".txt"   
+    fichier = open(Nomfile,"r")
+    ville = fichier.readlines()[0]
+    fichier.close()
     complete_url=urlWeather+"appid="+keyWeather+"&q="+ville+"&lang=fr"+"&units=metric"
     response = requests.get(complete_url)
     x=response.json()
@@ -153,9 +186,70 @@ def Meteo(ville):
         current_humidiy = str(y["humidity"])
         weather_description = str(x["weather"][0]["description"])
         return current_temperature , current_humidiy , weather_description , ville
-def MeteoParole(city):
-    Temperature,humiditer,description,ville = Meteo(city)
+def MeteoParole(nbVille):
+    Temperature,humiditer,description,ville = Meteo(nbVille)
     speak("La météo à "+ville+ " ,et "+description +".Avec un taux d'humiditer de "+humiditer+" pourcent et une température de "+Temperature+" degrés")
+def Setting():
+    ScreenPara = Tk()
+    def FoncModif(file):
+        Contenu = Lecture(file)
+        ScreenModif = Toplevel()
+        ScreenModif.maxsize(300,150)
+        ScreenModif.minsize(300,150)
+        ScreenModif.wait_visibility(ScreenModif)
+        ScreenModif.wm_attributes('-alpha',0.9)
+        ScreenModif.config(bg=Color)
+        LabelContenu = Label(ScreenModif,text=Contenu,font=("arial","20"),bg=Color,fg=TextColor).pack()
+        entry = Entry(ScreenModif)
+        def Modif():
+            Var = str(entry.get())
+            Ecriture(file,Var)
+            ScreenModif.destroy()
+        Modif = Button(ScreenModif,text="Modifier",bg=Color,fg=TextColor,command=Modif).pack(side="right",anchor="s")
+        entry.pack(side="left",anchor="s")
+    def MeteoChange1():
+        FoncModif("Config/meteo/ville1.txt")
+    def MeteoChange2():
+        FoncModif("Config/meteo/ville2.txt")
+    def MeteoChange3():
+        FoncModif("Config/meteo/ville3.txt")
+    def MeteoChange4():
+        FoncModif("Config/meteo/ville4.txt")
+    def MeteoChange5():
+        FoncModif("Config/meteo/ville5.txt")
+    def LangChange1():
+        FoncModif("Config/Langue/Lang1.txt")
+    def LangChange2():
+        FoncModif("Config/Langue/Lang2.txt")
+    ScreenPara.title("Six : Paramétre")
+    ScreenPara.minsize(500,500)
+    ScreenPara.maxsize(500,500)
+    ScreenPara.wait_visibility(ScreenPara)
+    ScreenPara.wm_attributes('-alpha',0.9)
+    ScreenPara.config(bg=Color)
+    CadreMeteo = Frame(ScreenPara,bg=Color,width=400,height=200)
+    CadreLang = Frame(ScreenPara,bg=Color,width=400,height=200)
+    LabelIndication1 = Label(ScreenPara,text="Météo",font=("arial","20"),bg=Color,fg=TextColor)
+    LabelIndication2 = Label(ScreenPara,text="Langue",font=("arial","20"),bg=Color,fg=TextColor)
+    BoutonMeteo1 = Button(CadreMeteo,text="Domicile",bg=Color,fg=TextColor,command=MeteoChange1)
+    BoutonMeteo2 = Button(CadreMeteo,text="Travail 1",bg=Color,fg=TextColor,command=MeteoChange2)
+    BoutonMeteo3 = Button(CadreMeteo,text="Travail 2",bg=Color,fg=TextColor,command=MeteoChange3)
+    BoutonMeteo4 = Button(CadreMeteo,text="Favorie 1",bg=Color,fg=TextColor,command=MeteoChange4)
+    BoutonMeteo5 = Button(CadreMeteo,text="Favorie 2",bg=Color,fg=TextColor,command=MeteoChange5)
+    BoutonLang1 = Button(CadreLang,text="Langue 1",bg=Color,fg=TextColor,command=LangChange1)
+    BoutonLang2 = Button(CadreLang,text="Langue 2",bg=Color,fg=TextColor,command=LangChange2)
+    LabelIndication1.pack()
+    CadreMeteo.pack()
+    BoutonMeteo1.place(relx=.5, rely=.5, anchor="center")
+    BoutonMeteo2.place(x = "0" ,y ="0")
+    BoutonMeteo3.place(x = "0" ,y ="165")
+    BoutonMeteo4.place(x = "315" ,y ="0")
+    BoutonMeteo5.place(x = "315" ,y ="165")
+    BoutonLang1.place(x = "15" ,y ="82")
+    BoutonLang2.place(x = "300" ,y ="82")
+    CadreLang.pack(side="bottom")
+    LabelIndication2.pack(side="bottom")
+    ScreenPara.mainloop()
 #Programme principale
 internet = TestInternet()
 if internet == True :
@@ -166,7 +260,7 @@ if internet == True :
             continue
         if  statement =="salut"   or statement =="bonjour" or statement =="bonsoir":
             speak(statement+" en quoi je peux vous servir ?")
-        if "stop" in statement or "bye" in statement or "au revoir" in statement:
+        if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret()
             break
         if statement == "mute" or statement == "chut":
@@ -179,10 +273,10 @@ if internet == True :
             screen.title("SIX")
             screen.wait_visibility(screen)
             screen.wm_attributes('-alpha',0.9)
-            screen.config(bg="#08116f")
+            screen.config(bg=Color)
             screen.maxsize(300,100)
             screen.minsize(300,100)
-            LabelMute = Label(screen,text="Mute",font=("arial","24"),bg="#08116f",fg="white").place(relx=.5, rely=.5, anchor="center")
+            LabelMute = Label(screen,text="Mute",font=("arial","24"),bg=Color,fg=TextColor).place(relx=.5, rely=.5, anchor="center")
             screen.bind("<Key>",anychar)
             screen.mainloop()
         if "recherche sur internet" in statement :
@@ -241,32 +335,25 @@ if internet == True :
             if month == 9 :
                 monthSTR = "Septembre"
             if month == 10 :
+                monthSTR = "Octobre"
+            if month == 11 :
                 monthSTR = "Novembre"
-            if month == 11 :
-                monthSTR = "Decembre"
-            if month == 11 :
-                monthSTR = "Janvier"
-            Constrution = "Aujourd'hui on est le",day,monthSTR,years
-            parole = str(Constrution)
-            speak(parole)
+            if month == 12 :
+                monthSTR = "Décembre"
+            speak("Aujourd'huit on es le "+str(day)+monthSTR+str(years))
         if "météo" in statement:
             speak("Ou desirez savoir la meteo monsieur ?")
             r= takeCommand()
             if "maison" in r or "chez moi" in r :
-                city = "Landrethun-le-nord"
-                MeteoParole(city)              
-            if "Boulogne" in r or "boulogne" in r :
-                city = "Boulogne-sur-mer"
-                MeteoParole(city)
-        if "quel temps fait-il" in statement:
-            file = open("villes.txt","r")
-            city_name= file.readlines()[0]
-            MeteoParole(city_name)
-        if "change la ville" in statement:
-            city = Lecture("villes.txt")
-            NewCity = input("Nouvelle ville favorite:")            
-            contenu,fichier = Ecriture("villes.txt",NewCity)
-            speak("Ok je vous changer votre ville en favorie"+city+",par"+contenu)
+                MeteoParole(1)              
+            if "à mon premier lieu de travail" in r or "à mon lieu de travail" in r :
+                MeteoParole(2)
+            if "à mon deuxième lieu de travail" in r or "à mon second lieu de travail" in r :
+                MeteoParole(3)
+            if "à mon premier lieu favori" in r or "à mon lieu favori" in r :
+                MeteoParole(4)
+            if "à mon second lieu favori" in r or "à mon deuxième lieu favori" in r :
+                MeteoParole(5)
         if "un document" in statement :
             speak("Ok j'ouvre libreoffice writer ")
             os.popen("libreoffice --writer")
@@ -397,5 +484,11 @@ if internet == True :
         if "ouvre mes favoris"  in statement:
             speak("Ok j'ouvre vos favoris")
             webbrowser.open("favorie/index.html")
+        if "traduire" in statement:
+            Trad()
+        if "ouvre tes paramètre" in statement :
+            speak("Ok j'ouvre mes paramètre")
+            Setting()
+            speak("J'ai enregistrer tout vos modification")
 else :           
     speakNoInternet()   
