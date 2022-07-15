@@ -6,13 +6,12 @@ import os
 import datetime
 import random
 import speech_recognition as sr
-from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche
+from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche,DocArduino,DocPython
 import requests
 from tkinter import*
 from mtranslate import translate
 import time
-
-
+#Varriable
 nrad = random.randint(1,2)
 Color = "#08116f"
 TextColor = "white"
@@ -22,16 +21,22 @@ urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
 keyNew = "3b43e18afcf945888748071d177b8513"
 nombrePageNew1 = "1"
 nombrePageNew2 = "5"
-
-
-def speak(text):
+#Partie Module logiciel
+def VisualStudio():
+    os.popen("/usr/bin/code")
+def terminal():
+    os.popen("gnome-terminal")
+def arduino():
+    os.popen("flatpak run cc.arduino.arduinoide")
+#Fonction de l'assistant
+def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
     os.system("mpg123 " + "voc.mp3")
     print("Six =",text)
-def speakNoInternet():
+def speakNoInternet():#Fonctiion pas internet
     os.system("mpg123 " + "sons/speak1.mp3")
-def Resumer():
+def Resumer():#Fonction de resumer des actaulités et de la meteo
     speak("Ok je vous prépare votre résumé")
     hour=datetime.datetime.now().hour
     CompleteURLNew = urlNew+"&pageSize="+nombrePageNew2+"&apiKey="+keyNew
@@ -57,14 +62,13 @@ def Resumer():
         webbrowser.open(URL5)
     if "non" in reponse:
         speak("Ok")
-def salutation():
+def salutation():#Fonction de salutation
     hour=datetime.datetime.now().hour
-    if hour == 0 and hour<= 9:
+    if hour >= 0 and hour <= 9:
         if nrad == 1 :
             speak("Bonjour monsieur,J'espére que vous passer une bonne nuit.Voulez-vous un petit résumer des actulités?")
         if nrad == 2 :
             speak("Bonjour monsieur,J'espére que vous avez bien dormi.Voulez-vous un petit résumer des actulités? ")
-        print("J'attend votre reponse.")
         while True:
             r = takeCommand()
             if "oui" in r:
@@ -94,25 +98,25 @@ def salutation():
         if nrad == 2 :
             speak("Bonsoir monsieur,J'espére que votre soirée se passe bien")
 
-def Ecriture(file,text):
+def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
     doc.truncate()
     doc.write(text)
     doc.close()
     return text,file
-def Lecture(file):
+def Lecture(file):#Fonction de lecture d'un fichier texte et stokage dans une varriable
     fichier = open(file,"r")
     contenu= fichier.readlines()[0]
     fichier.close()
     return contenu
 
-def NetoyageActu(dictionnnaire):
+def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu par l'API
     Sujet = dictionnnaire["content"]
     Description = dictionnnaire["description"]
     URL= dictionnnaire["url"]
     Titre = dictionnnaire["title"]
     return Sujet,Description,URL,Titre
-def EcritureNote(file):
+def EcritureNote(file):#Ecriture dans les fichier note
     speak("Voulez-vous dicter ou ecrire votre note monsieur")
     r = takeCommand()
     if "dictée" in r or "dicter" in r:
@@ -123,7 +127,7 @@ def EcritureNote(file):
         speak("Ok ecrivé votre note monsieur")
         Note = input("Votre note :")
         Ecriture(file,Note)
-def Arret():
+def Arret():#Fonction quand l'uttilisateur coup l'assistant
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<3:
        speak("Au revoir monsieur , bonne nuit")
@@ -139,7 +143,7 @@ def Arret():
         speak("Au revoir monsieur , passez une bonne soirée")
     if hour>=22 and hour<23:
         speak("Au revoir monsieur , bonne nuit")
-def takeCommand():
+def takeCommand():#Fonction micro et reconaissance vocal
     r=sr.Recognizer()
     with sr.Microphone() as source:
         audio=r.listen(source)
@@ -150,11 +154,11 @@ def takeCommand():
             return "None"
         return Requette
 
-def shutdown():
+def shutdown():#Fonction d'arrét de l'ordinateur
     subprocess.run("poweroff")
-def reboot():
+def reboot():#Fonction de redemarage de l'ordinateur
     subprocess.run("reboot")
-def Trad():
+def Trad():#Fonction de Traduction
     lang1 = "fr"
     lang2 = Lecture("Config/Langue/Lang1.txt")
     lang3 = Lecture("Config/Langue/Lang2.txt")
@@ -173,7 +177,7 @@ def Trad():
         textTraduit = translate(text, lang3)
         print(textTraduit)
     
-def Meteo(nbVille):
+def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
     Nomfile = "Config/meteo/ville"+str(nbVille)+".txt"   
     fichier = open(Nomfile,"r")
     ville = fichier.readlines()[0]
@@ -187,10 +191,10 @@ def Meteo(nbVille):
         current_humidiy = str(y["humidity"])
         weather_description = str(x["weather"][0]["description"])
         return current_temperature , current_humidiy , weather_description , ville
-def MeteoParole(nbVille):
+def MeteoParole(nbVille):#Fonction météo avec parole
     Temperature,humiditer,description,ville = Meteo(nbVille)
     speak("La météo à "+ville+ " ,et "+description +".Avec un taux d'humiditer de "+humiditer+" pourcent et une température de "+Temperature+" degrés")
-def Setting():
+def Setting():#fonction parametre
     ScreenPara = Tk()
     def FoncModif(file):
         Contenu = Lecture(file)
@@ -251,6 +255,49 @@ def Setting():
     CadreLang.pack(side="bottom")
     LabelIndication2.pack(side="bottom")
     ScreenPara.mainloop()
+def ModeDev():#Fonction du mode dev
+    ScreenDev = Tk()
+    ScreenDev.title("Six")
+    ScreenDev.minsize(300,600)
+    ScreenDev.config(bg=Color)
+    CadreEditeur = Frame(ScreenDev,bg=Color)
+    CadreDoc = Frame(ScreenDev,bg=Color)
+    Labelecart1 = Label(CadreEditeur,width=6,bg=Color)
+    Labelecart2 = Label(CadreDoc,width=6,bg=Color)
+    Labelecart3 = Label(CadreEditeur,width=6,bg=Color)
+    Labelecart4 = Label(CadreDoc,width=6,bg=Color)
+    BoutonVisual = Button(CadreEditeur,bg=Color,command=VisualStudio)
+    BoutonArduino = Button(CadreEditeur,bg=Color,command=arduino)
+    BoutonTerminal = Button(ScreenDev,bg=Color,command=terminal)
+    BoutonPython = Button(CadreDoc,bg=Color,command=DocPython)
+    BoutonDocArduino = Button(CadreDoc,bg=Color,command=DocArduino)
+    IconVisual = PhotoImage(file="image/IconVisual.png",master=BoutonVisual)
+    IconArduino = PhotoImage(file="image/IconArduino.png",master=BoutonArduino)
+    IconTerminal = PhotoImage(file="image/IconTerminal.png",master=BoutonTerminal)
+    IconPython = PhotoImage(file="image/IconDocPython.png",master=BoutonPython)
+    IconDocArduino = PhotoImage(file="image/IconDocArduino.png",master=BoutonDocArduino)
+    BoutonVisual.image_names = IconVisual
+    BoutonArduino.image_names = IconArduino
+    BoutonTerminal.image_names = IconTerminal
+    BoutonDocArduino.image_names = IconDocArduino
+    BoutonPython.image_names = IconPython
+    BoutonVisual.config(image = IconVisual)
+    BoutonArduino.config(image = IconArduino)
+    BoutonTerminal.config(image=IconTerminal)
+    BoutonDocArduino.config(image=IconDocArduino)
+    BoutonPython.config(image=IconPython)
+    CadreEditeur.pack(side="top")
+    CadreDoc.pack(side="bottom")
+    BoutonTerminal.place(relx=.5, rely=.5, anchor="center")
+    BoutonVisual.pack(side="left")
+    Labelecart1.pack(side="left")
+    BoutonArduino.pack(side="right")
+    Labelecart3.pack(side="right")
+    BoutonPython.pack(side="left")
+    Labelecart2.pack(side="left")
+    BoutonDocArduino.pack(side="right")
+    Labelecart4.pack(side="right")
+    ScreenDev.mainloop()
 #Programme principale
 internet = TestInternet()
 if internet == True :
@@ -424,7 +471,7 @@ if internet == True :
             os.popen("flatpak run org.signal.Signal")
         if "discorde" in statement:
             os.popen("flatpak run com.discordapp.Discord")
-        if "développement" in statement :
+        if "programmation" in statement :
             break
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
@@ -533,5 +580,8 @@ if internet == True :
                 speak("Mettre du sirop dans son gel douche")
                 time.sleep(1)
                 speak("En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible.")
+        if "active le mode développement" in statement:
+            speak("J'active le mode dev")
+            ModeDev()
 else :        
     speakNoInternet()   

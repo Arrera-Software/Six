@@ -153,3 +153,8 @@ def github():
     webbrowser.get(Navigateur).open("https://github.com/")
 def YTmusic():
     webbrowser.get(Navigateur).open("https://music.youtube.com/")
+
+def DocPython():
+    webbrowser.get(Navigateur).open("https://docs.python.org/3")
+def DocArduino():
+    webbrowser.get(Navigateur).open("https://docs.arduino.cc/")
