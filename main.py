@@ -471,8 +471,6 @@ if internet == True :
             os.popen("flatpak run org.signal.Signal")
         if "discorde" in statement:
             os.popen("flatpak run com.discordapp.Discord")
-        if "programmation" in statement :
-            break
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
         if "mode nuit" in statement or "mode sombre" in statement:
