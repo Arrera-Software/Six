@@ -9,7 +9,7 @@ import speech_recognition as sr
 from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche,DocArduino,DocPython
 import requests
 from tkinter import*
-from mtranslate import translate
+from translate import translate
 import time
 #Varriable
 nrad = random.randint(1,2)
@@ -153,7 +153,6 @@ def takeCommand():#Fonction micro et reconaissance vocal
         except Exception as e:
             return "None"
         return Requette
-
 def shutdown():#Fonction d'arrét de l'ordinateur
     subprocess.run("poweroff")
 def reboot():#Fonction de redemarage de l'ordinateur
@@ -226,34 +225,101 @@ def Setting():#fonction parametre
         FoncModif("Config/Langue/Lang1.txt")
     def LangChange2():
         FoncModif("Config/Langue/Lang2.txt")
+    def UserChange1():
+        FoncModif("Config/Assistant/User1.txt")
+    def UserChange2():
+        FoncModif("Config/Assistant/User2.txt")
+    def UserChange3():
+        FoncModif("Config/Assistant/User3.txt")
+    def NomChange():
+        FoncModif("Config/Assistant/Nom.txt")
+    def ParaMeteo():
+        CadreLang.pack_forget()
+        CadreAssistant.pack_forget()
+        CadreMeteo.pack(side="right")
+    def ParaLang():
+        CadreMeteo.pack_forget()
+        CadreAssistant.pack_forget()
+        CadreLang.pack(side="right")
+    def ParaAssistant():
+        CadreLang.pack_forget()
+        CadreMeteo.pack_forget()
+        CadreAssistant.pack(side="right")
     ScreenPara.title("Six : Paramétre")
     ScreenPara.minsize(500,500)
     ScreenPara.maxsize(500,500)
     ScreenPara.wait_visibility(ScreenPara)
     ScreenPara.wm_attributes('-alpha',0.9)
     ScreenPara.config(bg=Color)
-    CadreMeteo = Frame(ScreenPara,bg=Color,width=400,height=200)
-    CadreLang = Frame(ScreenPara,bg=Color,width=400,height=200)
-    LabelIndication1 = Label(ScreenPara,text="Météo",font=("arial","20"),bg=Color,fg=TextColor)
-    LabelIndication2 = Label(ScreenPara,text="Langue",font=("arial","20"),bg=Color,fg=TextColor)
-    BoutonMeteo1 = Button(CadreMeteo,text="Domicile",bg=Color,fg=TextColor,command=MeteoChange1)
-    BoutonMeteo2 = Button(CadreMeteo,text="Travail 1",bg=Color,fg=TextColor,command=MeteoChange2)
-    BoutonMeteo3 = Button(CadreMeteo,text="Travail 2",bg=Color,fg=TextColor,command=MeteoChange3)
-    BoutonMeteo4 = Button(CadreMeteo,text="Favorie 1",bg=Color,fg=TextColor,command=MeteoChange4)
-    BoutonMeteo5 = Button(CadreMeteo,text="Favorie 2",bg=Color,fg=TextColor,command=MeteoChange5)
-    BoutonLang1 = Button(CadreLang,text="Langue 1",bg=Color,fg=TextColor,command=LangChange1)
-    BoutonLang2 = Button(CadreLang,text="Langue 2",bg=Color,fg=TextColor,command=LangChange2)
-    LabelIndication1.pack()
-    CadreMeteo.pack()
-    BoutonMeteo1.place(relx=.5, rely=.5, anchor="center")
-    BoutonMeteo2.place(x = "0" ,y ="0")
-    BoutonMeteo3.place(x = "0" ,y ="165")
-    BoutonMeteo4.place(x = "315" ,y ="0")
-    BoutonMeteo5.place(x = "315" ,y ="165")
-    BoutonLang1.place(x = "15" ,y ="82")
-    BoutonLang2.place(x = "300" ,y ="82")
-    CadreLang.pack(side="bottom")
-    LabelIndication2.pack(side="bottom")
+    #Cadre Meteo
+    CadreMeteo = Frame(ScreenPara,bg=Color,width=350,height=400)
+    Meteo1 = Label(CadreMeteo,text="Lieu Domicile",bg=Color,fg=TextColor,font=("arial","20"))
+    Meteo2 = Label(CadreMeteo,text="Lieu Favorie ",bg=Color,fg=TextColor,font=("arial","20"))
+    Meteo3 = Label(CadreMeteo,text="Lieu Travail ",bg=Color,fg=TextColor,font=("arial","20"))
+    Meteo4 = Label(CadreMeteo,text="Lieu Vacance ",bg=Color,fg=TextColor,font=("arial","20"))
+    Meteo5 = Label(CadreMeteo,text="Lieu Bonnus  ",bg=Color,fg=TextColor,font=("arial","20"))
+    BoutonMeteo1 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange1,font=("arial","15"))
+    BoutonMeteo2 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange2,font=("arial","15"))
+    BoutonMeteo3 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange3,font=("arial","15"))
+    BoutonMeteo4 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange4,font=("arial","15"))
+    BoutonMeteo5 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange5,font=("arial","15"))
+    #Cadre Langue
+    CadreLang = Frame(ScreenPara,bg=Color,width=350,height=400)
+    Lang1 = Label(CadreLang,text="Premier langue",bg=Color,fg=TextColor,font=("arial","20"))
+    Lang2 = Label(CadreLang,text="Deuxieme Langue",bg=Color,fg=TextColor,font=("arial","20"))
+    BoutonLang1 = Button(CadreLang,text="Change",bg=Color,fg=TextColor,command=LangChange1,font=("arial","15"))
+    BoutonLang2 = Button(CadreLang,text="Change",bg=Color,fg=TextColor,command=LangChange2,font=("arial","15"))
+    #Cadre Para
+    CadrePara = Frame(ScreenPara,bg="black",width=100,height=450)
+    LabelIndication = Label(ScreenPara,text="Paramétre",font=("arial","30"),bg=Color,fg=TextColor)
+    BoutonPara1 = Button(CadrePara,text="Assistant",bg=Color,fg=TextColor,command=ParaAssistant)
+    BoutonPara2= Button(CadrePara,text="Méteo",bg=Color,fg=TextColor,command=ParaMeteo)
+    BoutonPara3= Button(CadrePara,text="Traduction",bg=Color,fg=TextColor,command=ParaLang)
+    BoutonPara4 = Button(CadrePara,text="Fermer",command=ScreenPara.destroy,bg=Color,fg=TextColor)
+    #Cadre Assistant
+    CadreAssistant = Frame(ScreenPara,bg=Color,width=350,height=400)
+    BoutonAssistant1 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=NomChange)
+    BoutonAssistant2 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange1)
+    BoutonAssistant3 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange2)
+    BoutonAssistant4 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange3)
+    Assistant1 = Label(CadreAssistant,text="Nom de l'assistant",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant2 = Label(CadreAssistant,text="Utilisateur Principale",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant3 = Label(CadreAssistant,text="Utilisateur Secondaire",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant4 = Label(CadreAssistant,text="Trosiéme utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
+    #Affichage
+    #Fenetre
+    LabelIndication.pack()
+    CadrePara.pack(side="left")
+    #Cadre Para
+    BoutonPara1.place(x="5",y="5")
+    BoutonPara2.place(x="10",y="85")
+    BoutonPara3.place(x="2",y="165")
+    BoutonPara4.place(x="10",y="245")
+    #Cadre Meteo
+    Meteo1.place(x="5",y="5")
+    BoutonMeteo1.place(x="250",y="5")
+    Meteo2.place(x="5",y="55")
+    BoutonMeteo2.place(x="250",y="55")
+    Meteo3.place(x="5",y="105")
+    BoutonMeteo3.place(x="250",y="105")
+    Meteo4.place(x="5",y="155")
+    BoutonMeteo4.place(x="250",y="155")
+    Meteo5.place(x="5",y="205")
+    BoutonMeteo5.place(x="250",y="205")
+    #Cadre Lang
+    Lang1.place(x="5",y="5")
+    BoutonLang1.place(x="250",y="5")
+    Lang2.place(x="5",y="55")
+    BoutonLang2.place(x="250",y="55")
+    #Cadre Assistant
+    Assistant1.place(x="5",y="5")
+    BoutonAssistant1.place(x="250",y="5")
+    Assistant2.place(x="5",y="55")
+    BoutonAssistant2.place(x="250",y="55")
+    Assistant3.place(x="5",y="105")
+    BoutonAssistant3.place(x="250",y="105")
+    Assistant4.place(x="5",y="155")
+    BoutonAssistant4.place(x="250",y="155")
     ScreenPara.mainloop()
 def ModeDev():#Fonction du mode dev
     ScreenDev = Tk()
