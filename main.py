@@ -11,6 +11,18 @@ import requests
 from tkinter import*
 from translate import translate
 import time
+#Fonction Varriable
+def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
+    doc = open(file,"w")
+    doc.truncate()
+    doc.write(text)
+    doc.close()
+    return text,file
+def Lecture(file):#Fonction de lecture d'un fichier texte et stokage dans une varriable
+    fichier = open(file,"r")
+    contenu= fichier.readlines()[0]
+    fichier.close()
+    return contenu
 #Varriable
 nrad = random.randint(1,2)
 Color = "#08116f"
@@ -21,6 +33,16 @@ urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
 keyNew = "3b43e18afcf945888748071d177b8513"
 nombrePageNew1 = "1"
 nombrePageNew2 = "5"
+listGenre = ["monsieur","madame"]
+PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
+SecondairUser =  str(Lecture("Config/Assistant/User2.txt"))
+TroisiemeUser =  str(Lecture("Config/Assistant/User3.txt"))
+QuatriemeUser =  str(Lecture("Config/Assistant/User4.txt"))
+PrincipalUserGenre =  str(Lecture("Config/Assistant/Genre1.txt"))
+SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
+TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
+QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
+NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
 #Partie Module logiciel
 def VisualStudio():
     os.popen("/usr/bin/code")
@@ -62,41 +84,41 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
         webbrowser.open(URL5)
     if "non" in reponse:
         speak("Ok")
-def salutation():#Fonction de salutation
+def salutation(User,Genre):#Fonction de salutation
     hour=datetime.datetime.now().hour
     if hour >= 0 and hour <= 9:
         if nrad == 1 :
-            speak("Bonjour monsieur,J'espére que vous passer une bonne nuit.Voulez-vous un petit résumer des actulités?")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.Voulez-vous un petit résumer des actulités?")
         if nrad == 2 :
-            speak("Bonjour monsieur,J'espére que vous avez bien dormi.Voulez-vous un petit résumer des actulités? ")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.Voulez-vous un petit résumer des actulités? ")
         while True:
             r = takeCommand()
             if "oui" in r:
                 Resumer()
-                speak("J'espére que sa vous sera utile monsieur")
+                speak("J'espére que sa vous sera utile "+Genre+"")
                 break
             if "non" in r:
-                speak("Ok passer un exelente journée monsieur")
+                speak("Ok passer un exelente journée "+Genre+"")
     if hour >= 10 and hour <=12:
         if nrad == 1 :
-            speak("Bonjour monsieur,J'espére que vous passer une bonne matinée")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée")
         if nrad == 2 :
-            speak("Bonjour monsieur,J'espére que vous passer un bon début de journée")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer un bon début de journée")
     if hour>=13 and hour<=17:
         if nrad == 1 :
-            speak("Bonjour monsieur,J'espére que vous passer une bonne aprem")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne aprem")
         if nrad == 2 :
-            speak("Bonjour monsieur,J'espére que vous passer une bonne après-midi")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi")
     if  hour>=18 and hour<=20:
         if nrad == 1 :
-            speak("Bonsoir monsieu,comment se passe votre début de soirée?")
+            speak("Bonsoir"+Genre+" "+User+" ,comment se passe votre début de soirée?")
         if nrad == 2 :
-            speak("Bonsoir monsieur,J'espére que votre début de soirée se passe bien")
+            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien")
     if  hour>=21 and hour<=23:
         if nrad == 1 :
-            speak("Bonsoir monsieur,comment se passe votre soirée?")
+            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?")
         if nrad == 2 :
-            speak("Bonsoir monsieur,J'espére que votre soirée se passe bien")
+            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien")
 
 def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
@@ -116,33 +138,33 @@ def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu p
     URL= dictionnnaire["url"]
     Titre = dictionnnaire["title"]
     return Sujet,Description,URL,Titre
-def EcritureNote(file):#Ecriture dans les fichier note
-    speak("Voulez-vous dicter ou ecrire votre note monsieur")
+def EcritureNote(file,Genre):#Ecriture dans les fichier note
+    speak("Voulez-vous dicter ou ecrire votre note "+Genre+".")
     r = takeCommand()
     if "dictée" in r or "dicter" in r:
         speak("Ok je vous ecoute")
         Note = takeCommand()
         Ecriture(file,Note)
     if "écrire" in r :
-        speak("Ok ecrivé votre note monsieur")
+        speak("Ok ecrivé votre note "+Genre+".")
         Note = input("Votre note :")
         Ecriture(file,Note)
-def Arret():#Fonction quand l'uttilisateur coup l'assistant
+def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<3:
-       speak("Au revoir monsieur , bonne nuit")
+       speak("Au revoir" +Genre+" "+User+" ,bonne nuit")
     if hour>=3 and hour<9:
-        speak("Au revoir monsieur , passez une bonne matinée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée")
     if hour>=9 and hour<12:
-        speak("Au revoir monsieur , passez une bonne journée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée")
     if hour>=12 and hour<16:
-        speak("Au revoir monsieur , passez une bonne aprem")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem")
     if hour>=16 and hour<18:
-        speak("Au revoir monsieur , passez une bonne fin d'aprés-midi")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi")
     if hour>=18 and hour<22:
-        speak("Au revoir monsieur , passez une bonne soirée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
     if hour>=22 and hour<23:
-        speak("Au revoir monsieur , bonne nuit")
+        speak("Au revoir "+Genre+" "+User+" ,bonne nuit")
 def takeCommand():#Fonction micro et reconaissance vocal
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -157,11 +179,11 @@ def shutdown():#Fonction d'arrét de l'ordinateur
     subprocess.run("poweroff")
 def reboot():#Fonction de redemarage de l'ordinateur
     subprocess.run("reboot")
-def Trad():#Fonction de Traduction
+def Trad(Genre):#Fonction de Traduction
     lang1 = "fr"
     lang2 = Lecture("Config/Langue/Lang1.txt")
     lang3 = Lecture("Config/Langue/Lang2.txt")
-    speak("Ok en quelle langue voulez-vous que je vous traduise votre texte monsieur?")
+    speak("Ok en quelle langue voulez-vous que je vous traduise votre texte "+Genre+"?")
     sortie = input("Choisissez entre 'fr' , 'lang1' ou 'lang2'##: ")
     if sortie == "français" or "fr" == sortie:
         text = input("Entrer votre texte : ")
@@ -193,6 +215,21 @@ def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
 def MeteoParole(nbVille):#Fonction météo avec parole
     Temperature,humiditer,description,ville = Meteo(nbVille)
     speak("La météo à "+ville+ " ,et "+description +".Avec un taux d'humiditer de "+humiditer+" pourcent et une température de "+Temperature+" degrés")
+def Mute(Genre):
+        screen = Tk()
+        def anychar(event):
+            if event.keycode == 36 :
+                screen.destroy()
+                speak("Oui "+Genre+"")
+        screen.title(NomAssistant)
+        screen.wait_visibility(screen)
+        screen.wm_attributes('-alpha',0.9)
+        screen.config(bg=Color)
+        screen.maxsize(300,100)
+        screen.minsize(300,100)
+        LabelMute = Label(screen,text="Mute",font=("arial","24"),bg=Color,fg=TextColor).place(relx=.5, rely=.5, anchor="center")
+        screen.bind("<Key>",anychar)
+        screen.mainloop()
 def Setting():#fonction parametre
     ScreenPara = Tk()
     def FoncModif(file):
@@ -211,6 +248,33 @@ def Setting():#fonction parametre
             ScreenModif.destroy()
         Modif = Button(ScreenModif,text="Modifier",bg=Color,fg=TextColor,command=Modif).pack(side="right",anchor="s")
         entry.pack(side="left",anchor="s")
+    def FoncModifUser(User,Genre):
+        user = Lecture(User)
+        genre = Lecture(Genre)
+        ScreenModif = Toplevel()
+        NewGenre =  StringVar(ScreenModif)
+        if genre == "monsieur":
+            NewGenre.set(listGenre[0])
+        if genre == "madame":
+            NewGenre.set(listGenre[1])
+        ScreenModif.maxsize(550,200)
+        ScreenModif.minsize(550,200)
+        ScreenModif.wait_visibility(ScreenModif)
+        ScreenModif.wm_attributes('-alpha',0.9)
+        ScreenModif.config(bg=Color)
+        Labelgenre = Label(ScreenModif,text="genre: "+genre,font=("arial","20"),bg=Color,fg=TextColor).place(x="0",y="40")
+        Labeluser = Label(ScreenModif,text="Utilisateur: "+user,font=("arial","20"),bg=Color,fg=TextColor).place(x="0",y="0")
+        entry = Entry(ScreenModif)
+        ListGenre = OptionMenu(ScreenModif,NewGenre, *listGenre)
+        def Modif():
+            VarUser = str(entry.get())
+            VarGenre = NewGenre.get()
+            Ecriture(User,VarUser)
+            Ecriture(Genre,VarGenre)
+            ScreenModif.destroy()
+        Modif = Button(ScreenModif,text="Modifier",bg=Color,fg=TextColor,command=Modif).place(x="0",y="80")
+        entry.place(x="380",y="5")
+        ListGenre.place(x="380",y="45")
     def MeteoChange1():
         FoncModif("Config/meteo/ville1.txt")
     def MeteoChange2():
@@ -225,14 +289,16 @@ def Setting():#fonction parametre
         FoncModif("Config/Langue/Lang1.txt")
     def LangChange2():
         FoncModif("Config/Langue/Lang2.txt")
-    def UserChange1():
-        FoncModif("Config/Assistant/User1.txt")
-    def UserChange2():
-        FoncModif("Config/Assistant/User2.txt")
-    def UserChange3():
-        FoncModif("Config/Assistant/User3.txt")
     def NomChange():
         FoncModif("Config/Assistant/Nom.txt")
+    def UserChange1():
+        FoncModifUser("Config/Assistant/User1.txt","Config/Assistant/Genre1.txt")
+    def UserChange2():
+        FoncModifUser("Config/Assistant/User2.txt","Config/Assistant/Genre2.txt")
+    def UserChange3():
+        FoncModifUser("Config/Assistant/User3.txt","Config/Assistant/Genre3.txt")
+    def UserChange4():
+        FoncModifUser("Config/Assistant/User4.txt","Config/Assistant/Genre4.txt")
     def ParaMeteo():
         CadreLang.pack_forget()
         CadreAssistant.pack_forget()
@@ -282,10 +348,12 @@ def Setting():#fonction parametre
     BoutonAssistant2 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange1)
     BoutonAssistant3 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange2)
     BoutonAssistant4 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange3)
+    BoutonAssistant5 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange4)
     Assistant1 = Label(CadreAssistant,text="Nom de l'assistant",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant2 = Label(CadreAssistant,text="Utilisateur Principale",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant3 = Label(CadreAssistant,text="Utilisateur Secondaire",bg=Color,fg=TextColor,font=("arial","17"))
-    Assistant4 = Label(CadreAssistant,text="Trosiéme utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant4 = Label(CadreAssistant,text="Trosième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant5 = Label(CadreAssistant,text="Quatrième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
     #Affichage
     #Fenetre
     LabelIndication.pack()
@@ -320,6 +388,8 @@ def Setting():#fonction parametre
     BoutonAssistant3.place(x="250",y="105")
     Assistant4.place(x="5",y="155")
     BoutonAssistant4.place(x="250",y="155")
+    Assistant5.place(x="5",y="205")
+    BoutonAssistant5.place(x="250",y="205")
     ScreenPara.mainloop()
 def ModeDev():#Fonction du mode dev
     ScreenDev = Tk()
@@ -366,8 +436,10 @@ def ModeDev():#Fonction du mode dev
     ScreenDev.mainloop()
 #Programme principale
 internet = TestInternet()
+UserCourt = PrincipalUser
+GenreCourt = PrincipalUserGenre
 if internet == True :
-    salutation()
+    salutation(UserCourt,GenreCourt)
     while True :
         statement = takeCommand().lower()
         if statement==0:
@@ -375,24 +447,11 @@ if internet == True :
         if  statement =="salut"   or statement =="bonjour" or statement =="bonsoir":
             speak(statement+" en quoi je peux vous servir ?")
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
-            Arret()
+            Arret(UserCourt,GenreCourt)
             break
         if statement == "mute" or statement == "chut":
-            speak("Ok monsieur je vous laisse tranquille")
-            screen = Tk()
-            def anychar(event):
-                if event.keycode == 36 :
-                    screen.destroy()
-                    speak("Oui monsieur")
-            screen.title("SIX")
-            screen.wait_visibility(screen)
-            screen.wm_attributes('-alpha',0.9)
-            screen.config(bg=Color)
-            screen.maxsize(300,100)
-            screen.minsize(300,100)
-            LabelMute = Label(screen,text="Mute",font=("arial","24"),bg=Color,fg=TextColor).place(relx=.5, rely=.5, anchor="center")
-            screen.bind("<Key>",anychar)
-            screen.mainloop()
+            speak("Ok "+GenreCourt+" je vous laisse tranquille")
+            Mute(GenreCourt)
         if "recherche sur internet" in statement :
             speak("Vous voulez rechercher quoi ?")
             recherche = takeCommand()
@@ -411,14 +470,14 @@ if internet == True :
             Arret()
             shutdown()
         if "redémarre" in statement :
-            speak("Ok a tout de suite monsieur")
+            speak("Ok a tout de suite "+GenreCourt+"")
             reboot()
         if "ouvre youtube" in statement :
             webbrowser.open("https://www.youtube.com/")
             speak("Youtube et ouvert ")
         if "lance de la musique" in statement or "lancer de la musique" in statement:
             webbrowser.open("https://music.youtube.com/")
-            speak("Votre logiciel de musique est lancer")
+            speak("Votre logiciel de musique est lancer"+GenreCourt+".")
         if "heure" in statement :
             hour = datetime.datetime.now().hour
             minute = datetime.datetime.now().minute
@@ -456,7 +515,7 @@ if internet == True :
                 monthSTR = "Décembre"
             speak("Aujourd'huit on es le "+str(day)+monthSTR+str(years))
         if "météo" in statement:
-            speak("Ou desirez savoir la meteo monsieur ?")
+            speak("Ou desirez savoir la meteo "+GenreCourt+" ?")
             r= takeCommand()
             if "maison" in r or "chez moi" in r :
                 MeteoParole(1)              
@@ -478,13 +537,13 @@ if internet == True :
             speak("Ok j'ouvre libreoffice calc ")
             os.popen("libreoffice --calc")
         if "google drive" in statement:
-            speak("Ok voici votre google drive principale")
+            speak("Ok voici votre google drive principale"+GenreCourt+"")
             webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
         if "firefox" in statement or "navigateur internet" in statement :
             speak("Ok j'ouvre votre navigateur internet")
             os.popen("/usr/bin/firefox")
         if "mes notes internet" in statement :
-            speak("Ok voici vos note stoket sur internet monsieur")
+            speak("Ok voici vos note stoket sur internet "+GenreCourt+"")
             webbrowser.open("https://www.notion.so/5599107ab8fe4e3d9909f6817cfe1dd4?v=ad3306defd0947aea0b9542029787a2b")
         if "mes cahiers des tâches" in statement:
             webbrowser.open("https://www.notion.so/Cahier-de-tache-29b3259503584886b88b24f574f871ba")
@@ -495,22 +554,22 @@ if internet == True :
         if "visual studio code" in statement:
             os.popen("/usr/bin/code")
         if "mes fichiers" in statement :
-            speak("Ok voici votre explorateur de fichier monsieur")
+            speak("Ok voici votre explorateur de fichier "+GenreCourt+"")
             os.popen("nautilus")
         if "jupiter" in statement :
             os.popen("jupyter-notebook /home/baptistep/")
         if "steam" in statement :
-            speak("Ok bon jeu monsieur")
+            speak("Ok bon jeu "+GenreCourt+"")
             os.popen("steam")
         if "arduino" in statement :
             os.popen("flatpak run cc.arduino.arduinoide")
-            speak("Desirez vous que j'ouvre le navigateur web pour vous aidez monsieur")
+            speak("Desirez vous que j'ouvre le navigateur web pour vous aidez "+GenreCourt+"")
             r = takeCommand()
             if "oui" in r :
                 speak("Ok trés bien")
                 os.popen("/usr/bin/firefox")
             if "non" in r :
-                speak("Ok je reste a votre service si vous avez besoins ")
+                speak("Ok je reste a votre service si vous avez besoins "+GenreCourt+".")
         if "gimp" in statement:
             os.popen("gimp")
         if "qui passe" in statement or "mots de passe" in statement or "mot de passe" in statement :
@@ -588,11 +647,11 @@ if internet == True :
                 note = Lecture(file)
                 speak(note)
         if "fais une grande recherche" in statement:
-            speak("Que voulez vous que je vous recherche ?")
+            speak("Que voulez vous que je vous recherche "+GenreCourt+"?")
             r = takeCommand()
             GrandRecherche(r)
         if "peux-tu me lire un truc" in statement :
-            speak("Copier ce que vous voulez  que je vous lise")
+            speak("Copier ce que vous voulez  que je vous lise"+GenreCourt+".")
             lecture =str(input("Text :")) 
             speak(lecture)
         if "ouvre mes favoris"  in statement:
@@ -604,6 +663,14 @@ if internet == True :
             speak("Ok j'ouvre mes paramètre")
             Setting()
             speak("J'ai enregistrer tout vos modification")
+            PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
+            SecondairUser =  str(Lecture("Config/Assistant/User2.txt"))
+            TroisiemeUser =  str(Lecture("Config/Assistant/User3.txt"))
+            QuatriemeUser =  str(Lecture("Config/Assistant/User4.txt"))
+            PrincipalUserGenre =  str(Lecture("Config/Assistant/Genre1.txt"))
+            SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
+            TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
+            QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
             if nb == 1 :
@@ -649,5 +716,28 @@ if internet == True :
         if "active le mode développement" in statement:
             speak("J'active le mode dev")
             ModeDev()
+        if "change de profil" in statement or "change d'utilisateur" in statement:
+            speak("Quelle est votre numero de profile")
+            r = takeCommand()
+            if "le premier" in r or "1" in r :
+                speak("Ok bienvenu " +PrincipalUserGenre+" "+PrincipalUser)
+                UserCourt = PrincipalUser
+                GenreCourt = PrincipalUserGenre
+                speak("En quoi je peux vous étre utile")
+            if "le deuxième" in r or "2" in r:
+                speak("Ok bienvenu " +SecondairUserGenre+" "+SecondairUser)
+                UserCourt = SecondairUser
+                GenreCourt = SecondairUserGenre
+                speak("En quoi je peux vous étre utile")
+            if "le troisième" in r or "3" in r:
+                speak("Ok bienvenu " +TroisiemeUserGenre+" "+TroisiemeUser)
+                UserCourt = TroisiemeUser
+                GenreCourt = TroisiemeUserGenre
+                speak("En quoi je peux vous étre utile")
+            if "le 4e" in r or "4" in r:
+                speak("Ok bienvenu " +QuatriemeUserGenre+" "+QuatriemeUser)
+                UserCourt = QuatriemeUser
+                GenreCourt = QuatriemeUserGenre
+                speak("En quoi je peux vous étre utile")
 else :        
     speakNoInternet()   
