@@ -43,6 +43,7 @@ SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
 TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
 QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
 NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
+PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
 #Partie Module logiciel
 def VisualStudio():
     os.popen("/usr/bin/code")
@@ -55,7 +56,7 @@ def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
     os.system("mpg123 " + "voc.mp3")
-    print("Six =",text)
+    print(NomAssistant+" : "+text)
 def speakNoInternet():#Fonctiion pas internet
     os.system("mpg123 " + "sons/speak1.mp3")
 def Resumer():#Fonction de resumer des actaulités et de la meteo
@@ -111,7 +112,7 @@ def salutation(User,Genre):#Fonction de salutation
             speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi")
     if  hour>=18 and hour<=20:
         if nrad == 1 :
-            speak("Bonsoir"+Genre+" "+User+" ,comment se passe votre début de soirée?")
+            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre début de soirée?")
         if nrad == 2 :
             speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien")
     if  hour>=21 and hour<=23:
@@ -248,6 +249,28 @@ def Setting():#fonction parametre
             ScreenModif.destroy()
         Modif = Button(ScreenModif,text="Modifier",bg=Color,fg=TextColor,command=Modif).pack(side="right",anchor="s")
         entry.pack(side="left",anchor="s")
+    def FoncModifName(file,file2):
+        Contenu1 = Lecture(file)
+        Contenu2 = Lecture(file2)
+        ScreenModif = Toplevel()
+        ScreenModif.maxsize(400,150)
+        ScreenModif.minsize(400,150)
+        ScreenModif.wait_visibility(ScreenModif)
+        ScreenModif.wm_attributes('-alpha',0.9)
+        ScreenModif.config(bg=Color)
+        LabelContenuNom = Label(ScreenModif,text="Nom:"+Contenu1,font=("arial","15"),bg=Color,fg=TextColor).place(x="10",y="0")
+        LabelContenuPro = Label(ScreenModif,text="Pronociation:"+Contenu2,font=("arial","15"),bg=Color,fg=TextColor).place(x="150",y="0")
+        entry = Entry(ScreenModif)
+        def ModifNom():
+            Var = str(entry.get())
+            Ecriture(file,Var)
+        def ModifPrononce():
+            Var = takeCommand()
+            Ecriture(file2,Var)
+            speak(Var)
+        ModifNomB = Button(ScreenModif,text="Modifier",bg=Color,fg=TextColor,command=ModifNom).pack(side="left",anchor="s")
+        ModifPrononceB = Button(ScreenModif,text="Prononciation",bg=Color,fg=TextColor,command=ModifPrononce).pack(side="right",anchor="s")
+        entry.place(relx=.5, rely=.5, anchor="center")
     def FoncModifUser(User,Genre):
         user = Lecture(User)
         genre = Lecture(Genre)
@@ -290,7 +313,7 @@ def Setting():#fonction parametre
     def LangChange2():
         FoncModif("Config/Langue/Lang2.txt")
     def NomChange():
-        FoncModif("Config/Assistant/Nom.txt")
+        FoncModifName("Config/Assistant/Nom.txt","Config/Assistant/NomPrononciation.txt")
     def UserChange1():
         FoncModifUser("Config/Assistant/User1.txt","Config/Assistant/Genre1.txt")
     def UserChange2():
@@ -438,6 +461,7 @@ def ModeDev():#Fonction du mode dev
 internet = TestInternet()
 UserCourt = PrincipalUser
 GenreCourt = PrincipalUserGenre
+CourtNom = NomAssistant
 if internet == True :
     salutation(UserCourt,GenreCourt)
     while True :
@@ -462,7 +486,7 @@ if internet == True :
             article = requests.get(CompleteURL).json()["articles"]
             Sujet,Description,URL = NetoyageActu(article[0])
             speak("L'actualités la plus récent est "+Description)
-        if "toujours là"  in statement  or "es-tu là" in statement or "6" in statement :
+        if "toujours là"  in statement  or "es-tu là" in statement or CourtNom in statement :
             speak("Oui")
         if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
             speak("Je suis SIX un assistant personnel cree par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.")
@@ -671,6 +695,8 @@ if internet == True :
             SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
             TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
             QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
+            NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
+            PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
             if nb == 1 :
