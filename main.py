@@ -684,7 +684,6 @@ if internet == True :
         if "traduire" in statement:
             Trad()
         if "ouvre tes paramètre" in statement :
-            speak("Ok j'ouvre mes paramètre")
             Setting()
             speak("J'ai enregistrer tout vos modification")
             PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
@@ -697,6 +696,7 @@ if internet == True :
             QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
             NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
             PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
+            speak("Ok j'ouvre mes paramètre")
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
             if nb == 1 :
