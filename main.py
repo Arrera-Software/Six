@@ -678,9 +678,6 @@ if internet == True :
             speak("Copier ce que vous voulez  que je vous lise"+GenreCourt+".")
             lecture =str(input("Text :")) 
             speak(lecture)
-        if "ouvre mes favoris"  in statement:
-            speak("Ok j'ouvre vos favoris")
-            webbrowser.open("favorie/index.html")
         if "traduire" in statement:
             Trad()
         if "ouvre tes paramètre" in statement :
