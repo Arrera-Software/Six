@@ -164,8 +164,8 @@ def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
         speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi")
     if hour>=18 and hour<22:
         speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
-    if hour>=22 and hour<23:
-        speak("Au revoir "+Genre+" "+User+" ,bonne nuit")
+    if hour>=22 and hour<=23:
+        speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
 def takeCommand():#Fonction micro et reconaissance vocal
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -543,13 +543,13 @@ if internet == True :
             r= takeCommand()
             if "maison" in r or "chez moi" in r :
                 MeteoParole(1)              
-            if "à mon premier lieu de travail" in r or "à mon lieu de travail" in r :
+            if "à mon lieu de travail" in r :
                 MeteoParole(2)
-            if "à mon deuxième lieu de travail" in r or "à mon second lieu de travail" in r :
+            if  "à mon lieu favori" in r  :
                 MeteoParole(3)
-            if "à mon premier lieu favori" in r or "à mon lieu favori" in r :
+            if "à mon lieu de vacances" in r :
                 MeteoParole(4)
-            if "à mon second lieu favori" in r or "à mon deuxième lieu favori" in r :
+            if "au lieu de bonus" in r  :
                 MeteoParole(5)
         if "un document" in statement :
             speak("Ok j'ouvre libreoffice writer ")
@@ -762,5 +762,8 @@ if internet == True :
                 UserCourt = QuatriemeUser
                 GenreCourt = QuatriemeUserGenre
                 speak("En quoi je peux vous étre utile")
+        if "dis-moi la température" in statement:
+            temp , a1 ,a2 ,a3 = Meteo(1)
+            speak("La température a votre domicile est de "+temp+" degrés")
 else :        
     speakNoInternet()   
