@@ -1,3 +1,4 @@
+from cProfile import label
 import subprocess
 from turtle import Screen, color
 import webbrowser
@@ -11,6 +12,8 @@ import requests
 from tkinter import*
 from translate import translate
 import time
+import pygame
+from pygame.locals import*
 #Fonction Varriable
 def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
@@ -42,8 +45,19 @@ PrincipalUserGenre =  str(Lecture("Config/Assistant/Genre1.txt"))
 SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
 TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
 QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
-NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
+NomAssistant =   str(Lecture("Config/Assistant/Nom.txt")) + ": "
 PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
+varSix = True
+#Pygame
+pygame.init()
+myfont = pygame.font.SysFont("arial", 13)
+pygame.display.set_icon(pygame.image.load("Interface/icon.png"))
+fenetre = pygame.display.set_mode((750, 600))
+pygame.display.set_caption("SIX")
+fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
+labelSix = myfont.render(NomAssistant, 1, (255,255,255))
+fenetre.blit(labelSix,(50, 500))
+pygame.display.update()
 #Partie Module logiciel
 def VisualStudio():
     os.popen("/usr/bin/code")
@@ -56,7 +70,12 @@ def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
     os.system("mpg123 " + "voc.mp3")
-    print(NomAssistant+" : "+text)
+    texte = str(NomAssistant+text)
+    fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
+    labelSix = myfont.render(texte, 1, (255,255,255))
+    fenetre.blit(labelSix,(5, 500))
+    pygame.display.update()
+    print(texte)
 def speakNoInternet():#Fonctiion pas internet
     os.system("mpg123 " + "sons/speak1.mp3")
 def Resumer():#Fonction de resumer des actaulités et de la meteo
@@ -71,9 +90,17 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
     Sujet5,Description5,URL5,Titre5 = NetoyageActu(article[4])
     Temparure1,humiditer1,description1,ville1=Meteo(3)
     Temparure2,humiditer2,description2,ville2=Meteo(1)
-    speak("La première actualités et " + Titre1 +".La seconde et "+ Titre2+".La troisiéme et "+ Titre3+".La quatriéme et "+ Titre4+" .La derniére et "+ Titre5  )
-    speak("La metéo a votre lieu favori et "+ description1 + " avec une température de "+Temparure1+" degrés et un taux d'humiditer de "+humiditer1+" pourcent")
-    speak("Et la méteo a votre domicile et "+ description2 + " avec une température de "+Temparure2+" degrés et un taux d'humiditer de "+humiditer2+" pourcent")
+    speak("La première actualités et " + Titre1 +".")
+    speak("La seconde et "+ Titre2+".")
+    speak("La troisiéme et "+ Titre3+".")
+    speak("La quatriéme et "+ Titre4+" .")
+    speak("La derniére et "+ Titre5+".")
+    speak("La metéo a votre lieu favori et "+ description1 )
+    speak("avec une température de "+Temparure1)
+    speak(" degrés et un taux d'humiditer de "+humiditer1+" pourcent")
+    speak("La metéo a votre lieu favori et "+ description2 )
+    speak("avec une température de "+Temparure2)
+    speak(" degrés et un taux d'humiditer de "+humiditer2+" pourcent")
     speak("Voulez-vous que j'ouvre les lien des actualités ?")
     reponse = takeCommand()
     if "oui" in reponse:
@@ -172,7 +199,8 @@ def takeCommand():#Fonction micro et reconaissance vocal
         audio=r.listen(source)
         try:
             Requette=r.recognize_google(audio,language='fr')
-            print("User = ",Requette)
+            texte = str("User = "+Requette)
+            print(texte)
         except Exception as e:
             return "None"
         return Requette
@@ -464,7 +492,7 @@ GenreCourt = PrincipalUserGenre
 CourtNom = NomAssistant
 if internet == True :
     salutation(UserCourt,GenreCourt)
-    while True :
+    while varSix :
         statement = takeCommand().lower()
         if statement==0:
             continue
@@ -472,7 +500,7 @@ if internet == True :
             speak(statement+" en quoi je peux vous servir ?")
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
-            break
+            varSix = False
         if statement == "mute" or statement == "chut":
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
             Mute(GenreCourt)
@@ -621,7 +649,7 @@ if internet == True :
         if "discorde" in statement:
             os.popen("flatpak run com.discordapp.Discord")
         if "programmation" in statement :
-            break
+            varSix = False
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
         if "mode nuit" in statement or "mode sombre" in statement:
