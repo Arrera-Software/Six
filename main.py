@@ -50,13 +50,13 @@ PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
 varSix = True
 #Pygame
 pygame.init()
-myfont = pygame.font.SysFont("arial", 13)
+myfont = pygame.font.SysFont("arial", 15)
 pygame.display.set_icon(pygame.image.load("Interface/icon.png"))
 fenetre = pygame.display.set_mode((750, 600))
 pygame.display.set_caption("SIX")
 fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
-labelSix = myfont.render(NomAssistant, 1, (255,255,255))
-fenetre.blit(labelSix,(50, 500))
+labelSix = myfont.render(NomAssistant, 1, (0,0,0))
+fenetre.blit(labelSix,(5, 300))
 pygame.display.update()
 #Partie Module logiciel
 def VisualStudio():
@@ -72,8 +72,8 @@ def speak(text):#Fonction de parole
     os.system("mpg123 " + "voc.mp3")
     texte = str(NomAssistant+text)
     fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
-    labelSix = myfont.render(texte, 1, (255,255,255))
-    fenetre.blit(labelSix,(5, 500))
+    labelSix = myfont.render(texte, 1, (0,0,0))
+    fenetre.blit(labelSix,(5, 300))
     pygame.display.update()
     print(texte)
 def speakNoInternet():#Fonctiion pas internet
@@ -116,9 +116,11 @@ def salutation(User,Genre):#Fonction de salutation
     hour=datetime.datetime.now().hour
     if hour >= 0 and hour <= 9:
         if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.Voulez-vous un petit résumer des actulités?")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.")
+            speak("Voulez-vous un petit résumer des actulités? ")
         if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.Voulez-vous un petit résumer des actulités? ")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")
+            speak("Voulez-vous un petit résumer des actulités? ")
         while True:
             r = takeCommand()
             if "oui" in r:
@@ -126,7 +128,8 @@ def salutation(User,Genre):#Fonction de salutation
                 speak("J'espére que sa vous sera utile "+Genre+"")
                 break
             if "non" in r:
-                speak("Ok passer un exelente journée "+Genre+"")
+                speak("Ok passer un exélente journée "+Genre+"")
+                break
     if hour >= 10 and hour <=12:
         if nrad == 1 :
             speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée")
