@@ -51,12 +51,16 @@ varSix = True
 #Pygame
 pygame.init()
 myfont = pygame.font.SysFont("arial", 15)
+myfont2 = pygame.font.SysFont("arial", 20)
 pygame.display.set_icon(pygame.image.load("Interface/icon.png"))
 fenetre = pygame.display.set_mode((750, 600))
 pygame.display.set_caption("SIX")
 fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
+fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
 labelSix = myfont.render(NomAssistant, 1, (0,0,0))
+labelUser = myfont2.render("User: ",1,(255,255,255))
 fenetre.blit(labelSix,(5, 300))
+fenetre.blit(labelUser,(5,500))
 pygame.display.update()
 #Partie Module logiciel
 def VisualStudio():
@@ -76,6 +80,21 @@ def speak(text):#Fonction de parole
     fenetre.blit(labelSix,(5, 300))
     pygame.display.update()
     print(texte)
+def takeCommand():#Fonction micro et reconaissance vocal
+    r=sr.Recognizer()
+    with sr.Microphone() as source:
+        audio=r.listen(source)
+        try:
+            Requette=r.recognize_google(audio,language='fr')
+            texte = str("User: "+Requette)
+            print(texte)
+            labelUser = myfont2.render(texte,1,(255,255,255))
+            fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
+            fenetre.blit(labelUser,(5,500))
+            pygame.display.update()
+        except Exception as e:
+            return "None"
+        return Requette
 def speakNoInternet():#Fonctiion pas internet
     os.system("mpg123 " + "sons/speak1.mp3")
 def Resumer():#Fonction de resumer des actaulités et de la meteo
@@ -96,11 +115,11 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
     speak("La quatriéme et "+ Titre4+" .")
     speak("La derniére et "+ Titre5+".")
     speak("La metéo a votre lieu favori et "+ description1 )
-    speak("avec une température de "+Temparure1)
-    speak(" degrés et un taux d'humiditer de "+humiditer1+" pourcent")
+    speak("avec une température de "+Temparure1+"degrés")
+    speak("et un taux d'humiditer de "+humiditer1+" pourcent")
     speak("La metéo a votre lieu favori et "+ description2 )
-    speak("avec une température de "+Temparure2)
-    speak(" degrés et un taux d'humiditer de "+humiditer2+" pourcent")
+    speak("avec une température de "+Temparure2+"degrés")
+    speak("et un taux d'humiditer de "+humiditer2+" pourcent")
     speak("Voulez-vous que j'ouvre les lien des actualités ?")
     reponse = takeCommand()
     if "oui" in reponse:
@@ -196,17 +215,6 @@ def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
         speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
     if hour>=22 and hour<=23:
         speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
-def takeCommand():#Fonction micro et reconaissance vocal
-    r=sr.Recognizer()
-    with sr.Microphone() as source:
-        audio=r.listen(source)
-        try:
-            Requette=r.recognize_google(audio,language='fr')
-            texte = str("User = "+Requette)
-            print(texte)
-        except Exception as e:
-            return "None"
-        return Requette
 def shutdown():#Fonction d'arrét de l'ordinateur
     subprocess.run("poweroff")
 def reboot():#Fonction de redemarage de l'ordinateur
@@ -246,7 +254,9 @@ def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
         return current_temperature , current_humidiy , weather_description , ville
 def MeteoParole(nbVille):#Fonction météo avec parole
     Temperature,humiditer,description,ville = Meteo(nbVille)
-    speak("La météo à "+ville+ " ,et "+description +".Avec un taux d'humiditer de "+humiditer+" pourcent et une température de "+Temperature+" degrés")
+    speak("La météo à "+ville+ " ,et "+description+".")
+    speak("Avec un taux d'humiditer de "+humiditer+" pourcent.")
+    speak("Et une température de "+Temperature+" degrés")
 def Mute(Genre):
         screen = Tk()
         def anychar(event):
@@ -572,11 +582,11 @@ if internet == True :
         if "météo" in statement:
             speak("Ou desirez savoir la meteo "+GenreCourt+" ?")
             r= takeCommand()
-            if "maison" in r or "chez moi" in r :
-                MeteoParole(1)              
-            if "à mon lieu de travail" in r :
-                MeteoParole(2)
+            if "maison" in r or "chez moi" in r or "à mon domicile" in r :
+                MeteoParole(1)  
             if  "à mon lieu favori" in r  :
+                MeteoParole(2)            
+            if "à mon lieu de travail" in r :
                 MeteoParole(3)
             if "à mon lieu de vacances" in r :
                 MeteoParole(4)
@@ -712,8 +722,8 @@ if internet == True :
         if "traduire" in statement:
             Trad()
         if "ouvre tes paramètre" in statement :
+            speak("Ok j'ouvre mes paramètre")
             Setting()
-            speak("J'ai enregistrer tout vos modification")
             PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
             SecondairUser =  str(Lecture("Config/Assistant/User2.txt"))
             TroisiemeUser =  str(Lecture("Config/Assistant/User3.txt"))
@@ -724,7 +734,7 @@ if internet == True :
             QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
             NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
             PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
-            speak("Ok j'ouvre mes paramètre")
+            speak("J'ai enregistrer tout vos modification")
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
             if nb == 1 :
