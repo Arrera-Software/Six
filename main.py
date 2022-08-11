@@ -525,8 +525,15 @@ if internet == True :
         if "actualités" in statement:
             CompleteURL = urlNew+"&pageSize="+nombrePageNew1+"&apiKey="+keyNew
             article = requests.get(CompleteURL).json()["articles"]
-            Sujet,Description,URL = NetoyageActu(article[0])
-            speak("L'actualités la plus récent est "+Description)
+            Sujet,Description,URL,title = NetoyageActu(article[0])
+            speak("L'actualités la plus récent est "+title)
+            speak("Voulez-vous que je vous ouvre le lien de cette actualités "+GenreCourt+".")
+            reponse = takeCommand()
+            if "oui" in reponse:
+                speak("Ok je vous l'ouvre")
+                webbrowser.open(URL)
+            if "non" in reponse:
+                speak("Ok "+GenreCourt+".")
         if "toujours là"  in statement  or "es-tu là" in statement or CourtNom in statement :
             speak("Oui")
         if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
