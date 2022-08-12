@@ -34,6 +34,8 @@ keyWeather="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlWeather="https://api.openweathermap.org/data/2.5/weather?"
 urlNew = "https://newsapi.org/v2/top-headlines?sources=google-news-fr"
 keyNew = "3b43e18afcf945888748071d177b8513"
+urlGeoLoc = "http://api.ipstack.com/check"
+KeyGeoLoc = "b8f00cfb49bfdaf40a317f98314ddc63"
 nombrePageNew1 = "1"
 nombrePageNew2 = "5"
 listGenre = ["monsieur","madame"]
@@ -257,6 +259,13 @@ def MeteoParole(nbVille):#Fonction météo avec parole
     speak("La météo à "+ville+ " ,et "+description+".")
     speak("Avec un taux d'humiditer de "+humiditer+" pourcent.")
     speak("Et une température de "+Temperature+" degrés")
+def GeoLocVille():
+    city = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["city"])
+    return city
+def GeoLocGPS():
+    lat = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["latitude"])
+    long = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["longitude"])
+    return lat , long
 def Mute(Genre):
         screen = Tk()
         def anychar(event):
@@ -811,7 +820,11 @@ if internet == True :
                 GenreCourt = QuatriemeUserGenre
                 speak("En quoi je peux vous étre utile")
         if "dis-moi la température" in statement:
-            temp , a1 ,a2 ,a3 = Meteo(1)
-            speak("La température a votre domicile est de "+temp+" degrés")
+            city = GeoLocVille()
+            temp = str(requests.get(urlWeather+"appid="+keyWeather+"&q="+city+"&lang=fr"+"&units=metric").json()["main"]["temp"])
+            speak("La température a votre localisation est de "+temp+" degrés")
+        if "dis-moi mes coordonnées GPS" in statement or "dis-moi où je suis" in statement or "dis-moi où je me trouve" in statement:
+            lat , longu = GeoLocGPS()
+            speak("Les coordonnées GPS de votre localisation sont "+lat+" latitude et de longitude "+longu+".") 
 else :        
     speakNoInternet()   
