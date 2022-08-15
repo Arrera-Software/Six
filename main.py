@@ -1,6 +1,4 @@
-from cProfile import label
 import subprocess
-from turtle import Screen, color
 import webbrowser
 from gtts import gTTS
 import os
