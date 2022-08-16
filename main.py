@@ -875,6 +875,8 @@ if internet == True :
             QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
             NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
             PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
+            FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
+            FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
             speak("J'ai enregistrer tout vos modification")
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
