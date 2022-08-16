@@ -52,6 +52,7 @@ PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
 varSix = True
 FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
 FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
+HourSleep = int(Lecture("Config/Assistant/hour.txt"))
 #Pygame
 pygame.init()
 myfont = pygame.font.SysFont("arial", 15)
@@ -78,7 +79,7 @@ def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
     os.system("mpg123 " + "voc.mp3")
-    texte = str(NomAssistant+text)
+    texte = str(NomAssistant+": "+text)
     fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
     labelSix = myfont.render(texte, 1, (0,0,0))
     fenetre.blit(labelSix,(5, 300))
@@ -476,6 +477,8 @@ def Setting():#fonction parametre
         FoncModif("Config/file/emplacementMusic.txt")
     def FileChange2():
         FoncModif("Config/file/emplacementVideo.txt")
+    def HourSleepChange():
+        FoncModif("Config/Assistant/hour.txt")
     def ParaMeteo():
         CadreFile.pack_forget()
         CadreLang.pack_forget()
@@ -535,11 +538,13 @@ def Setting():#fonction parametre
     BoutonAssistant3 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange2)
     BoutonAssistant4 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange3)
     BoutonAssistant5 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange4)
+    BoutonAssistant6 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=HourSleepChange)
     Assistant1 = Label(CadreAssistant,text="Nom de l'assistant",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant2 = Label(CadreAssistant,text="Utilisateur Principale",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant3 = Label(CadreAssistant,text="Utilisateur Secondaire",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant4 = Label(CadreAssistant,text="Trosième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant5 = Label(CadreAssistant,text="Quatrième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant6 = Label(CadreAssistant,text="Heure de coucher",bg=Color,fg=TextColor,font=("arial","17"))
     #Cadre Fichier
     CadreFile = Frame(ScreenPara,bg=Color,width=350,height=400)
     BoutonFile1 = Button(CadreFile,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=FileChange1)
@@ -583,6 +588,8 @@ def Setting():#fonction parametre
     BoutonAssistant4.place(x="250",y="155")
     Assistant5.place(x="5",y="205")
     BoutonAssistant5.place(x="250",y="205")
+    Assistant6.place(x="5",y="255")
+    BoutonAssistant6.place(x="250",y="255")
     #Cadre File
     File1.place(x="5",y="5")
     BoutonFile1.place(x="250",y="5")
@@ -640,9 +647,12 @@ CourtNom = NomAssistant
 if internet == True :
     salutation(UserCourt,GenreCourt)
     while varSix :
+        HourActuel = datetime.datetime.now().hour
         statement = takeCommand().lower()
         if statement==0:
             continue
+        if HourActuel == HourSleep :
+            speak("Vous devrai aller vous coucher "+ GenreCourt+".")
         if  statement =="salut"   or statement =="bonjour" or statement =="bonsoir":
             speak(statement+" en quoi je peux vous servir ?")
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
@@ -877,6 +887,7 @@ if internet == True :
             PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
             FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
             FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
+            HourSleep = int(Lecture("Config/Assistant/hour.txt"))
             speak("J'ai enregistrer tout vos modification")
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
