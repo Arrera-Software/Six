@@ -50,6 +50,8 @@ QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
 NomAssistant =   str(Lecture("Config/Assistant/Nom.txt")) + ": "
 PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
 varSix = True
+FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
+FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
 #Pygame
 pygame.init()
 myfont = pygame.font.SysFont("arial", 15)
@@ -328,21 +330,21 @@ def YoutubeDownload():
         URL = str(EntryURL1.get())
         Media = YouTube(URL)
         downloadMedia = Media.streams.get_by_itag(18)
-        downloadMedia.download()
+        downloadMedia.download(FileVideo)
         showinfo(title="Youtube Downloader",message="Video Télécharger")
         
     def Download2():
         URL = str(EntryURL2.get())
         playlist = Playlist(URL)
         for videos in playlist.videos:
-            videos.streams.get_by_itag(18).download()
+            videos.streams.get_by_itag(18).download(FileVideo)
         showinfo(title="Youtube Downloader",message="Videos Télécharger")
     
     def Download3():
         URL = str(EntryURL3.get())
         Media = YouTube(URL)
         downloadMedia = Media.streams.filter(only_audio=True).first()
-        out_file = downloadMedia.download()
+        out_file = downloadMedia.download(FileMusic)
         base, ext = os.path.splitext(out_file)
         new_file = base + '.mp3'
         os.rename(out_file, new_file)
@@ -354,7 +356,7 @@ def YoutubeDownload():
         playlist = Playlist(URL)
         for videos in playlist.videos:
             downloadMedia = videos.streams.filter(only_audio=True).first()
-            out_file = downloadMedia.download()
+            out_file = downloadMedia.download(FileMusic)
             base, ext = os.path.splitext(out_file)
             new_file = base + '.mp3'
             os.rename(out_file, new_file)
@@ -470,18 +472,30 @@ def Setting():#fonction parametre
         FoncModifUser("Config/Assistant/User3.txt","Config/Assistant/Genre3.txt")
     def UserChange4():
         FoncModifUser("Config/Assistant/User4.txt","Config/Assistant/Genre4.txt")
+    def FileChange1():
+        FoncModif("Config/file/emplacementMusic.txt")
+    def FileChange2():
+        FoncModif("Config/file/emplacementVideo.txt")
     def ParaMeteo():
+        CadreFile.pack_forget()
         CadreLang.pack_forget()
         CadreAssistant.pack_forget()
         CadreMeteo.pack(side="right")
     def ParaLang():
+        CadreFile.pack_forget()
         CadreMeteo.pack_forget()
         CadreAssistant.pack_forget()
         CadreLang.pack(side="right")
     def ParaAssistant():
+        CadreFile.pack_forget()
         CadreLang.pack_forget()
         CadreMeteo.pack_forget()
         CadreAssistant.pack(side="right")
+    def ParaFile():
+        CadreLang.pack_forget()
+        CadreMeteo.pack_forget()
+        CadreAssistant.pack_forget()
+        CadreFile.pack(side="right")
     ScreenPara.title("Six : Paramétre")
     ScreenPara.minsize(500,500)
     ScreenPara.maxsize(500,500)
@@ -512,7 +526,8 @@ def Setting():#fonction parametre
     BoutonPara1 = Button(CadrePara,text="Assistant",bg=Color,fg=TextColor,command=ParaAssistant)
     BoutonPara2= Button(CadrePara,text="Méteo",bg=Color,fg=TextColor,command=ParaMeteo)
     BoutonPara3= Button(CadrePara,text="Traduction",bg=Color,fg=TextColor,command=ParaLang)
-    BoutonPara4 = Button(CadrePara,text="Fermer",command=ScreenPara.destroy,bg=Color,fg=TextColor)
+    BoutonPara4 = Button(CadrePara,text="Fichier",bg=Color,fg=TextColor,command = ParaFile)
+    BoutonPara5 = Button(CadrePara,text="Fermer",command=ScreenPara.destroy,bg=Color,fg=TextColor)
     #Cadre Assistant
     CadreAssistant = Frame(ScreenPara,bg=Color,width=350,height=400)
     BoutonAssistant1 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=NomChange)
@@ -525,6 +540,12 @@ def Setting():#fonction parametre
     Assistant3 = Label(CadreAssistant,text="Utilisateur Secondaire",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant4 = Label(CadreAssistant,text="Trosième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant5 = Label(CadreAssistant,text="Quatrième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
+    #Cadre Fichier
+    CadreFile = Frame(ScreenPara,bg=Color,width=350,height=400)
+    BoutonFile1 = Button(CadreFile,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=FileChange1)
+    BoutonFile2 = Button(CadreFile,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=FileChange2)
+    File1 = Label(CadreFile,text="Emplacement Musique",bg=Color,fg=TextColor,font=("arial","17"))
+    File2 = Label(CadreFile,text="Emplacement Vidéos",bg=Color,fg=TextColor,font=("arial","17"))
     #Affichage
     #Fenetre
     LabelIndication.pack()
@@ -534,6 +555,7 @@ def Setting():#fonction parametre
     BoutonPara2.place(x="10",y="85")
     BoutonPara3.place(x="2",y="165")
     BoutonPara4.place(x="10",y="245")
+    BoutonPara5.place(x="10",y="325")
     #Cadre Meteo
     Meteo1.place(x="5",y="5")
     BoutonMeteo1.place(x="250",y="5")
@@ -561,6 +583,11 @@ def Setting():#fonction parametre
     BoutonAssistant4.place(x="250",y="155")
     Assistant5.place(x="5",y="205")
     BoutonAssistant5.place(x="250",y="205")
+    #Cadre File
+    File1.place(x="5",y="5")
+    BoutonFile1.place(x="250",y="5")
+    File2.place(x="5",y="55")
+    BoutonFile2.place(x="250",y="55")
     ScreenPara.mainloop()
 def ModeDev():#Fonction du mode dev
     ScreenDev = Tk()
