@@ -607,6 +607,7 @@ if internet == True :
     while varSix :
         HourActuel = datetime.datetime.now().hour
         statement = takeCommand().lower()
+        pygame.display.update()
         if statement==0:
             continue
         if HourActuel == HourSleep :
@@ -616,6 +617,7 @@ if internet == True :
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
             varSix = False
+            pygame.quit()
         if statement == "mute" or statement == "chut":
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
             Mute(GenreCourt)
