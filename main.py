@@ -1,6 +1,7 @@
 import subprocess
 import webbrowser
 from gtts import gTTS
+from io import BytesIO
 import os
 import datetime
 import random
@@ -14,6 +15,8 @@ import time
 import pygame
 from pygame.locals import*
 from pytube import YouTube , Playlist
+from playsound import playsound
+import winsound
 #Fonction Varriable
 def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
@@ -53,6 +56,7 @@ varSix = True
 FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
 FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
 HourSleep = int(Lecture("Config/Assistant/hour.txt"))
+mp3_fp = BytesIO()
 #Pygame
 pygame.init()
 myfont = pygame.font.SysFont("arial", 15)
@@ -78,7 +82,8 @@ def arduino():
 def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
-    os.system("mpg123 " + "voc.mp3")
+    playsound("voc.mp3")
+    os.remove("voc.mp3")
     texte = str(NomAssistant+": "+text)
     fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
     labelSix = myfont.render(texte, 1, (0,0,0))
