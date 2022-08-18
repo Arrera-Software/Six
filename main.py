@@ -16,7 +16,6 @@ import pygame
 from pygame.locals import*
 from pytube import YouTube , Playlist
 from playsound import playsound
-import winsound
 #Fonction Varriable
 def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
