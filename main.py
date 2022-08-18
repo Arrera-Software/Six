@@ -642,10 +642,6 @@ if internet == True :
             speak("Je suis SIX un assistant personnel cree par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.")
         if "fin de journée" in statement :
             Arret()
-            shutdown()
-        if "redémarre" in statement :
-            speak("Ok a tout de suite "+GenreCourt+"")
-            reboot()
         if "ouvre youtube" in statement :
             webbrowser.open("https://www.youtube.com/")
             speak("Youtube et ouvert ")
