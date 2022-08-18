@@ -644,6 +644,7 @@ internet = TestInternet()
 UserCourt = PrincipalUser
 GenreCourt = PrincipalUserGenre
 CourtNom = NomAssistant
+pygame.display.update()
 if internet == True :
     salutation(UserCourt,GenreCourt)
     while varSix :
@@ -658,6 +659,7 @@ if internet == True :
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
             varSix = False
+            pygame.quit()
         if statement == "mute" or statement == "chut":
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
             Mute(GenreCourt)
@@ -814,6 +816,7 @@ if internet == True :
             os.popen("flatpak run com.discordapp.Discord")
         if "programmation" in statement :
             varSix = False
+            pygame.display.update()
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
         if "mode nuit" in statement or "mode sombre" in statement:
