@@ -649,6 +649,7 @@ if internet == True :
     while varSix :
         HourActuel = datetime.datetime.now().hour
         statement = takeCommand().lower()
+        pygame.display.update()
         if statement==0:
             continue
         if HourActuel == HourSleep :
@@ -658,6 +659,7 @@ if internet == True :
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
             varSix = False
+            pygame.quit()
         if statement == "mute" or statement == "chut":
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
             Mute(GenreCourt)
@@ -677,7 +679,7 @@ if internet == True :
                 speak("Ok je vous l'ouvre")
                 webbrowser.open(URL)
             if "non" in reponse:
-                speak("Ok "+GenreCourt+".")
+                speak("Okpygame.display.update() "+GenreCourt+".")
         if "toujours là"  in statement  or "es-tu là" in statement or CourtNom in statement :
             speak("Oui")
         if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
@@ -814,6 +816,7 @@ if internet == True :
             os.popen("flatpak run com.discordapp.Discord")
         if "programmation" in statement :
             varSix = False
+            pygame.quit()
         if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
             os.system("mpg123 " + "voc.mp3")
         if "mode nuit" in statement or "mode sombre" in statement:
