@@ -106,7 +106,7 @@ def takeCommand():#Fonction micro et reconaissance vocal
             return "None"
         return Requette
 def speakNoInternet():#Fonctiion pas internet
-    os.system("mpg123 " + "sons/speak1.mp3")
+    playsound("sons/speak1.mp3")
 def Resumer():#Fonction de resumer des actaulités et de la meteo
     speak("Ok je vous prépare votre résumé")
     hour=datetime.datetime.now().hour
@@ -225,10 +225,6 @@ def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
         speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
     if hour>=22 and hour<=23:
         speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
-def shutdown():#Fonction d'arrét de l'ordinateur
-    subprocess.run("poweroff")
-def reboot():#Fonction de redemarage de l'ordinateur
-    subprocess.run("reboot")
 def Trad(Genre):#Fonction de Traduction
     lang1 = "fr"
     lang2 = Lecture("Config/Langue/Lang1.txt")
@@ -601,49 +597,6 @@ def Setting():#fonction parametre
     File2.place(x="5",y="55")
     BoutonFile2.place(x="250",y="55")
     ScreenPara.mainloop()
-def ModeDev():#Fonction du mode dev
-    ScreenDev = Tk()
-    ScreenDev.title("Six")
-    ScreenDev.minsize(300,600)
-    ScreenDev.config(bg=Color)
-    CadreEditeur = Frame(ScreenDev,bg=Color)
-    CadreDoc = Frame(ScreenDev,bg=Color)
-    Labelecart1 = Label(CadreEditeur,width=6,bg=Color)
-    Labelecart2 = Label(CadreDoc,width=6,bg=Color)
-    Labelecart3 = Label(CadreEditeur,width=6,bg=Color)
-    Labelecart4 = Label(CadreDoc,width=6,bg=Color)
-    BoutonVisual = Button(CadreEditeur,bg=Color,command=VisualStudio)
-    BoutonArduino = Button(CadreEditeur,bg=Color,command=arduino)
-    BoutonTerminal = Button(ScreenDev,bg=Color,command=terminal)
-    BoutonPython = Button(CadreDoc,bg=Color,command=DocPython)
-    BoutonDocArduino = Button(CadreDoc,bg=Color,command=DocArduino)
-    IconVisual = PhotoImage(file="image/IconVisual.png",master=BoutonVisual)
-    IconArduino = PhotoImage(file="image/IconArduino.png",master=BoutonArduino)
-    IconTerminal = PhotoImage(file="image/IconTerminal.png",master=BoutonTerminal)
-    IconPython = PhotoImage(file="image/IconDocPython.png",master=BoutonPython)
-    IconDocArduino = PhotoImage(file="image/IconDocArduino.png",master=BoutonDocArduino)
-    BoutonVisual.image_names = IconVisual
-    BoutonArduino.image_names = IconArduino
-    BoutonTerminal.image_names = IconTerminal
-    BoutonDocArduino.image_names = IconDocArduino
-    BoutonPython.image_names = IconPython
-    BoutonVisual.config(image = IconVisual)
-    BoutonArduino.config(image = IconArduino)
-    BoutonTerminal.config(image=IconTerminal)
-    BoutonDocArduino.config(image=IconDocArduino)
-    BoutonPython.config(image=IconPython)
-    CadreEditeur.pack(side="top")
-    CadreDoc.pack(side="bottom")
-    BoutonTerminal.place(relx=.5, rely=.5, anchor="center")
-    BoutonVisual.pack(side="left")
-    Labelecart1.pack(side="left")
-    BoutonArduino.pack(side="right")
-    Labelecart3.pack(side="right")
-    BoutonPython.pack(side="left")
-    Labelecart2.pack(side="left")
-    BoutonDocArduino.pack(side="right")
-    Labelecart4.pack(side="right")
-    ScreenDev.mainloop()
 #Programme principale
 internet = TestInternet()
 UserCourt = PrincipalUser
@@ -748,61 +701,9 @@ if internet == True :
                 MeteoParole(4)
             if "au lieu de bonus" in r  :
                 MeteoParole(5)
-        if "un document" in statement :
-            speak("Ok j'ouvre libreoffice writer ")
-            os.popen("libreoffice --writer")
-        if "un diaporama" in statement :
-            speak("Ok j'ouvre libreoffice impress ")
-            os.popen("libreoffice --impress")
-        if "un tableur" in statement :
-            speak("Ok j'ouvre libreoffice calc ")
-            os.popen("libreoffice --calc")
         if "google drive" in statement:
             speak("Ok voici votre google drive principale"+GenreCourt+"")
             webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
-        if "firefox" in statement or "navigateur internet" in statement :
-            speak("Ok j'ouvre votre navigateur internet")
-            os.popen("/usr/bin/firefox")
-        if "mes notes internet" in statement :
-            speak("Ok voici vos note stoket sur internet "+GenreCourt+"")
-            webbrowser.open("https://www.notion.so/5599107ab8fe4e3d9909f6817cfe1dd4?v=ad3306defd0947aea0b9542029787a2b")
-        if "mes cahiers des tâches" in statement:
-            webbrowser.open("https://www.notion.so/Cahier-de-tache-29b3259503584886b88b24f574f871ba")
-        if "ma todolist" in statement or "ma liste de tâches" in statement:
-            webbrowser.open("https://www.notion.so/3f037048d43048aa935f74d0700ee0d7?v=6e2e75eb40c94d719f73bbe6e90a52ed")
-        if "ma page de projet" in statement:
-            webbrowser.open("https://www.notion.so/e6b2105328f34126a0d2527e9fb1c917?v=3af36adfb00a4d29aa12c1187e7004ca")
-        if "visual studio code" in statement:
-            os.popen("/usr/bin/code")
-        if "mes fichiers" in statement :
-            speak("Ok voici votre explorateur de fichier "+GenreCourt+"")
-            os.popen("nautilus")
-        if "jupiter" in statement :
-            os.popen("jupyter-notebook /home/baptistep/")
-        if "steam" in statement :
-            speak("Ok bon jeu "+GenreCourt+"")
-            os.popen("steam")
-        if "arduino" in statement :
-            os.popen("flatpak run cc.arduino.arduinoide")
-            speak("Desirez vous que j'ouvre le navigateur web pour vous aidez "+GenreCourt+"")
-            r = takeCommand()
-            if "oui" in r :
-                speak("Ok trés bien")
-                os.popen("/usr/bin/firefox")
-            if "non" in r :
-                speak("Ok je reste a votre service si vous avez besoins "+GenreCourt+".")
-        if "gimp" in statement:
-            os.popen("gimp")
-        if "qui passe" in statement or "mots de passe" in statement or "mot de passe" in statement :
-            os.popen("keepassxc")
-        if "spider" in statement :
-            os.popen("spyder")
-        if "terminal" in statement:
-            os.popen("gnome-terminal")
-        if "tout savoir" in statement:
-            os.popen("./Script-Bash/toutsavoir.sh")
-        if "diabète elle" in statement:
-            os.popen("./Script-Bash/diabetehelp.sh")
         if "voix du nord" in statement :
             webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
         if "libération" in statement:
@@ -813,18 +714,8 @@ if internet == True :
             webbrowser.open("https://www.instagram.com/")
         if "twitter" in statement :
             webbrowser.open("https://twitter.com/home")
-        if "signal" in statement:
-            os.popen("flatpak run org.signal.Signal")
-        if "discorde" in statement:
-            os.popen("flatpak run com.discordapp.Discord")
         if "programmation" in statement :
             varSix = False
-        if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
-            os.system("mpg123 " + "voc.mp3")
-        if "mode nuit" in statement or "mode sombre" in statement:
-            os.popen("./Script-Bash/Dark.sh")
-        if "mode jour" in statement or "mode clair" in statement:
-            os.popen("./Script-Bash/Light.sh")
         if "résumé" in statement:
             Resumer()
         if "écris dans mes notes locales" in statement:
@@ -832,19 +723,19 @@ if internet == True :
             nbNote = takeCommand()
             if "la première" in nbNote:
                 file = "note/note1.txt"
-                EcritureNote(file)
+                EcritureNote(file,GenreCourt)
             if "la deuxième" in nbNote and "la seconde" in nbNote:
                 file = "note/note2.txt"
-                EcritureNote(file)
+                EcritureNote(file,GenreCourt)
             if "la troisième" in nbNote:
                 file = "note/note3.txt"
-                EcritureNote(file)
+                EcritureNote(file,GenreCourt)
             if "la 4e" in nbNote:
                 file = "note/note4.txt"
-                EcritureNote(file)
+                EcritureNote(file,GenreCourt)
             if "la 5e" in nbNote:
                 file = "note/note5.txt"
-                EcritureNote(file)
+                EcritureNote(file,GenreCourt)
         if "lis mes notes local" in statement or "lis-moi mes notes locales" in statement: 
             speak("Quelle note voulez-vous que je vous lise ?")
             nbNote = takeCommand()
@@ -936,9 +827,6 @@ if internet == True :
                 speak("Mettre du sirop dans son gel douche")
                 time.sleep(1)
                 speak("En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible.")
-        if "active le mode développement" in statement:
-            speak("J'active le mode dev")
-            ModeDev()
         if "change de profil" in statement or "change d'utilisateur" in statement:
             speak("Quelle est votre numero de profile")
             r = takeCommand()
