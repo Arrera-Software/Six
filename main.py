@@ -706,8 +706,6 @@ if internet == True :
             webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
         if "libération" in statement:
             webbrowser.open("https://www.liberation.fr/")
-        if "flipboard" in statement :
-            webbrowser.open("https://flipboard.com/")
         if "instagram" in statement :
             webbrowser.open("https://www.instagram.com/")
         if "twitter" in statement :
