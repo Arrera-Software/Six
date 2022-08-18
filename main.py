@@ -1,5 +1,6 @@
 import subprocess
 import webbrowser
+import pyaudio
 from gtts import gTTS
 from io import BytesIO
 import os
