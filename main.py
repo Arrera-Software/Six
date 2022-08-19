@@ -697,7 +697,7 @@ if internet == True :
                 MeteoParole(3)
             if "à mon lieu de vacances" in r :
                 MeteoParole(4)
-            if "au lieu de bonus" in r  :
+            if "au lieu bonus" in r  :
                 MeteoParole(5)
         if "google drive" in statement:
             speak("Ok voici votre google drive principale"+GenreCourt+"")
