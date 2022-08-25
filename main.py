@@ -650,6 +650,9 @@ if internet == True :
     while varSix :
         HourActuel = datetime.datetime.now().hour
         statement = takeCommand().lower()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                varSix = 0
         if statement==0:
             continue
         if HourActuel == HourSleep :
