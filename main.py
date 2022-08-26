@@ -257,20 +257,24 @@ def GeoLocGPS():
     long = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["longitude"])
     return lat , long
 def Mute(Genre):
-        screen = Tk()
-        def anychar(event):
-            if event.keycode == 36 :
-                screen.destroy()
-                speak("Oui "+Genre+"")
-        screen.title(NomAssistant)
-        screen.wait_visibility(screen)
-        screen.wm_attributes('-alpha',0.9)
-        screen.config(bg=Color)
-        screen.maxsize(300,100)
-        screen.minsize(300,100)
-        LabelMute = Label(screen,text="Mute",font=("arial","24"),bg=Color,fg=TextColor).place(relx=.5, rely=.5, anchor="center")
-        screen.bind("<Key>",anychar)
-        screen.mainloop()
+    myfontMute = pygame.font.SysFont("arial", 45)
+    texteMute = "Mute"
+    fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
+    fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
+    labelSix = myfontMute.render(texteMute, 1, (0,0,0))
+    fenetre.blit(labelSix,(300, 300))
+    pygame.display.update()
+    mute = True
+    while mute == True :
+        tkey = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                speak("Oui "+Genre)
+                mute = False
+            if tkey[pygame.K_RETURN] :
+                speak("Oui "+Genre)
+                mute = False
+    
 def YoutubeDownload():
     screen = Tk()
     screen.title("Youtube Downloader")
@@ -633,7 +637,7 @@ GenreCourt = PrincipalUserGenre
 CourtNom = NomAssistant
 if internet == True :
     salutation(UserCourt,GenreCourt)
-    while varSix :
+    while varSix == True:
         HourActuel = datetime.datetime.now().hour
         statement = takeCommand().lower()
         pygame.display.update()
@@ -747,15 +751,6 @@ if internet == True :
         if "firefox" in statement or "navigateur internet" in statement :
             speak("Ok j'ouvre votre navigateur internet")
             os.popen("/usr/bin/firefox")
-        if "mes notes internet" in statement :
-            speak("Ok voici vos note stoket sur internet "+GenreCourt+"")
-            webbrowser.open("https://www.notion.so/5599107ab8fe4e3d9909f6817cfe1dd4?v=ad3306defd0947aea0b9542029787a2b")
-        if "mes cahiers des tâches" in statement:
-            webbrowser.open("https://www.notion.so/Cahier-de-tache-29b3259503584886b88b24f574f871ba")
-        if "ma todolist" in statement or "ma liste de tâches" in statement:
-            webbrowser.open("https://www.notion.so/3f037048d43048aa935f74d0700ee0d7?v=6e2e75eb40c94d719f73bbe6e90a52ed")
-        if "ma page de projet" in statement:
-            webbrowser.open("https://www.notion.so/e6b2105328f34126a0d2527e9fb1c917?v=3af36adfb00a4d29aa12c1187e7004ca")
         if "visual studio code" in statement:
             os.popen("/usr/bin/code")
         if "mes fichiers" in statement :
@@ -785,8 +780,6 @@ if internet == True :
             os.popen("gnome-terminal")
         if "tout savoir" in statement:
             os.popen("./Script-Bash/toutsavoir.sh")
-        if "diabète elle" in statement:
-            os.popen("./Script-Bash/diabetehelp.sh")
         if "voix du nord" in statement :
             webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
         if "libération" in statement:
