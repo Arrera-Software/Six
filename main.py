@@ -49,6 +49,9 @@ TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
 QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
 NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
 PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
+NameMoteur = str(Lecture("Config/MoteurRecherche/LienMoteur.txt"))
+LienMoteur = str(Lecture("Config/MoteurRecherche/LienMoteur.txt"))
+listMoteur = "google" , "duckduckgo" , "ecosia" , "qwant" , "bing"
 varSix = True
 FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
 FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
@@ -530,6 +533,59 @@ def Setting():#fonction parametre
         FoncModif("Config/file/emplacementVideo.txt")
     def HourSleepChange():
         FoncModif("Config/Assistant/hour.txt")
+    def MoteurChange():
+        fileName = "Config/MoteurRecherche/NameMoteur.txt"
+        fileLien = "Config/MoteurRecherche/LienMoteur.txt"
+        moteur = str(Lecture(fileName))
+        ScreenModifM = Toplevel()
+        ScreenModifM.maxsize(300,150)
+        ScreenModifM.minsize(300,150)
+        NewMoteur = StringVar(ScreenModifM)
+        if moteur == "google":
+            NewMoteur.set(listMoteur[0])
+        if moteur == "duckduckgo":
+            NewMoteur.set(listMoteur[1])
+        if moteur == "ecosia":
+            NewMoteur.set(listMoteur[2])
+        if moteur == "qwant":
+            NewMoteur.set(listMoteur[3])
+        if moteur == "bing":
+            NewMoteur.set(listMoteur[4])
+        ScreenModifM.wait_visibility(ScreenModifM)
+        ScreenModifM.wm_attributes('-alpha',0.9)
+        ScreenModifM.config(bg=Color)
+        LabelInfo = Label(ScreenModifM,text="Moteur de recherche\n par défault",font=("arial","20"),bg=Color,fg=TextColor).pack()
+        Moteur = OptionMenu(ScreenModifM,NewMoteur, *listMoteur)
+        def Modif():
+            VarMoteur = NewMoteur.get()
+            if VarMoteur == "google":
+                NewLien = "https://www.google.fr/"
+                Ecriture(fileName,VarMoteur)
+                Ecriture(fileLien,NewLien)
+                ScreenModifM.destroy()
+            if moteur == "duckduckgo":
+                NewLien = "https://duckduckgo.com/"
+                Ecriture(fileName,VarMoteur)
+                Ecriture(fileLien,NewLien)
+                ScreenModifM.destroy()
+            if moteur == "ecosia":
+                NewLien = "https://www.ecosia.org/?c=fr"
+                Ecriture(fileName,VarMoteur)
+                Ecriture(fileLien,NewLien)
+                ScreenModifM.destroy()
+            if moteur == "qwant":
+                NewLien = "https://www.qwant.com/"
+                Ecriture(fileName,VarMoteur)
+                Ecriture(fileLien,NewLien)
+                ScreenModifM.destroy()
+            if moteur == "bing":
+                NewLien = "https://www.bing.com/"
+                Ecriture(fileName,VarMoteur)
+                Ecriture(fileLien,NewLien)
+                ScreenModifM.destroy()
+        BoutonValider = Button(ScreenModifM,text="Valider",command=Modif,bg=Color,fg=TextColor)
+        BoutonValider.pack(side="right")
+        Moteur.pack(side="left")
     def ParaMeteo():
         CadreFile.pack_forget()
         CadreLang.pack_forget()
@@ -592,12 +648,14 @@ def Setting():#fonction parametre
     BoutonAssistant4 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange3)
     BoutonAssistant5 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=UserChange4)
     BoutonAssistant6 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=HourSleepChange)
+    BoutonAssistant7 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,command=MoteurChange,font=("arial","15"))
     Assistant1 = Label(CadreAssistant,text="Nom de l'assistant",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant2 = Label(CadreAssistant,text="Utilisateur Principale",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant3 = Label(CadreAssistant,text="Utilisateur Secondaire",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant4 = Label(CadreAssistant,text="Trosième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant5 = Label(CadreAssistant,text="Quatrième utilisateur",bg=Color,fg=TextColor,font=("arial","17"))
     Assistant6 = Label(CadreAssistant,text="Heure de coucher",bg=Color,fg=TextColor,font=("arial","17"))
+    Assistant7 = Label(CadreAssistant,text="Recherche",bg=Color,fg=TextColor,font=("arial","20"))
     #Cadre Fichier
     CadreFile = Frame(ScreenPara,bg=Color,width=350,height=400)
     BoutonFile1 = Button(CadreFile,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=FileChange1)
@@ -645,6 +703,8 @@ def Setting():#fonction parametre
     BoutonAssistant5.place(x="250",y="205")
     Assistant6.place(x="5",y="255")
     BoutonAssistant6.place(x="250",y="255")
+    Assistant7.place(x="5",y="305")
+    BoutonAssistant7.place(x="250",y="305")
     #Cadre File
     File1.place(x="5",y="5")
     BoutonFile1.place(x="250",y="5")
@@ -709,9 +769,6 @@ if internet == True :
             if "bien" in statement or "oui" in statement:
                 speak("Sa me réjouit de savoir que tout se passe bien pour vous"+GenreCourt+" .")
                 speak("En quoi je peux donc vous servir ?")
-            if "mal" in statement or "non" in statement:
-                speak("Sa me rend triste que quelque chose se passe mal pour vous "+GenreCourt+" .")
-                speak("En quoi je peux vous étre utile pour vous aidez ?")
             if statement==0:
                 continue
             if event.type == pygame.QUIT:
@@ -822,9 +879,9 @@ if internet == True :
             if "google drive" in statement:
                 speak("Ok voici votre google drive principale"+GenreCourt+"")
                 webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
-            if "firefox" in statement or "navigateur internet" in statement :
+            if "navigateur internet" in statement :
                 speak("Ok j'ouvre votre navigateur internet")
-                os.popen("/usr/bin/firefox")
+                webbrowser.open(LienMoteur)
             if "visual studio code" in statement:
                 os.popen("/usr/bin/code")
             if "mes fichiers" in statement :
@@ -841,7 +898,7 @@ if internet == True :
                 r = takeCommand()
                 if "oui" in r :
                     speak("Ok trés bien")
-                    os.popen("/usr/bin/firefox")
+                    webbrowser.open(LienMoteur)
                 if "non" in r :
                     speak("Ok je reste a votre service si vous avez besoins "+GenreCourt+".")
             if "gimp" in statement:
@@ -937,6 +994,8 @@ if internet == True :
                 FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
                 FileVideo = str(Lecture("Config/file/emplacementVideo.txt"))
                 HourSleep = int(Lecture("Config/Assistant/hour.txt"))
+                NameMoteur = str(Lecture("Config/MoteurRecherche/NameMoteur.txt"))
+                LienMoteur = str(Lecture("Config/MoteurRecherche/LienMoteur.txt"))
                 speak("J'ai enregistrer tout vos modification")
             if "raconter une blague" in statement or "raconte-moi une blague" in statement :
                 nb = random.randint(1,10)
