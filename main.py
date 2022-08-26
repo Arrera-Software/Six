@@ -8,7 +8,7 @@ import speech_recognition as sr
 from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche,DocArduino,DocPython
 import requests
 from tkinter import*
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import *
 from translate import translate
 import time
 import pygame
@@ -47,7 +47,7 @@ PrincipalUserGenre =  str(Lecture("Config/Assistant/Genre1.txt"))
 SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
 TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
 QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
-NomAssistant =   str(Lecture("Config/Assistant/Nom.txt")) + ": "
+NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
 PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
 varSix = True
 FileMusic = str(Lecture("Config/file/emplacementMusic.txt"))
@@ -256,24 +256,31 @@ def GeoLocGPS():
     lat = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["latitude"])
     long = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["longitude"])
     return lat , long
-def Mute(Genre):
+def Mute(Genre,User):
     myfontMute = pygame.font.SysFont("arial", 45)
     texteMute = "Mute"
     fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
     fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
     labelSix = myfontMute.render(texteMute, 1, (0,0,0))
-    fenetre.blit(labelSix,(300, 300))
+    fenetre.blit(labelSix,(325, 300))
     pygame.display.update()
     mute = True
     while mute == True :
         tkey = pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                speak("Oui "+Genre)
+                Arret(User,Genre)
+                time.sleep(1.25)
+                pygame.quit()
                 mute = False
+                return False
             if tkey[pygame.K_RETURN] :
-                speak("Oui "+Genre)
+                labelSix = myfont.render(NomAssistant, 1, (0,0,0))
+                labelUser = myfont2.render("User: ",1,(255,255,255))
+                time.sleep(1.25)
+                speak("Ravi de vous revoir "+Genre)
                 mute = False
+                return True
     
 def YoutubeDownload():
     screen = Tk()
@@ -653,7 +660,7 @@ if internet == True :
             pygame.quit()
         if statement == "mute" or statement == "chut":
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
-            Mute(GenreCourt)
+            varSix = Mute(GenreCourt,UserCourt)
         if "recherche sur internet" in statement :
             speak("Vous voulez rechercher quoi ?")
             recherche = takeCommand()
