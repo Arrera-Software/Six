@@ -788,8 +788,6 @@ if internet == True :
                 os.popen("spyder")
             if "terminal" in statement:
                 os.popen("gnome-terminal")
-            if "tout savoir" in statement:
-                os.popen("./Script-Bash/toutsavoir.sh")
             if "voix du nord" in statement :
                 webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
             if "libération" in statement:
@@ -809,10 +807,6 @@ if internet == True :
                 break
             if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
                 os.system("mpg123 " + "voc.mp3")
-            if "mode nuit" in statement or "mode sombre" in statement:
-                os.popen("./Script-Bash/Dark.sh")
-            if "mode jour" in statement or "mode clair" in statement:
-                os.popen("./Script-Bash/Light.sh")
             if "résumé" in statement:
                 Resumer()
             if "écris dans mes notes locales" in statement:
