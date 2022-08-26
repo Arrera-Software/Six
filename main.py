@@ -9,7 +9,7 @@ from ModuleInternet import TestInternet,duckduckgoSearch,GrandRecherche,DocArdui
 import requests
 from tkinter import*
 from tkinter.messagebox import *
-from translate import translate
+from translate import*
 import time
 import pygame
 from pygame.locals import*
@@ -212,24 +212,76 @@ def shutdown():#Fonction d'arrét de l'ordinateur
     subprocess.run("poweroff")
 def reboot():#Fonction de redemarage de l'ordinateur
     subprocess.run("reboot")
-def Trad(Genre):#Fonction de Traduction
-    lang1 = "fr"
-    lang2 = Lecture("Config/Langue/Lang1.txt")
-    lang3 = Lecture("Config/Langue/Lang2.txt")
-    speak("Ok en quelle langue voulez-vous que je vous traduise votre texte "+Genre+"?")
-    sortie = input("Choisissez entre 'fr' , 'lang1' ou 'lang2'##: ")
-    if sortie == "français" or "fr" == sortie:
-        text = input("Entrer votre texte : ")
-        textTraduit = translate(text, lang1)
-        print(textTraduit)
-    if sortie == "lang1":
-        text = input("Entrer votre texte : ") 
-        textTraduit = translate(text, lang2)
-        print(textTraduit)
-    if sortie == "lang2":
-        text = input("Entrer votre texte : ") 
-        textTraduit = translate(text, lang3)
-        print(textTraduit)
+def Trad(genre):#Fonction de Traduction
+    langue0=str(Lecture("Config/Langue/Lang0.txt"))
+    langue1=str(Lecture("Config/Langue/Lang1.txt"))
+    langue2=str(Lecture("Config/Langue/Lang2.txt"))
+    ScreenTrad=Tk()
+    ScreenTrad.title("Six : Traduction")
+    ScreenTrad.maxsize(400,400)
+    ScreenTrad.minsize(400,400)
+    ScreenTrad.config(bg=Color)
+    labelInfo=Label(ScreenTrad,text="Resultat",bg=Color,fg=TextColor,font=("arial","20"))
+    trad=Entry(ScreenTrad,width=45)
+    def L0versL1():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue0,to_lang=langue1)
+        translation = translator.translate(mot)
+        labelInfo.config(text=translation)
+    def L0versL2():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue0,to_lang=langue2)
+        translation = translator.translate(mot)
+        labelInfo.config(text=translation)
+    def L1versL0():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue1,to_lang=langue0)
+        translation = translator.translate(mot)
+        speak("Le resultat de votre traduction "+genre+" et "+translation)
+        labelInfo.config(text=translation)
+    def L1versL2():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue1,to_lang=langue2)
+        translation = translator.translate(mot)
+        labelInfo.config(text=translation)
+    def L2versL0():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue2,to_lang=langue0)
+        translation = translator.translate(mot)
+        speak("Le resultat de votre traduction "+genre+" et "+translation)
+        labelInfo.config(text=translation)
+    def L2versL1():
+        mot = str(trad.get())
+        translator= Translator(from_lang=langue2,to_lang=langue1)
+        translation = translator.translate(mot)
+        labelInfo.config(text=translation)
+    bouttonTraduction=Button(ScreenTrad,text="Traduire",bg=Color,fg=TextColor)
+    def Mode1():
+        bouttonTraduction.config(command=L0versL1)
+    def Mode2():
+        bouttonTraduction.config(command=L1versL0)
+    def Mode3():
+        bouttonTraduction.config(command=L0versL2)
+    def Mode4():
+        bouttonTraduction.config(command=L2versL0)
+    def Mode5():
+        bouttonTraduction.config(command=L1versL2)
+    def Mode6():
+        bouttonTraduction.config(command=L2versL1)
+    MenuTrad = Menu(ScreenTrad,bg="white")
+    Choix = Menu(MenuTrad,tearoff=0)
+    Choix.add_command(label="Langue par défault vers Langue 1",command=Mode1)
+    Choix.add_command(label="Langue 1 vers Langue par défault",command=Mode2)
+    Choix.add_command(label="Langue par défault vers Langue 2",command=Mode3)
+    Choix.add_command(label="Langue 2 vers Langue par défault",command=Mode4)
+    Choix.add_command(label="Langue 1 vers Langue 2",command=Mode5)
+    Choix.add_command(label="Langue 2 vers Langue 1",command=Mode6)
+    MenuTrad.add_cascade(label = "Traduction",menu=Choix)
+    ScreenTrad.config(menu=MenuTrad)
+    labelInfo.place(x="5",y="25")
+    trad.place(relx=.5,rely=.5,anchor ="center")
+    bouttonTraduction.pack(side="bottom")
+    ScreenTrad.mainloop()
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
     Nomfile = "Config/meteo/ville"+str(nbVille)+".txt"   
     fichier = open(Nomfile,"r")
@@ -456,6 +508,8 @@ def Setting():#fonction parametre
         FoncModif("Config/meteo/ville4.txt")
     def MeteoChange5():
         FoncModif("Config/meteo/ville5.txt")
+    def LangChange0():
+        FoncModif("Config/Langue/Lang0.txt")
     def LangChange1():
         FoncModif("Config/Langue/Lang1.txt")
     def LangChange2():
@@ -516,8 +570,10 @@ def Setting():#fonction parametre
     BoutonMeteo5 = Button(CadreMeteo,text="Change",bg=Color,fg=TextColor,command=MeteoChange5,font=("arial","15"))
     #Cadre Langue
     CadreLang = Frame(ScreenPara,bg=Color,width=350,height=400)
-    Lang1 = Label(CadreLang,text="Premier langue",bg=Color,fg=TextColor,font=("arial","20"))
-    Lang2 = Label(CadreLang,text="Deuxieme Langue",bg=Color,fg=TextColor,font=("arial","20"))
+    Lang0 = Label(CadreLang,text="Langue par défault",bg=Color,fg=TextColor,font=("arial","20"))
+    Lang1 = Label(CadreLang,text="Premier Langue",bg=Color,fg=TextColor,font=("arial","20"))
+    Lang2 = Label(CadreLang,text="Deuxiéme Langue",bg=Color,fg=TextColor,font=("arial","20"))
+    BoutonLang0 = Button(CadreLang,text="Change",bg=Color,fg=TextColor,command=LangChange0,font=("arial","15"))
     BoutonLang1 = Button(CadreLang,text="Change",bg=Color,fg=TextColor,command=LangChange1,font=("arial","15"))
     BoutonLang2 = Button(CadreLang,text="Change",bg=Color,fg=TextColor,command=LangChange2,font=("arial","15"))
     #Cadre Para
@@ -570,10 +626,12 @@ def Setting():#fonction parametre
     Meteo5.place(x="5",y="205")
     BoutonMeteo5.place(x="250",y="205")
     #Cadre Lang
-    Lang1.place(x="5",y="5")
-    BoutonLang1.place(x="250",y="5")
-    Lang2.place(x="5",y="55")
-    BoutonLang2.place(x="250",y="55")
+    Lang0.place(x="5",y="5")
+    BoutonLang0.place(x="250",y="5")
+    Lang1.place(x="5",y="55")
+    BoutonLang1.place(x="250",y="55")
+    Lang2.place(x="5",y="105")
+    BoutonLang2.place(x="250",y="105")
     #Cadre Assistant
     Assistant1.place(x="5",y="5")
     BoutonAssistant1.place(x="250",y="5")
@@ -648,6 +706,12 @@ if internet == True :
             HourActuel = datetime.datetime.now().hour
             statement = takeCommand().lower()
             pygame.display.update()
+            if "bien" in statement or "oui" in statement:
+                speak("Sa me réjouit de savoir que tout se passe bien pour vous"+GenreCourt+" .")
+                speak("En quoi je peux donc vous servir ?")
+            if "mal" in statement or "non" in statement:
+                speak("Sa me rend triste que quelque chose se passe mal pour vous "+GenreCourt+" .")
+                speak("En quoi je peux vous étre utile pour vous aidez ?")
             if statement==0:
                 continue
             if event.type == pygame.QUIT:
@@ -857,8 +921,6 @@ if internet == True :
                 speak("Copier ce que vous voulez  que je vous lise"+GenreCourt+".")
                 lecture =str(input("Text :")) 
                 speak(lecture)
-            if "traduire" in statement:
-                Trad()
             if "ouvre tes paramètre" in statement :
                 speak("Ok j'ouvre mes paramètre")
                 Setting()
@@ -954,5 +1016,8 @@ if internet == True :
             if "enregistre de la musique" in statement or "enregistrement de la musique" in statement or "enregistre moi des vidéos" in statement or "enregistre-moi une vidéo" in statement:
                 speak("Ok "+GenreCourt+" je vous ouvre le téléchargeur de video Youtube.")
                 YoutubeDownload()
+            if "traduire" in statement or "traduis-moi" in statement:
+                print("sa marche")
+                Trad(GenreCourt)
 else :        
     speakNoInternet()   
