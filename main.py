@@ -175,18 +175,6 @@ def salutation(User,Genre):#Fonction de salutation
         if nrad == 2 :
             speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien")
 
-def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
-    doc = open(file,"w")
-    doc.truncate()
-    doc.write(text)
-    doc.close()
-    return text,file
-def Lecture(file):#Fonction de lecture d'un fichier texte et stokage dans une varriable
-    fichier = open(file,"r")
-    contenu= fichier.readlines()[0]
-    fichier.close()
-    return contenu
-
 def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu par l'API
     Sujet = dictionnnaire["content"]
     Description = dictionnnaire["description"]
@@ -242,7 +230,6 @@ def Trad(Genre):#Fonction de Traduction
         text = input("Entrer votre texte : ") 
         textTraduit = translate(text, lang3)
         print(textTraduit)
-    
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
     Nomfile = "Config/meteo/ville"+str(nbVille)+".txt"   
     fichier = open(Nomfile,"r")
