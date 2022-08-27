@@ -14,6 +14,7 @@ import time
 import pygame
 from pygame.locals import*
 from pytube import YouTube , Playlist
+from playsound import playsound
 #Fonction Varriable
 def Ecriture(file,text):#Fonction d'écriture sur un fichier texte
     doc = open(file,"w")
@@ -92,7 +93,8 @@ def arduino():
 def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
-    os.system("mpg123 " + "voc.mp3")
+    playsound("voc.mp3")
+    os.remove("voc.mp3")
     texte = str(NomAssistant+": "+text)
     fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
     labelSix = myfont.render(texte, 1, (0,0,0))
@@ -1005,33 +1007,6 @@ if internet == True :
             if "navigateur internet" in statement :
                 speak("Ok j'ouvre votre navigateur internet")
                 webbrowser.open(LienMoteur)
-            if "visual studio code" in statement:
-                os.popen("/usr/bin/code")
-            if "mes fichiers" in statement :
-                speak("Ok voici votre explorateur de fichier "+GenreCourt+"")
-                os.popen("nautilus")
-            if "jupiter" in statement :
-                os.popen("jupyter-notebook /home/baptistep/")
-            if "steam" in statement :
-                speak("Ok bon jeu "+GenreCourt+"")
-                os.popen("steam")
-            if "arduino" in statement :
-                os.popen("flatpak run cc.arduino.arduinoide")
-                speak("Desirez vous que j'ouvre le navigateur web pour vous aidez "+GenreCourt+"")
-                r = takeCommand()
-                if "oui" in r :
-                    speak("Ok trés bien")
-                    webbrowser.open(LienMoteur)
-                if "non" in r :
-                    speak("Ok je reste a votre service si vous avez besoins "+GenreCourt+".")
-            if "gimp" in statement:
-                os.popen("gimp")
-            if "qui passe" in statement or "mots de passe" in statement or "mot de passe" in statement :
-                os.popen("keepassxc")
-            if "spider" in statement :
-                os.popen("spyder")
-            if "terminal" in statement:
-                os.popen("gnome-terminal")
             if "voix du nord" in statement :
                 webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
             if "libération" in statement:
