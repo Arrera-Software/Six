@@ -939,7 +939,7 @@ if internet == True :
                 webbrowser.open("https://www.youtube.com/")
                 speak("Youtube et ouvert ")
             if "lance de la musique" in statement or "lancer de la musique" in statement:
-                webbrowser.open("https://music.youtube.com/")
+                webbrowser.open(LienMusic)
                 speak("Votre logiciel de musique est lancer"+GenreCourt+".")
             if "heure" in statement :
                 hour = datetime.datetime.now().hour
@@ -1001,7 +1001,7 @@ if internet == True :
                 os.popen("libreoffice --calc")
             if "google drive" in statement:
                 speak("Ok voici votre google drive principale"+GenreCourt+"")
-                webbrowser.open("https://drive.google.com/drive/u/0/my-drive")
+                webbrowser.open(LienGDrive)
             if "navigateur internet" in statement :
                 speak("Ok j'ouvre votre navigateur internet")
                 webbrowser.open(LienMoteur)
@@ -1038,12 +1038,6 @@ if internet == True :
                 webbrowser.open("https://www.liberation.fr/")
             if "flipboard" in statement :
                 webbrowser.open("https://flipboard.com/")
-            if "instagram" in statement :
-                webbrowser.open("https://www.instagram.com/")
-            if "twitter" in statement :
-                webbrowser.open("https://twitter.com/home")
-            if "signal" in statement:
-                os.popen("flatpak run org.signal.Signal")
             if "discorde" in statement:
                 os.popen("flatpak run com.discordapp.Discord")
             if "programmation" in statement :
@@ -1210,7 +1204,27 @@ if internet == True :
                 speak("Ok "+GenreCourt+" je vous ouvre le téléchargeur de video Youtube.")
                 YoutubeDownload()
             if "traduire" in statement or "traduis-moi" in statement:
-                print("sa marche")
+                speak("Ok je vous ouvre l'application de tradution")
                 Trad(GenreCourt)
-else :        
+            if "agenda" in statement :
+                speak("Ok je vous ouvre votre agenda "+GenreCourt)
+                webbrowser.open(LienAgenda)
+            if "to do list" in statement or "todolist" in statement:
+                speak("Ok je vous ouvre votre to do list "+GenreCourt)
+                webbrowser.open(LienToDoList)
+            if "note en ligne" in statement or "notes en ligne" in statement:
+                speak("Ok je vous ouvre vos notes en ligne "+GenreCourt)
+                webbrowser.open(LienNote)
+            if NameResaux1 in statement:
+                speak("Ok je vous ouvre "+NameResaux1+" "+GenreCourt+" "+UserCourt)
+                webbrowser.open(LienResaux1)
+            if NameResaux2 in statement:
+                speak("Ok je vous ouvre "+NameResaux2+" "+GenreCourt+" "+UserCourt)
+                webbrowser.open(LienResaux2)
+            if NameResaux3 in statement:
+                speak("Ok je vous ouvre "+NameResaux3+" "+GenreCourt+" "+UserCourt)
+                webbrowser.open(LienResaux3)
+            
+            
+else :     
     speakNoInternet()   
