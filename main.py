@@ -396,21 +396,21 @@ def YoutubeDownload():
         URL = str(EntryURL1.get())
         Media = YouTube(URL)
         downloadMedia = Media.streams.get_by_itag(18)
-        downloadMedia.download(FileVideo)
+        downloadMedia.download("video")
         showinfo(title="Youtube Downloader",message="Video Télécharger")
         
     def Download2():
         URL = str(EntryURL2.get())
         playlist = Playlist(URL)
         for videos in playlist.videos:
-            videos.streams.get_by_itag(18).download(FileVideo)
+            videos.streams.get_by_itag(18).download("video")
         showinfo(title="Youtube Downloader",message="Videos Télécharger")
     
     def Download3():
         URL = str(EntryURL3.get())
         Media = YouTube(URL)
         downloadMedia = Media.streams.filter(only_audio=True).first()
-        out_file = downloadMedia.download(FileMusic)
+        out_file = downloadMedia.download("musique")
         base, ext = os.path.splitext(out_file)
         new_file = base + '.mp3'
         os.rename(out_file, new_file)
@@ -422,7 +422,7 @@ def YoutubeDownload():
         playlist = Playlist(URL)
         for videos in playlist.videos:
             downloadMedia = videos.streams.filter(only_audio=True).first()
-            out_file = downloadMedia.download(FileMusic)
+            out_file = downloadMedia.download("musique")
             base, ext = os.path.splitext(out_file)
             new_file = base + '.mp3'
             os.rename(out_file, new_file)
@@ -836,49 +836,6 @@ def Setting():#fonction parametre
     BoutonLien8.place(x="250",y="355")
     #Boucle Tkinter
     ScreenPara.mainloop()
-def ModeDev():#Fonction du mode dev
-    ScreenDev = Tk()
-    ScreenDev.title("Six")
-    ScreenDev.minsize(300,600)
-    ScreenDev.config(bg=Color)
-    CadreEditeur = Frame(ScreenDev,bg=Color)
-    CadreDoc = Frame(ScreenDev,bg=Color)
-    Labelecart1 = Label(CadreEditeur,width=6,bg=Color)
-    Labelecart2 = Label(CadreDoc,width=6,bg=Color)
-    Labelecart3 = Label(CadreEditeur,width=6,bg=Color)
-    Labelecart4 = Label(CadreDoc,width=6,bg=Color)
-    BoutonVisual = Button(CadreEditeur,bg=Color,command=VisualStudio)
-    BoutonArduino = Button(CadreEditeur,bg=Color,command=arduino)
-    BoutonTerminal = Button(ScreenDev,bg=Color,command=terminal)
-    BoutonPython = Button(CadreDoc,bg=Color,command=DocPython)
-    BoutonDocArduino = Button(CadreDoc,bg=Color,command=DocArduino)
-    IconVisual = PhotoImage(file="image/IconVisual.png",master=BoutonVisual)
-    IconArduino = PhotoImage(file="image/IconArduino.png",master=BoutonArduino)
-    IconTerminal = PhotoImage(file="image/IconTerminal.png",master=BoutonTerminal)
-    IconPython = PhotoImage(file="image/IconDocPython.png",master=BoutonPython)
-    IconDocArduino = PhotoImage(file="image/IconDocArduino.png",master=BoutonDocArduino)
-    BoutonVisual.image_names = IconVisual
-    BoutonArduino.image_names = IconArduino
-    BoutonTerminal.image_names = IconTerminal
-    BoutonDocArduino.image_names = IconDocArduino
-    BoutonPython.image_names = IconPython
-    BoutonVisual.config(image = IconVisual)
-    BoutonArduino.config(image = IconArduino)
-    BoutonTerminal.config(image=IconTerminal)
-    BoutonDocArduino.config(image=IconDocArduino)
-    BoutonPython.config(image=IconPython)
-    CadreEditeur.pack(side="top")
-    CadreDoc.pack(side="bottom")
-    BoutonTerminal.place(relx=.5, rely=.5, anchor="center")
-    BoutonVisual.pack(side="left")
-    Labelecart1.pack(side="left")
-    BoutonArduino.pack(side="right")
-    Labelecart3.pack(side="right")
-    BoutonPython.pack(side="left")
-    Labelecart2.pack(side="left")
-    BoutonDocArduino.pack(side="right")
-    Labelecart4.pack(side="right")
-    ScreenDev.mainloop()
 #Programme principale
 internet = TestInternet()
 UserCourt = PrincipalUser
@@ -1142,9 +1099,6 @@ if internet == True :
                     speak("Mettre du sirop dans son gel douche")
                     time.sleep(1)
                     speak("En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible.")
-            if "active le mode développement" in statement:
-                speak("J'active le mode dev")
-                ModeDev()
             if "change de profil" in statement or "change d'utilisateur" in statement:
                 speak("Quelle est votre numero de profile")
                 r = takeCommand()
