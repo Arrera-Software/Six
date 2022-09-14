@@ -11,8 +11,6 @@ from tkinter import*
 from tkinter.messagebox import *
 from translate import*
 import time
-import pygame
-from pygame.locals import*
 from pytube import YouTube , Playlist
 from playsound import playsound
 #Fonction Varriable
@@ -68,20 +66,7 @@ LienResaux3 = str(Lecture("Config/Lien/Reseau3.txt"))
 NameResaux1 = str(Lecture("Config/Name/NameReseau1.txt"))
 NameResaux2 = str(Lecture("Config/Name/NameReseau2.txt"))
 NameResaux3 = str(Lecture("Config/Name/NameReseau3.txt"))
-#Pygame
-pygame.init()
-myfont = pygame.font.SysFont("arial", 15)
-myfont2 = pygame.font.SysFont("arial", 20)
-pygame.display.set_icon(pygame.image.load("Interface/icon.png"))
-fenetre = pygame.display.set_mode((750, 600))
-pygame.display.set_caption("SIX")
-fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
-fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
-labelSix = myfont.render(NomAssistant, 1, (0,0,0))
-labelUser = myfont2.render("User: ",1,(255,255,255))
-fenetre.blit(labelSix,(5, 300))
-fenetre.blit(labelUser,(5,500))
-pygame.display.update()
+compteur = 0
 #Partie Module logiciel
 def VisualStudio():
     os.popen("/usr/bin/code")
@@ -93,13 +78,9 @@ def arduino():
 def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
-    playsound("voc.mp3")
+    #playsound("voc.mp3",False)
     os.remove("voc.mp3")
     texte = str(NomAssistant+": "+text)
-    fenetre.blit(pygame.image.load("Interface/FondInterfaceSix.png").convert(),(0,0))
-    labelSix = myfont.render(texte, 1, (0,0,0))
-    fenetre.blit(labelSix,(5, 300))
-    pygame.display.update()
     print(texte)
 def takeCommand():#Fonction micro et reconaissance vocal
     r=sr.Recognizer()
@@ -109,10 +90,6 @@ def takeCommand():#Fonction micro et reconaissance vocal
             Requette=r.recognize_google(audio,language='fr')
             texte = str("User: "+Requette)
             print(texte)
-            labelUser = myfont2.render(texte,1,(255,255,255))
-            fenetre.blit(pygame.image.load("Interface/BarInterfaceSix.png").convert(),(0,450))
-            fenetre.blit(labelUser,(5,500))
-            pygame.display.update()
         except Exception as e:
             return "None"
         return Requette
@@ -324,6 +301,7 @@ def GeoLocGPS():
     lat = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["latitude"])
     long = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["longitude"])
     return lat , long
+"""
 def Mute(Genre,User):
     myfontMute = pygame.font.SysFont("arial", 45)
     texteMute = "Mute"
@@ -348,7 +326,7 @@ def Mute(Genre,User):
                 time.sleep(1.25)
                 mute = False
                 break
-    
+"""    
 def YoutubeDownload():
     screen = Tk()
     screen.title("Youtube Downloader")
@@ -821,33 +799,41 @@ CourtNom = NomAssistant
 if internet == True :
     salutation(UserCourt,GenreCourt)
     while varSix == True:
-        for event in pygame.event.get():
+        compteur =+ 1
+        if compteur == 800 :
+            compteur = 0 
+            speak("Vous etes toujour la "+GenreCourt)
+        else :
             HourActuel = datetime.datetime.now().hour
             statement = takeCommand().lower()
-            pygame.display.update()
             if "bien" in statement or "oui" in statement:
                 speak("Sa me réjouit de savoir que tout se passe bien pour vous"+GenreCourt+" .")
                 speak("En quoi je peux donc vous servir ?")
+                compteur = 0
             if statement==0:
                 continue
-            if event.type == pygame.QUIT:
-                Arret(UserCourt,GenreCourt)
             if HourActuel == HourSleep :
                 speak("Vous devrai aller vous coucher "+ GenreCourt+".")
+                compteur = 0
             if  statement =="salut"   or statement =="bonjour" or statement =="bonsoir":
                 speak(statement+" en quoi je peux vous servir ?")
+                compteur = 0
             if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
                 Arret(UserCourt,GenreCourt)
-                pygame.quit()
+                compteur = 0
                 break
+            """
             if statement == "mute" or statement == "chut":
                 speak("Ok "+GenreCourt+" je vous laisse tranquille")
                 varSix = Mute(GenreCourt,UserCourt)
+                compteur = 0
                 speak("Ravi de vous revoir "+GenreCourt)
+            """
             if "recherche sur internet" in statement :
                 speak("Vous voulez rechercher quoi ?")
                 recherche = takeCommand()
                 speak("Ok,Voici le resultat")
+                compteur = 0
                 duckduckgoSearch(recherche)
             if "actualités" in statement:
                 CompleteURL = urlNew+"&pageSize="+nombrePageNew1+"&apiKey="+keyNew
@@ -855,6 +841,7 @@ if internet == True :
                 Sujet,Description,URL,title = NetoyageActu(article[0])
                 speak("L'actualités la plus récent est "+title)
                 speak("Voulez-vous que je vous ouvre le lien de cette actualités "+GenreCourt+".")
+                compteur = 0
                 reponse = takeCommand()
                 if "oui" in reponse:
                     speak("Ok je vous l'ouvre")
@@ -863,27 +850,35 @@ if internet == True :
                     speak("Okpygame.display.update() "+GenreCourt+".")
             if "toujours là"  in statement  or "es-tu là" in statement or CourtNom in statement :
                 speak("Oui")
+                compteur = 0
             if statement == "tu es qui" or statement == "présente-toi" or "présentation" in statement or "qui es tu" in statement or "qui es-tu" in statement:
                 speak("Je suis SIX un assistant personnel cree par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.")
+                compteur = 0
             if "fin de journée" in statement :
+                compteur = 0
                 Arret()
                 shutdown()
             if "redémarre" in statement :
+                compteur = 0
                 speak("Ok a tout de suite "+GenreCourt+"")
                 reboot()
             if "ouvre youtube" in statement :
+                compteur = 0
                 webbrowser.open("https://www.youtube.com/")
                 speak("Youtube et ouvert ")
             if "lance de la musique" in statement or "lancer de la musique" in statement:
+                compteur = 0
                 webbrowser.open(LienMusic)
                 speak("Votre logiciel de musique est lancer"+GenreCourt+".")
             if "heure" in statement :
+                compteur = 0
                 hour = datetime.datetime.now().hour
                 minute = datetime.datetime.now().minute
                 Constrution = "Il es",hour,"heure",minute
                 parole = str(Constrution)
                 speak(parole)
             if "date" in statement :
+                compteur = 0
                 monthSTR = "Janvier"
                 day = datetime.datetime.now().day
                 month = datetime.datetime.now().month
@@ -914,6 +909,7 @@ if internet == True :
                     monthSTR = "Décembre"
                 speak("Aujourd'huit on es le "+str(day)+monthSTR+str(years))
             if "météo" in statement:
+                compteur = 0
                 speak("Ou desirez savoir la meteo "+GenreCourt+" ?")
                 r= takeCommand()
                 if "maison" in r or "chez moi" in r or "à mon domicile" in r :
@@ -927,36 +923,48 @@ if internet == True :
                 if "au lieu de bonus" in r  :
                     MeteoParole(5)
             if "un document" in statement :
+                compteur = 0
                 speak("Ok j'ouvre libreoffice writer ")
                 os.popen("libreoffice --writer")
             if "un diaporama" in statement :
+                compteur = 0    
                 speak("Ok j'ouvre libreoffice impress ")
                 os.popen("libreoffice --impress")
             if "un tableur" in statement :
+                compteur = 0
                 speak("Ok j'ouvre libreoffice calc ")
                 os.popen("libreoffice --calc")
             if "google drive" in statement:
+                compteur = 0
                 speak("Ok voici votre google drive principale"+GenreCourt+"")
                 webbrowser.open(LienGDrive)
             if "navigateur internet" in statement :
+                compteur = 0
                 speak("Ok j'ouvre votre navigateur internet")
                 webbrowser.open(LienMoteur)
             if "voix du nord" in statement :
+                compteur = 0
                 webbrowser.open("https://www.lavoixdunord.fr/hauts-de-france")
             if "libération" in statement:
+                compteur = 0
                 webbrowser.open("https://www.liberation.fr/")
             if "flipboard" in statement :
+                compteur = 0
                 webbrowser.open("https://flipboard.com/")
             if "discorde" in statement:
+                compteur = 0
                 os.popen("flatpak run com.discordapp.Discord")
             if "programmation" in statement :
-                pygame.quit()
+                compteur = 0
                 break
             if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
+                compteur = 0
                 os.system("mpg123 " + "voc.mp3")
             if "résumé" in statement:
+                compteur = 0
                 Resumer()
             if "écris dans mes notes locales" in statement:
+                compteur = 0
                 speak("Quelle note voulez-vous modifier")
                 nbNote = takeCommand()
                 if "la première" in nbNote:
@@ -974,7 +982,8 @@ if internet == True :
                 if "la 5e" in nbNote:
                     file = "note/note5.txt"
                     EcritureNote(file)
-            if "lis mes notes local" in statement or "lis-moi mes notes locales" in statement: 
+            if "lis mes notes local" in statement or "lis-moi mes notes locales" in statement:
+                compteur = 0 
                 speak("Quelle note voulez-vous que je vous lise ?")
                 nbNote = takeCommand()
                 if "la première" in nbNote:
@@ -997,14 +1006,17 @@ if internet == True :
                     note = Lecture(file)
                     speak(note)
             if "fais une grande recherche" in statement:
+                compteur = 0
                 speak("Que voulez vous que je vous recherche "+GenreCourt+"?")
                 r = takeCommand()
                 GrandRecherche(r)
             if "peux-tu me lire un truc" in statement :
+                compteur = 0
                 speak("Copier ce que vous voulez  que je vous lise"+GenreCourt+".")
                 lecture =str(input("Text :")) 
                 speak(lecture)
             if "ouvre tes paramètre" in statement :
+                compteur = 0
                 speak("Ok j'ouvre mes paramètre")
                 Setting()
                 PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
@@ -1035,6 +1047,7 @@ if internet == True :
                 NameResaux3 = str(Lecture("Config/Name/NameReseau3.txt"))
                 speak("J'ai enregistrer tout vos modification")
             if "raconter une blague" in statement or "raconte-moi une blague" in statement :
+                compteur = 0
                 nb = random.randint(1,10)
                 if nb == 1 :
                     speak("Que dit une noisette quand elle tombe dans l’eau ?")
@@ -1077,6 +1090,7 @@ if internet == True :
                     time.sleep(1)
                     speak("En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible.")
             if "change de profil" in statement or "change d'utilisateur" in statement:
+                compteur = 0
                 speak("Quelle est votre numero de profile")
                 r = takeCommand()
                 if "le premier" in r or "1" in r :
@@ -1100,34 +1114,44 @@ if internet == True :
                     GenreCourt = QuatriemeUserGenre
                     speak("En quoi je peux vous étre utile")
             if "dis-moi la température" in statement:
+                compteur = 0
                 city = GeoLocVille()
                 temp = str(requests.get(urlWeather+"appid="+keyWeather+"&q="+city+"&lang=fr"+"&units=metric").json()["main"]["temp"])
                 speak("La température a votre localisation est de "+temp+" degrés")
             if "dis-moi mes coordonnées GPS" in statement or "dis-moi où je suis" in statement or "dis-moi où je me trouve" in statement:
+                compteur = 0
                 lat , longu = GeoLocGPS()
                 speak("Les coordonnées GPS de votre localisation sont "+lat+" latitude et de longitude "+longu+".") 
             if "enregistre de la musique" in statement or "enregistrement de la musique" in statement or "enregistre moi des vidéos" in statement or "enregistre-moi une vidéo" in statement:
+                compteur = 0
                 speak("Ok "+GenreCourt+" je vous ouvre le téléchargeur de video Youtube.")
                 YoutubeDownload()
             if "traduire" in statement or "traduis-moi" in statement:
+                compteur = 0
                 speak("Ok je vous ouvre l'application de tradution")
                 Trad(GenreCourt)
             if "agenda" in statement :
+                compteur = 0
                 speak("Ok je vous ouvre votre agenda "+GenreCourt)
                 webbrowser.open(LienAgenda)
             if "to do list" in statement or "todolist" in statement:
+                compteur = 0
                 speak("Ok je vous ouvre votre to do list "+GenreCourt)
                 webbrowser.open(LienToDoList)
             if "note en ligne" in statement or "notes en ligne" in statement:
+                compteur = 0
                 speak("Ok je vous ouvre vos notes en ligne "+GenreCourt)
                 webbrowser.open(LienNote)
             if NameResaux1 in statement:
+                compteur = 0
                 speak("Ok je vous ouvre "+NameResaux1+" "+GenreCourt+" "+UserCourt)
                 webbrowser.open(LienResaux1)
             if NameResaux2 in statement:
+                compteur = 0
                 speak("Ok je vous ouvre "+NameResaux2+" "+GenreCourt+" "+UserCourt)
                 webbrowser.open(LienResaux2)
             if NameResaux3 in statement:
+                compteur = 0
                 speak("Ok je vous ouvre "+NameResaux3+" "+GenreCourt+" "+UserCourt)
                 webbrowser.open(LienResaux3)
             
