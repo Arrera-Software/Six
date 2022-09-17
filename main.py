@@ -67,18 +67,11 @@ NameResaux1 = str(Lecture("Config/Name/NameReseau1.txt"))
 NameResaux2 = str(Lecture("Config/Name/NameReseau2.txt"))
 NameResaux3 = str(Lecture("Config/Name/NameReseau3.txt"))
 compteur = 0
-#Partie Module logiciel
-def VisualStudio():
-    os.popen("/usr/bin/code")
-def terminal():
-    os.popen("gnome-terminal")
-def arduino():
-    os.popen("flatpak run cc.arduino.arduinoide")
 #Fonction de l'assistant
 def speak(text):#Fonction de parole
     tts = gTTS(text, lang="fr")
     tts.save("voc.mp3")
-    #playsound("voc.mp3",False)
+    playsound("voc.mp3")
     os.remove("voc.mp3")
     texte = str(NomAssistant+": "+text)
     print(texte)
@@ -847,7 +840,7 @@ if internet == True :
                     speak("Ok je vous l'ouvre")
                     webbrowser.open(URL)
                 if "non" in reponse:
-                    speak("Okpygame.display.update() "+GenreCourt+".")
+                    speak("Ok "+GenreCourt+".")
             if "toujours là"  in statement  or "es-tu là" in statement or CourtNom in statement :
                 speak("Oui")
                 compteur = 0
@@ -1154,7 +1147,6 @@ if internet == True :
                 compteur = 0
                 speak("Ok je vous ouvre "+NameResaux3+" "+GenreCourt+" "+UserCourt)
                 webbrowser.open(LienResaux3)
-            
             
 else :     
     speakNoInternet()   

@@ -84,3 +84,9 @@ def GrandRecherche(query):
     EcosiaSearch(query)
     bingSearch(query)
     QwantSearch(query)
+
+def DocPython():
+    webbrowser.open("https://docs.python.org/3")
+
+def DocArduino():
+    webbrowser.open("https://docs.python.org/3")
