@@ -688,6 +688,7 @@ def Setting():#fonction parametre
     ScreenPara.title("Six : Paramétre")
     ScreenPara.minsize(500,500)
     ScreenPara.maxsize(500,500)
+    ScreenPara.iconphoto(False,PhotoImage(file="image/logo.png"))
     ScreenPara.wait_visibility(ScreenPara)
     ScreenPara.wm_attributes('-alpha',0.9)
     ScreenPara.config(bg=Color)
@@ -946,12 +947,8 @@ if internet == True :
              webbrowser.open("https://www.liberation.fr/")
         if "flipboard" in statement :
             webbrowser.open("https://flipboard.com/")
-        if "discorde" in statement:
-            os.popen("flatpak run com.discordapp.Discord")
         if "programmation" in statement :  
             break
-        if "répète" in statement or "répéter" in statement or "tu as dit quoi" in statement or "je n'ai pas compris" in statement :
-            os.system("mpg123 " + "voc.mp3")
         if "résumé" in statement:
             Resumer()
         if "écris dans mes notes locales" in statement:
@@ -999,9 +996,31 @@ if internet == True :
             r = takeCommand()
             GrandRecherche(r)
         if "peux-tu me lire un truc" in statement :
-            speak("Copier ce que vous voulez  que je vous lise"+GenreCourt+".")
-            lecture =str(input("Text :")) 
-            speak(lecture)
+            speak("Copier ce que vous voulez  que je vous lise "+GenreCourt+".")
+            screenLect = Tk()
+            screenLect.title("SIx : Lecture")
+            screenLect.minsize("500","200")
+            screenLect.maxsize("500","200")
+            screenLect.iconphoto(False,PhotoImage(file="image/logo.png"))
+            cadreCenter = Frame(screenLect,bg="grey",width=350,height=45)
+            entryLect = Entry(cadreCenter,width=50)
+            def Lecture():
+                texte = entryLect.get()
+                screenLect.destroy()
+                speak(texte)
+            if HourInf(hourDark) == True and HourSup(hourLight) == True:
+                screenLect.config(bg="white")
+                labelIndic = Label(screenLect,text="Copier votre texte",bg="white",fg="black",font=("arial","20"))
+                boutonValider  = Button(screenLect,text="Valider",bg="white",fg="black",font=("arial","20"),command=Lecture)
+            else :
+                screenLect.config(bg="black")
+                labelIndic = Label(screenLect,text="Copier votre texte",bg="black",fg="white",font=("arial","20"))
+                boutonValider  = Button(screenLect,text="Valider",bg="black",fg="white",font=("arial","20"),command=Lecture)
+            labelIndic.pack()
+            cadreCenter.place(relx=.5, rely=.5, anchor="center")
+            entryLect.place(relx=.5, rely=.5, anchor="center")
+            boutonValider.place(x="200",y="125")
+            screenLect.mainloop()
         if "ouvre tes paramètre" in statement :
             speak("Ok j'ouvre mes paramètre")
             Setting()
