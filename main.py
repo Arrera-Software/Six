@@ -84,12 +84,12 @@ LienMusic = str(Lecture("Config/Lien/music.txt"))
 LienAgenda = str(Lecture("Config/Lien/Agenda.txt"))
 LienNote = str(Lecture("Config/Lien/Note.txt"))
 LienToDoList = str(Lecture("Config/Lien/ToDoList.txt"))
-LienResaux1 = str(Lecture("Config/Lien/Reseau1.txt"))
-LienResaux2 = str(Lecture("Config/Lien/Reseau2.txt"))
-LienResaux3 = str(Lecture("Config/Lien/Reseau3.txt"))
-NameResaux1 = str(Lecture("Config/Name/NameReseau1.txt"))
-NameResaux2 = str(Lecture("Config/Name/NameReseau2.txt"))
-NameResaux3 = str(Lecture("Config/Name/NameReseau3.txt"))
+LienResaux1 = str(Lecture("Config/reseau/lien/Reseau1.txt"))
+LienResaux2 = str(Lecture("Config/reseau/lien/Reseau2.txt"))
+LienResaux3 = str(Lecture("Config/reseau/lien/Reseau3.txt"))
+NameResaux1 = str(Lecture("Config/reseau/name/NameReseau1.txt"))
+NameResaux2 = str(Lecture("Config/reseau/name/NameReseau2.txt"))
+NameResaux3 = str(Lecture("Config/reseau/name/NameReseau3.txt"))
 hourDark = 21
 hourLight = 6
 compteur = 0
@@ -98,7 +98,7 @@ lightMute = pygame.image.load("image/interfaceLIghtMute.png")
 dark = pygame.image.load("image/interfaceDark.png")
 darkMute = pygame.image.load("image/interfaceDarkMute.png")
 #Fenetre pygame
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (25,15)
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
 pygame.init()
 pygame.display.set_icon(pygame.image.load("image/logo.png"))
 pygame.display.set_caption("Assistant SIX")
@@ -163,7 +163,6 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
     speak("La metéo a "+ville2+" et "+ description2 )
     speak("avec une température de "+Temparure2+"degrés")
     speak("et un taux d'humiditer de "+humiditer2+" pourcent")
-    speak("Voulez-vous que j'ouvre les lien des actualités ?")
 def salutation(User,Genre):#Fonction de salutation
     hour=datetime.datetime.now().hour
     if hour >= 0 and hour <= 9:
@@ -350,7 +349,8 @@ def Mute(Genre,User):
                 return False
             if tkey[pygame.K_RETURN] :
                 mute = False
-                break   
+                ThemeFonc()
+                return True   
 def YoutubeDownload():
     screen = Tk()
     screen.title("Youtube Downloader")
@@ -612,6 +612,12 @@ def Setting():#fonction parametre
         FoncModifSiteLien("Config/Lien/Agenda.txt")
     def ToDoList():
         FoncModifSiteLien("Config/Lien/ToDoList.txt")
+    def ReseauChange1():
+        FoncModifSite("Config/reseau/lien/Reseau1.txt","Config/reseau/name/NameReseau1.txt")
+    def ReseauChange2():
+        FoncModifSite("Config/reseau/lien/Reseau2.txt","Config/reseau/name/NameReseau2.txt")
+    def ReseauChange3():
+        FoncModifSite("Config/reseau/lien/Reseau3.txt","Config/reseau/name/NameReseau3.txt")
     def MoteurChange():
         fileName = "Config/MoteurRecherche/NameMoteur.txt"
         fileLien = "Config/MoteurRecherche/LienMoteur.txt"
@@ -715,11 +721,11 @@ def Setting():#fonction parametre
     #Cadre Para
     CadrePara = Frame(ScreenPara,bg="black",width=100,height=450)
     LabelIndication = Label(ScreenPara,text="Paramétre",font=("arial","30"),bg=Color,fg=TextColor)
-    BoutonPara1 = Button(CadrePara,text="Assistant",bg=Color,fg=TextColor,command=ParaAssistant)
-    BoutonPara2= Button(CadrePara,text="Méteo",bg=Color,fg=TextColor,command=ParaMeteo)
-    BoutonPara3= Button(CadrePara,text="Traduction",bg=Color,fg=TextColor,command=ParaLang)
-    BoutonPara5 = Button(CadrePara,text="Lien",command=ParaLien,bg=Color,fg=TextColor)
-    BoutonPara6 = Button(CadrePara,text="Fermer",command=ScreenPara.destroy,bg=Color,fg=TextColor)
+    BoutonPara1 = Button(CadrePara,text="Assistant",bg=Color,fg=TextColor,command=ParaAssistant,font=("arial","12"))
+    BoutonPara2= Button(CadrePara,text="Méteo",bg=Color,fg=TextColor,command=ParaMeteo,font=("arial","12"))
+    BoutonPara3= Button(CadrePara,text="Traduction",bg=Color,fg=TextColor,command=ParaLang,font=("arial","12"))
+    BoutonPara5 = Button(CadrePara,text="Lien",command=ParaLien,bg=Color,fg=TextColor,font=("arial","12"))
+    BoutonPara6 = Button(CadrePara,text="Fermer",command=ScreenPara.destroy,bg=Color,fg=TextColor,font=("arial","12"))
     #Cadre Assistant
     CadreAssistant = Frame(ScreenPara,bg=Color,width=350,height=400)
     BoutonAssistant1 = Button(CadreAssistant,text="Change",bg=Color,fg=TextColor,font=("arial","15"),command=NomChange)
@@ -839,7 +845,7 @@ if internet == True :
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
             break
-        if statement == "mute" or statement == "chut":
+        if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
             speak("Ok "+GenreCourt+" je vous laisse tranquille")
             varSix = Mute(GenreCourt,UserCourt)
             speak("Ravi de vous revoir "+GenreCourt)
@@ -1044,12 +1050,12 @@ if internet == True :
             LienAgenda = str(Lecture("Config/Lien/Agenda.txt"))
             LienNote = str(Lecture("Config/Lien/Note.txt"))
             LienToDoList = str(Lecture("Config/Lien/ToDoList.txt"))
-            LienResaux1 = str(Lecture("Config/Lien/Reseau1.txt"))
-            LienResaux2 = str(Lecture("Config/Lien/Reseau2.txt"))
-            LienResaux3 = str(Lecture("Config/Lien/Reseau3.txt"))
-            NameResaux1 = str(Lecture("Config/Name/NameReseau1.txt"))
-            NameResaux2 = str(Lecture("Config/Name/NameReseau2.txt"))
-            NameResaux3 = str(Lecture("Config/Name/NameReseau3.txt"))
+            LienResaux1 = str(Lecture("Config/reseau/lien/Reseau1.txt"))
+            LienResaux2 = str(Lecture("Config/reseau/lien/Reseau2.txt"))
+            LienResaux3 = str(Lecture("Config/reseau/lien/Reseau3.txt"))
+            NameResaux1 = str(Lecture("Config/reseau/name/NameReseau1.txt"))
+            NameResaux2 = str(Lecture("Config/reseau/name/NameReseau2.txt"))
+            NameResaux3 = str(Lecture("Config/reseau/name/NameReseau3.txt"))
             speak("J'ai enregistrer tout vos modification")
         if "raconter une blague" in statement or "raconte-moi une blague" in statement :
             nb = random.randint(1,10)
@@ -1139,6 +1145,9 @@ if internet == True :
         if NameResaux3 in statement:
             speak("Ok je vous ouvre "+NameResaux3+" "+GenreCourt+" "+UserCourt)
             webbrowser.open(LienResaux3)
+        if "ouvre l'explorateur de fichier" in statement or "ouvre les fichiers" in statement or "montre-moi mes fichiers" in statement :
+            speak("ok je vous ouvre l'explorateur de fichier "+GenreCourt+".")
+            os.popen("start explorer")
             
 else :     
     speakNoInternet()   
