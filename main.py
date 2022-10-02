@@ -16,6 +16,7 @@ from playsound import playsound
 from time import *
 import pygame
 from  pygame.locals import *
+import geocoder
 #Fonction Varriable
 def HourSup(h1):
     hour = strftime("%H")
@@ -51,7 +52,7 @@ def ThemeFonc():
         return "night"
 #Varriable
 nrad = random.randint(1,2)
-Color = "#08116f"
+Color = "#3c0f14"
 TextColor = "white"
 keyWeather="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlWeather="https://api.openweathermap.org/data/2.5/weather?"
@@ -128,7 +129,7 @@ def takeCommand():#Fonction micro et reconaissance vocal
             Requette=r.recognize_google(audio,language='fr')
             ThemeFonc()
             if HourInf(hourDark) == True and HourSup(hourLight) == True:
-                labelMicro = police.render(Requette, 1,(0,0,0))
+                labelMicro = police.render(Requette, 1,(255,255,255))
             else :
                  labelMicro = police.render(Requette, 1,(255,255,255))
             root.blit(labelMicro,(5, 100))
@@ -328,12 +329,12 @@ def MeteoParole(nbVille):#Fonction météo avec parole
     speak("La météo à "+ville+ " ,et "+description+".")
     speak("Avec un taux d'humiditer de "+humiditer+" pourcent.")
     speak("Et une température de "+Temperature+" degrés")
-def GeoLocVille():
-    city = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["city"])
-    return city
 def GeoLocGPS():
-    lat = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["latitude"])
-    long = str(requests.get(urlGeoLoc+"?access_key="+KeyGeoLoc).json()["longitude"])
+    myPublic_IP = requests.get("http://wtfismyip.com/text").text.strip()
+    ip = geocoder.ip(myPublic_IP)
+    loc = ip.latlng
+    lat = str(loc[0])
+    long = str(loc[1])
     return lat , long
 def Mute(Genre,User):
     root.blit(pygame.image.load("image/interfaceLIghtMute.png").convert(),(0,0))
@@ -1114,12 +1115,12 @@ if internet == True :
                 GenreCourt = QuatriemeUserGenre
                 speak("En quoi je peux vous étre utile")
         if "dis-moi la température" in statement:
-            city = GeoLocVille()
-            temp = str(requests.get(urlWeather+"appid="+keyWeather+"&q="+city+"&lang=fr"+"&units=metric").json()["main"]["temp"])
+            lat , long = GeoLocGPS()
+            temp = str(requests.get(urlWeather+"appid="+keyWeather+"&lat="+lat+"&lon="+long+"&lang=fr"+"&units=metric").json()["main"]["temp"])
             speak("La température a votre localisation est de "+temp+" degrés")
         if "dis-moi mes coordonnées GPS" in statement or "dis-moi où je suis" in statement or "dis-moi où je me trouve" in statement:
-            lat , longu = GeoLocGPS()
-            speak("Les coordonnées GPS de votre localisation sont "+lat+" latitude et de longitude "+longu+".") 
+            lat , long = GeoLocGPS()
+            speak("Les coordonnées GPS de votre localisation sont "+lat+" latitude et de longitude "+long+".") 
         if "enregistre de la musique" in statement or "enregistrement de la musique" in statement or "enregistre moi des vidéos" in statement or "enregistre-moi une vidéo" in statement:
             speak("Ok "+GenreCourt+" je vous ouvre le téléchargeur de video Youtube.")
             YoutubeDownload()
