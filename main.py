@@ -209,17 +209,6 @@ def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu p
     URL= dictionnnaire["url"]
     Titre = dictionnnaire["title"]
     return Sujet,Description,URL,Titre
-def EcritureNote(file,Genre):#Ecriture dans les fichier note
-    speak("Voulez-vous dicter ou ecrire votre note "+Genre+".")
-    r = takeCommand()
-    if "dictée" in r or "dicter" in r:
-        speak("Ok je vous ecoute")
-        Note = takeCommand()
-        Ecriture(file,Note)
-    if "écrire" in r :
-        speak("Ok ecrivé votre note "+Genre+".")
-        Note = input("Votre note :")
-        Ecriture(file,Note)
 def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<3:
@@ -958,46 +947,6 @@ if internet == True :
             break
         if "résumé" in statement:
             Resumer()
-        if "écris dans mes notes locales" in statement:
-            speak("Quelle note voulez-vous modifier")
-            nbNote = takeCommand()
-            if "la première" in nbNote:
-                file = "note/note1.txt"
-                EcritureNote(file)
-            if "la deuxième" in nbNote and "la seconde" in nbNote:
-                file = "note/note2.txt"
-                EcritureNote(file)
-            if "la troisième" in nbNote:
-                file = "note/note3.txt"
-                EcritureNote(file)
-            if "la 4e" in nbNote:
-                file = "note/note4.txt"
-                EcritureNote(file)
-            if "la 5e" in nbNote:
-                file = "note/note5.txt"
-                EcritureNote(file)
-        if "lis mes notes local" in statement or "lis-moi mes notes locales" in statement:
-            speak("Quelle note voulez-vous que je vous lise ?")
-            nbNote = takeCommand()
-            if "la première" in nbNote:
-                file = "note/note1.txt"
-                note = Lecture(file)
-                speak(note)
-            if "la deuxième" in nbNote or "la seconde" in nbNote:
-                file = "note/note2.txt"
-                note = Lecture(file)
-                speak(note)
-            if "la troisième" in nbNote:
-                file = "note/note3.txt"
-                note = Lecture(file)
-                speak(note)
-            if "la 4e" in nbNote:
-                file = "note/note4.txt"
-                Lecture(file)
-            if "la 5e" in nbNote:
-                file = "note/note5.txt"
-                note = Lecture(file)
-                speak(note)
         if "fais une grande recherche" in statement:
             speak("Que voulez vous que je vous recherche "+GenreCourt+"?")
             r = takeCommand()
@@ -1133,7 +1082,7 @@ if internet == True :
         if "to do list" in statement or "todolist" in statement:
             speak("Ok je vous ouvre votre to do list "+GenreCourt)
             webbrowser.open(LienToDoList)
-        if "note en ligne" in statement or "notes en ligne" in statement:
+        if "note" in statement or "notes" in statement:
             speak("Ok je vous ouvre vos notes en ligne "+GenreCourt)
             webbrowser.open(LienNote)
         if NameResaux1 in statement:
