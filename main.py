@@ -1,8 +1,6 @@
 import subprocess
-from gtts import gTTS
 import webbrowser
 import requests
-import os
 import datetime
 import random
 import speech_recognition as sr
@@ -11,11 +9,13 @@ from tkinter.messagebox import *
 from translate import*
 import time
 from pytube import YouTube , Playlist
-from playsound import playsound
 from time import *
 import pygame
 from  pygame.locals import *
 import geocoder
+#fichier
+from voice import*
+from scriptExtension import*
 #Fonction Varriable
 def HourSup(h1):
     hour = strftime("%H")
@@ -203,14 +203,6 @@ def ThemeFonc():
     else :
         root.blit(dark.convert(),(0,0))
         pygame.display.update()
-def speak(text):#Fonction de parole
-    tts = gTTS(text, lang="fr")
-    tts.save("voc.mp3")
-    playsound("voc.mp3")
-    os.remove("voc.mp3")
-    texte = str(NomAssistant+": "+text)
-    pygame.display.update()
-    print(texte)
 def takeCommand():#Fonction micro et reconaissance vocal
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -1182,6 +1174,8 @@ if internet == True :
         if "ouvre l'explorateur de fichier" in statement or "ouvre les fichiers" in statement or "montre-moi mes fichiers" in statement :
             speak("ok je vous ouvre l'explorateur de fichier "+GenreCourt+".")
             os.popen("start explorer")
+            
+        Extension(statement,GenreCourt,UserCourt)
             
 else :     
     pygame.quit()
