@@ -1184,4 +1184,4 @@ if internet == True :
             os.popen("start explorer")
             
 else :     
-    speakNoInternet()   
+    pygame.quit()
