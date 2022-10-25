@@ -1,4 +1,4 @@
-from voice import*
+from src.voice import*
 """
     Fichier qui vous permez de developer vos propre extension
     
