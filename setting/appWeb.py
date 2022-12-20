@@ -129,7 +129,7 @@ def AppWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     btnAppValider = Button(section,text="Valider",bg="#3c0b10",font=("arial","15"),fg="white")
     #Label
     labelIndication =Label(section,text="Ajouter votre application web ou \nsite internet preférée",bg="#5e262c",font=("arial","15"),fg="white")
-    labelAppWeb1 = Label(section,text="App 1 :"+lectureJSON("setting/config.json","appWeb1Name"),bg="#5e262c",font=("arial","15"),fg="white")
+    labelAppWeb1 = Label(section,text="Music :"+lectureJSON("setting/config.json","appWeb1Name"),bg="#5e262c",font=("arial","15"),fg="white")
     labelAppWeb2 = Label(section,text="App 2 :"+lectureJSON("setting/config.json","appWeb2Name"),bg="#5e262c",font=("arial","15"),fg="white")
     labelAppWeb3 = Label(section,text="App 3 :"+lectureJSON("setting/config.json","appWeb3Name"),bg="#5e262c",font=("arial","15"),fg="white")
     labelAppWeb4 = Label(section,text="App 4 :"+lectureJSON("setting/config.json","appWeb4Name"),bg="#5e262c",font=("arial","15"),fg="white")

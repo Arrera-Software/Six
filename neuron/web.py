@@ -3,7 +3,7 @@ from src.voice import *
 from function.api import *
 from function.search import *
 from src.speechRecognition import *
-from src.file import*
+from function.JSON import*
 
 def Web(var,genre,user):
     if "recherche" in var :
@@ -33,7 +33,7 @@ def Web(var,genre,user):
                 return 1
             else :
                 if "lance de la musique" in var or "lancer de la musique" in var:
-                    lienMusic = str(Lecture("config/lienMusic.txt"))
+                    lienMusic =lectureJSON("setting/config.json","appWeb1Lien")
                     webbrowser.open(lienMusic)
                     speak("Votre logiciel de musique est lancer"+genre+".")
                     return 1
@@ -53,15 +53,16 @@ def Web(var,genre,user):
                             MeteoParole(5)
                         return 1
                     else :
-                        if "google drive" in var:
-                            lienGDrive = str(Lecture("Config/lienGDrive.txt"))
+                        if "drive" in var:
+                            lienGDrive = lectureJSON("setting/config.json","lien2")
                             speak("Ok voici votre google drive principale"+genre+"")
                             webbrowser.open(lienGDrive)
                             return 1
                         else :
                             if "navigateur internet" in var :
-                                lienMoteur = str(Lecture("config/MoteurRecherche/LienMoteur.txt"))
-                                speak("Ok j'ouvre votre navigateur internet")
+                                lienMoteur = lectureJSON("setting/config.json","lienMoteur")
+                                nomMoteur = lectureJSON("setting/config.json","nameMoteur")
+                                speak("Ok j'ouvre votre navigateur internet avec le moteur de recherche "+nomMoteur)
                                 webbrowser.open(lienMoteur)
                                 return 1
                             else :
@@ -92,42 +93,49 @@ def Web(var,genre,user):
                                                     return 1
                                                 else :
                                                     if "agenda" in var :
-                                                        LienAgenda = str(Lecture("config/lienAgenda.txt"))
+                                                        LienAgenda = lectureJSON("setting/config.json","lien1")
                                                         speak("Ok je vous ouvre votre agenda "+genre)
                                                         webbrowser.open(LienAgenda)
                                                         return 1
                                                     else :
                                                         if "to do list" in var or "todolist" in var:
-                                                            lienToDoList = str(Lecture("config/lienToDoList.txt"))
+                                                            lienToDoList = lectureJSON("setting/config.json","lien4")
                                                             speak("Ok je vous ouvre votre to do list "+genre)
                                                             webbrowser.open(lienToDoList)
                                                             return 1
                                                         else :
                                                             if "note" in var or "notes" in var:
-                                                                lienNote = str(Lecture("config/lienNote.txt"))
+                                                                lienNote = lectureJSON("setting/config.json","lien3")
                                                                 speak("Ok je vous ouvre vos notes en ligne "+genre)
                                                                 webbrowser.open(lienNote)
                                                                 return 1
                                                             else :
-                                                                nameResaux1 = str(Lecture("neuron/config/reseau/name/NameReseau1.txt"))
-                                                                nameResaux2 = str(Lecture("neuron/config/reseau/name/NameReseau2.txt"))
-                                                                nameResaux3 = str(Lecture("neuron/config/reseau/name/NameReseau3.txt"))
-                                                                if nameResaux1 in var:
-                                                                    lienResaux1 = str(Lecture("neuron/config/reseau/lien/Reseau1.txt"))
-                                                                    speak("Ok je vous ouvre "+nameResaux1+" "+genre+" "+user)
-                                                                    webbrowser.open(lienResaux1)
+                                                                nameApp1 = lectureJSON("setting/config.json","appWeb2Name")
+                                                                nameApp2 = lectureJSON("setting/config.json","appWeb3Name")
+                                                                nameApp3 = lectureJSON("setting/config.json","appWeb4Name")
+                                                                nameApp4 = lectureJSON("setting/config.json","appWeb5Name")
+                                                                if nameApp1 in var:
+                                                                    lienApp1 = lectureJSON("setting/config.json","appWeb2Lien")
+                                                                    speak("Ok je vous ouvre "+nameApp1+" "+genre+" "+user)
+                                                                    webbrowser.open(lienApp1)
                                                                     return 1
                                                                 else :
-                                                                    if nameResaux2 in var:
-                                                                        lienResaux2 = str(Lecture("neuron/config/reseau/lien/Reseau2.txt"))
-                                                                        speak("Ok je vous ouvre "+nameResaux2+" "+genre+" "+user)
-                                                                        webbrowser.open(lienResaux2)
+                                                                    if nameApp2 in var:
+                                                                        lienApp2 = lectureJSON("setting/config.json","appWeb3Lien")
+                                                                        speak("Ok je vous ouvre "+nameApp2+" "+genre+" "+user)
+                                                                        webbrowser.open(lienApp2)
                                                                         return 1
                                                                     else:
-                                                                        if nameResaux1 in var:
-                                                                            lienResaux3 = str(Lecture("neuron/config/reseau/lien/Reseau1.txt"))
-                                                                            speak("Ok je vous ouvre "+nameResaux3+" "+genre+" "+user)
-                                                                            webbrowser.open(lienResaux3)
+                                                                        if nameApp3 in var:
+                                                                            lienApp3 = lectureJSON("setting/config.json","appWeb4Lien")
+                                                                            speak("Ok je vous ouvre "+nameApp3+" "+genre+" "+user)
+                                                                            webbrowser.open(lienApp3)
                                                                             return 1
                                                                         else :
-                                                                            return 0
+                                                                            if nameApp4 in var:
+                                                                                lienApp4 = lectureJSON("setting/config.json","appWeb5Lien")
+                                                                                speak("Ok je vous ouvre "+nameApp4+" "+genre+" "+user)
+                                                                                webbrowser.open(lienApp4)
+                                                                                return 1
+                                                                            else :
+                                                                                return 0

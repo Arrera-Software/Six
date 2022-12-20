@@ -4,7 +4,7 @@ import requests
 import geocoder
 from tkinter import*
 from translate import*
-from src.file import*
+from function.JSON import*
 
 keyWeather="ecffd157b2cc9eacbd0d35a45c3dc047"
 urlWeather="https://api.openweathermap.org/data/2.5/weather?"
@@ -49,10 +49,8 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
     speak("et un taux d'humiditer de "+humiditer2+" pourcent")
     
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
-    Nomfile = "function/meteo/ville"+str(nbVille)+".txt"   
-    fichier = open(Nomfile,"r")
-    ville = fichier.readlines()[0]
-    fichier.close()
+    flagVille = "ville"+str(nbVille)   
+    ville = lectureJSON("setting/config.json",flagVille)
     complete_url=urlWeather+"appid="+keyWeather+"&q="+ville+"&lang=fr"+"&units=metric"
     response = requests.get(complete_url)
     x=response.json()
@@ -77,9 +75,9 @@ def GeoLocGPS():
     return lat , long
 
 def Trad(genre):#Fonction de Traduction
-    langue0=str(Lecture("langue/Lang0.txt"))
-    langue1=str(Lecture("langue/Lang1.txt"))
-    langue2=str(Lecture("langue/Lang2.txt"))
+    langue0= lectureJSON("setting/config.json","lang0")
+    langue1= lectureJSON("setting/config.json","lang1")
+    langue2= lectureJSON("setting/config.json","lang2")
     ScreenTrad=Tk()
     ScreenTrad.title("Six : Traduction")
     ScreenTrad.maxsize(400,400)

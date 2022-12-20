@@ -11,7 +11,6 @@ from neuron.software import *
 from function.api import Resumer
 from function.search import TestInternet
 from src.speechRecognition import *
-from src.file import*
 from setting.setting import*
 #Fonction Varriable
 def HourSup(h1):
@@ -35,19 +34,17 @@ nrad = random.randint(1,2)
 Color = "#3c0f14"
 TextColor = "white"
 
-PrincipalUser =  str(Lecture("Config/Assistant/User1.txt"))
-SecondairUser =  str(Lecture("Config/Assistant/User2.txt"))
-TroisiemeUser =  str(Lecture("Config/Assistant/User3.txt"))
-QuatriemeUser =  str(Lecture("Config/Assistant/User4.txt"))
-PrincipalUserGenre =  str(Lecture("Config/Assistant/Genre1.txt"))
-SecondairUserGenre =  str(Lecture("Config/Assistant/Genre2.txt"))
-TroisiemeUserGenre =  str(Lecture("Config/Assistant/Genre3.txt"))
-QuatriemeUserGenre =  str(Lecture("Config/Assistant/Genre4.txt"))
-NomAssistant =   str(Lecture("Config/Assistant/Nom.txt"))
-PrononceAssistant =   str(Lecture("Config/Assistant/NomPrononciation.txt"))
-
+PrincipalUser =  lectureJSON("setting/config.json","user1")
+SecondairUser =  lectureJSON("setting/config.json","user2")
+TroisiemeUser =  lectureJSON("setting/config.json","user3")
+QuatriemeUser =  lectureJSON("setting/config.json","user4")
+PrincipalUserGenre = lectureJSON("setting/config.json","userGenre1")
+SecondairUserGenre =  lectureJSON("setting/config.json","userGenre2")
+TroisiemeUserGenre =  lectureJSON("setting/config.json","userGenre3")
+QuatriemeUserGenre =  lectureJSON("setting/config.json","userGenre4")
+NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
+PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")
 varSix = True
-HourSleep = int(Lecture("Config/Assistant/hour.txt"))
 compteur = 0
 fond = pygame.image.load("image/fondMain.png")
 fondMute = pygame.image.load("image/fondMute.png")

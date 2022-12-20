@@ -1,5 +1,4 @@
 from tkinter import*
-from src.file import*
 from src.speechRecognition import*
 from src.voice import*
 from setting.user import*
@@ -24,7 +23,7 @@ def Setting():#fonction parametre
     #fonction
     def web():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        Web(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        ParaWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
     def user():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
         User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
