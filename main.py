@@ -33,7 +33,6 @@ def HourInf(h1):
 nrad = random.randint(1,2)
 Color = "#3c0f14"
 TextColor = "white"
-
 PrincipalUser =  lectureJSON("setting/config.json","user1")
 SecondairUser =  lectureJSON("setting/config.json","user2")
 TroisiemeUser =  lectureJSON("setting/config.json","user3")
@@ -46,14 +45,13 @@ NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
 PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")
 varSix = True
 compteur = 0
-fond = pygame.image.load("image/fondMain.png")
 fondMute = pygame.image.load("image/fondMute.png")
 #Fenetre pygame
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
 pygame.init()
 pygame.display.set_icon(pygame.image.load("image/logo.png"))
 pygame.display.set_caption("Assistant SIX")
-root  = pygame.display.set_mode((600,200),pygame.NOFRAME)
+root  = pygame.display.set_mode((rootWidht,rootHeight),pygame.NOFRAME)
 police = pygame.font.SysFont("arial", 25)
 #Fonction de l'assistant
 root.blit(fond.convert(),(0,0))
@@ -68,7 +66,7 @@ def salutation(User,Genre):#Fonction de salutation
             speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")
             speak("Voulez-vous un petit résumer des actulités? ")
         while True:
-            r = takeCommand()
+            r = takeCommand(root,police)
             if "oui" in r:
                 Resumer()
                 speak("J'espére que sa vous sera utile "+Genre+"")
@@ -141,7 +139,7 @@ if internet == True :
     salutation(UserCourt,GenreCourt)
     while varSix == True:
         HourActuel = datetime.datetime.now().hour
-        statement = takeCommand().lower()
+        statement = takeCommand(root,police).lower()
         if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
             Arret(UserCourt,GenreCourt)
             break
@@ -182,12 +180,12 @@ if internet == True :
                     else :
                         if "ouvre tes paramètre" in statement :
                             speak("Ok j'ouvre mes paramètre")
-                            Setting()
+                            Setting(root,police)
                             speak("J'ai enregistrer tout vos modification")
                         else :
                             condition = Main(statement,GenreCourt,UserCourt,CourtNom)
                             if condition == 0 :
-                                condition = Web(statement,GenreCourt,UserCourt)
+                                condition = Web(statement,GenreCourt,UserCourt,root,police)
                                 if condition == 0 :
                                     condition = Software(statement,GenreCourt,UserCourt,CourtNom)
                                 else :

@@ -5,10 +5,10 @@ from function.search import *
 from src.speechRecognition import *
 from function.JSON import*
 
-def Web(var,genre,user):
+def Web(var,genre,user,root,police):
     if "recherche" in var :
         speak("Vous voulez rechercher quoi ",genre,"?")
-        recherche = takeCommand()
+        recherche = takeCommand(root,police)
         speak("Ok,je vous recherche sa.")
         duckduckgoSearch(recherche)
         return 1
@@ -19,7 +19,7 @@ def Web(var,genre,user):
             Sujet,Description,URL,title = NetoyageActu(article[0])
             speak("L'actualités la plus récent est "+title)
             speak("Voulez-vous que je vous ouvre le lien de cette actualités "+genre+".")
-            reponse = takeCommand()
+            reponse = takeCommand(root,police)
             if "oui" in reponse:
                 speak("Ok je vous l'ouvre")
                 webbrowser.open(URL)
@@ -40,7 +40,7 @@ def Web(var,genre,user):
                 else :
                     if "météo" in var:
                         speak("Ou desirez savoir la meteo "+genre+" ?")
-                        r= takeCommand()
+                        r= takeCommand(root,police)
                         if "maison" in r or "chez moi" in r or "à mon domicile" in r :
                             MeteoParole(1)  
                         if  "à mon lieu favori" in r  :
@@ -72,7 +72,7 @@ def Web(var,genre,user):
                                 else :
                                     if "fais une grande recherche" in var:
                                         speak("Que voulez vous que je vous recherche "+genre+"?")
-                                        r = takeCommand()
+                                        r = takeCommand(root,police)
                                         GrandRecherche(r)
                                         return 1
                                     else :

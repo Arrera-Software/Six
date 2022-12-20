@@ -12,7 +12,7 @@ from setting.traduction import *
 
 listMoteur = "google" , "duckduckgo" , "ecosia" , "qwant" , "bing"
     
-def Setting():#fonction parametre
+def Setting(root,police):#fonction parametre
     ScreenPara = Tk()
     ScreenPara.title("SIX : Parametre")
     ScreenPara.iconphoto(False,PhotoImage(file="image/logo.png"))
@@ -29,7 +29,7 @@ def Setting():#fonction parametre
         User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
     def assistant():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,root,police)
     def meteo():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
         Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)

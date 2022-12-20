@@ -4,7 +4,7 @@ from setting.view import*
 from src.voice import*
 from src.speechRecognition import*
 
-def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
+def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,root,police):
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
     section.pack(side="right")
@@ -59,7 +59,7 @@ def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
         def Ecoute():
             speak(lectureJSON("setting/config.json","pronociationAssistant"))
         def micro():
-            var = takeCommand()
+            var = takeCommand(root,police)
             EcritureJSON("setting/config.json","pronociationAssistant",var)
         btnAssistantValider.config(command=ValiderPronociation)
         btnAssistant4.config(command=micro)
