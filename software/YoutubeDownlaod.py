@@ -26,10 +26,10 @@ def YoutubeDownload():
     LabelURL3 = Label(CadreMusic,text="Taper l'URL",fg="white",bg=Color,font=("arial","15"))
     LabelURL4 = Label(CadreMusic2,text="Taper l'URL",fg="white",bg=Color,font=("arial","15"))
     #Entry
-    EntryURL1 = Entry(CadreVideo,width=45)
-    EntryURL2 = Entry(CadreVideo2,width=45)
-    EntryURL3 = Entry(CadreMusic,width=45)
-    EntryURL4 = Entry(CadreMusic2,width=45)
+    EntryURL1 = Entry(CadreVideo,width=75)
+    EntryURL2 = Entry(CadreVideo2,width=75)
+    EntryURL3 = Entry(CadreMusic,width=75)
+    EntryURL4 = Entry(CadreMusic2,width=75)
     #Fonction
     def AffichageCadre():
         LabelVideo.pack()
