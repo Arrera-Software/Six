@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import pygame
 from  pygame.locals import *
+import time
 fond = pygame.image.load("image/fondMain.png")
 rootWidht = 600
 rootHeight = 200
@@ -18,4 +19,5 @@ def takeCommand(root,police):#Fonction micro et reconaissance vocal
             pygame.display.update()
         except Exception as e:
             return "None" 
+        time.sleep(1)
         return Requette

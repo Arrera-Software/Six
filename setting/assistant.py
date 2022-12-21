@@ -57,7 +57,7 @@ def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,root,police):
         def ValiderPronociation():
             ExitPrononciation()
         def Ecoute():
-            speak(lectureJSON("setting/config.json","pronociationAssistant"))
+            speak(lectureJSON("setting/config.json","pronociationAssistant"),root)
         def micro():
             var = takeCommand(root,police)
             EcritureJSON("setting/config.json","pronociationAssistant",var)

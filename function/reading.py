@@ -5,7 +5,7 @@ from src.voice import*
 Color = "#3c0f14"
 TextColor = "white"
 
-def Reading():
+def Reading(root):
     screenLect = Tk()
     screenLect.title("SIx : Lecture")
     screenLect.minsize("500","200")
@@ -16,7 +16,7 @@ def Reading():
     def Lecture():
         texte = entryLect.get()
         screenLect.destroy()
-        speak(texte)
+        speak(texte,root)
     screenLect.config(bg=Color)
     labelIndic = Label(screenLect,text="Copier votre texte",bg=Color,fg=TextColor,font=("arial","20"))
     boutonValider  = Button(screenLect,text="Valider",bg=Color,fg=TextColor,font=("arial","20"),command=Lecture)

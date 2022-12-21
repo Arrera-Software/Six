@@ -60,57 +60,57 @@ def salutation(User,Genre):#Fonction de salutation
     hour=datetime.datetime.now().hour
     if hour >= 0 and hour <= 9:
         if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.")
-            speak("Voulez-vous un petit résumer des actulités? ")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.",root)
+            speak("Voulez-vous un petit résumer des actulités? ",root)
         if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")
-            speak("Voulez-vous un petit résumer des actulités? ")
+            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.",root)
+            speak("Voulez-vous un petit résumer des actulités? ",root)
         while True:
             r = takeCommand(root,police)
             if "oui" in r:
                 Resumer()
-                speak("J'espére que sa vous sera utile "+Genre+"")
+                speak("J'espére que sa vous sera utile "+Genre+"",root)
                 break
             if "non" in r:
-                speak("Ok passer un exélente journée "+Genre+"")
+                speak("Ok passer un exélente journée "+Genre+"",root)
                 break
     if hour >= 10 and hour <=12:
         if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée",root)
         if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer un bon début de journée")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer un bon début de journée",root)
     if hour>=13 and hour<=17:
         if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne aprem")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne aprem",root)
         if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi")
+            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi",root)
     if  hour>=18 and hour<=20:
         if nrad == 1 :
-            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre début de soirée?")
+            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre début de soirée?",root)
         if nrad == 2 :
-            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien")
+            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien",root)
     if  hour>=21 and hour<=23:
         if nrad == 1 :
-            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?")
+            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?",root)
         if nrad == 2 :
-            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien")
+            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien",root)
 
 def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<3:
-       speak("Au revoir" +Genre+" "+User+" ,bonne nuit")
+       speak("Au revoir" +Genre+" "+User+" ,bonne nuit",root)
     if hour>=3 and hour<9:
-        speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée",root)
     if hour>=9 and hour<12:
-        speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée",root)
     if hour>=12 and hour<16:
-        speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem",root)
     if hour>=16 and hour<18:
-        speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi",root)
     if hour>=18 and hour<22:
-        speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
+        speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée",root)
     if hour>=22 and hour<=23:
-        speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
+        speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.",root)
 def Mute(Genre,User):
     root.blit(fondMute.convert(),(0,0))
     pygame.display.update()
@@ -148,46 +148,46 @@ if internet == True :
                 break
             else :
                 if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
-                    speak("Ok "+GenreCourt+" je vous laisse tranquille")
+                    speak("Ok "+GenreCourt+" je vous laisse tranquille",root)
                     varSix = Mute(GenreCourt,UserCourt)
-                    speak("Ravi de vous revoir "+GenreCourt)
+                    speak("Ravi de vous revoir "+GenreCourt,root)
                 else :
                     if "change de profil" in statement or "change d'utilisateur" in statement:
-                        speak("Quelle est votre numero de profile")
+                        speak("Quelle est votre numero de profile",root)
                         r = takeCommand()
                         if "le premier" in r or "1" in r :
-                            speak("Ok bienvenu " +PrincipalUserGenre+" "+PrincipalUser)
+                            speak("Ok bienvenu " +PrincipalUserGenre+" "+PrincipalUser,root)
                             UserCourt = PrincipalUser
                             GenreCourt = PrincipalUserGenre
-                            speak("En quoi je peux vous étre utile")
+                            speak("En quoi je peux vous étre utile",root)
                         else :
                             if "le deuxième" in r or "2" in r:
-                                speak("Ok bienvenu " +SecondairUserGenre+" "+SecondairUser)
+                                speak("Ok bienvenu " +SecondairUserGenre+" "+SecondairUser,root)
                                 UserCourt = SecondairUser
                                 GenreCourt = SecondairUserGenre
-                                speak("En quoi je peux vous étre utile")
+                                speak("En quoi je peux vous étre utile",root)
                             else :
                                 if "le troisième" in r or "3" in r:
-                                    speak("Ok bienvenu " +TroisiemeUserGenre+" "+TroisiemeUser)
+                                    speak("Ok bienvenu " +TroisiemeUserGenre+" "+TroisiemeUser,root)
                                     UserCourt = TroisiemeUser
                                     GenreCourt = TroisiemeUserGenre
-                                    speak("En quoi je peux vous étre utile")
+                                    speak("En quoi je peux vous étre utile",root)
                                 else :
-                                    speak("Ok bienvenu " +QuatriemeUserGenre+" "+QuatriemeUser)
+                                    speak("Ok bienvenu " +QuatriemeUserGenre+" "+QuatriemeUser,root)
                                     UserCourt = QuatriemeUser
                                     GenreCourt = QuatriemeUserGenre
-                                    speak("En quoi je peux vous étre utile")
+                                    speak("En quoi je peux vous étre utile",root)
                     else :
                         if "ouvre tes paramètre" in statement :
                             speak("Ok j'ouvre mes paramètre")
                             Setting(root,police)
-                            speak("J'ai enregistrer tout vos modification")
+                            speak("J'ai enregistrer tout vos modification",root)
                         else :
-                            condition = Main(statement,GenreCourt,UserCourt,CourtNom)
+                            condition = Main(statement,GenreCourt,UserCourt,CourtNom,root)
                             if condition == 0 :
                                 condition = Web(statement,GenreCourt,UserCourt,root,police)
                                 if condition == 0 :
-                                    condition = Software(statement,GenreCourt,UserCourt,CourtNom)
+                                    condition = Software(statement,GenreCourt,UserCourt,CourtNom,root)
                                 else :
                                     continue
                             else :

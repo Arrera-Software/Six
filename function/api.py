@@ -24,8 +24,8 @@ def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu p
     Titre = dictionnnaire["title"]
     return Sujet,Description,URL,Titre
 
-def Resumer():#Fonction de resumer des actaulités et de la meteo
-    speak("Ok je vous prépare votre résumé")
+def Resumer(root):#Fonction de resumer des actaulités et de la meteo
+    speak("Ok je vous prépare votre résumé",root)
     hour=datetime.datetime.now().hour
     CompleteURLNew = urlNew+"&pageSize="+nombrePageNew2+"&apiKey="+keyNew
     article = requests.get(CompleteURLNew).json()["articles"]
@@ -36,17 +36,17 @@ def Resumer():#Fonction de resumer des actaulités et de la meteo
     Sujet5,Description5,URL5,Titre5 = NetoyageActu(article[4])
     Temparure1,humiditer1,description1,ville1=Meteo(1)
     Temparure2,humiditer2,description2,ville2=Meteo(2)
-    speak("La première actualités et " + Titre1 +".")
-    speak("La seconde et "+ Titre2+".")
-    speak("La troisiéme et "+ Titre3+".")
-    speak("La quatriéme et "+ Titre4+" .")
-    speak("La derniére et "+ Titre5+".")
-    speak("La metéo a votre domicile et "+ description1 )
-    speak("avec une température de "+Temparure1+"degrés")
-    speak("et un taux d'humiditer de "+humiditer1+" pourcent")
-    speak("La metéo a "+ville2+" et "+ description2 )
-    speak("avec une température de "+Temparure2+"degrés")
-    speak("et un taux d'humiditer de "+humiditer2+" pourcent")
+    speak("La première actualités et " + Titre1 +".",root)
+    speak("La seconde et "+ Titre2+".",root)
+    speak("La troisiéme et "+ Titre3+".",root)
+    speak("La quatriéme et "+ Titre4+" .",root)
+    speak("La derniére et "+ Titre5+".",root)
+    speak("La metéo a votre domicile et "+ description1,root )
+    speak("avec une température de "+Temparure1+"degrés",root)
+    speak("et un taux d'humiditer de "+humiditer1+" pourcent",root)
+    speak("La metéo a "+ville2+" et "+ description2,root )
+    speak("avec une température de "+Temparure2+"degrés",root)
+    speak("et un taux d'humiditer de "+humiditer2+" pourcent",root)
     
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
     flagVille = "ville"+str(nbVille)   
@@ -61,11 +61,11 @@ def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
         weather_description = str(x["weather"][0]["description"])
         return current_temperature , current_humidiy , weather_description , ville
     
-def MeteoParole(nbVille):#Fonction météo avec parole
+def MeteoParole(nbVille,root):#Fonction météo avec parole
     Temperature,humiditer,description,ville = Meteo(nbVille)
-    speak("La météo à "+ville+ " ,et "+description+".")
-    speak("Avec un taux d'humiditer de "+humiditer+" pourcent.")
-    speak("Et une température de "+Temperature+" degrés")
+    speak("La météo à "+ville+ " ,et "+description+".",root)
+    speak("Avec un taux d'humiditer de "+humiditer+" pourcent.",root)
+    speak("Et une température de "+Temperature+" degrés",root)
 def GeoLocGPS():
     myPublic_IP = requests.get("http://wtfismyip.com/text").text.strip()
     ip = geocoder.ip(myPublic_IP)
@@ -74,7 +74,7 @@ def GeoLocGPS():
     long = str(loc[1])
     return lat , long
 
-def Trad(genre):#Fonction de Traduction
+def Trad(genre,root):#Fonction de Traduction
     langue0= lectureJSON("setting/config.json","lang0")
     langue1= lectureJSON("setting/config.json","lang1")
     langue2= lectureJSON("setting/config.json","lang2")
@@ -99,7 +99,7 @@ def Trad(genre):#Fonction de Traduction
         mot = str(trad.get())
         translator= Translator(from_lang=langue1,to_lang=langue0)
         translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation)
+        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
         labelInfo.config(text=translation)
     def L1versL2():
         mot = str(trad.get())
@@ -110,7 +110,7 @@ def Trad(genre):#Fonction de Traduction
         mot = str(trad.get())
         translator= Translator(from_lang=langue2,to_lang=langue0)
         translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation)
+        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
         labelInfo.config(text=translation)
     def L2versL1():
         mot = str(trad.get())
