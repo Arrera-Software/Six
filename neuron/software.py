@@ -1,5 +1,6 @@
 from software.YoutubeDownlaod import *
 from src.voice import*
+from function.calcule import *
 
 def Software(var,genre,user,name,root):
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
@@ -12,4 +13,7 @@ def Software(var,genre,user,name,root):
             os.popen("start explorer")
             return 1
         else :
-            return 0
+            if "calcule" in var or "calculer" in var :
+                return 1
+            else :
+                return 0
