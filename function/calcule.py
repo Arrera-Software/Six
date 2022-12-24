@@ -13,7 +13,7 @@ def ReciproquePythagore(nb1,nb2):
     resultat = np.sqrt((np.square(nb1)-np.square(nb2)))
     return resultat
 
-def adtion(nb1,nb2):
+def adition(nb1,nb2):
     return nb1+nb2
 def soustration(nb1,nb2):
     return nb1-nb2
@@ -41,7 +41,7 @@ def Calcule():
         affichage.config(resultat)
     def plus():
         nb1,nb2 = RecupérationEntry()
-        resultat = str(adtion(nb1,nb2))
+        resultat = str(adition(nb1,nb2))
         ShowResultat(nb1,nb2,resultat,"+")
     def moin():
         nb1,nb2 = RecupérationEntry()

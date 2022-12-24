@@ -2,7 +2,7 @@ from software.YoutubeDownlaod import *
 from src.voice import*
 from function.calcule import *
 
-def Software(var,genre,user,name,root):
+def Software(var,genre,user,name,root,police):
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
         speak("Ok "+genre+" je vous ouvre le téléchargeur de video Youtube.",root)
         YoutubeDownload()
@@ -13,7 +13,9 @@ def Software(var,genre,user,name,root):
             os.popen("start explorer")
             return 1
         else :
-            if "calcule" in var or "calculer" in var :
+            if "calcul" in var or "calculer" in var :
+                speak("Je vous ouvre ma calculatrice")
+                Calcule()
                 return 1
             else :
                 return 0
