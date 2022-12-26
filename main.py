@@ -1,6 +1,4 @@
 from tkinter import*
-import time
-from time import *
 import pygame
 from  pygame.locals import *
 #fichier
@@ -12,23 +10,9 @@ from function.api import Resumer
 from function.search import TestInternet
 from src.speechRecognition import *
 from setting.setting import*
+from function.temps import*
 #Fonction Varriable
-def HourSup(h1):
-    hour = strftime("%H")
-    h1 = int(h1)
-    hourINT = int(hour)
-    if hourINT >= h1:
-        return True
-    else :
-        return False
-def HourInf(h1):
-    hour = strftime("%H")
-    h1 = int(h1)
-    hourINT = int(hour)
-    if hourINT <= h1:
-        return True
-    else :
-        return False
+
 #Varriable
 nrad = random.randint(1,2)
 Color = "#3c0f14"
