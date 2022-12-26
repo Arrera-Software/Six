@@ -14,7 +14,7 @@ def Software(var,genre,user,name,root,police):
             return 1
         else :
             if "calcul" in var or "calculer" in var :
-                speak("Je vous ouvre ma calculatrice")
+                speak("Je vous ouvre ma calculatrice",root)
                 Calcule()
                 return 1
             else :
