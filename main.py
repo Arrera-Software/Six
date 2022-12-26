@@ -14,7 +14,6 @@ from function.temps import*
 #Fonction Varriable
 
 #Varriable
-nrad = random.randint(1,2)
 Color = "#3c0f14"
 TextColor = "white"
 PrincipalUser =  lectureJSON("setting/config.json","user1")
@@ -41,14 +40,16 @@ police = pygame.font.SysFont("arial", 25)
 root.blit(fond.convert(),(0,0))
 pygame.display.update()
 def salutation(User,Genre):#Fonction de salutation
+    nrad = random.randint(0,1)
+    listMatin = [("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit."),("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")]
+    listDebut = [("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée"),("Bonjour "+Genre+" "+User+" ,J'espére que vous passer un bon début de journée")]
+    listAprem = [("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne aprem"),("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi")]
+    listSoiree = [("Bonsoir "+Genre+" "+User+" ,comment se passe votre début de soirée?"),("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien")]
+    listFinSoiree = [("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?"),("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien")]
     hour=datetime.datetime.now().hour
     if hour >= 0 and hour <= 9:
-        if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit.",root)
-            speak("Voulez-vous un petit résumer des actulités? ",root)
-        if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.",root)
-            speak("Voulez-vous un petit résumer des actulités? ",root)
+        speak(listMatin[nrad],root)
+        speak("Voulez-vous un petit résumer des actulités? ",root)
         while True:
             r = takeCommand(root,police)
             if "oui" in r:
@@ -59,25 +60,13 @@ def salutation(User,Genre):#Fonction de salutation
                 speak("Ok passer un exélente journée "+Genre+"",root)
                 break
     if hour >= 10 and hour <=12:
-        if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne matinée",root)
-        if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer un bon début de journée",root)
+        speak(listDebut[nrad],root)
     if hour>=13 and hour<=17:
-        if nrad == 1 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne aprem",root)
-        if nrad == 2 :
-            speak("Bonjour "+Genre+" "+User+" ,J'espére que vous passer une bonne après-midi",root)
-    if  hour>=18 and hour<=20:
-        if nrad == 1 :
-            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre début de soirée?",root)
-        if nrad == 2 :
-            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre début de soirée se passe bien",root)
+        speak(listAprem[nrad],root)
+    if  hour>=18 and hour<=2:
+        speak(listSoiree[nrad],root)
     if  hour>=21 and hour<=23:
-        if nrad == 1 :
-            speak("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?",root)
-        if nrad == 2 :
-            speak("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien",root)
+        speak(listFinSoiree[nrad],root)
 
 def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
     hour=datetime.datetime.now().hour
