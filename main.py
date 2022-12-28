@@ -39,6 +39,7 @@ police = pygame.font.SysFont("arial", 25)
 #Fonction de l'assistant
 root.blit(fond.convert(),(0,0))
 pygame.display.update()
+
 def salutation(User,Genre):#Fonction de salutation
     nrad = random.randint(0,1)
     listMatin = [("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit."),("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")]
@@ -84,6 +85,7 @@ def Arret(User,Genre):#Fonction quand l'uttilisateur coup l'assistant
         speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée",root)
     if hour>=22 and hour<=23:
         speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.",root)
+
 def Mute(Genre,User):
     root.blit(fondMute.convert(),(0,0))
     pygame.display.update()
@@ -152,7 +154,7 @@ if internet == True :
                                     speak("En quoi je peux vous étre utile",root)
                     else :
                         if "ouvre tes paramètre" in statement :
-                            speak("Ok j'ouvre mes paramètre")
+                            speak("Ok j'ouvre mes paramètre",root)
                             Setting(root,police)
                             speak("J'ai enregistrer tout vos modification",root)
                         else :

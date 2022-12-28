@@ -2,7 +2,7 @@ from src.voice import *
 import datetime
 import requests
 import geocoder
-from tkinter import*
+
 from translate import*
 from function.JSON import*
 
@@ -17,6 +17,10 @@ nombrePageNew2 = "5"
 Color = "#3c0f14"
 TextColor = "white"
 
+def ClearActu(dictionnnaire):
+    var = dictionnnaire["title"]
+    return var
+
 def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu par l'API
     Sujet = dictionnnaire["content"]
     Description = dictionnnaire["description"]
@@ -29,23 +33,23 @@ def Resumer(root):#Fonction de resumer des actaulités et de la meteo
     hour=datetime.datetime.now().hour
     CompleteURLNew = urlNew+"&pageSize="+nombrePageNew2+"&apiKey="+keyNew
     article = requests.get(CompleteURLNew).json()["articles"]
-    Sujet1,Description1,URL1,Titre1 = NetoyageActu(article[0])
-    Sujet2,Description2,URL2,Titre2 = NetoyageActu(article[1])
-    Sujet3,Description3,URL3,Titre3 = NetoyageActu(article[2])
-    Sujet4,Description4,URL4,Titre4 = NetoyageActu(article[3])
-    Sujet5,Description5,URL5,Titre5 = NetoyageActu(article[4])
-    Temparure1,humiditer1,description1,ville1=Meteo(1)
-    Temparure2,humiditer2,description2,ville2=Meteo(2)
-    speak("La première actualités et " + Titre1 +".",root)
-    speak("La seconde et "+ Titre2+".",root)
-    speak("La troisiéme et "+ Titre3+".",root)
-    speak("La quatriéme et "+ Titre4+" .",root)
-    speak("La derniére et "+ Titre5+".",root)
+    titre1 = ClearActu(article[0])
+    titre2 = ClearActu(article[1])
+    titre3 = ClearActu(article[2])
+    titre4 = ClearActu(article[3])
+    titre5 = ClearActu(article[4])
+    temparure1,humiditer1,description1,ville1=Meteo(1)
+    temparure2,humiditer2,description2,ville2=Meteo(2)
+    speak("La première actualités et " + titre1 +".",root)
+    speak("La seconde et "+ titre2+".",root)
+    speak("La troisiéme et "+ titre3+".",root)
+    speak("La quatriéme et "+ titre4+" .",root)
+    speak("La derniére et "+ titre5+".",root)
     speak("La metéo a votre domicile et "+ description1,root )
-    speak("avec une température de "+Temparure1+"degrés",root)
+    speak("avec une température de "+temparure1+"degrés",root)
     speak("et un taux d'humiditer de "+humiditer1+" pourcent",root)
     speak("La metéo a "+ville2+" et "+ description2,root )
-    speak("avec une température de "+Temparure2+"degrés",root)
+    speak("avec une température de "+temparure2+"degrés",root)
     speak("et un taux d'humiditer de "+humiditer2+" pourcent",root)
     
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
@@ -66,6 +70,7 @@ def MeteoParole(nbVille,root):#Fonction météo avec parole
     speak("La météo à "+ville+ " ,et "+description+".",root)
     speak("Avec un taux d'humiditer de "+humiditer+" pourcent.",root)
     speak("Et une température de "+Temperature+" degrés",root)
+
 def GeoLocGPS():
     myPublic_IP = requests.get("http://wtfismyip.com/text").text.strip()
     ip = geocoder.ip(myPublic_IP)
@@ -74,73 +79,3 @@ def GeoLocGPS():
     long = str(loc[1])
     return lat , long
 
-def Trad(genre,root):#Fonction de Traduction
-    langue0= lectureJSON("setting/config.json","lang0")
-    langue1= lectureJSON("setting/config.json","lang1")
-    langue2= lectureJSON("setting/config.json","lang2")
-    ScreenTrad=Tk()
-    ScreenTrad.title("Six : Traduction")
-    ScreenTrad.maxsize(400,400)
-    ScreenTrad.minsize(400,400)
-    ScreenTrad.config(bg=Color)
-    labelInfo=Label(ScreenTrad,text="Resultat",bg=Color,fg=TextColor,font=("arial","20"))
-    trad=Entry(ScreenTrad,width=45)
-    def L0versL1():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue0,to_lang=langue1)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L0versL2():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue0,to_lang=langue2)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L1versL0():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue1,to_lang=langue0)
-        translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
-        labelInfo.config(text=translation)
-    def L1versL2():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue1,to_lang=langue2)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L2versL0():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue2,to_lang=langue0)
-        translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
-        labelInfo.config(text=translation)
-    def L2versL1():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue2,to_lang=langue1)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    bouttonTraduction=Button(ScreenTrad,text="Traduire",bg=Color,fg=TextColor)
-    def Mode1():
-        bouttonTraduction.config(command=L0versL1)
-    def Mode2():
-        bouttonTraduction.config(command=L1versL0)
-    def Mode3():
-        bouttonTraduction.config(command=L0versL2)
-    def Mode4():
-        bouttonTraduction.config(command=L2versL0)
-    def Mode5():
-        bouttonTraduction.config(command=L1versL2)
-    def Mode6():
-        bouttonTraduction.config(command=L2versL1)
-    MenuTrad = Menu(ScreenTrad,bg="white")
-    Choix = Menu(MenuTrad,tearoff=0)
-    Choix.add_command(label="Langue par défault vers Langue 1",command=Mode1)
-    Choix.add_command(label="Langue 1 vers Langue par défault",command=Mode2)
-    Choix.add_command(label="Langue par défault vers Langue 2",command=Mode3)
-    Choix.add_command(label="Langue 2 vers Langue par défault",command=Mode4)
-    Choix.add_command(label="Langue 1 vers Langue 2",command=Mode5)
-    Choix.add_command(label="Langue 2 vers Langue 1",command=Mode6)
-    MenuTrad.add_cascade(label = "Traduction",menu=Choix)
-    ScreenTrad.config(menu=MenuTrad)
-    labelInfo.place(x="5",y="25")
-    trad.place(relx=.5,rely=.5,anchor ="center")
-    bouttonTraduction.pack(side="bottom")
-    ScreenTrad.mainloop()

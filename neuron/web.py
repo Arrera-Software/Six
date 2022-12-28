@@ -4,6 +4,7 @@ from function.api import *
 from function.search import *
 from src.speechRecognition import *
 from function.JSON import*
+from function.traduction import*
 
 def Web(var,genre,user,root,police):
     if "recherche" in var :

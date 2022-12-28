@@ -29,6 +29,7 @@ def Minuteur():
     screen = Tk()
     screen.title("Six : Horloge")
     screen.config(bg=Color)
+    screen.iconphoto(False,PhotoImage(file="image/logo.png"))
     screen.maxsize(500,250)
     screen.minsize(500,250)
     def valider():
@@ -55,6 +56,7 @@ def Minuteur():
 def Chrono():
     screen = Tk()
     screen.title("Six : Horloge")
+    screen.iconphoto(False,PhotoImage(file="image/logo.png"))
     screen.config(bg=Color)
     screen.maxsize(500,250)
     screen.minsize(500,250)
