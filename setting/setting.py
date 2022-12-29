@@ -8,7 +8,7 @@ from setting.internet import*
 from setting.meteo import*
 from setting.appWeb import*
 from setting.traduction import *
-
+from setting.GUITheme import*
 
 listMoteur = "google" , "duckduckgo" , "ecosia" , "qwant" , "bing"
     
@@ -22,23 +22,26 @@ def Setting():#fonction parametre
     right = Frame(ScreenPara,width=500,height=700,bg="#5e262c")
     #fonction
     def web():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        ParaWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        ParaWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def user():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def assistant():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def meteo():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def appweb():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        AppWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        AppWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def trad():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
-        Trad(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        Trad(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+    def interface():
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        GUI(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     #widget
     #label
     labelTitre = Label(left,text="Paramètre",font=("arial","30"),bg="#3c0b10",fg="white")
@@ -49,9 +52,10 @@ def Setting():#fonction parametre
     btnMeteo = Button(left,text="Météo",bg="white",fg="black",font=("arial","15"),command=meteo)
     btnTraducteur = Button(left,text="Traducteur",bg="white",fg="black",font=("arial","15"),command=trad)
     btnAppWeb = Button(left,text="Application Web",bg="white",fg="black",font=("arial","15"),command=appweb)
+    btnTheme = Button(left,text="Theme GUI",bg="white",fg="black",font=("arial","15"),command=interface)
     #affichage
     left.pack(side="left")
     right.pack(side="right")
-    ViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo)
+    ViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     labelTitre.place(x=5,y=5)
     ScreenPara.mainloop()

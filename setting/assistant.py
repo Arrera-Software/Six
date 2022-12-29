@@ -12,7 +12,7 @@ def prononciationMicro():
         except Exception as e:
             return "None" 
         return Requette
-def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
+def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
     section.pack(side="right")
@@ -20,7 +20,7 @@ def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
     def Actualisation():
         labelAssistant1.config(text="Nom :"+lectureJSON("setting/config.json","nomAssistant"))
     def Afficher():

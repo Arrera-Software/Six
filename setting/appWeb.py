@@ -3,7 +3,7 @@ from function.JSON import*
 from setting.view import*
 
 
-def AppWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
+def AppWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
     section.pack(side="right")
@@ -11,7 +11,7 @@ def AppWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
     def Actulisation():
         labelAppWeb1.config(text="App 1 :"+lectureJSON("setting/config.json","appWeb1Name"))
         labelAppWeb2.config(text="App 2 :"+lectureJSON("setting/config.json","appWeb2Name"))

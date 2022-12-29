@@ -2,7 +2,7 @@ from tkinter import*
 from function.JSON import*
 from setting.view import*
 listGenre = ["monsieur","madame","maitre"]
-def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
+def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     varGenre = StringVar(screen)
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
@@ -28,7 +28,7 @@ def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
     def exitModif():
         Afficher()
         userNoView()

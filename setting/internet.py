@@ -3,7 +3,7 @@ from function.JSON import*
 from setting.view import*
 listMoteur=["duckduckgo","google","qwant","ecosia","brave"]
 listLienMoteur=["https://duckduckgo.com/","https://www.google.com/","https://www.qwant.com/","https://www.ecosia.org/","https://search.brave.com/"]
-def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
+def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     varMoteur = StringVar(screen)
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
@@ -12,7 +12,7 @@ def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
     def Affichage():
         labelWeb1.place(x=20,y=125)
         labelWeb2.place(x=20,y=185)
