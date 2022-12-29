@@ -154,7 +154,7 @@ if internet == True :
                                     GenreCourt = QuatriemeUserGenre
                                     speak("En quoi je peux vous étre utile",root)
                     else :
-                        if "ouvre tes paramètre" in statement :
+                        if "paramètres" in statement or "paramètre" in statement :
                             speak("Ok j'ouvre mes paramètre",root)
                             Setting()
                             speak("J'ai enregistrer tout vos modification",root)

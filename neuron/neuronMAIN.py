@@ -9,20 +9,18 @@ def Main(var,genre,user,name,root):
         return 1
     else :
         if "bien" in var or "oui" in var:
-            speak("Sa me réjouit de savoir que tout se passe bien pour vous"+genre+" .",root)
+            speak("Sa me réjouit de savoir que tout se passe bien pour vous "+genre+" .",root)
             speak("En quoi je peux donc vous servir ?",root)
             return 1
         else :
             if "toujours là"  in var  or "es-tu là" in var or name in var :
-                speak("Oui, je suis toujours la"+genre+user+".",root)
+                speak("Oui, je suis toujours la "+genre+user+".",root)
                 return 1
             else : 
                 if "heure" in var :
-                    hour = datetime.datetime.now().hour
-                    minute = datetime.datetime.now().minute
-                    Constrution = "Il es",hour,"heure",minute
-                    parole = str(Constrution)
-                    speak(parole,root)
+                    hour = str(datetime.datetime.now().hour)
+                    minute = str(datetime.datetime.now().minute)
+                    speak("Il es "+hour+" heure " +minute,root)
                     return 1
                 else :
                     if "date" in var :
@@ -64,7 +62,7 @@ def Main(var,genre,user,name,root):
                                                                     monthSTR = "Novembre"
                                                                 else :
                                                                     monthSTR = "Décembre"
-                        speak("Aujourd'huit on es le "+str(day)+monthSTR+str(years),root)
+                        speak("Aujourd'hui on es le "+str(day)+" "+monthSTR+" "+str(years),root)
                         return 1
                     else :
                         if "raconter une blague" in var or "raconte-moi une blague" in var :
@@ -119,7 +117,7 @@ def Main(var,genre,user,name,root):
                                                                 return 1
                         else :
                             if var == "tu es qui" or var == "présente-toi" or "présentation" in var or "qui es tu" in var or "qui es-tu" in var:
-                                speak("Je suis SIX un assistant personnel cree par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.",root)
+                                speak("Je suis SIX un assistant personnel crée par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.",root)
                                 return 1
                             else :
                                 if "peux-tu me lire un truc" in var :
