@@ -3,8 +3,16 @@ from function.JSON import*
 from setting.view import*
 from src.voice import*
 from src.speechRecognition import*
-
-def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,root,police):
+def prononciationMicro():
+    r=sr.Recognizer()
+    with sr.Microphone() as source:
+        audio=r.listen(source)
+        try:
+            Requette=r.recognize_google(audio,language='fr')
+        except Exception as e:
+            return "None" 
+        return Requette
+def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6):
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
     section.pack(side="right")
@@ -57,9 +65,12 @@ def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,root,police):
         def ValiderPronociation():
             ExitPrononciation()
         def Ecoute():
-            speak(lectureJSON("setting/config.json","pronociationAssistant"),root)
+            tts = gTTS(lectureJSON("setting/config.json","pronociationAssistant"), lang="fr")
+            tts.save("voc.mp3")
+            playsound("voc.mp3")
+            os.remove("voc.mp3")
         def micro():
-            var = takeCommand(root,police)
+            var = prononciationMicro()
             EcritureJSON("setting/config.json","pronociationAssistant",var)
         btnAssistantValider.config(command=ValiderPronociation)
         btnAssistant4.config(command=micro)

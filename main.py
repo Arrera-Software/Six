@@ -11,6 +11,7 @@ from function.search import TestInternet
 from src.speechRecognition import *
 from setting.setting import*
 from function.temps import*
+from src.varInterface import*
 #Fonction Varriable
 
 #Varriable
@@ -28,7 +29,7 @@ NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
 PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")
 varSix = True
 compteur = 0
-fondMute = pygame.image.load("image/fondMute.png")
+
 #Fenetre pygame
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
 pygame.init()
@@ -155,7 +156,7 @@ if internet == True :
                     else :
                         if "ouvre tes paramètre" in statement :
                             speak("Ok j'ouvre mes paramètre",root)
-                            Setting(root,police)
+                            Setting()
                             speak("J'ai enregistrer tout vos modification",root)
                         else :
                             condition = Main(statement,GenreCourt,UserCourt,CourtNom,root)
