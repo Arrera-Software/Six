@@ -8,7 +8,7 @@ from function.traduction import*
 
 def Web(var,genre,user,root,police):
     if "recherche" in var :
-        speak("Vous voulez rechercher quoi ",genre,"?")
+        speak("Vous voulez rechercher quoi "+genre+" ?",root)
         recherche = takeCommand(root,police)
         speak("Ok,je vous recherche sa.",root)
         duckduckgoSearch(recherche)
