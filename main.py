@@ -65,7 +65,7 @@ def salutation(User,Genre):#Fonction de salutation
         speak(listDebut[nrad],root)
     if hour>=13 and hour<=17:
         speak(listAprem[nrad],root)
-    if  hour>=18 and hour<=2:
+    if  hour>=18 and hour<=20:
         speak(listSoiree[nrad],root)
     if  hour>=21 and hour<=23:
         speak(listFinSoiree[nrad],root)
