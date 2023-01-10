@@ -84,9 +84,20 @@ def DocPython():
 def DocArduino():
     webbrowser.open("https://docs.python.org/3")
 def GrandRecherche(query):
-    googleSearch(query)
-    duckduckgoSearch(query)
-    QwantSearch(query)
-    EcosiaSearch(query)
-    bingSearch(query) 
-    braveSearch(query)
+    i = 0
+    while(i!=6):
+        if (i==1) :
+            googleSearch(query)
+        else :
+            if (i==2):                
+                QwantSearch(query)
+            else :
+                if(i==3):
+                    duckduckgoSearch(query)
+                else :
+                    if(i==4):
+                        EcosiaSearch(query)
+                    else :
+                        if(i==5):
+                            braveSearch(query)
+        i = i + 1
