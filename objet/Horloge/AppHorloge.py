@@ -8,8 +8,8 @@ class AppHorloge :
     def __init__(self,mainColor,textColor,title,mode):
         self.mainColor = mainColor
         self.textColor = textColor
-        self.screen = Toplevel()
-        self.screen.iconphoto(False,PhotoImage(file="image/Ryley.png"))
+        self.screen = Tk()
+        self.screen.iconphoto(False,PhotoImage(file="image/logo.png"))
         self.img = PhotoImage(file="image/horloge.png")
         self.screen.title(title)
         self.screen.minsize(500,500)
