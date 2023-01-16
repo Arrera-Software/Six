@@ -1,7 +1,6 @@
 from software.YoutubeDownlaod import *
 from src.voice import*
 from objet.Calcule.calcule import *
-from function.temps import*
 
 def Software(var,genre,user,name,root,police):
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
@@ -19,15 +18,5 @@ def Software(var,genre,user,name,root,police):
                 Calcule("#3c0f14","white","Six : Calcule")
                 return 1
             else :
-                if "minuteur" in var :
-                    speak("Je vous lance l'application de minuteur "+genre,root)
-                    Minuteur()
-                    return 1
-                else : 
-                    if "chronomètre" in var :
-                        speak("Je vous lance l'application de chronomètre "+genre,root)
-                        Chrono()
-                        return 1
-                    else :
-                        return 0
+                return 0
                     
