@@ -6,6 +6,15 @@ lienMute = ["image/interface/interfaceDefaultMute.png","image/interface/interfac
 lienParole1 = ["image/interface/interfaceDefaultVoice1.png","image/interface/interfaceLIghtVoice1.png","image/interface/interfaceDarkVoice1.png"]
 lienParole2 = ["image/interface/interfaceDefaultVoice2.png","image/interface/interfaceLIghtVoice2.png","image/interface/interfaceDarkVoice2.png"]
 lienParole3 = ["image/interface/interfaceDefaultVoice3.png","image/interface/interfaceLIghtVoice3.png","image/interface/interfaceDarkVoice3.png"]
+
+PrincipalUser =  lectureJSON("setting/config.json","user1")
+SecondairUser =  lectureJSON("setting/config.json","user2")
+TroisiemeUser =  lectureJSON("setting/config.json","user3")
+QuatriemeUser =  lectureJSON("setting/config.json","user4")
+PrincipalUserGenre = lectureJSON("setting/config.json","userGenre1")
+SecondairUserGenre =  lectureJSON("setting/config.json","userGenre2")
+TroisiemeUserGenre =  lectureJSON("setting/config.json","userGenre3")
+QuatriemeUserGenre =  lectureJSON("setting/config.json","userGenre4") 
 def GUIMain():
     var = lectureJSON("setting/config.json","theme")
     if var == "default" :

@@ -12,23 +12,15 @@ from src.speechRecognition import *
 from setting.setting import*
 from src.varInterface import*
 from neuron.neuronTime import*
-
+from neuron.neuronSIX import*
 class Six :
     def __init__(self):
         #Varriable
         self.Color = "#3c0f14"
         self.TextColor = "white"
-        self.PrincipalUser =  lectureJSON("setting/config.json","user1")
-        self.SecondairUser =  lectureJSON("setting/config.json","user2")
-        self.TroisiemeUser =  lectureJSON("setting/config.json","user3")
-        self.QuatriemeUser =  lectureJSON("setting/config.json","user4")
-        self.PrincipalUserGenre = lectureJSON("setting/config.json","userGenre1")
-        self.SecondairUserGenre =  lectureJSON("setting/config.json","userGenre2")
-        self.TroisiemeUserGenre =  lectureJSON("setting/config.json","userGenre3")
-        self.QuatriemeUserGenre =  lectureJSON("setting/config.json","userGenre4")
-        self.NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
-        self.PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")
         self.varSix = True
+        self.NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
+        self.PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")   
         #Fenetre pygame
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
         pygame.init()
@@ -40,70 +32,42 @@ class Six :
         pygame.display.update()
         #Programme principale
         internet = TestInternet()
-        UserCourt = self.PrincipalUser
-        GenreCourt = self.PrincipalUserGenre
+        UserCourt = PrincipalUser
+        GenreCourt = PrincipalUserGenre
         CourtNom = self.NomAssistant
         if internet == True :
             self.salutation(UserCourt,GenreCourt)
         while True:
             HourActuel = datetime.datetime.now().hour
             statement = takeCommand(self.root,self.police).lower()
-            if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
-                self.Arret(UserCourt,GenreCourt)
-                break
+            if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
+                speak("Ok "+GenreCourt+" je vous laisse tranquille",self.root)
+                varSix = self.Mute(GenreCourt,UserCourt)
+                speak("Ravi de vous revoir "+GenreCourt,self.root)
             else :
-                if "programmation" in statement :  
-                    break
+                if "paramètres" in statement or "paramètre" in statement :
+                    speak("Ok j'ouvre mes paramètre",self.root)
+                    Setting()
+                    speak("J'ai enregistrer tout vos modification",self.root)
                 else :
-                    if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
-                        speak("Ok "+GenreCourt+" je vous laisse tranquille",self.root)
-                        varSix = self.Mute(GenreCourt,UserCourt)
-                        speak("Ravi de vous revoir "+GenreCourt,self.root)
+                    if "programmation" in statement :  
+                        break
                     else :
-                        if "change de profil" in statement or "change d'utilisateur" in statement:
-                            speak("Quelle est votre numero de profile",self.root)
-                            r = takeCommand()
-                            if "le premier" in r or "1" in r :
-                                speak("Ok bienvenu " +self.PrincipalUserGenre+" "+self.PrincipalUser,self.root)
-                                UserCourt = self.PrincipalUser
-                                GenreCourt = self.PrincipalUserGenre
-                                speak("En quoi je peux vous étre utile",self.root)
-                            else :
-                                if "le deuxième" in r or "2" in r:
-                                    speak("Ok bienvenu " +self.SecondairUserGenre+" "+self.SecondairUser,self.root)
-                                    UserCourt = self.SecondairUser
-                                    GenreCourt = self.SecondairUserGenre
-                                    speak("En quoi je peux vous étre utile",self.root)
-                                else :
-                                    if "le troisième" in r or "3" in r:
-                                        speak("Ok bienvenu " +self.TroisiemeUserGenre+" "+self.TroisiemeUser,self.root)
-                                        UserCourt = self.TroisiemeUser
-                                        GenreCourt = self.TroisiemeUserGenre
-                                        speak("En quoi je peux vous étre utile",self.root)
-                                    else :
-                                        speak("Ok bienvenu " +self.QuatriemeUserGenre+" "+self.QuatriemeUser,self.root)
-                                        UserCourt = self.QuatriemeUser
-                                        GenreCourt = self.QuatriemeUserGenre
-                                        speak("En quoi je peux vous étre utile",self.root)
+                        if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
+                            self.Arret(UserCourt,GenreCourt)
+                            break
                         else :
-                            if "paramètres" in statement or "paramètre" in statement :
-                                speak("Ok j'ouvre mes paramètre",self.root)
-                                Setting()
-                                speak("J'ai enregistrer tout vos modification",self.root)
-                            else :
+                            condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt)
+                            if condition == 0 :
                                 condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
+                            else :
                                 if condition == 0 :
                                     condition = Web(statement,GenreCourt,UserCourt,self.root,self.police)
+                                else :
                                     if condition == 0 :
                                         condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
-                                        if condition == 0 :
-                                            condition = Time(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
-                                        else :
-                                            continue
                                     else :
-                                        continue
-                                else :
-                                    continue               
+                                        condition = Time(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)             
         else :     
             pygame.quit()
         
