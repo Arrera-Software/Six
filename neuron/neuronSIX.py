@@ -2,12 +2,12 @@ from src.voice import*
 from src.speechRecognition import *
 from src.varInterface import*
 
-def neuronSIX(var,genre,user,name,root,UserCourt,GenreCourt):
+def neuronSIX(var,genre,user,name,root,UserCourt,GenreCourt,police):
     
     if "change de profil" in var or "change d'utilisateur" in var:
             speak("Quelle est votre numero de profile",root)
-            r = takeCommand()
-            if "le premier" in r or "1" in r :
+            r = takeCommand(root,police)
+            if "premier" in r or "1" in r :
                 speak("Ok bienvenu " +PrincipalUserGenre+" "+PrincipalUser,root)
                 UserCourt = PrincipalUser
                 GenreCourt = PrincipalUserGenre
@@ -48,7 +48,7 @@ def neuronSIX(var,genre,user,name,root,UserCourt,GenreCourt):
                     return 1
                 else :
                     if var == "tu es qui" or var == "présente-toi" or "présentation" in var or "qui es tu" in var or "qui es-tu" in var:
-                        speak("Je suis SIX un assistant personnel crée par Baptiste Pauchet. Pour l'assistait dans l'uttilisation de son ordinateur.",root)
+                        speak("Je suis SIX un assistant personnelle qui peut etre uttiliser pour vous rendre plus productif",root)
                         return 1
                     else :
                         return 0

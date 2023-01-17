@@ -57,7 +57,7 @@ class Six :
                             self.Arret(UserCourt,GenreCourt)
                             break
                         else :
-                            condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt)
+                            condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
                             if condition == 0 :
                                 condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
                             else :
