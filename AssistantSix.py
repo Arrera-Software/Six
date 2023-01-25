@@ -37,39 +37,40 @@ class Six :
         CourtNom = self.NomAssistant
         if internet == True :
             self.salutation(UserCourt,GenreCourt)
-        while True:
-            HourActuel = datetime.datetime.now().hour
-            statement = takeCommand(self.root,self.police).lower()
-            if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
-                speak("Ok "+GenreCourt+" je vous laisse tranquille",self.root)
-                varSix = self.Mute(GenreCourt,UserCourt)
-                speak("Ravi de vous revoir "+GenreCourt,self.root)
-            else :
-                if "paramètres" in statement or "paramètre" in statement :
-                    speak("Ok j'ouvre mes paramètre",self.root)
-                    Setting()
-                    speak("J'ai enregistrer tout vos modification",self.root)
+            condition = 0
+            while (condition < 15):
+                #HourActuel = datetime.datetime.now().hour
+                statement = takeCommand(self.root,self.police).lower()
+                if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
+                    speak("Ok "+GenreCourt+" je vous laisse tranquille",self.root)
+                    condition = self.Mute(GenreCourt,UserCourt)
+                    speak("Ravi de vous revoir "+GenreCourt,self.root)
                 else :
-                    if "programmation" in statement :  
-                        break
+                    if "paramètres" in statement or "paramètre" in statement :
+                        speak("Ok j'ouvre mes paramètre",self.root)
+                        Setting()
+                        speak("J'ai enregistrer tout vos modification",self.root)
                     else :
-                        if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
-                            self.Arret(UserCourt,GenreCourt)
-                            break
+                        if "programmation" in statement :  
+                            condition = 15
                         else :
-                            condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
-                            if condition == 0 :
-                                condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
+                            if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
+                                self.Arret(UserCourt,GenreCourt)
+                                condition = 15
                             else :
+                                condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
                                 if condition == 0 :
-                                    condition = Web(statement,GenreCourt,UserCourt,self.root,self.police)
+                                    condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
                                 else :
                                     if condition == 0 :
-                                        condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                        condition = Web(statement,GenreCourt,UserCourt,self.root,self.police)
                                     else :
-                                        condition = Time(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)             
-        else :     
-            pygame.quit()
+                                        if condition == 0 :
+                                            condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                        else :
+                                            condition = Time(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)             
+            else :     
+                pygame.quit()
         
     def Mute(self,Genre,User):
             self.root.blit(fondMute.convert(),(0,0))
@@ -82,12 +83,12 @@ class Six :
                         self.Arret(User,Genre)
                         time.sleep(1.25)
                         pygame.quit()
-                        return False
+                        return 0
                     if tkey[pygame.K_RETURN] :
                         mute = False
                         self.root.blit(fond.convert(),(0,0))
                         pygame.display.update()
-                        return True       
+                        return 15       
         
     
     
