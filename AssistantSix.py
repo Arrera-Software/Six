@@ -83,12 +83,12 @@ class Six :
                         self.Arret(User,Genre)
                         time.sleep(1.25)
                         pygame.quit()
-                        return 0
+                        return 15
                     if tkey[pygame.K_RETURN] :
                         mute = False
                         self.root.blit(fond.convert(),(0,0))
                         pygame.display.update()
-                        return 15       
+                        return 0       
         
     
     
