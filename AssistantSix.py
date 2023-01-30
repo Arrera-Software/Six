@@ -61,14 +61,13 @@ class Six :
                                 condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
                                 if condition == 0 :
                                     condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
-                                else :
                                     if condition == 0 :
-                                        condition = Web(statement,GenreCourt,UserCourt,self.root,self.police)
-                                    else :
+                                        condition = NeuronWeb(statement,GenreCourt,UserCourt,self.root,self.police)
                                         if condition == 0 :
                                             condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
-                                        else :
-                                            condition = Time(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)             
+                                            if condition == 0 :
+                                                condition = neuronTime(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                                
             else :     
                 pygame.quit()
         

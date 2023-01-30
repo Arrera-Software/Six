@@ -6,7 +6,7 @@ from src.speechRecognition import *
 from function.JSON import*
 from function.traduction import*
 
-def Web(var,genre,user,root,police):
+def NeuronWeb(var,genre,user,root,police):
     if "recherche" in var :
         speak("Vous voulez rechercher quoi "+genre+" ?",root)
         recherche = takeCommand(root,police)

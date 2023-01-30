@@ -9,7 +9,7 @@ def Software(var,genre,user,name,root,police):
         return 1
     else :
         if "ouvre l'explorateur de fichier" in var or "ouvre les fichiers" in var or "montre-moi mes fichiers" in var :
-            speak("ok je vous ouvre l'explorateur de fichier "+var+".",root)
+            speak("ok je vous ouvre l'explorateur de fichier ",root)
             os.popen("start explorer")
             return 1
         else :

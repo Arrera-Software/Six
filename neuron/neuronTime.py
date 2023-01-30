@@ -1,7 +1,7 @@
 from src.voice import*
 from objet.Horloge.AppHorloge import*
 
-def Time(var,genre,user,name,root,police):
+def neuronTime(var,genre,user,name,root,police):
     if "horloge" in var :
         speak("Ok je vous ouvre l'application horloge "+user,+" "+name,root)
         AppHorloge("#3c0f14","white","Six : Horloge","acceuil")
