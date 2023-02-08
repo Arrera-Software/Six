@@ -4,8 +4,8 @@ from  pygame.locals import *
 #fichier
 from src.voice import*
 from neuron.neuronMAIN import *
-from neuron.web import *
-from neuron.software import *
+from neuron.neuronWeb import *
+from neuron.neuronSoftware import *
 from function.api import Resumer
 from function.search import TestInternet
 from src.speechRecognition import *
