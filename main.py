@@ -12,7 +12,6 @@ from src.speechRecognition import *
 from setting.setting import*
 from src.varInterface import*
 from neuron.neuronTime import*
-from neuron.neuronSIX import*
 class Six :
     def __init__(self):
         #Varriable
@@ -58,15 +57,13 @@ class Six :
                                 self.Arret(UserCourt,GenreCourt)
                                 condition = 15
                             else :
-                                condition = neuronSIX(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
+                                condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
                                 if condition == 0 :
-                                    condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root)
+                                    condition = NeuronWeb(statement,GenreCourt,UserCourt,self.root,self.police)
                                     if condition == 0 :
-                                        condition = NeuronWeb(statement,GenreCourt,UserCourt,self.root,self.police)
+                                        condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
                                         if condition == 0 :
-                                            condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
-                                            if condition == 0 :
-                                                condition = neuronTime(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                            condition = neuronTime(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
                                                 
             else :     
                 pygame.quit()
