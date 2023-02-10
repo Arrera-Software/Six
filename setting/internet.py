@@ -18,25 +18,25 @@ def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
         labelWeb2.place(x=20,y=185)
         labelWeb3.place(x=20,y=245)
         labelWeb4.place(x=20,y=305)
-        labelWeb5.place(x=20,y=365)
+        #labelWeb5.place(x=20,y=365)
     
         btnWeb1.place(x=265,y=125)
         btnWeb2.place(x=265,y=185)
         btnWeb3.place(x=265,y=245)
         btnWeb4.place(x=265,y=305)
-        btnWeb5.place(x=265,y=365)
+        #btnWeb5.place(x=265,y=365)
     def NoAffichage():
         labelWeb1.place_forget()
         labelWeb2.place_forget()
         labelWeb3.place_forget()
         labelWeb4.place_forget()
-        labelWeb5.place_forget()
+        #labelWeb5.place_forget()
     
         btnWeb1.place_forget()
         btnWeb2.place_forget()
         btnWeb3.place_forget()
         btnWeb4.place_forget()
-        btnWeb5.place_forget()
+        #btnWeb5.place_forget()
     def MoteurView():
         labelWeb6.place(x=20,y=125)
         menuGenre.place(x=100,y=230)
@@ -139,7 +139,7 @@ def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     btnWeb2 = Button(section,text="Modifier",bg="#3c0b10",font=("arial","15"),fg="white",command=Lien1)
     btnWeb3 = Button(section,text="Modifier",bg="#3c0b10",font=("arial","15"),fg="white",command=Lien2)
     btnWeb4 = Button(section,text="Modifier",bg="#3c0b10",font=("arial","15"),fg="white",command=Lien3)
-    btnWeb5 = Button(section,text="Modifier",bg="#3c0b10",font=("arial","15"),fg="white",command=Lien4)
+    #btnWeb5 = Button(section,text="Modifier",bg="#3c0b10",font=("arial","15"),fg="white",command=Lien4)
     btnWeb7 = Button(section,text="Exit",bg="white",font=("arial","15"),fg="black",command=exit)
     btnValiderWeb = Button(section,text="Valider",bg="#3c0b10",font=("arial","15"),fg="white")
     #Label
@@ -148,7 +148,7 @@ def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     labelWeb2 = Label(section,text="Lien de l'agenda",bg="#5e262c",font=("arial","15"),fg="white")
     labelWeb3 = Label(section,text="Lien Stokage Cloud",bg="#5e262c",font=("arial","15"),fg="white")
     labelWeb4 = Label(section,text="Lien de Note",bg="#5e262c",font=("arial","15"),fg="white")
-    labelWeb5 = Label(section,text="Lien de votre TO DO LIST",bg="#5e262c",font=("arial","15"),fg="white")
+    #labelWeb5 = Label(section,text="Lien de votre TO DO LIST",bg="#5e262c",font=("arial","15"),fg="white")
     labelWeb6 = Label(section,text="Choisissez-votre moteur de recherche préférer",bg="#5e262c",font=("arial","15"),fg="white")
     labelWeb7 = Label(section,text="Lien :",bg="#5e262c",font=("arial","15"),fg="white")
     #entry

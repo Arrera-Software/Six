@@ -98,44 +98,38 @@ def NeuronWeb(var,genre,user,root,police):
                                                         webbrowser.open(LienAgenda)
                                                         return 1
                                                     else :
-                                                        if "to do list" in var or "todolist" in var:
-                                                            lienToDoList = lectureJSON("setting/config.json","lien4")
-                                                            SIXsrc(root,police).speak("Ok je vous ouvre votre to do list "+genre)
-                                                            webbrowser.open(lienToDoList)
+                                                        if "note" in var or "notes" in var:
+                                                            lienNote = lectureJSON("setting/config.json","lien3")
+                                                            SIXsrc(root,police).speak("Ok je vous ouvre vos notes en ligne "+genre)
+                                                            webbrowser.open(lienNote)
                                                             return 1
                                                         else :
-                                                            if "note" in var or "notes" in var:
-                                                                lienNote = lectureJSON("setting/config.json","lien3")
-                                                                SIXsrc(root,police).speak("Ok je vous ouvre vos notes en ligne "+genre)
-                                                                webbrowser.open(lienNote)
+                                                            nameApp1 = lectureJSON("setting/config.json","appWeb2Name")
+                                                            nameApp2 = lectureJSON("setting/config.json","appWeb3Name")
+                                                            nameApp3 = lectureJSON("setting/config.json","appWeb4Name")
+                                                            nameApp4 = lectureJSON("setting/config.json","appWeb5Name")
+                                                        if nameApp1 in var:
+                                                            lienApp1 = lectureJSON("setting/config.json","appWeb2Lien")
+                                                            SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp1+" "+genre+" "+user)
+                                                            webbrowser.open(lienApp1)
+                                                            return 1
+                                                        else :
+                                                            if nameApp2 in var:
+                                                                lienApp2 = lectureJSON("setting/config.json","appWeb3Lien")
+                                                                SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp2+" "+genre+" "+user)
+                                                                webbrowser.open(lienApp2)
                                                                 return 1
-                                                            else :
-                                                                nameApp1 = lectureJSON("setting/config.json","appWeb2Name")
-                                                                nameApp2 = lectureJSON("setting/config.json","appWeb3Name")
-                                                                nameApp3 = lectureJSON("setting/config.json","appWeb4Name")
-                                                                nameApp4 = lectureJSON("setting/config.json","appWeb5Name")
-                                                                if nameApp1 in var:
-                                                                    lienApp1 = lectureJSON("setting/config.json","appWeb2Lien")
-                                                                    SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp1+" "+genre+" "+user)
-                                                                    webbrowser.open(lienApp1)
+                                                            else:
+                                                                if nameApp3 in var:
+                                                                    lienApp3 = lectureJSON("setting/config.json","appWeb4Lien")
+                                                                    SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp3+" "+genre+" "+user)
+                                                                    webbrowser.open(lienApp3)
                                                                     return 1
                                                                 else :
-                                                                    if nameApp2 in var:
-                                                                        lienApp2 = lectureJSON("setting/config.json","appWeb3Lien")
-                                                                        SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp2+" "+genre+" "+user)
-                                                                        webbrowser.open(lienApp2)
+                                                                    if nameApp4 in var:
+                                                                        lienApp4 = lectureJSON("setting/config.json","appWeb5Lien")
+                                                                        SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp4+" "+genre+" "+user)
+                                                                        webbrowser.open(lienApp4)
                                                                         return 1
-                                                                    else:
-                                                                        if nameApp3 in var:
-                                                                            lienApp3 = lectureJSON("setting/config.json","appWeb4Lien")
-                                                                            SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp3+" "+genre+" "+user)
-                                                                            webbrowser.open(lienApp3)
-                                                                            return 1
-                                                                        else :
-                                                                            if nameApp4 in var:
-                                                                                lienApp4 = lectureJSON("setting/config.json","appWeb5Lien")
-                                                                                SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp4+" "+genre+" "+user)
-                                                                                webbrowser.open(lienApp4)
-                                                                                return 1
-                                                                            else :
-                                                                                return 0
+                                                                    else :
+                                                                        return 0
