@@ -1,8 +1,11 @@
 from tkinter import *
 from function.JSON import*
 from setting.view import*
-from src.voice import*
-from src.micro import*
+import speech_recognition as sr
+import os
+from gtts import gTTS
+from playsound import playsound
+
 def prononciationMicro():
     r=sr.Recognizer()
     with sr.Microphone() as source:

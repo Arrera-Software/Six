@@ -1,11 +1,11 @@
 from tkinter import *
 from turtle import color
-from src.voice import*
+from src.srcSix import*
 
 Color = "#3c0f14"
 TextColor = "white"
 
-def Reading(root):
+def Reading(root,police):
     screenLect = Tk()
     screenLect.title("SIx : Lecture")
     screenLect.minsize("500","200")
@@ -16,7 +16,7 @@ def Reading(root):
     def Lecture():
         texte = entryLect.get()
         screenLect.destroy()
-        speak(texte,root)
+        SIXsrc(root,police).speak(texte)
     screenLect.config(bg=Color)
     labelIndic = Label(screenLect,text="Copier votre texte",bg=Color,fg=TextColor,font=("arial","20"))
     boutonValider  = Button(screenLect,text="Valider",bg=Color,fg=TextColor,font=("arial","20"),command=Lecture)

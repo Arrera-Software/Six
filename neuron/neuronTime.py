@@ -1,12 +1,12 @@
 import datetime
-from src.voice import*
+from src.srcSix import*
 from objet.Horloge.AppHorloge import*
 
 def neuronTime(var,genre,user,name,root,police):
     if "heure" in var :
         hour = str(datetime.datetime.now().hour)
         minute = str(datetime.datetime.now().minute)
-        speak("Il es "+hour+" heure " +minute,root)
+        SIXsrc(root,police).speak("Il es "+hour+" heure " +minute)
         return 1
     else : 
         if "date" in var :
@@ -48,21 +48,21 @@ def neuronTime(var,genre,user,name,root,police):
                                                         monthSTR = "Novembre"
                                                     else :
                                                          monthSTR = "Décembre"
-            speak("Aujourd'hui on es le "+str(day)+" "+monthSTR+" "+str(years),root)
+            SIXsrc(root,police).speak("Aujourd'hui on es le "+str(day)+" "+monthSTR+" "+str(years))
             return 1
         else : 
             if "horloge" in var :
-                speak("Ok je vous ouvre l'application horloge "+user,+" "+name,root)
+                SIXsrc(root,police).speak("Ok je vous ouvre l'application horloge "+user,+" "+name)
                 AppHorloge("#3c0f14","white","Six : Horloge","acceuil")
                 return 1
             else :
                 if "chronométre" in var or "chono" in var or "chonometre" in var :
-                    speak("Ok je t'ouvre le chronometre "+genre+" "+user,root)
+                    SIXsrc(root,police).speak("Ok je t'ouvre le chronometre "+genre+" "+user)
                     AppHorloge("#3c0f14","white","Six : Horloge","chronometre")
                     return 1
                 else :
                     if "minuteur" in var :
-                        speak("Ok je t'ouvre le minuteur "+genre+" "+user,root)
+                        SIXsrc(root,police).speak("Ok je t'ouvre le minuteur "+genre+" "+user)
                         AppHorloge("#3c0f14","white","Six : Horloge","minuteur")
                         return 1
                     else :

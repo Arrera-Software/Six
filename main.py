@@ -2,17 +2,16 @@ from tkinter import*
 import pygame
 from  pygame.locals import *
 #fichier
-from src.voice import*
 from neuron.neuronMAIN import *
 from neuron.neuronWeb import *
 from neuron.neuronSoftware import *
 from neuron.neuronUser import*
 from function.api import Resumer
 from function.search import TestInternet
-from src.micro import *
 from setting.setting import*
 from src.varInterface import*
 from neuron.neuronTime import*
+from src.srcSix import*
 class Six :
     def __init__(self):
         #Varriable
@@ -40,16 +39,16 @@ class Six :
             condition = 0
             while (condition < 15):
                 #HourActuel = datetime.datetime.now().hour
-                statement = micro(self.root,self.police).lower()
+                statement = SIXsrc(self.root,self.police).micro().lower()
                 if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
-                    speak("Ok "+genreCourt+" je vous laisse tranquille",self.root)
+                    SIXsrc(self.root,self.police).speak("Ok "+genreCourt+" je vous laisse tranquille")
                     condition = self.Mute(genreCourt,userCourt)
-                    speak("Ravi de vous revoir "+genreCourt,self.root)
+                    SIXsrc(self.root,self.police).speak("Ravi de vous revoir "+genreCourt)
                 else :
                     if "paramètres" in statement or "paramètre" in statement :
-                        speak("Ok j'ouvre mes paramètre",self.root)
+                        SIXsrc(self.root,self.police).speak("Ok j'ouvre mes paramètre")
                         Setting()
-                        speak("J'ai enregistrer tout vos modification",self.root)
+                        SIXsrc(self.root,self.police).speak("J'ai enregistrer tout vos modification")
                     else :
                         if "programmation" in statement :  
                             condition = 15
@@ -73,24 +72,24 @@ class Six :
                                                     if nbUser == 1:
                                                         userCourt = principalUser
                                                         genreCourt = principalUserGenre
-                                                        speak("Rebonjour "+genreCourt+" "+userCourt,self.root)
+                                                        SIXsrc(self.root,self.police).speak("Rebonjour "+genreCourt+" "+userCourt)
                                                         condition = 0
                                                     else :
                                                         if nbUser == 2:
                                                             userCourt = secondairUser
                                                             genreCourt = secondairUserGenre
-                                                            speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                            SIXsrc(self.root,self.police).speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
                                                             condition = 0  
                                                         else :
                                                             if nbUser == 3 :
                                                                 userCourt = troisiemeUser
                                                                 genreCourt = troisiemeUserGenre
-                                                                speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                                SIXsrc(self.root,self.police).speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
                                                             else :
                                                                 if nbUser == 4 :
                                                                     userCourt = quatriemeUser
                                                                     genreCourt = quatriemeUserGenre
-                                                                    speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                                    SIXsrc(self.root,self.police).speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
                                                                     condition = 0
                                                                                                               
             else :     
@@ -126,41 +125,41 @@ class Six :
         listFinSoiree = [("Bonsoir "+Genre+" "+User+" ,comment se passe votre soirée?"),("Bonsoir "+Genre+" "+User+" ,J'espére que votre soirée se passe bien")]
         hour=datetime.datetime.now().hour
         if hour >= 0 and hour <= 9:
-            speak(listMatin[nrad],self.root)
-            speak("Voulez-vous un petit résumer des actulités? ",self.root)
+            SIXsrc(self.root,self.police).speak(listMatin[nrad])
+            SIXsrc(self.root,self.police).speak("Voulez-vous un petit résumer des actulités? ")
         else :
             if hour >= 10 and hour <=12:
-                speak(listDebut[nrad],self.root)
+                SIXsrc(self.root,self.police).speak(listDebut[nrad])
             else :
                 if hour>=13 and hour<=17:
-                    speak(listAprem[nrad],self.root)
+                    SIXsrc(self.root,self.police).speak(listAprem[nrad])
                 else :
                     if  hour>=18 and hour<=20:
-                        speak(listSoiree[nrad],self.root)
+                        SIXsrc(self.root,self.police).speak(listSoiree[nrad])
                     else :
-                        speak(listFinSoiree[nrad],self.root)  
+                        SIXsrc(self.root,self.police).speak(listFinSoiree[nrad])  
         
     def Arret(self,User,Genre):#Fonction quand l'uttilisateur coup l'assistant
         hour=datetime.datetime.now().hour
         if hour>=0 and hour<3:
-            speak("Au revoir" +Genre+" "+User+" ,bonne nuit",self.root)
+            SIXsrc(self.root,self.police).speak("Au revoir" +Genre+" "+User+" ,bonne nuit")
         else :
             if hour>=3 and hour<9:
-                speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée",self.root)
+                SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée")
             else :
                 if hour>=9 and hour<12:
-                    speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée",self.root)
+                    SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée")
                 else : 
                     if hour>=12 and hour<16:
-                        speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem",self.root)
+                        SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem")
                     else :
                         if hour>=16 and hour<18:
-                            speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi",self.root)
+                            SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi")
                         else :
                             if hour>=18 and hour<22:
-                                speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée",self.root)
+                                SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
                             else :
-                                speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.",self.root)
+                                SIXsrc(self.root,self.police).speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
         
 
 Six()    

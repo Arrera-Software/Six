@@ -1,6 +1,4 @@
 from tkinter import*
-from src.micro import*
-from src.voice import*
 from setting.user import*
 from setting.assistant import*
 from setting.view import*

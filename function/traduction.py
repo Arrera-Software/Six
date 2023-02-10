@@ -1,4 +1,4 @@
-from src.voice import * 
+from src.srcSix import * 
 from translate import*
 from function.JSON import*
 from tkinter import*
@@ -6,7 +6,7 @@ from tkinter import*
 Color = "#3c0f14"
 TextColor = "white"
 
-def Trad(genre,root):#Fonction de Traduction
+def Trad(genre,root,police):#Fonction de Traduction
     langue0= lectureJSON("setting/config.json","lang0")
     langue1= lectureJSON("setting/config.json","lang1")
     langue2= lectureJSON("setting/config.json","lang2")
@@ -31,7 +31,7 @@ def Trad(genre,root):#Fonction de Traduction
         mot = str(trad.get())
         translator= Translator(from_lang=langue1,to_lang=langue0)
         translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
+        SIXsrc(root,police).speak("Le resultat de votre traduction "+genre+" et "+translation)
         labelInfo.config(text=translation)
     def L1versL2():
         mot = str(trad.get())
@@ -42,7 +42,7 @@ def Trad(genre,root):#Fonction de Traduction
         mot = str(trad.get())
         translator= Translator(from_lang=langue2,to_lang=langue0)
         translation = translator.translate(mot)
-        speak("Le resultat de votre traduction "+genre+" et "+translation,root)
+        SIXsrc(root,police).speak("Le resultat de votre traduction "+genre+" et "+translation)
         labelInfo.config(text=translation)
     def L2versL1():
         mot = str(trad.get())

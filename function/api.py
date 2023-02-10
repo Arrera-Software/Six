@@ -1,4 +1,4 @@
-from src.voice import * 
+from src.srcSix import* 
 import datetime
 import requests
 import geocoder
@@ -28,8 +28,8 @@ def NetoyageActu(dictionnnaire):#Fonction qui permet de netoyer les donne recu p
     Titre = dictionnnaire["title"]
     return Sujet,Description,URL,Titre
 
-def Resumer(root):#Fonction de resumer des actaulités et de la meteo
-    speak("Ok je vous prépare votre résumé",root)
+def Resumer(root,police):#Fonction de resumer des actaulités et de la meteo
+    SIXsrc(root,police).speak("Ok je vous prépare votre résumé")
     hour=datetime.datetime.now().hour
     CompleteURLNew = urlNew+"&pageSize="+nombrePageNew2+"&apiKey="+keyNew
     article = requests.get(CompleteURLNew).json()["articles"]
@@ -40,17 +40,17 @@ def Resumer(root):#Fonction de resumer des actaulités et de la meteo
     titre5 = ClearActu(article[4])
     temparure1,humiditer1,description1,ville1=Meteo(1)
     temparure2,humiditer2,description2,ville2=Meteo(2)
-    speak("La première actualités et " + titre1 +".",root)
-    speak("La seconde et "+ titre2+".",root)
-    speak("La troisiéme et "+ titre3+".",root)
-    speak("La quatriéme et "+ titre4+" .",root)
-    speak("La derniére et "+ titre5+".",root)
-    speak("La metéo a votre domicile et "+ description1,root )
-    speak("avec une température de "+temparure1+"degrés",root)
-    speak("et un taux d'humiditer de "+humiditer1+" pourcent",root)
-    speak("La metéo a "+ville2+" et "+ description2,root )
-    speak("avec une température de "+temparure2+"degrés",root)
-    speak("et un taux d'humiditer de "+humiditer2+" pourcent",root)
+    SIXsrc(root,police).speak("La première actualités et " + titre1 +".")
+    SIXsrc(root,police).speak("La seconde et "+ titre2+".")
+    SIXsrc(root,police).speak("La troisiéme et "+ titre3+".")
+    SIXsrc(root,police).speak("La quatriéme et "+ titre4+" .")
+    SIXsrc(root,police).speak("La derniére et "+ titre5+".")
+    SIXsrc(root,police).speak("La metéo a votre domicile et "+ description1 )
+    SIXsrc(root,police).speak("avec une température de "+temparure1+"degrés")
+    SIXsrc(root,police).speak("et un taux d'humiditer de "+humiditer1+" pourcent")
+    SIXsrc(root,police).speak("La metéo a "+ville2+" et "+ description2 )
+    SIXsrc(root,police).speak("avec une température de "+temparure2+"degrés")
+    SIXsrc(root,police).speak("et un taux d'humiditer de "+humiditer2+" pourcent")
     
 def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
     flagVille = "ville"+str(nbVille)   
@@ -65,11 +65,11 @@ def Meteo(nbVille):#Fonction de recuperation des donne de l'api openweather
         weather_description = str(x["weather"][0]["description"])
         return current_temperature , current_humidiy , weather_description , ville
     
-def MeteoParole(nbVille,root):#Fonction météo avec parole
+def MeteoParole(nbVille,root,police):#Fonction météo avec parole
     Temperature,humiditer,description,ville = Meteo(nbVille)
-    speak("La météo à "+ville+ " ,et "+description+".",root)
-    speak("Avec un taux d'humiditer de "+humiditer+" pourcent.",root)
-    speak("Et une température de "+Temperature+" degrés",root)
+    SIXsrc(root,police).speak("La météo à "+ville+ " ,et "+description+".")
+    SIXsrc(root,police).speak("Avec un taux d'humiditer de "+humiditer+" pourcent.")
+    SIXsrc(root,police).speak("Et une température de "+Temperature+" degrés")
 
 def GeoLocGPS():
     myPublic_IP = requests.get("http://wtfismyip.com/text").text.strip()
