@@ -6,6 +6,7 @@ from src.voice import*
 from neuron.neuronMAIN import *
 from neuron.neuronWeb import *
 from neuron.neuronSoftware import *
+from neuron.neuronUser import*
 from function.api import Resumer
 from function.search import TestInternet
 from src.micro import *
@@ -31,8 +32,8 @@ class Six :
         pygame.display.update()
         #Programme principale
         internet = TestInternet()
-        userCourt = PrincipalUser
-        genreCourt = PrincipalUserGenre
+        userCourt = principalUser
+        genreCourt = principalUserGenre
         courtNom = self.NomAssistant
         if internet == True :
             self.salutation(userCourt,genreCourt)
@@ -64,7 +65,34 @@ class Six :
                                         condition = Software(statement,genreCourt,userCourt,courtNom,self.root,self.police)
                                         if condition == 0 :
                                             condition = neuronTime(statement,genreCourt,userCourt,courtNom,self.root,self.police)
-                                                
+                                            if condition == 0 :
+                                                nbUser,condition = neuronUser(statement)
+                                                if nbUser == 0 :
+                                                    condition = 0
+                                                else :
+                                                    if nbUser == 1:
+                                                        userCourt = principalUser
+                                                        genreCourt = principalUserGenre
+                                                        speak("Rebonjour "+genreCourt+" "+userCourt,self.root)
+                                                        condition = 0
+                                                    else :
+                                                        if nbUser == 2:
+                                                            userCourt = secondairUser
+                                                            genreCourt = secondairUserGenre
+                                                            speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                            condition = 0  
+                                                        else :
+                                                            if nbUser == 3 :
+                                                                userCourt = troisiemeUser
+                                                                genreCourt = troisiemeUserGenre
+                                                                speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                            else :
+                                                                if nbUser == 4 :
+                                                                    userCourt = quatriemeUser
+                                                                    genreCourt = quatriemeUserGenre
+                                                                    speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?",self.root)
+                                                                    condition = 0
+                                                                                                              
             else :     
                 pygame.quit()
         
