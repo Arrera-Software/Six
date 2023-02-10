@@ -50,8 +50,8 @@ def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
                             SIXsrc(root,police).speak("Oui, je suis toujours la "+genre+user+".")
                             return 1
                         else :
-                            if var == "tu es qui" or var == "présente-toi" or "présentation" in var or "qui es tu" in var or "qui es-tu" in var:
-                                SIXsrc(root,police).speak("Je suis SIX un assistant personnelle qui peut etre uttiliser pour vous rendre plus productif")
+                            if "tu es qui" in var or "présente-toi" in var or "présentation" in var or "qui es tu" in var or "qui es-tu" in var:
+                                SIXsrc(root,police).speak("Je suis SIX un assistant personelle. Comment je peux vous aidez ?")
                                 return 1
                             else :
                                 return 0
