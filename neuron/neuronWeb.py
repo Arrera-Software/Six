@@ -4,6 +4,7 @@ from function.api import *
 from function.search import *
 from function.JSON import*
 from function.traduction import*
+import random
 
 def NeuronWeb(var,genre,user,root,police):
     if "recherche" in var :
@@ -53,10 +54,12 @@ def NeuronWeb(var,genre,user,root,police):
                             MeteoParole(5,root,police)
                         return 1
                     else :
-                        if "drive" in var:
-                            lienGDrive = lectureJSON("setting/config.json","lien2")
-                            SIXsrc(root,police).speak("Ok voici votre google drive principale"+genre+"")
-                            webbrowser.open(lienGDrive)
+                        if "stockage cloud" in var or "stockage Cloud" in var or "drive" in var or "stockage en ligne" in var or "google drive" in var:
+                            lienStokageCloud = lectureJSON("setting/config.json","lien2")
+                            nrad = random.randint(0,1)
+                            listText = ["Voici votre stockage en ligne ","Voici votre stockage en could "]
+                            SIXsrc(root,police).speak(listText[nrad]+genre+" ")
+                            webbrowser.open(lienStokageCloud)
                             return 1
                         else :
                             if "navigateur internet" in var :
