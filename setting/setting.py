@@ -1,5 +1,5 @@
 from tkinter import*
-from src.speechRecognition import*
+from src.micro import*
 from src.voice import*
 from setting.user import*
 from setting.assistant import*

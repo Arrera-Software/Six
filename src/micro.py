@@ -5,7 +5,7 @@ from src.varInterface import*
 import time
 rootWidht = 600
 rootHeight = 200
-def takeCommand(root,police):#Fonction micro et reconaissance vocal
+def micro(root,police):#Fonction micro et reconaissance vocal
     root.blit(fond.convert(),(0,0))
     pygame.display.update()
     r=sr.Recognizer()

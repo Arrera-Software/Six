@@ -2,7 +2,7 @@ from tkinter import *
 from function.JSON import*
 from setting.view import*
 from src.voice import*
-from src.speechRecognition import*
+from src.micro import*
 def prononciationMicro():
     r=sr.Recognizer()
     with sr.Microphone() as source:

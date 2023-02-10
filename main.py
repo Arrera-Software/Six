@@ -8,7 +8,7 @@ from neuron.neuronWeb import *
 from neuron.neuronSoftware import *
 from function.api import Resumer
 from function.search import TestInternet
-from src.speechRecognition import *
+from src.micro import *
 from setting.setting import*
 from src.varInterface import*
 from neuron.neuronTime import*
@@ -31,19 +31,19 @@ class Six :
         pygame.display.update()
         #Programme principale
         internet = TestInternet()
-        UserCourt = PrincipalUser
-        GenreCourt = PrincipalUserGenre
-        CourtNom = self.NomAssistant
+        userCourt = PrincipalUser
+        genreCourt = PrincipalUserGenre
+        courtNom = self.NomAssistant
         if internet == True :
-            self.salutation(UserCourt,GenreCourt)
+            self.salutation(userCourt,genreCourt)
             condition = 0
             while (condition < 15):
                 #HourActuel = datetime.datetime.now().hour
-                statement = takeCommand(self.root,self.police).lower()
+                statement = micro(self.root,self.police).lower()
                 if statement == "mute" or statement == "chut" or "ferme ta gueule" in statement:
-                    speak("Ok "+GenreCourt+" je vous laisse tranquille",self.root)
-                    condition = self.Mute(GenreCourt,UserCourt)
-                    speak("Ravi de vous revoir "+GenreCourt,self.root)
+                    speak("Ok "+genreCourt+" je vous laisse tranquille",self.root)
+                    condition = self.Mute(genreCourt,userCourt)
+                    speak("Ravi de vous revoir "+genreCourt,self.root)
                 else :
                     if "paramètres" in statement or "paramètre" in statement :
                         speak("Ok j'ouvre mes paramètre",self.root)
@@ -54,16 +54,16 @@ class Six :
                             condition = 15
                         else :
                             if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
-                                self.Arret(UserCourt,GenreCourt)
+                                self.Arret(userCourt,genreCourt)
                                 condition = 15
                             else :
-                                condition = Main(statement,GenreCourt,UserCourt,CourtNom,self.root,UserCourt,GenreCourt,self.police)
+                                condition = Main(statement,genreCourt,userCourt,courtNom,self.root,userCourt,genreCourt,self.police)
                                 if condition == 0 :
-                                    condition = NeuronWeb(statement,GenreCourt,UserCourt,self.root,self.police)
+                                    condition = NeuronWeb(statement,genreCourt,userCourt,self.root,self.police)
                                     if condition == 0 :
-                                        condition = Software(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                        condition = Software(statement,genreCourt,userCourt,courtNom,self.root,self.police)
                                         if condition == 0 :
-                                            condition = neuronTime(statement,GenreCourt,UserCourt,CourtNom,self.root,self.police)
+                                            condition = neuronTime(statement,genreCourt,userCourt,courtNom,self.root,self.police)
                                                 
             else :     
                 pygame.quit()

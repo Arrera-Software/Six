@@ -2,14 +2,14 @@ from operator import ge
 from src.voice import *
 from function.api import *
 from function.search import *
-from src.speechRecognition import *
+from src.micro import *
 from function.JSON import*
 from function.traduction import*
 
 def NeuronWeb(var,genre,user,root,police):
     if "recherche" in var :
         speak("Vous voulez rechercher quoi "+genre+" ?",root)
-        recherche = takeCommand(root,police)
+        recherche = micro(root,police)
         speak("Ok,je vous recherche sa.",root)
         duckduckgoSearch(recherche)
         return 1
@@ -20,7 +20,7 @@ def NeuronWeb(var,genre,user,root,police):
             Sujet,Description,URL,title = NetoyageActu(article[0])
             speak("L'actualités la plus récent est "+title,root)
             speak("Voulez-vous que je vous ouvre le lien de cette actualités "+genre+".",root)
-            reponse = takeCommand(root,police)
+            reponse = micro(root,police)
             if "oui" in reponse:
                 speak("Ok je vous l'ouvre",root)
                 webbrowser.open(URL)
@@ -41,7 +41,7 @@ def NeuronWeb(var,genre,user,root,police):
                 else :
                     if "météo" in var:
                         speak("Ou desirez savoir la meteo "+genre+" ?",root)
-                        r= takeCommand(root,police)
+                        r= micro(root,police)
                         if "maison" in r or "chez moi" in r or "à mon domicile" in r :
                             MeteoParole(1,root)  
                         if  "à mon lieu favori" in r  :
@@ -73,7 +73,7 @@ def NeuronWeb(var,genre,user,root,police):
                                 else :
                                     if "fais une grande recherche" in var:
                                         speak("Que voulez vous que je vous recherche "+genre+"?",root)
-                                        r = takeCommand(root,police)
+                                        r = micro(root,police)
                                         GrandRecherche(r)
                                         return 1
                                     else :
