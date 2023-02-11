@@ -5,6 +5,8 @@ from function.search import *
 from function.JSON import*
 from function.traduction import*
 import random
+from objet.meteo.apiMeteo import*
+from objet.GPS.apiGPS import*
 
 def NeuronWeb(var,genre,user,root,police):
     if "recherche" in var :
@@ -15,6 +17,7 @@ def NeuronWeb(var,genre,user,root,police):
         return 1
     else :
         if "actualités" in var:
+            """
             CompleteURL = urlNew+"&pageSize="+nombrePageNew1+"&apiKey="+keyNew
             article = requests.get(CompleteURL).json()["articles"]
             Sujet,Description,URL,title = NetoyageActu(article[0])
@@ -26,6 +29,8 @@ def NeuronWeb(var,genre,user,root,police):
                 webbrowser.open(URL)
             if "non" in reponse:
                 SIXsrc(root,police).speak("Ok "+genre+".")
+            """
+            print("aa")
             return 1
         else :
             if "ouvre youtube" in var :
@@ -40,18 +45,66 @@ def NeuronWeb(var,genre,user,root,police):
                     return 1
                 else :
                     if "météo" in var:
-                        SIXsrc(root,police).speak("Ou desirez savoir la meteo "+genre+" ?")
-                        r= SIXsrc(root,police).micro()
-                        if "maison" in r or "chez moi" in r or "à mon domicile" in r :
-                            MeteoParole(1,root,police)  
-                        if  "à mon lieu favori" in r  :
-                            MeteoParole(2,root,police)            
-                        if "à mon lieu de travail" in r :
-                            MeteoParole(3,root,police)
-                        if "à mon lieu de vacances" in r :
-                            MeteoParole(4,root,police)
-                        if "au lieu de bonus" in r  :
-                            MeteoParole(5,root,police)
+                        if "maison" in var or "chez moi" in var or "à mon domicile" in var or lectureJSON("setting/config.json","ville1") in var :
+                            nameVille = lectureJSON("setting/config.json","ville1")
+                            gps = ville(nameVille)
+                            retourMeteo = meteo(gps.lat(),gps.long())
+                            SIXsrc(root,police).speak("La météo a votre domicile est "+retourMeteo.description())
+                            time.sleep(1)
+                            SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                            time.sleep(1)
+                            SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                        else :
+                            if  "à mon lieu favori" in var  or lectureJSON("setting/config.json","ville2") in var:
+                                nameVille = lectureJSON("setting/config.json","ville2")
+                                gps = ville(nameVille)
+                                retourMeteo = meteo(gps.lat(),gps.long())
+                                SIXsrc(root,police).speak("La météo a votre lieu favorie est "+retourMeteo.description())
+                                time.sleep(1)
+                                SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                time.sleep(1)
+                                SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")           
+                            else :
+                                if "à mon lieu de travail" in var or lectureJSON("setting/config.json","ville3") in var :
+                                    nameVille = lectureJSON("setting/config.json","ville3")
+                                    gps = ville(nameVille)
+                                    retourMeteo = meteo(gps.lat(),gps.long())
+                                    SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                    time.sleep(1)
+                                    SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                    time.sleep(1)
+                                    SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                                else :
+                                    if "à mon lieu de vacances" in var or lectureJSON("setting/config.json","ville4") in var :
+                                        nameVille = lectureJSON("setting/config.json","ville4")
+                                        gps = ville(nameVille)
+                                        retourMeteo = meteo(gps.lat(),gps.long())
+                                        SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                        time.sleep(1)
+                                        SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                        time.sleep(1)
+                                        SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                                    else :
+                                        if "au lieu bonus" in var or lectureJSON("setting/config.json","ville5") in var :
+                                            nameVille = lectureJSON("setting/config.json","ville5")
+                                            gps = ville(nameVille)
+                                            retourMeteo = meteo(gps.lat(),gps.long())
+                                            SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                            time.sleep(1)
+                                            SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                            time.sleep(1)
+                                            SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                                        else : 
+                                            nameVille = lectureJSON("setting/config.json","ville1")
+                                            gps = ville(nameVille)
+                                            retourMeteo = meteo(gps.lat(),gps.long())
+                                            SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                            time.sleep(1)
+                                            SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                            time.sleep(1)
+                                            SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                        
+                        
                         return 1
                     else :
                         if "stockage cloud" in var or "stockage Cloud" in var or "drive" in var or "stockage en ligne" in var or "google drive" in var:
@@ -80,14 +133,14 @@ def NeuronWeb(var,genre,user,root,police):
                                         return 1
                                     else :
                                         if "dis-moi la température" in var:
-                                            lat , long = GeoLocGPS()
-                                            temp = str(requests.get(urlWeather+"appid="+keyWeather+"&lat="+lat+"&lon="+long+"&lang=fr"+"&units=metric").json()["main"]["temp"])
-                                            SIXsrc(root,police).speak("La température a votre localisation est de "+temp+" degrés")
+                                            geoLoc = GeoLocIP()
+                                            retourMeteo = meteo(geoLoc.lat(),geoLoc.long())
+                                            SIXsrc(root,police).speak("La température actuel a votre localisation est de "+retourMeteo.temperature()+" °C")
                                             return 1
                                         else :
                                             if "dis-moi mes coordonnées GPS" in var or "dis-moi où je suis" in var or "dis-moi où je me trouve" in var:
-                                                lat , long = GeoLocGPS()
-                                                SIXsrc(root,police).speak("Les coordonnées GPS de votre localisation sont "+lat+" latitude et de longitude "+long+".")
+                                                geoLoc = GeoLocIP()
+                                                SIXsrc(root,police).speak("Les coordonnées GPS de votre localisation sont "+geoLoc.lat()+" latitude et de longitude "+geoLoc.long()+".")
                                                 return 1
                                             else :
                                                 if "traduire" in var or "traduis-moi" in var:
