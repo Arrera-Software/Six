@@ -7,6 +7,7 @@ from function.traduction import*
 import random
 from objet.meteo.apiMeteo import*
 from objet.GPS.apiGPS import*
+from objet.actualiter.apiActualiter import*
 
 def NeuronWeb(var,genre,user,root,police):
     if "recherche" in var :
@@ -17,20 +18,18 @@ def NeuronWeb(var,genre,user,root,police):
         return 1
     else :
         if "actualités" in var:
-            """
-            CompleteURL = urlNew+"&pageSize="+nombrePageNew1+"&apiKey="+keyNew
-            article = requests.get(CompleteURL).json()["articles"]
-            Sujet,Description,URL,title = NetoyageActu(article[0])
-            SIXsrc(root,police).speak("L'actualités la plus récent est "+title)
-            SIXsrc(root,police).speak("Voulez-vous que je vous ouvre le lien de cette actualités "+genre+".")
-            reponse = SIXsrc(root,police).micro()
-            if "oui" in reponse:
-                SIXsrc(root,police).speak("Ok je vous l'ouvre")
-                webbrowser.open(URL)
-            if "non" in reponse:
-                SIXsrc(root,police).speak("Ok "+genre+".")
-            """
-            print("aa")
+            listActu = Actualiter().recuperation()
+            nbRadMonde = random.randint(0,1)
+            nbRandFr = random.randint(2,3)          
+            SIXsrc(root,police).speak("Les actualités de se moment son :")
+            time.sleep(1)
+            SIXsrc(root,police).speak(listActu[nbRadMonde])
+            time.sleep(1)
+            SIXsrc(root,police).speak(listActu[nbRandFr])
+            time.sleep(1)
+            SIXsrc(root,police).speak("Et enfin")
+            SIXsrc(root,police).speak(listActu[4])
+            
             return 1
         else :
             if "ouvre youtube" in var :
@@ -103,8 +102,6 @@ def NeuronWeb(var,genre,user,root,police):
                                             SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
                                             time.sleep(1)
                                             SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
-                        
-                        
                         return 1
                     else :
                         if "stockage cloud" in var or "stockage Cloud" in var or "drive" in var or "stockage en ligne" in var or "google drive" in var:
