@@ -7,7 +7,6 @@ from objet.GPS.apiGPS import*
 
 def Resumer(root,police):#Fonction de resumer des actaulités et de la meteo
     varGPSDomicile = ville(lectureJSON("setting/config.json","ville1"))
-    varCapitale = ville("Paris")
     ListActu = Actualiter().recuperation()
     varMeteoDomicile = meteo(varGPSDomicile.lat(),varGPSDomicile.long())
     dateJour = date().jour() + " " + date().mois() + " "+date().annes()
