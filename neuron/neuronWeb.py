@@ -18,17 +18,21 @@ def NeuronWeb(var,genre,user,root,police):
         return 1
     else :
         if "actualités" in var:
-            listActu = Actualiter().recuperation()
-            nbRadMonde = random.randint(0,1)
-            nbRandFr = random.randint(2,3)          
-            SIXsrc(root,police).speak("Les actualités de se moment son :")
-            time.sleep(1)
-            SIXsrc(root,police).speak(listActu[nbRadMonde])
-            time.sleep(1)
-            SIXsrc(root,police).speak(listActu[nbRandFr])
-            time.sleep(1)
-            SIXsrc(root,police).speak("Et enfin")
-            SIXsrc(root,police).speak(listActu[4])
+            if "montre" in var :
+                SIXsrc(root,police).speak("Voici les actualités du moment")
+                DescriptionActu(root,police,genre,user)
+            else :
+                listActu = Actualiter().recuperationTitre()
+                nbRadMonde = random.randint(0,1)
+                nbRandFr = random.randint(2,3)          
+                SIXsrc(root,police).speak("Les actualités de se moment sont")
+                time.sleep(1)
+                SIXsrc(root,police).speak(listActu[nbRadMonde])
+                time.sleep(1)
+                SIXsrc(root,police).speak(listActu[nbRandFr])
+                time.sleep(1)
+                SIXsrc(root,police).speak("Et enfin")
+                SIXsrc(root,police).speak(listActu[4])
             
             return 1
         else :

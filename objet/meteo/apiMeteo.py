@@ -25,3 +25,9 @@ class meteo :
             return "error"
         else : 
             return self.reponse.json()["weather"][0]["description"]
+        
+    def icon(self):
+        if self.reponse.status_code == 400 :
+            return "error"
+        else :
+            return self.reponse.json()['weather'][0]['icon'] 

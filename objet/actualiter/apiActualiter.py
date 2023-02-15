@@ -10,29 +10,73 @@ class Actualiter :
         self.urlActuFr = "https://newsapi.org/v2/top-headlines?" +"apiKey=" + self.api_key + "&language=fr&from="+date+"&pageSize="+nbPage+"&category=technology"
         self.urlActuPolitique  =  "https://newsapi.org/v2/top-headlines?" +"apiKey=" + self.api_key + "&language=fr&from="+date+"&country=fr"+"&pageSize="+nbPage+"&category=science"
         self.urlActuCrypto =  "https://newsapi.org/v2/top-headlines?" +"apiKey=" + self.api_key + "&language=fr&from="+date+"&country=fr"+"&pageSize="+nbPage+"&category=sport"
-        
-    def Netoyage(self,dictionnnaire):
-        titre = dictionnnaire["title"]
-        return titre
-    
-    def recuperation(self):#Permet de recuperer les actualiter sous la forme d'une liste
         self.responseMondiale = requests.get(self.urlActuMondial)
         self.responseFr = requests.get(self.urlActuFr)
         self.reponsePoli = requests.get(self.urlActuPolitique)
         self.reponseCrypto = requests.get(self.urlActuCrypto)
-        self.listactu = []
+        
+    def NetoyageTitre(self,dictionnnaire):
+        titre = dictionnnaire["title"]
+        return str(titre)
+    
+    def NetoyageURL(self,dictionnnaire):
+        url = dictionnnaire["url"]
+        return str(url)
+    
+    def NetoyageDescription(self,dictionnnaire):
+        description = dictionnnaire["description"]
+        return str(description)
+    
+    def recuperationTitre(self):#Permet de recuperer les actualiter sous la forme d'une liste
+        listactu = []
         if (self.responseMondiale.status_code == 200)and(self.responseFr.status_code == 200)and(self.reponsePoli.status_code == 200)and(self.reponseCrypto.status_code == 200):
             self.dataMondiale = self.responseMondiale.json()
             self.dataFr = self.responseFr.json()
             self.dataPoli = self.reponsePoli.json()
             self.dataCrypto = self.reponseCrypto.json()
-            self.actu1 = self.Netoyage(self.dataMondiale["articles"][0])
-            self.actu2 = self.Netoyage(self.dataMondiale["articles"][2])
-            self.actu3 = self.Netoyage(self.dataFr["articles"][0])
-            self.actu4 = self.Netoyage(self.dataFr["articles"][2])
-            self.actu5 = self.Netoyage(self.dataPoli["articles"][0])
-            self.actu6 = self.Netoyage(self.dataCrypto["articles"][0])
-            self.listactu = [self.actu1 , self.actu2 ,self.actu3,self.actu4,self.actu5,self.actu6]
+            self.actu1 = self.NetoyageTitre(self.dataMondiale["articles"][0])
+            self.actu2 = self.NetoyageTitre(self.dataMondiale["articles"][2])
+            self.actu3 = self.NetoyageTitre(self.dataFr["articles"][0])
+            self.actu4 = self.NetoyageTitre(self.dataFr["articles"][2])
+            self.actu5 = self.NetoyageTitre(self.dataPoli["articles"][0])
+            self.actu6 = self.NetoyageTitre(self.dataCrypto["articles"][0])
+            listactu = [self.actu1 , self.actu2 ,self.actu3,self.actu4,self.actu5,self.actu6]
         else:
-            self.listactu=["ereur","ereur","ereur","ereur","ereur","ereur"]
-        return self.listactu
+            listactu=["ereur","ereur","ereur","ereur","ereur","ereur"]
+        return listactu
+
+    def recuperationURL(self):
+        listURL = []
+        if (self.responseMondiale.status_code == 200)and(self.responseFr.status_code == 200)and(self.reponsePoli.status_code == 200)and(self.reponseCrypto.status_code == 200):
+            self.dataMondiale = self.responseMondiale.json()
+            self.dataFr = self.responseFr.json()
+            self.dataPoli = self.reponsePoli.json()
+            self.dataCrypto = self.reponseCrypto.json()
+            self.actu1 = self.NetoyageURL(self.dataMondiale["articles"][0])
+            self.actu2 = self.NetoyageURL(self.dataMondiale["articles"][2])
+            self.actu3 = self.NetoyageURL(self.dataFr["articles"][0])
+            self.actu4 = self.NetoyageURL(self.dataFr["articles"][2])
+            self.actu5 = self.NetoyageURL(self.dataPoli["articles"][0])
+            self.actu6 = self.NetoyageURL(self.dataCrypto["articles"][0])
+            listURL = [self.actu1 , self.actu2 ,self.actu3,self.actu4,self.actu5,self.actu6]
+        else :
+            listURL=["ereur","ereur","ereur","ereur","ereur","ereur"]
+        return listURL
+    
+    def recuperationDescription(self):
+        listDescription = []
+        if (self.responseMondiale.status_code == 200)and(self.responseFr.status_code == 200)and(self.reponsePoli.status_code == 200)and(self.reponseCrypto.status_code == 200):
+            self.dataMondiale = self.responseMondiale.json()
+            self.dataFr = self.responseFr.json()
+            self.dataPoli = self.reponsePoli.json()
+            self.dataCrypto = self.reponseCrypto.json()
+            self.actu1 = self.NetoyageDescription(self.dataMondiale["articles"][0])
+            self.actu2 = self.NetoyageDescription(self.dataMondiale["articles"][2])
+            self.actu3 = self.NetoyageDescription(self.dataFr["articles"][0])
+            self.actu4 = self.NetoyageDescription(self.dataFr["articles"][2])
+            self.actu5 = self.NetoyageDescription(self.dataPoli["articles"][0])
+            self.actu6 = self.NetoyageDescription(self.dataCrypto["articles"][0])
+            listDescription = [self.actu1 , self.actu2 ,self.actu3,self.actu4,self.actu5,self.actu6]
+        else :
+            listDescription = ["ereur","ereur","ereur","ereur","ereur","ereur"]
+        return listDescription
