@@ -33,7 +33,7 @@ def Resumer(root,police):#Fonction de resumer des actaulités et de la meteo
     six.speak(listActu[4])
     
 
-def DescriptionActu(root,police,genre,nom):
+def DescriptionActu():
     
     listActuTitre = Actualiter().recuperationTitre()
     listActuURL = Actualiter().recuperationURL()
@@ -47,6 +47,27 @@ def DescriptionActu(root,police,genre,nom):
     codeImage = varMeteoDomicile.icon()
     
     screen = Tk()
+    
+    def Actu1():
+        webbrowser.open(listActuURL[0])
+        screen.destroy()
+        
+    def Actu2():
+        webbrowser.open(listActuURL[1])
+        screen.destroy()
+        
+    def Actu3():
+        webbrowser.open(listActuURL[2])
+        screen.destroy()
+        
+    def Actu4():
+        webbrowser.open(listActuURL[3])
+        screen.destroy()
+        
+    def Actu5():
+        webbrowser.open(listActuURL[4])
+        screen.destroy()
+    
     imageMeteo = PhotoImage(file="image/meteo/"+codeImage+".png")
     screen.title("Six : Actualités")
     screen.maxsize(600,700) 
@@ -63,17 +84,17 @@ def DescriptionActu(root,police,genre,nom):
     cadreActuMain = Frame(canvasActu,bg="#3c0b10")
     canvasActu.create_window((0,0),window=cadreActuMain,anchor="nw")
     
-    cadreActu1 = Frame(cadreActuMain,bg="#3c0b10",width=495,height=275)
-    cadreActu2 = Frame(cadreActuMain,bg="#3c0b10",width=495,height=275)
-    cadreActu3 = Frame(cadreActuMain,bg="#3c0b10",width=495,height=275)
-    cadreActu4 = Frame(cadreActuMain,bg="#3c0b10",width=495,height=275)
-    cadreActu5 = Frame(cadreActuMain,bg="#3c0b10",width=495,height=275)
+    cadreActu1 = Frame(cadreActuMain,bg="#3c0b10",width=525,height=275)
+    cadreActu2 = Frame(cadreActuMain,bg="#3c0b10",width=525,height=275)
+    cadreActu3 = Frame(cadreActuMain,bg="#3c0b10",width=525,height=275)
+    cadreActu4 = Frame(cadreActuMain,bg="#3c0b10",width=525,height=275)
+    cadreActu5 = Frame(cadreActuMain,bg="#3c0b10",width=525,height=275)
     
-    labelTitre1 = Label(cadreActu1,text=passageLigne(listActuTitre[0],9)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
-    labelTitre2 = Label(cadreActu2,text=passageLigne(listActuTitre[1],9)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
-    labelTitre3 = Label(cadreActu3,text=passageLigne(listActuTitre[2],9)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
-    labelTitre4 = Label(cadreActu4,text=passageLigne(listActuTitre[3],9)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
-    labelTitre5 = Label(cadreActu5,text=passageLigne(listActuTitre[4],9)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
+    labelTitre1 = Label(cadreActu1,text=passageLigne(listActuTitre[0],8)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
+    labelTitre2 = Label(cadreActu2,text=passageLigne(listActuTitre[1],8)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
+    labelTitre3 = Label(cadreActu3,text=passageLigne(listActuTitre[2],8)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
+    labelTitre4 = Label(cadreActu4,text=passageLigne(listActuTitre[3],8)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
+    labelTitre5 = Label(cadreActu5,text=passageLigne(listActuTitre[4],8)+"\n",font=("arial",15, "bold"),fg="white",bg="#3c0b10",justify="left")
     
     labelDescription1 = Label(cadreActu1,text=passageLigne(listActuDescription[0],8)+"\n\n",font=("arial",12),fg="white",bg="#3c0b10",justify="left")
     labelDescription2 = Label(cadreActu2,text=passageLigne(listActuDescription[1],8)+"\n\n",font=("arial",12),fg="white",bg="#3c0b10",justify="left")
@@ -81,11 +102,11 @@ def DescriptionActu(root,police,genre,nom):
     labelDescription4 = Label(cadreActu4,text=passageLigne(listActuDescription[3],8)+"\n\n",font=("arial",12),fg="white",bg="#3c0b10",justify="left")
     labelDescription5 = Label(cadreActu5,text=passageLigne(listActuDescription[4],8)+"\n\n",font=("arial",12),fg="white",bg="#3c0b10",justify="left")
     
-    buttonActu1 = Button(cadreActu1,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= lambda : webbrowser.open(listActuURL[0]) and screen.quit())
-    buttonActu2 = Button(cadreActu2,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= lambda : webbrowser.open(listActuURL[1]) and screen.quit())
-    buttonActu3 = Button(cadreActu3,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= lambda : webbrowser.open(listActuURL[2]) and screen.quit())
-    buttonActu4 = Button(cadreActu4,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= lambda : webbrowser.open(listActuURL[3]) and screen.quit())
-    buttonActu5 = Button(cadreActu5,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= lambda : webbrowser.open(listActuURL[4]) and screen.quit())
+    buttonActu1 = Button(cadreActu1,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= Actu1)
+    buttonActu2 = Button(cadreActu2,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= Actu2)
+    buttonActu3 = Button(cadreActu3,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= Actu3)
+    buttonActu4 = Button(cadreActu4,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= Actu4)
+    buttonActu5 = Button(cadreActu5,text="Consulter",font=("arial",15),fg="#3c0b10",bg="white",command= Actu5)
     
     
     
@@ -135,4 +156,3 @@ def DescriptionActu(root,police,genre,nom):
     canvasActu.config(scrollregion=canvasActu.bbox("all"))
     
     screen.mainloop()
-    SIXsrc(root,police).speak("J'esper que sa vous a été utile "+genre+" "+nom)

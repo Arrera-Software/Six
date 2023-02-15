@@ -1,4 +1,3 @@
-from operator import ge
 from src.srcSix import *
 from function.api import *
 from function.search import *
@@ -20,7 +19,8 @@ def NeuronWeb(var,genre,user,root,police):
         if "actualités" in var:
             if "montre" in var :
                 SIXsrc(root,police).speak("Voici les actualités du moment")
-                DescriptionActu(root,police,genre,user)
+                DescriptionActu()
+                SIXsrc(root,police).speak("J'esper que sa vous a été utile "+genre+" "+user)
             else :
                 listActu = Actualiter().recuperationTitre()
                 nbRadMonde = random.randint(0,1)
