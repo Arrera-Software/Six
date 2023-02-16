@@ -1,8 +1,8 @@
 from tkinter import *
 from function.JSON import*
 from setting.view import*
-listMoteur=["duckduckgo","google","qwant","ecosia","brave"]
-listLienMoteur=["https://duckduckgo.com/","https://www.google.com/","https://www.qwant.com/","https://www.ecosia.org/","https://search.brave.com/"]
+listMoteur=["duckduckgo","google","qwant","ecosia","brave","bing"]
+listLienMoteur=["https://duckduckgo.com/","https://www.google.com/","https://www.qwant.com/","https://www.ecosia.org/","https://search.brave.com/","https://www.bing.com/search"]
 def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     varMoteur = StringVar(screen)
     cadre.pack_forget()
@@ -66,7 +66,10 @@ def ParaWeb(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
                         if newMoteur == "ecosia" :
                             EcritureJSON("setting/config.json","lienMoteur",listLienMoteur[3])
                         else :
-                            EcritureJSON("setting/config.json","lienMoteur",listLienMoteur[4])
+                            if newMoteur == "brave":
+                                EcritureJSON("setting/config.json","lienMoteur",listLienMoteur[4])
+                            else :
+                                EcritureJSON("setting/config.json","lienMoteur",listLienMoteur[5])
             ExitMoteur()
         btnValiderWeb.config(command=valider)
         moteur = lectureJSON("setting/config.json","nameMoteur")
