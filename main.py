@@ -7,7 +7,7 @@ from neuron.neuronWeb import *
 from neuron.neuronSoftware import *
 from neuron.neuronUser import*
 from function.api import Resumer
-from function.search import TestInternet
+from function.search import*
 from setting.setting import*
 from src.varInterface import*
 from neuron.neuronTime import*

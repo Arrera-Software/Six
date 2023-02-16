@@ -9,77 +9,99 @@ from objet.GPS.apiGPS import*
 from objet.actualiter.apiActualiter import*
 
 def NeuronWeb(var,genre,user,root,police):
-    if "recherche" in var :
-        SIXsrc(root,police).speak("Vous voulez rechercher quoi "+genre+" ?")
-        recherche = SIXsrc(root,police).micro()
-        SIXsrc(root,police).speak("Ok,je vous recherche sa.")
-        duckduckgoSearch(recherche)
+    if "grande recherche" in var :
+        requette = str(var)
+        requette = requette.replace("grande recherche","")
+        requette = requette.replace("fais-moi","")
+        requette = requette.replace("une","")
+        requette = requette.replace("sur ","")
+        SIXsrc(root,police).speak("Ok,Voici ce que trouvent tout les moteur de recherche.")
+        GrandRecherche(requette)
         return 1
     else :
-        if "actualités" in var:
-            if "montre" in var :
-                SIXsrc(root,police).speak("Voici les actualités du moment")
-                DescriptionActu()
-                SIXsrc(root,police).speak("J'esper que sa vous a été utile "+genre+" "+user)
+        if "recherche" in var :
+            requette = str(var)
+            requette = requette.replace("recherche","")
+            requette = requette.replace("fais-moi","")
+            requette = requette.replace("une","")
+            requette = requette.replace("sur ","")
+            SIXsrc(root,police).speak("Ok,je vous recherche sa.")
+            nameMoteur = lectureJSON("setting/config.json","nameMoteur")
+            if (nameMoteur=="duckduckgo"):
+                duckduckgoSearch(requette)
             else :
-                listActu = Actualiter().recuperationTitre()
-                nbRadMonde = random.randint(0,1)
-                nbRandFr = random.randint(2,3)          
-                SIXsrc(root,police).speak("Les actualités de se moment sont")
-                time.sleep(1)
-                SIXsrc(root,police).speak(listActu[nbRadMonde])
-                time.sleep(1)
-                SIXsrc(root,police).speak(listActu[nbRandFr])
-                time.sleep(1)
-                SIXsrc(root,police).speak("Et enfin")
-                SIXsrc(root,police).speak(listActu[4])
-            
+                if (nameMoteur=="google"):
+                    googleSearch(requette)
+                else :
+                    if (nameMoteur=="qwant"):
+                        QwantSearch(requette)
+                    else :
+                        if (nameMoteur == "ecosia" ):
+                            EcosiaSearch(requette)
+                        else :
+                            if (nameMoteur=="brave"):
+                                braveSearch(requette)
+                            else :
+                                if (nameMoteur=="bing"):
+                                    bingSearch(requette)
+                                else :
+                                    duckduckgoSearch(requette)
             return 1
         else :
-            if "ouvre youtube" in var :
-                webbrowser.open("https://www.youtube.com/")
-                SIXsrc(root,police).speak("Youtube et ouvert ")
+            if "actualités" in var:
+                if "montre" in var :
+                    SIXsrc(root,police).speak("Voici les actualités du moment")
+                    DescriptionActu()
+                    SIXsrc(root,police).speak("J'esper que sa vous a été utile "+genre+" "+user)
+                else :
+                    listActu = Actualiter().recuperationTitre()
+                    nbRadMonde = random.randint(0,1)
+                    nbRandFr = random.randint(2,3)          
+                    SIXsrc(root,police).speak("Les actualités de se moment sont")
+                    time.sleep(1)
+                    SIXsrc(root,police).speak(listActu[nbRadMonde])
+                    time.sleep(1)
+                    SIXsrc(root,police).speak(listActu[nbRandFr])
+                    time.sleep(1)
+                    SIXsrc(root,police).speak("Et enfin")
+                    SIXsrc(root,police).speak(listActu[4])
+            
                 return 1
             else :
-                if "lance de la musique" in var or "lancer de la musique" in var:
-                    lienMusic =lectureJSON("setting/config.json","appWeb1Lien")
-                    webbrowser.open(lienMusic)
-                    SIXsrc(root,police).speak("Votre logiciel de musique est lancer"+genre+".")
+                if "ouvre youtube" in var :
+                    webbrowser.open("https://www.youtube.com/")
+                    SIXsrc(root,police).speak("Youtube et ouvert ")
                     return 1
                 else :
-                    if "météo" in var:
-                        if "maison" in var or "chez moi" in var or "à mon domicile" in var or lectureJSON("setting/config.json","ville1") in var :
-                            nameVille = lectureJSON("setting/config.json","ville1")
-                            gps = ville(nameVille)
-                            retourMeteo = meteo(gps.lat(),gps.long())
-                            SIXsrc(root,police).speak("La météo a votre domicile est "+retourMeteo.description())
-                            time.sleep(1)
-                            SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
-                            time.sleep(1)
-                            SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
-                        else :
-                            if  "à mon lieu favori" in var  or lectureJSON("setting/config.json","ville2") in var:
-                                nameVille = lectureJSON("setting/config.json","ville2")
+                    if "lance de la musique" in var or "lancer de la musique" in var:
+                        lienMusic =lectureJSON("setting/config.json","appWeb1Lien")
+                        webbrowser.open(lienMusic)
+                        SIXsrc(root,police).speak("Votre logiciel de musique est lancer"+genre+".")
+                        return 1
+                    else :
+                        if "météo" in var:
+                            if "maison" in var or "chez moi" in var or "à mon domicile" in var or lectureJSON("setting/config.json","ville1") in var :
+                                nameVille = lectureJSON("setting/config.json","ville1")
                                 gps = ville(nameVille)
                                 retourMeteo = meteo(gps.lat(),gps.long())
-                                SIXsrc(root,police).speak("La météo a votre lieu favorie est "+retourMeteo.description())
+                                SIXsrc(root,police).speak("La météo a votre domicile est "+retourMeteo.description())
                                 time.sleep(1)
                                 SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
                                 time.sleep(1)
-                                SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")           
+                                SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
                             else :
-                                if "à mon lieu de travail" in var or lectureJSON("setting/config.json","ville3") in var :
-                                    nameVille = lectureJSON("setting/config.json","ville3")
+                                if  "à mon lieu favori" in var  or lectureJSON("setting/config.json","ville2") in var:
+                                    nameVille = lectureJSON("setting/config.json","ville2")
                                     gps = ville(nameVille)
                                     retourMeteo = meteo(gps.lat(),gps.long())
-                                    SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                    SIXsrc(root,police).speak("La météo a votre lieu favorie est "+retourMeteo.description())
                                     time.sleep(1)
                                     SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
                                     time.sleep(1)
-                                    SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                                    SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")           
                                 else :
-                                    if "à mon lieu de vacances" in var or lectureJSON("setting/config.json","ville4") in var :
-                                        nameVille = lectureJSON("setting/config.json","ville4")
+                                    if "à mon lieu de travail" in var or lectureJSON("setting/config.json","ville3") in var :
+                                        nameVille = lectureJSON("setting/config.json","ville3")
                                         gps = ville(nameVille)
                                         retourMeteo = meteo(gps.lat(),gps.long())
                                         SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
@@ -88,8 +110,8 @@ def NeuronWeb(var,genre,user,root,police):
                                         time.sleep(1)
                                         SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
                                     else :
-                                        if "au lieu bonus" in var or lectureJSON("setting/config.json","ville5") in var :
-                                            nameVille = lectureJSON("setting/config.json","ville5")
+                                        if "à mon lieu de vacances" in var or lectureJSON("setting/config.json","ville4") in var :
+                                            nameVille = lectureJSON("setting/config.json","ville4")
                                             gps = ville(nameVille)
                                             retourMeteo = meteo(gps.lat(),gps.long())
                                             SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
@@ -97,40 +119,44 @@ def NeuronWeb(var,genre,user,root,police):
                                             SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
                                             time.sleep(1)
                                             SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
-                                        else : 
-                                            nameVille = lectureJSON("setting/config.json","ville1")
-                                            gps = ville(nameVille)
-                                            retourMeteo = meteo(gps.lat(),gps.long())
-                                            SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
-                                            time.sleep(1)
-                                            SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
-                                            time.sleep(1)
-                                            SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
-                        return 1
-                    else :
-                        if "stockage cloud" in var or "stockage Cloud" in var or "drive" in var or "stockage en ligne" in var or "google drive" in var:
-                            lienStokageCloud = lectureJSON("setting/config.json","lien2")
-                            nrad = random.randint(0,1)
-                            listText = ["Voici votre stockage en ligne ","Voici votre stockage en could "]
-                            SIXsrc(root,police).speak(listText[nrad]+genre+" ")
-                            webbrowser.open(lienStokageCloud)
+                                        else :
+                                            if "au lieu bonus" in var or lectureJSON("setting/config.json","ville5") in var :
+                                                nameVille = lectureJSON("setting/config.json","ville5")
+                                                gps = ville(nameVille)
+                                                retourMeteo = meteo(gps.lat(),gps.long())
+                                                SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                                time.sleep(1)
+                                                SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                                time.sleep(1)
+                                                SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
+                                            else : 
+                                                nameVille = lectureJSON("setting/config.json","ville1")
+                                                gps = ville(nameVille)
+                                                retourMeteo = meteo(gps.lat(),gps.long())
+                                                SIXsrc(root,police).speak("La météo à "+nameVille+" est "+retourMeteo.description())
+                                                time.sleep(1)
+                                                SIXsrc(root,police).speak("Avec une température de "+retourMeteo.temperature()+" °C")
+                                                time.sleep(1)
+                                                SIXsrc(root,police).speak("Et un taux d'humiditer de "+retourMeteo.humiditer()+" %")
                             return 1
                         else :
-                            if "navigateur internet" in var :
-                                lienMoteur = lectureJSON("setting/config.json","lienMoteur")
-                                nomMoteur = lectureJSON("setting/config.json","nameMoteur")
-                                SIXsrc(root,police).speak("Ok j'ouvre votre navigateur internet avec le moteur de recherche "+nomMoteur)
-                                webbrowser.open(lienMoteur)
+                            if "stockage cloud" in var or "stockage Cloud" in var or "drive" in var or "stockage en ligne" in var or "google drive" in var:
+                                lienStokageCloud = lectureJSON("setting/config.json","lien2")
+                                nrad = random.randint(0,1)
+                                listText = ["Voici votre stockage en ligne ","Voici votre stockage en could "]
+                                SIXsrc(root,police).speak(listText[nrad]+genre+" ")
+                                webbrowser.open(lienStokageCloud)
                                 return 1
                             else :
-                                if "résumé" in var:
-                                    Resumer(root,police)
+                                if "navigateur internet" in var :
+                                    lienMoteur = lectureJSON("setting/config.json","lienMoteur")
+                                    nomMoteur = lectureJSON("setting/config.json","nameMoteur")
+                                    SIXsrc(root,police).speak("Ok j'ouvre votre navigateur internet avec le moteur de recherche "+nomMoteur)
+                                    webbrowser.open(lienMoteur)
                                     return 1
                                 else :
-                                    if "fais une grande recherche" in var:
-                                        SIXsrc(root,police).speak("Que voulez vous que je vous recherche "+genre+"?")
-                                        r = SIXsrc(root,police).micro()
-                                        GrandRecherche(r)
+                                    if "résumé" in var:
+                                        Resumer(root,police)
                                         return 1
                                     else :
                                         if "dis-moi la température" in var:
@@ -165,28 +191,28 @@ def NeuronWeb(var,genre,user,root,police):
                                                             nameApp2 = lectureJSON("setting/config.json","appWeb3Name")
                                                             nameApp3 = lectureJSON("setting/config.json","appWeb4Name")
                                                             nameApp4 = lectureJSON("setting/config.json","appWeb5Name")
-                                                        if nameApp1 in var:
-                                                            lienApp1 = lectureJSON("setting/config.json","appWeb2Lien")
-                                                            SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp1+" "+genre+" "+user)
-                                                            webbrowser.open(lienApp1)
-                                                            return 1
-                                                        else :
-                                                            if nameApp2 in var:
-                                                                lienApp2 = lectureJSON("setting/config.json","appWeb3Lien")
-                                                                SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp2+" "+genre+" "+user)
-                                                                webbrowser.open(lienApp2)
+                                                            if nameApp1 in var:
+                                                                lienApp1 = lectureJSON("setting/config.json","appWeb2Lien")
+                                                                SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp1+" "+genre+" "+user)
+                                                                webbrowser.open(lienApp1)
                                                                 return 1
-                                                            else:
-                                                                if nameApp3 in var:
-                                                                    lienApp3 = lectureJSON("setting/config.json","appWeb4Lien")
-                                                                    SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp3+" "+genre+" "+user)
-                                                                    webbrowser.open(lienApp3)
+                                                            else :
+                                                                if nameApp2 in var:
+                                                                    lienApp2 = lectureJSON("setting/config.json","appWeb3Lien")
+                                                                    SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp2+" "+genre+" "+user)
+                                                                    webbrowser.open(lienApp2)
                                                                     return 1
-                                                                else :
-                                                                    if nameApp4 in var:
-                                                                        lienApp4 = lectureJSON("setting/config.json","appWeb5Lien")
-                                                                        SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp4+" "+genre+" "+user)
-                                                                        webbrowser.open(lienApp4)
+                                                                else:
+                                                                    if nameApp3 in var:
+                                                                        lienApp3 = lectureJSON("setting/config.json","appWeb4Lien")
+                                                                        SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp3+" "+genre+" "+user)
+                                                                        webbrowser.open(lienApp3)
                                                                         return 1
                                                                     else :
-                                                                        return 0
+                                                                        if nameApp4 in var:
+                                                                            lienApp4 = lectureJSON("setting/config.json","appWeb5Lien")
+                                                                            SIXsrc(root,police).speak("Ok je vous ouvre "+nameApp4+" "+genre+" "+user)
+                                                                            webbrowser.open(lienApp4)
+                                                                            return 1
+                                                                        else :
+                                                                            return 0

@@ -1,5 +1,6 @@
 import webbrowser
 import requests
+import time
 
 def TestInternet():
     try:
@@ -14,12 +15,14 @@ def braveSearch(query):
         urllink = requests.get(url+query+"&source=web")
         lienBrave = urllink.url
         webbrowser.open(lienBrave)
+
 def AmazonSearch(query):
     with requests.session() as c:
         url = 'https://www.amazon.fr/s?k='
         urllink = requests.get(url+query)
         lienAmazon = urllink.url
         webbrowser.open(lienAmazon)
+
 def googleSearch(query):
     with requests.session() as c:
         url = 'https://www.google.com/search?q'
@@ -27,6 +30,7 @@ def googleSearch(query):
         urllink = requests.get(url, params=query)
         liengoogle = urllink.url
         webbrowser.open(liengoogle)
+
 def duckduckgoSearch(query):
     with requests.session() as c:
         url = 'https://duckduckgo.com/?q'
@@ -34,6 +38,7 @@ def duckduckgoSearch(query):
         urllink = requests.get(url, params=query)
         lienduck = urllink.url
         webbrowser.open(lienduck)   
+
 def QwantSearch(query):
     with requests.session() as c:
         url = 'https://www.qwant.com/?l=fr&q'
@@ -42,6 +47,7 @@ def QwantSearch(query):
         lienQwant = urllink.url
         webbrowser.open(lienQwant)
 
+
 def EcosiaSearch(query):
     with requests.session() as c:
         url = 'https://www.ecosia.org/search'
@@ -49,6 +55,7 @@ def EcosiaSearch(query):
         urllink = requests.get(url,query)
         lienEcosia = urllink.url
         webbrowser.open(lienEcosia) 
+
 def bingSearch(query):
     with requests.session() as c:
         url = "https://www.bing.com/search"
@@ -56,48 +63,32 @@ def bingSearch(query):
         urllink = requests.get(url, params=query)
         lienbing = urllink.url
         webbrowser.open(lienbing)
-def WikipediaSearch(query):
-    with requests.session() as c:
-        url = 'https://fr.wikipedia.org/wiki/'
-        lienWiki = url+query
-        webbrowser.open(lienWiki)
-def ReversoSeacrch(query):
-    with requests.session() as c:
-        url = 'https://www.reverso.net/traduction-texte#sl=fra&tl=eng&text='
-        urllink = requests.get(url+query)
-        liengoogle = urllink.url
-        webbrowser.open(liengoogle) 
-def WordreferenceSearch(query):
-    with requests.session() as c:
-        url = 'https://www.wordreference.com/fren/'
-        lienWord = url+query
-        webbrowser.open(lienWord)
-def YTmusicSearch(query):
-    with requests.session() as c:
-        url = 'https://music.youtube.com/search'
-        query = {'q': query}
-        urllink = requests.get(url, params=query)
-        lienYTmusic = urllink.url
-        webbrowser.open(lienYTmusic)
-def DocPython():
-    webbrowser.open("https://docs.python.org/3")
-def DocArduino():
-    webbrowser.open("https://docs.python.org/3")
+
+    
 def GrandRecherche(query):
     i = 0
-    while(i!=6):
+    while(i!=7):
         if (i==1) :
             googleSearch(query)
+            time.sleep(1.5)
         else :
             if (i==2):                
                 QwantSearch(query)
+                time.sleep(1.5)
             else :
                 if(i==3):
                     duckduckgoSearch(query)
+                    time.sleep(1.5)
                 else :
                     if(i==4):
                         EcosiaSearch(query)
+                        time.sleep(1.5)
                     else :
                         if(i==5):
                             braveSearch(query)
+                            time.sleep(1.5)
+                        else :
+                            if(i==6):
+                                bingSearch(query)
+                                time.sleep(1.5)
         i = i + 1
