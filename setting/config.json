@@ -33,5 +33,11 @@
   "lang0": "french",
   "lang1": "english",
   "lang2": "spanish",
-  "theme": "default"
+  "theme": "default",
+  "appNote": "",
+  "navigateurInternet": "",
+  "editeurtexte": "",
+  "editeurpresentation": "",
+  "tableur": "",
+  "appMusique": ""
 }

@@ -7,6 +7,7 @@ from setting.meteo import*
 from setting.appWeb import*
 from setting.traduction import *
 from setting.GUITheme import*
+from setting.application import*
 
 listMoteur = "google" , "duckduckgo" , "ecosia" , "qwant" , "bing"
     
@@ -20,26 +21,30 @@ def Setting():#fonction parametre
     right = Frame(ScreenPara,width=500,height=700,bg="#5e262c")
     #fonction
     def web():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        ParaWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        ParaWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def user():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        User(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def assistant():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def meteo():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
         Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
     def appweb():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        AppWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        AppWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def trad():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        Trad(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        Trad(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def interface():
-        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
-        GUI(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        GUI(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+    def app():
+        NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+        Application(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
+    
     #widget
     #label
     labelTitre = Label(left,text="Paramètre",font=("arial","30"),bg="#3c0b10",fg="white")
@@ -51,9 +56,10 @@ def Setting():#fonction parametre
     btnTraducteur = Button(left,text="Traducteur",bg="white",fg="black",font=("arial","15"),command=trad)
     btnAppWeb = Button(left,text="Application Web",bg="white",fg="black",font=("arial","15"),command=appweb)
     btnTheme = Button(left,text="Theme GUI",bg="white",fg="black",font=("arial","15"),command=interface)
+    btnApp = Button(left,text="Application",bg="white",fg="black",font=("arial","15"),command=app)
     #affichage
     left.pack(side="left")
     right.pack(side="right")
-    ViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+    ViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     labelTitre.place(x=5,y=5)
     ScreenPara.mainloop()

@@ -5,7 +5,7 @@ from setting.view import*
 
 listTheme = ["default","white","black"]
 
-def GUI(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
+def GUI(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
     cadre.pack_forget()
     varTheme = StringVar(screen)
     section= Frame(screen,width=500,height=700,bg="#5e262c")
@@ -13,7 +13,7 @@ def GUI(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8)
     def Affichage():
         btnGUIValider.place(x=195,y=125) 
         menuTheme.place(x=20,y=125)

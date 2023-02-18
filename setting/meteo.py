@@ -2,7 +2,7 @@ from tkinter import *
 from function.JSON import*
 from setting.view import*
 
-def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
+def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
     cadre.pack_forget()
     section= Frame(screen,width=500,height=700,bg="#5e262c")
     section.pack(side="right")
@@ -10,7 +10,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7):
     def exit():
         section.pack_forget()
         cadre.pack(side="right")
-        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7)
+        ViewBTN(btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8)
     def Affichage():
         labelMeteo1.place(x=20,y=125)
         labelMeteo2.place(x=20,y=225)
