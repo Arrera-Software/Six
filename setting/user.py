@@ -42,6 +42,7 @@ def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             EcritureJSON("setting/config.json","userGenre1",newGenre)
             exitModif()
             Actulisaton()
+            entryName.delete(0, "end")
         genre = lectureJSON("setting/config.json","userGenre1")
         if genre == "monsieur" :
             varGenre.set(listGenre[0])
@@ -62,6 +63,7 @@ def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             EcritureJSON("setting/config.json","userGenre2",newGenre)
             exitModif()
             Actulisaton()
+            entryName.delete(0, "end")
         genre = lectureJSON("setting/config.json","userGenre2")
         if genre == "monsieur" :
             varGenre.set(listGenre[0])
@@ -82,6 +84,7 @@ def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             EcritureJSON("setting/config.json","userGenre3",newGenre)
             exitModif()
             Actulisaton()
+            entryName.delete(0, "end")
         genre = lectureJSON("setting/config.json","userGenre3")
         if genre == "monsieur" :
             varGenre.set(listGenre[0])
@@ -102,6 +105,7 @@ def User(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             EcritureJSON("setting/config.json","userGenre4",newGenre)
             exitModif()
             Actulisaton()
+            entryName.delete(0, "end")
         genre = lectureJSON("setting/config.json","userGenre4")
         if genre == "monsieur" :
             varGenre.set(listGenre[0])

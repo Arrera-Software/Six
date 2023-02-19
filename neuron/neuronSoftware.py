@@ -1,6 +1,7 @@
 from software.YoutubeDownlaod import *
 from src.srcSix import*
 from objet.Calcule.calcule import *
+from function.openSofware import*
 
 def Software(var,genre,user,name,root,police):
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
@@ -18,5 +19,59 @@ def Software(var,genre,user,name,root,police):
                 Calcule("#3c0f14","white","Six : Calcule")
                 return 1
             else :
-                return 0
+                if "ouvre mes notes" in var or "ouvre les notes" in var or "ouvre-moi mes notes" in var :
+                    navigateur = lectureJSON("setting/config.json","appNote")
+                    if navigateur == "":
+                        SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                    else :
+                        SIXsrc(root,police).speak("Ok je vous vos notes "+genre+" "+user)
+                        openSoftware(navigateur)
+                    return 1
+                else :
+                    if "ouvre-moi mon navigateur internet" in var or "navigateur internet" in var or "navigateur" in var :
+                        navigateur = lectureJSON("setting/config.json","navigateurInternet")
+                        if navigateur == "":
+                            SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                        else :
+                            SIXsrc(root,police).speak("Ok je vous votre navigateur "+genre+" "+user)
+                            openSoftware(navigateur)
+                        return 1
+                    else :
+                        if "lance de la musique" in var or "application musique" in var :
+                            navigateur = lectureJSON("setting/config.json","appMusique")
+                            if navigateur == "":
+                                SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                            else :
+                                SIXsrc(root,police).speak("Ok je vous votre application de musique "+genre+" "+user)
+                                openSoftware(navigateur)
+                            return 1
+                        else : 
+                            if "powerpoint" in var or "éditeur de diaporama" in var :
+                                navigateur = lectureJSON("setting/config.json","editeurpresentation")
+                                if navigateur == "":
+                                    SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                                else :
+                                    SIXsrc(root,police).speak("Ok je vous votre éditeur de présentation "+genre+" "+user)
+                                    openSoftware(navigateur)
+                                return 1
+                            else :
+                                if "traitement de texte" in var or "word" in var :
+                                    navigateur = lectureJSON("setting/config.json","editeurtexte")
+                                    if navigateur == "":
+                                        SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                                    else :
+                                        SIXsrc(root,police).speak("Ok je vous votre traitement de texte "+genre+" "+user)
+                                        openSoftware(navigateur)
+                                    return 1
+                                else :
+                                    if "tableur" in var or "exel" in var :
+                                        navigateur = lectureJSON("setting/config.json","tableur")
+                                        if navigateur == "":
+                                            SIXsrc(root,police).speak("Vous n'avez pas dit ou se trouve votre racourcie "+genre)
+                                        else :
+                                            SIXsrc(root,police).speak("Ok je vous votre tableur "+genre+" "+user)
+                                            openSoftware(navigateur)
+                                        return 1
+                                    else :
+                                        return 0
                     

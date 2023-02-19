@@ -57,6 +57,7 @@ def Assistant(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             ExitName()
             Afficher()
             Actualisation()
+            entryName.delete(0, "end")
         btnAssistant3.config(command=ExitName)
         btnAssistantValider.config(command=ValiderName)
         labelAssistant3.place(x=20,y=125)

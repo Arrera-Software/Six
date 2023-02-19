@@ -31,7 +31,7 @@ def Setting():#fonction parametre
         Assistant(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def meteo():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
-        Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme)
+        Meteo(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
     def appweb():
         NoViewBTN(btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)
         AppWeb(right,ScreenPara,btnAssistant,btnUttilisateur,btnInternet,btnAppWeb,btnTraducteur,btnMeteo,btnTheme,btnApp)

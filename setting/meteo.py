@@ -53,6 +53,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             newVille = entryVille.get()
             EcritureJSON("setting/config.json","ville1",newVille)
             ExitModif()
+            entryVille.delete(0, "end")
         btnMeteoValider.config(command=valider)
         MeteoView()
     def Meteo2():
@@ -62,6 +63,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             newVille = entryVille.get()
             EcritureJSON("setting/config.json","ville2",newVille)
             ExitModif()
+            entryVille.delete(0, "end")
         btnMeteoValider.config(command=valider)
         MeteoView()
     def Meteo3():
@@ -71,6 +73,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             newVille = entryVille.get()
             EcritureJSON("setting/config.json","ville3",newVille)
             ExitModif()
+            entryVille.delete(0, "end")
         btnMeteoValider.config(command=valider)
         MeteoView()
     def Meteo4():
@@ -80,6 +83,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             newVille = entryVille.get()
             EcritureJSON("setting/config.json","ville4",newVille)
             ExitModif()
+            entryVille.delete(0, "end")
         btnMeteoValider.config(command=valider)
         MeteoView()
     def Meteo5():
@@ -89,6 +93,7 @@ def Meteo(cadre,screen,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8):
             newVille = entryVille.get()
             EcritureJSON("setting/config.json","ville5",newVille)
             ExitModif()
+            entryVille.delete(0, "end")
         btnMeteoValider.config(command=valider)
         MeteoView()
    #declaration widget
