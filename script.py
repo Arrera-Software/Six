@@ -1,5 +1,5 @@
 from setting.setting import*
-from software.YoutubeDownlaod import *
+from software.YoutubeDownload import *
 from objet.Calcule.calcule import *
 from objet.Horloge.AppHorloge import*
 from src.varInterface import*
@@ -11,7 +11,7 @@ match rep :
     case 1 :
       Setting()
     case 2 :
-      YoutubeDownload()
+      ArreraVideoDownload("#3c0b10","white","#3c0b10","white")
     case 3 :
       Calcule("#3c0f14","white","Six : Calcule")
     case 4 :

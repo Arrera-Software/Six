@@ -1,4 +1,4 @@
-from software.YoutubeDownlaod import *
+from software.YoutubeDownload import *
 from src.srcSix import*
 from objet.Calcule.calcule import *
 from function.openSofware import*
@@ -6,7 +6,7 @@ from function.openSofware import*
 def Software(var,genre,user,name,root,police):
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
         SIXsrc(root,police).speak("Ok "+genre+" je vous ouvre le téléchargeur de video Youtube.")
-        YoutubeDownload()
+        ArreraVideoDownload("#3c0b10","white","#3c0b10","white")
         return 1
     else :
         if "ouvre l'explorateur de fichier" in var or "ouvre les fichiers" in var or "montre-moi mes fichiers" in var :
