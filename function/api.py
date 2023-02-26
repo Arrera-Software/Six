@@ -7,16 +7,20 @@ from objet.date.objetdate import*
 from objet.GPS.apiGPS import*
 from function.traitementChaineCarractere import*
 import webbrowser
+from function.calendar import SortieEvenementTexte
 
 def Resumer(root,police):#Fonction de resumer des actaulités et de la meteo
+    
     varGPSDomicile = ville(lectureJSON("setting/config.json","ville1"))
     listActu = Actualiter().recuperationTitre()
     varMeteoDomicile = meteo(varGPSDomicile.lat(),varGPSDomicile.long())
-    dateJour = date().jour() + " " + date().mois() + " "+date().annes()
-    heureActuel = date().heure()+" Heure "+date().minute()
+    dateJour = dateToday().jour() + " " + dateToday().moisSTR() + " "+dateToday().annes()
+    heureActuel = dateToday().heure()+" Heure "+dateToday().minute()
     six = SIXsrc(root,police)
-    
+    texte = SortieEvenementTexte()
     six.speak("On est le "+dateJour+" a "+heureActuel+" ")
+    time.sleep(1)
+    six.speak(texte)
     time.sleep(1)
     six.speak("La météo a "+lectureJSON("setting/config.json","ville1")+" est "+varMeteoDomicile.description()+" avec une température de "+varMeteoDomicile.temperature()+"°C")
     time.sleep(1)

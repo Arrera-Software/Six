@@ -2,6 +2,7 @@ import datetime
 from src.srcSix import*
 from objet.Horloge.AppHorloge import*
 from objet.date.objetdate import*
+from function.calendar import *
 
 def neuronTime(var,genre,user,name,root,police):
     if "heure" in var :
@@ -11,9 +12,9 @@ def neuronTime(var,genre,user,name,root,police):
         return 1
     else : 
         if "date" in var :
-            jour = date().jour()
-            mois = date().mois()
-            annees = date().annes()
+            jour = dateToday().jour()
+            mois = dateToday().moisSTR()
+            annees = dateToday().annes()
             SIXsrc(root,police).speak("Aujourd'hui on es le "+jour+" "+mois+" "+annees)
             return 1
         else : 
@@ -32,4 +33,12 @@ def neuronTime(var,genre,user,name,root,police):
                         AppHorloge("#3c0f14","white","Six : Horloge","minuteur")
                         return 1
                     else :
-                        return 0
+                        if "agenda" in var :
+                            if "ouvre" in var :
+                                SixCalendar()
+                            else :
+                                texte = SortieEvenementTexte()
+                                SIXsrc(root,police).speak(texte)
+                            return 1
+                        else :
+                            return 0
