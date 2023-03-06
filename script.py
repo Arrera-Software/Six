@@ -67,17 +67,3 @@ match rep :
     
     case other:
         print("sa correspont pas")
-
-
-"""
-
-            if event.key == pygame.K_a:
-                # Action lorsque la touche 'a' est appuyée
-                print("La touche 'a' a été appuyée")
-            elif event.key == pygame.K_z:
-                # Action lorsque la touche 'z' est appuyée
-                print("La touche 'z' a été appuyée")
-            elif event.key == pygame.K_e:
-                # Action lorsque la touche 'e' est appuyée
-                print("La touche 'e' a été appuyée")
-"""
