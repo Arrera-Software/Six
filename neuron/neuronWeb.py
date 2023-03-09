@@ -191,4 +191,15 @@ def NeuronWeb(var,genre,user,root,police):
                                                             webbrowser.open(lienApp4)
                                                             return 1
                                                         else :
-                                                            return 0
+                                                            if "dis-moi tout" in var :
+                                                                var = var.replace("dis-moi tout sur","")
+                                                                listRecherche = rechercheDuckDuckGo(var)
+                                                                SIXsrc(root,police).speak(listRecherche[0])
+                                                                time.sleep(1)
+                                                                SIXsrc(root,police).speak(listRecherche[1])
+                                                                time.sleep(1)
+                                                                SIXsrc(root,police).speak(listRecherche[2])
+                                                                return 1 
+                                                            else :
+                                                                return 0
+                                                                

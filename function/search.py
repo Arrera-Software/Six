@@ -1,6 +1,7 @@
 import webbrowser
 import requests
 import time
+from translate import*
 
 def TestInternet():
     try:
@@ -64,6 +65,21 @@ def bingSearch(query):
         lienbing = urllink.url
         webbrowser.open(lienbing)
 
+ 
+def rechercheDuckDuckGo(query):
+    listReponse = []
+    url = "https://api.duckduckgo.com/?q="
+    fullUrl = url+query+"&format=json"
+    response = requests.get(fullUrl)
+    results = response.json()["RelatedTopics"]
+    i = 0
+    while i <= 2 :
+        result_text = results[i]["Text"]
+        translation = Translator(from_lang="en",to_lang="fr").translate(result_text)  
+        i = i + 1
+        listReponse.append(translation)
+    
+    return listReponse
     
 def GrandRecherche(query):
     i = 0
