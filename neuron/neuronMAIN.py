@@ -1,5 +1,6 @@
 from src.srcSix import *
 from function.reading import*
+from function.openSofware import ouvertureAide 
 
 import random
 
@@ -54,5 +55,9 @@ def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
                                 SIXsrc(root,police).speak("Je suis SIX un assistant personelle. Comment je peux vous aidez ?")
                                 return 1
                             else :
-                                return 0
-
+                                if "ouvre-moi la page d'aide" in var :
+                                    SIXsrc(root,police).speak("Ok je vous ouvre la page d'aide")
+                                    ouvertureAide()
+                                    return 1
+                                else :
+                                    return 0
