@@ -58,12 +58,7 @@ match rep :
                         pygame.display.update()
                 else :
                   root.blit(fond, (0, 0))
-                  pygame.display.update()
-      
-                    
-                  
-    
+                  pygame.display.update()   
       pygame.quit()
-    
     case other:
         print("sa correspont pas")
