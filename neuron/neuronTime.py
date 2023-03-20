@@ -7,17 +7,18 @@ from function.fenetrePygame import*
 
 def neuronTime(var,genre,user,name,root,police):
     fenetre = pygameFond(root,police,genre)
+    sourceSIX = SIXsrc(root,police)
     if "heure" in var :
         hour = str(datetime.datetime.now().hour)
         minute = str(datetime.datetime.now().minute)
-        SIXsrc(root,police).speak("Il es "+hour+" heure " +minute)
+        sourceSIX.speak("Il es "+hour+" heure " +minute)
         return 1
     else : 
         if "date" in var :
             jour = dateToday().jour()
             mois = dateToday().moisSTR()
             annees = dateToday().annes()
-            SIXsrc(root,police).speak("Aujourd'hui on es le "+jour+" "+mois+" "+annees)
+            sourceSIX.speak("Aujourd'hui on es le "+jour+" "+mois+" "+annees)
             return 1
         else : 
             if "horloge" in var :
@@ -45,7 +46,7 @@ def neuronTime(var,genre,user,name,root,police):
                                 fenetre.FermetureTK()
                             else :
                                 texte = SortieEvenementTexte()
-                                SIXsrc(root,police).speak(texte)
+                                sourceSIX.speak(texte)
                             return 1
                         else :
                             return 0

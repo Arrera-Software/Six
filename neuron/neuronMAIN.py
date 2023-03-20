@@ -5,6 +5,7 @@ from function.openSofware import ouvertureAide
 import random
 
 def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
+        sourceSIX = SIXsrc(root,police)
         if "raconter une blague" in var or "raconte-moi une blague" in var :
             nb = random.randint(1,10)
             blague = ["Que dit une noisette quand elle tombe dans l’eau ?"
@@ -28,35 +29,35 @@ def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
                                ,"Parce qu'ils n'ont pas de FISH de paie"
                                ,"En fait, dans tous les gels douches. Qu’une fois dans la salle de bain il n’y ait aucune issue possible."
                                ]
-            SIXsrc(root,police).speak(blague[nb])
+            sourceSIX.speak(blague[nb])
             time.sleep(1.5)
-            SIXsrc(root,police).speak(reponseBlague[nb])
+            sourceSIX.speak(reponseBlague[nb])
             return 1
         else :
             if "peux-tu me lire un truc" in var :
-                SIXsrc(root,police).speak("Copier ce que vous voulez  que je vous lise "+genre+".")
+                sourceSIX.speak("Copier ce que vous voulez  que je vous lise "+genre+".")
                 Reading(root,police)
                 return 1
             else :
                 if  var =="salut"   or var =="bonjour" or var =="bonsoir":
-                    SIXsrc(root,police).speak(var+" en quoi je peux vous servir ?")
+                    sourceSIX.speak(var+" en quoi je peux vous servir ?")
                     return 1
                 else :
                     if "bien" in var or "oui" in var:
-                        SIXsrc(root,police).speak("Sa me réjouit de savoir que tout se passe bien pour vous "+genre+" .")
-                        SIXsrc(root,police).speak("En quoi je peux donc vous servir ?")
+                        sourceSIX.speak("Sa me réjouit de savoir que tout se passe bien pour vous "+genre+" .")
+                        sourceSIX.speak("En quoi je peux donc vous servir ?")
                         return 1
                     else :
                         if "toujours là"  in var  or "es-tu là" in var or name in var :
-                            SIXsrc(root,police).speak("Oui, je suis toujours la "+genre+user+".")
+                            sourceSIX.speak("Oui, je suis toujours la "+genre+" "+user+".")
                             return 1
                         else :
                             if "tu es qui" in var or "présente-toi" in var or "présentation" in var or "qui es tu" in var or "qui es-tu" in var:
-                                SIXsrc(root,police).speak("Je suis SIX un assistant personelle. Comment je peux vous aidez ?")
+                                sourceSIX.speak("Je suis SIX un assistant personelle. Comment je peux vous aidez ?")
                                 return 1
                             else :
                                 if "ouvre-moi la page d'aide" in var :
-                                    SIXsrc(root,police).speak("Ok je vous ouvre la page d'aide")
+                                    sourceSIX.speak("Ok je vous ouvre la page d'aide")
                                     ouvertureAide()
                                     return 1
                                 else :
