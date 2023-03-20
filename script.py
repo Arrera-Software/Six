@@ -6,9 +6,10 @@ from src.varInterface import*
 from function.api import*
 from src.varInterface import*
 from function.calendar import*
+from function.traduction import*
 import pygame
 
-rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n0.Quitter\n$ "))
+rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n8.Traduction\n0.Quitter\n$ "))
 
 match rep :
     case 1 :
@@ -60,5 +61,7 @@ match rep :
                   root.blit(fond, (0, 0))
                   pygame.display.update()   
       pygame.quit()
+    case 8 :
+      Trad()
     case other:
         print("sa correspont pas")

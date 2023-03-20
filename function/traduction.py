@@ -1,78 +1,56 @@
-from src.srcSix import * 
-from translate import*
+from objet.traduction.trad import*
 from function.JSON import*
 from tkinter import*
 
 Color = "#3c0f14"
 TextColor = "white"
 
-def Trad(genre,root,police):#Fonction de Traduction
-    langue0= lectureJSON("setting/config.json","lang0")
-    langue1= lectureJSON("setting/config.json","lang1")
-    langue2= lectureJSON("setting/config.json","lang2")
-    ScreenTrad=Tk()
-    ScreenTrad.title("Six : Traduction")
-    ScreenTrad.maxsize(400,400)
-    ScreenTrad.minsize(400,400)
-    ScreenTrad.config(bg=Color)
-    labelInfo=Label(ScreenTrad,text="Resultat",bg=Color,fg=TextColor,font=("arial","20"))
-    trad=Entry(ScreenTrad,width=45)
-    def L0versL1():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue0,to_lang=langue1)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L0versL2():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue0,to_lang=langue2)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L1versL0():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue1,to_lang=langue0)
-        translation = translator.translate(mot)
-        SIXsrc(root,police).speak("Le resultat de votre traduction "+genre+" et "+translation)
-        labelInfo.config(text=translation)
-    def L1versL2():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue1,to_lang=langue2)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    def L2versL0():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue2,to_lang=langue0)
-        translation = translator.translate(mot)
-        SIXsrc(root,police).speak("Le resultat de votre traduction "+genre+" et "+translation)
-        labelInfo.config(text=translation)
-    def L2versL1():
-        mot = str(trad.get())
-        translator= Translator(from_lang=langue2,to_lang=langue1)
-        translation = translator.translate(mot)
-        labelInfo.config(text=translation)
-    bouttonTraduction=Button(ScreenTrad,text="Traduire",bg=Color,fg=TextColor)
-    def Mode1():
-        bouttonTraduction.config(command=L0versL1)
-    def Mode2():
-        bouttonTraduction.config(command=L1versL0)
-    def Mode3():
-        bouttonTraduction.config(command=L0versL2)
-    def Mode4():
-        bouttonTraduction.config(command=L2versL0)
-    def Mode5():
-        bouttonTraduction.config(command=L1versL2)
-    def Mode6():
-        bouttonTraduction.config(command=L2versL1)
-    MenuTrad = Menu(ScreenTrad,bg="white")
-    Choix = Menu(MenuTrad,tearoff=0)
-    Choix.add_command(label="Langue par défault vers Langue 1",command=Mode1)
-    Choix.add_command(label="Langue 1 vers Langue par défault",command=Mode2)
-    Choix.add_command(label="Langue par défault vers Langue 2",command=Mode3)
-    Choix.add_command(label="Langue 2 vers Langue par défault",command=Mode4)
-    Choix.add_command(label="Langue 1 vers Langue 2",command=Mode5)
-    Choix.add_command(label="Langue 2 vers Langue 1",command=Mode6)
-    MenuTrad.add_cascade(label = "Traduction",menu=Choix)
-    ScreenTrad.config(menu=MenuTrad)
-    labelInfo.place(x="5",y="25")
-    trad.place(relx=.5,rely=.5,anchor ="center")
-    bouttonTraduction.pack(side="bottom")
-    ScreenTrad.mainloop()
+class Trad:#Fonction de Traduction
+    def __init__(self):
+        screen = Tk()
+        self.varInt = StringVar(screen)
+        self.varOut = StringVar(screen)
+        self.dictTrad = lectureSimpleJSON("objet/traduction/dictLangueTraducteur.json")
+        listLang = list(lectureSimpleJSON("objet/traduction/dictLangueTraducteur.json").values())
+        langSortieDefault = lectureJSON("setting/config.json","langTradDefault")
+        imgFleche = PhotoImage(file="image/fleche.png")
+        screen.title("Six traduction")
+        screen.iconphoto(False,PhotoImage(file="image/logo.png"))
+        screen.minsize(800,500)
+        screen.maxsize(800,500)
+        screen.config(bg="#3c0f14")
+    
+        menuInt = OptionMenu(screen,self.varInt,*listLang)
+        menuOut = OptionMenu(screen,self.varOut,*listLang)
+    
+        i=0
+        while i < len(listLang):
+            if (self.dictTrad[langSortieDefault]==listLang[i]):
+                self.varOut.set(listLang[i])
+                i=len(listLang)
+            else :
+                i = i + 1
+        self.varInt.set(listLang[28])
+        
+        self.ZoneTextint = Text(screen,width=40,height=20)
+        self.ZoneTextOut =  Text(screen,width=40,height=20)
+        self.ZoneTextOut.config(state="disable")
+        
+        boutonTrad = Button(screen,image=imgFleche,command=self.trad)
+    
+        self.ZoneTextint.pack(side="left")
+        self.ZoneTextOut.pack(side="right")
+        boutonTrad.place(relx=0.5,rely=0.5,anchor=CENTER)
+        menuInt.place(x=0,y=40)
+        menuOut.place(x=475,y=40)
+        screen.mainloop()
+        
+    def trad(self):
+        
+        text = self.ZoneTextint.get("1.0", END)
+        sortie = ArreraTrad(searchKey(self.varInt.get(),self.dictTrad),searchKey(self.varOut.get(),self.dictTrad)).Tradution(text)
+        self.ZoneTextOut.config(state="normal")
+        self.ZoneTextOut.delete("1.0", END)
+        self.ZoneTextOut.insert(INSERT,sortie)
+        self.ZoneTextOut.config(state="disable")
+        
