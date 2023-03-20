@@ -7,8 +7,11 @@ import random
 from objet.meteo.apiMeteo import*
 from objet.GPS.apiGPS import*
 from objet.actualiter.apiActualiter import*
+from function.fenetrePygame import*
 
 def NeuronWeb(var,genre,user,root,police):
+    var = str(var)
+    fenetre = pygameFond(root,police,genre)
     if "grande recherche" in var :
         requette = str(var)
         requette = requette.replace("grande recherche","")
@@ -158,9 +161,16 @@ def NeuronWeb(var,genre,user,root,police):
                                         SIXsrc(root,police).speak("Les coordonnées GPS de votre localisation sont "+geoLoc.lat()+" latitude et de longitude "+geoLoc.long()+".")
                                         return 1
                                     else :
-                                        if "traduire" in var or "traduis-moi" in var:
-                                            SIXsrc(root,police).speak("Ok je vous ouvre l'application de tradution")
-                                            Trad(genre,root,police)
+                                        if "traduire" in var or "traduis-moi" in var or "traduction" in var :
+                                            if "traduis-moi" in var:
+                                                langTrad = lectureJSON("setting/config.json","langTradDefault")
+                                                nom = var.replace("traduis-moi","")
+                                                nomTrad = ArreraTrad("fr",langTrad).Tradution(nom)
+                                                SIXsrc(root,police).speakOtherLang(langTrad,nomTrad)
+                                            else :
+                                                fenetre.OuvertureTK("Ok, je vous ouvre l'outil de traduction")
+                                                Trad()
+                                                fenetre.FermetureTK()
                                             return 1
                                         else :
                                             nameApp1 = lectureJSON("setting/config.json","appWeb2Name")
