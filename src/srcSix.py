@@ -48,6 +48,36 @@ class SIXsrc :
         self.fenetre.blit(fond.convert(),(0,0))
         pygame.display.update()
     
+    def speakOtherLang(self,langue,texte):
+        self.fenetre.blit(fondParole2.convert(),(0,0))
+        pygame.display.update()
+        tts = gTTS(texte, lang=str(langue))
+        text1,text2 = self.division(texte,8)
+        nbMots2 = self.compteur(text2)
+        if (nbMots2 > 8):
+            text2,text3 = self.division(text2,8)
+        else :
+            text3 = " "
+        tts.save("voc.mp3")
+        self.fenetre.blit(fondParole1.convert(),(0,0))
+        pygame.display.update()
+        time.sleep(0.5)
+        labelAssistant1 = self.formatSpeak.render(text1,1,(ColorText))
+        labelAssistant2 = self.formatSpeak.render(text2,1,(ColorText))
+        labelAssistant3 = self.formatSpeak.render(text3,1,(ColorText))
+        textRect1 = labelAssistant1.get_rect(center=(rootWidht/2 ,55))
+        textRect2 = labelAssistant2.get_rect(center=(rootWidht/2 ,75))
+        textRect3 = labelAssistant3.get_rect(center=(rootWidht/2 ,95))
+        self.fenetre.blit(fondParole3.convert(),(0,0))
+        self.fenetre.blit(labelAssistant1,textRect1)
+        self.fenetre.blit(labelAssistant2,textRect2)
+        self.fenetre.blit(labelAssistant3,textRect3)
+        pygame.display.update()
+        playsound("voc.mp3")
+        os.remove("voc.mp3")
+        self.fenetre.blit(fond.convert(),(0,0))
+        pygame.display.update()
+    
     def division(self,text, nombre):
         mots = text.split()
         premierPartie = mots[:nombre]
