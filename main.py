@@ -111,11 +111,8 @@ class Six :
                         mute = False
                         self.root.blit(fond.convert(),(0,0))
                         pygame.display.update()
-                        return 0       
+                        return 0   
         
-    
-    
-    
     def salutation(self,User,Genre):#Fonction de salutation
         nrad = random.randint(0,1)
         listMatin = [("Bonjour "+Genre+" "+User+",J'espére que vous passer une bonne nuit."),("Bonjour "+Genre+" "+User+",J'espére que vous avez bien dormi.")]
