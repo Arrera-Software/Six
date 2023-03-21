@@ -8,6 +8,7 @@ from function.fenetrePygame import*
 def neuronTime(var,genre,user,name,root,police):
     fenetre = pygameFond(root,police,genre)
     sourceSIX = SIXsrc(root,police)
+    var = str(var)
     if "heure" in var :
         hour = str(datetime.datetime.now().hour)
         minute = str(datetime.datetime.now().minute)

@@ -14,42 +14,40 @@ def NeuronWeb(var,genre,user,root,police):
     sourceSIX = SIXsrc(root,police)
     fenetre = pygameFond(root,police,genre)
     if "grande recherche" in var :
-        requette = str(var)
-        requette = requette.replace("grande recherche","")
-        requette = requette.replace("fais-moi","")
-        requette = requette.replace("une","")
-        requette = requette.replace("sur ","")
+        var = var.replace("grande recherche","")
+        var = var.replace("fais-moi","")
+        var = var.replace("une","")
+        var = var.replace("sur ","")
         sourceSIX.speak("Ok,Voici ce que trouvent tout les moteur de recherche.")
-        GrandRecherche(requette)
+        GrandRecherche(var)
         return 1
     else :
         if "recherche" in var :
-            requette = str(var)
-            requette = requette.replace("recherche","")
-            requette = requette.replace("fais-moi","")
-            requette = requette.replace("une","")
-            requette = requette.replace("sur ","")
+            var = var.replace("recherche","")
+            var = var.replace("fais-moi","")
+            var = var.replace("une","")
+            var = var.replace("sur ","")
             sourceSIX.speak("Ok,je vous recherche sa.")
             nameMoteur = lectureJSON("setting/config.json","nameMoteur")
             if (nameMoteur=="duckduckgo"):
-                duckduckgoSearch(requette)
+                duckduckgoSearch(var)
             else :
                 if (nameMoteur=="google"):
-                    googleSearch(requette)
+                    googleSearch(var)
                 else :
                     if (nameMoteur=="qwant"):
-                        QwantSearch(requette)
+                        QwantSearch(var)
                     else :
                         if (nameMoteur == "ecosia" ):
-                            EcosiaSearch(requette)
+                            EcosiaSearch(var)
                         else :
                             if (nameMoteur=="brave"):
-                                braveSearch(requette)
+                                braveSearch(var)
                             else :
                                 if (nameMoteur=="bing"):
-                                    bingSearch(requette)
+                                    bingSearch(var)
                                 else :
-                                    duckduckgoSearch(requette)
+                                    duckduckgoSearch(var)
             return 1
         else :
             if "actualités" in var:

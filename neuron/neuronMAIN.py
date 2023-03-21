@@ -1,11 +1,11 @@
 from src.srcSix import *
 from function.reading import*
 from function.openSofware import ouvertureAide 
-
 import random
 
 def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
         sourceSIX = SIXsrc(root,police)
+        var = str(var)
         if "raconter une blague" in var or "raconte-moi une blague" in var :
             nb = random.randint(1,10)
             blague = ["Que dit une noisette quand elle tombe dans l’eau ?"

@@ -7,6 +7,7 @@ from function.fenetrePygame import*
 def Software(var,genre,user,name,root,police):
     sourceSIX = SIXsrc(root,police)
     fenetre = pygameFond(root,police,genre)
+    var = str(var)
     if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
         fenetre.OuvertureTK("Ok "+genre+" je vous ouvre le téléchargeur de video Youtube.")
         ArreraVideoDownload("#3c0b10","white","#3c0b10","white")
