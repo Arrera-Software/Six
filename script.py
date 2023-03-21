@@ -7,9 +7,10 @@ from function.api import*
 from src.varInterface import*
 from function.calendar import*
 from function.traduction import*
+from function.reading import*
 import pygame
 
-rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n8.Traduction\n0.Quitter\n$ "))
+rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n8.Traduction\n9.Lecture\n0.Quitter\n$ "))
 
 match rep :
     case 1 :
@@ -63,5 +64,16 @@ match rep :
       pygame.quit()
     case 8 :
       Trad()
+    case 9 :
+      os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
+      pygame.init()
+      pygame.display.set_icon(pygame.image.load("image/logo.png"))
+      pygame.display.set_caption("Assistant SIX")
+      root  = pygame.display.set_mode((rootWidht,rootHeight))
+      police = pygame.font.SysFont("arial", 25)
+      var = True 
+      root.blit(fond, (0, 0))
+      pygame.display.update()
+      Reading(root,police)
     case other:
         print("sa correspont pas")

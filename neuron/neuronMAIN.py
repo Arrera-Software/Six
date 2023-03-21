@@ -1,9 +1,11 @@
 from src.srcSix import *
 from function.reading import*
+from function.fenetrePygame import *
 from function.openSofware import ouvertureAide 
 import random
 
 def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
+        fenetre = pygameFond(root,police,GenreCourt)
         sourceSIX = SIXsrc(root,police)
         var = str(var)
         if "raconter une blague" in var or "raconte-moi une blague" in var :
@@ -35,8 +37,9 @@ def Main(var,genre,user,name,root,UserCourt,GenreCourt,police):
             return 1
         else :
             if "peux-tu me lire un truc" in var :
-                sourceSIX.speak("Copier ce que vous voulez  que je vous lise "+genre+".")
+                fenetre.OuvertureTK("Copier ce que vous voulez  que je vous lise")
                 Reading(root,police)
+                fenetre.FermetureTK()
                 return 1
             else :
                 if  var =="salut"   or var =="bonjour" or var =="bonsoir":

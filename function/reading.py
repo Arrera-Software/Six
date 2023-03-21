@@ -5,23 +5,29 @@ from src.srcSix import*
 Color = "#3c0f14"
 TextColor = "white"
 
-def Reading(root,police):
-    screenLect = Tk()
-    screenLect.title("SIx : Lecture")
-    screenLect.minsize("500","200")
-    screenLect.maxsize("500","200")
-    screenLect.iconphoto(False,PhotoImage(file="image/logo.png"))
-    cadreCenter = Frame(screenLect,bg=Color,width=350,height=45)
-    entryLect = Entry(cadreCenter,width=50)
-    def Lecture():
-        texte = entryLect.get()
-        screenLect.destroy()
-        SIXsrc(root,police).speak(texte)
-    screenLect.config(bg=Color)
-    labelIndic = Label(screenLect,text="Copier votre texte",bg=Color,fg=TextColor,font=("arial","20"))
-    boutonValider  = Button(screenLect,text="Valider",bg=Color,fg=TextColor,font=("arial","20"),command=Lecture)
-    labelIndic.pack()
-    cadreCenter.place(relx=.5, rely=.5, anchor="center")
-    entryLect.place(relx=.5, rely=.5, anchor="center")
-    boutonValider.place(x="200",y="125")
-    screenLect.mainloop()
+class Reading:
+    def __init__(self,root,police):
+        self.dictLang = lectureSimpleJSON("objet/traduction/dictLangueTraducteur.json")
+        self.listLang = list(self.dictLang.values())
+        self.soureSIX = SIXsrc(root,police)
+        self.screen = Tk()
+        self.varLang = StringVar(self.screen)
+        self.screen.title("SIX : Lecture")
+        self.screen.minsize(600,500)
+        self.screen.maxsize(600,500)
+        self.screen.iconphoto(False,PhotoImage(file="image/logo.png"))
+        self.screen.config(bg=Color)
+        self.entryLect = Text(self.screen,width=50)
+        menuLang = OptionMenu(self.screen,self.varLang,*self.listLang)
+        self.varLang.set(self.listLang[28])
+        menuLang.place(x=0,y=20)
+        boutonValider  = Button(self.screen,text="Valider",bg=Color,fg=TextColor,font=("arial",15),command=self.Lecture)
+        self.entryLect.pack(side="left")
+        boutonValider.pack(side="right")
+        self.screen.mainloop()
+        
+    def Lecture(self):
+        lang = searchKey(self.varLang.get(),self.dictLang)
+        texte = self.entryLect.get("1.0",END)
+        self.screen.destroy()
+        self.soureSIX.speakOtherLang(lang,texte)
