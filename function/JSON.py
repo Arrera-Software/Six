@@ -19,9 +19,9 @@ def EcritureJSON(file,flag,valeur):#Permet d'ecrire une nouvelle valeur a flag d
     openfile = open(file, 'r', encoding='utf-8')
     dict = json.load(openfile)
     openfile.close()
-    writeFile = open(file, 'w')
+    writeFile = open(file, 'w', encoding="utf-8")
     dict[flag] = valeur
-    json.dump(dict,writeFile,indent=2)
+    json.dump(dict,writeFile,indent=2, ensure_ascii=False)
 
 def EcritureSansEcrasement(file,vardict,newDictName):#Permet d'ecrire un nouveau dictionnaire dans le fichier
     with open(file, 'r', encoding='utf-8') as openfile:
