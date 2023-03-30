@@ -32,11 +32,11 @@ class Six :
         #declaration objet
         self.sourceSix =  SIXsrc(self.root,self.police)
         #Programme principale
-        internet = TestInternet()
+        etatInternet = internet.testInternet()
         userCourt = principalUser
         genreCourt = principalUserGenre
         courtNom = self.NomAssistant
-        if internet == True :
+        if etatInternet == True :
             self.salutation(userCourt,genreCourt)
             condition = 0
             while (condition < 15):

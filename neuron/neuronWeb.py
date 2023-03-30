@@ -19,7 +19,7 @@ def NeuronWeb(var,genre,user,root,police):
         var = var.replace("une","")
         var = var.replace("sur ","")
         sourceSIX.speak("Ok,Voici ce que trouvent tout les moteur de recherche.")
-        GrandRecherche(var)
+        search(var).GrandRecherche()
         return 1
     else :
         if "recherche" in var :
@@ -30,24 +30,24 @@ def NeuronWeb(var,genre,user,root,police):
             sourceSIX.speak("Ok,je vous recherche sa.")
             nameMoteur = lectureJSON("setting/config.json","nameMoteur")
             if (nameMoteur=="duckduckgo"):
-                duckduckgoSearch(var)
+                search(var).duckduckgoSearch()
             else :
                 if (nameMoteur=="google"):
-                    googleSearch(var)
+                    search(var).googleSearch()
                 else :
                     if (nameMoteur=="qwant"):
-                        QwantSearch(var)
+                        search(var).QwantSearch()
                     else :
                         if (nameMoteur == "ecosia" ):
-                            EcosiaSearch(var)
+                            search(var).EcosiaSearch()
                         else :
                             if (nameMoteur=="brave"):
-                                braveSearch(var)
+                                search(var).braveSearch()
                             else :
                                 if (nameMoteur=="bing"):
-                                    bingSearch(var)
+                                    search(var).bingSearch()
                                 else :
-                                    duckduckgoSearch(var)
+                                    search(var).duckduckgoSearch()
             return 1
         else :
             if "actualités" in var:
@@ -202,7 +202,7 @@ def NeuronWeb(var,genre,user,root,police):
                                                         else :
                                                             if "dis-moi tout" in var :
                                                                 var = var.replace("dis-moi tout sur","")
-                                                                listRecherche = rechercheDuckDuckGo(var)
+                                                                listRecherche = search(var).rechercheDuckDuckGo
                                                                 sourceSIX.speak(listRecherche[0])
                                                                 time.sleep(1)
                                                                 sourceSIX.speak(listRecherche[1])
