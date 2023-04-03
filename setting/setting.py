@@ -823,7 +823,6 @@ class Setting :
         labelIndication =Label(section,text="Modifier le theme de l'interface \nde principal de l'assistant",bg="#5e262c",font=("arial","15"),fg="white")
         #menu
         menuTheme = OptionMenu(section,varTheme,*self.listTheme)
-        
         if lectureJSON("setting/config.json","theme") == "default" :
             varTheme.set(self.listTheme[0])
         else :
@@ -928,14 +927,9 @@ class Setting :
         labelAppWeb4 = Label(section,text="Editeur de presentation",bg="#5e262c",font=("arial","15"),fg="white")
         labelAppWeb5 = Label(section,text="Tableur",bg="#5e262c",font=("arial","15"),fg="white")
         labelAppWeb6  = Label(section,text="Musique",bg="#5e262c",font=("arial","15"),fg="white") 
-        labelAppWeb7  = Label(section,text="Lien : ",bg="#5e262c",font=("arial","15"),fg="white") 
-        
-        
+
         labelIndication.place(x=95,y=0)
         
         Affichage()
         
         btnAppWeb7.place(x=225,y=650)
-        
-        
-        #askopenfilename(defaultextension=".docCode", filetypes=[("Documentation", ".docCode"),("All Files", "*.*")])
