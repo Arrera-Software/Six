@@ -1,124 +1,100 @@
 import datetime
 
+class TriageDate :
+    def heure(var):
+        return str(var.time().hour)
+    
+    def minute(var):
+        return str(var.time().minute)
+    
+    def second(var):
+        return str(var.time().second)
+    
+    def jour(var):
+        return str(var.day)
+
+    def nomMois(var):
+        var = int(var.month)
+        match(var):
+            case 1 :
+                return "Janvier" 
+            case 2 :
+                return "Fevrier"
+            case 3 :
+                return "Mars"
+            case 4 :
+                return "Avril"
+            case 5 :
+                return "Mai"
+            case 6 : 
+                return "Juin"
+            case 7 :
+                return "Juillet"
+            case 8 :
+                return  "Aout"
+            case 9 :
+                return "Septembre"
+            case 10 :
+                return "Octobre"
+            case 11 :
+                return "Novembre"
+            case 12 :
+                return "Décembre"
+    def numMois(var):
+        return str(var.month)
+    
+    def annes(var):
+        return str(var.year) 
+
 class dateToday :
     def __init__(self):
         self.date= datetime.datetime.now()
         
     def heure(self):
-        return str(self.date.time().hour)
+        return TriageDate.heure(self.date)
 
     def minute(self):
-        return str(self.date.time().minute)
+        return TriageDate.minute(self.date)
     
     def second(self):
-        return str(self.date.time().second)
+        return TriageDate.second(self.date)
     
     def jour(self):
-        return str(self.date.day)
+        return TriageDate.jour(self.date)
     
     def moisSTR(self):
-        mois = int(self.date.month)
-        if mois == 1 :
-            monthSTR = "Janvier"
-        else :
-            if mois == 2 :
-                monthSTR = "Fevrier"
-            else :
-                if mois == 3 :
-                    monthSTR = "Mars"
-                else :
-                    if mois == 4 :
-                        monthSTR = "Avril"
-                    else :
-                        if mois == 5 :
-                            monthSTR = "Mai"
-                        else:
-                            if mois == 6 :
-                                monthSTR = "Juin"
-                            else:
-                                if mois == 7 :
-                                    monthSTR = "Juillet"
-                                else :
-                                    if mois == 8 :
-                                        monthSTR = "Aout"
-                                    else :
-                                        if mois == 9 :
-                                            monthSTR = "Septembre"
-                                        else :
-                                            if mois == 10 :
-                                                monthSTR = "Octobre"
-                                            else:
-                                                if mois == 11 :
-                                                    monthSTR = "Novembre"
-                                                else :
-                                                    monthSTR = "Décembre"
-        return monthSTR
+        return TriageDate.nomMois(self.date)
     
     def moisINT(self):
-        return str(self.date.month)
+        return TriageDate.numMois(self.date)
     
     def annes(self):
-        return str(self.date.year) 
+        return TriageDate.annes(self.date) 
     
 class dateTommorow :
     def __init__(self):
         self.date= datetime.datetime.now()- datetime.timedelta(days=1)
         
     def heure(self):
-        return str(self.date.time().hour)
+        return TriageDate.heure(self.date)
 
     def minute(self):
-        return str(self.date.time().minute)
+        return TriageDate.minute(self.date)
     
     def second(self):
-        return str(self.date.time().second)
+        return TriageDate.second(self.date)
     
     def jour(self):
-        return str(self.date.day)
+        return TriageDate.jour(self.date)
     
-    def mois(self):
-        mois = int(self.date.month)
-        if mois == 1 :
-            monthSTR = "Janvier"
-        else :
-            if mois == 2 :
-                monthSTR = "Fevrier"
-            else :
-                if mois == 3 :
-                    monthSTR = "Mars"
-                else :
-                    if mois == 4 :
-                        monthSTR = "Avril"
-                    else :
-                        if mois == 5 :
-                            monthSTR = "Mai"
-                        else:
-                            if mois == 6 :
-                                monthSTR = "Juin"
-                            else:
-                                if mois == 7 :
-                                    monthSTR = "Juillet"
-                                else :
-                                    if mois == 8 :
-                                        monthSTR = "Aout"
-                                    else :
-                                        if mois == 9 :
-                                            monthSTR = "Septembre"
-                                        else :
-                                            if mois == 10 :
-                                                monthSTR = "Octobre"
-                                            else:
-                                                if mois == 11 :
-                                                    monthSTR = "Novembre"
-                                                else :
-                                                    monthSTR = "Décembre"
-        return monthSTR
+    def moisSTR(self):
+        return TriageDate.nomMois(self.date)
     
     def moisINT(self):
-        return str(self.date.month)
+        return TriageDate.numMois(self.date)
     
     def annes(self):
-        return str(self.date.year)
+        return TriageDate.annes(self.date) 
     
     
 class dateYesterday :
@@ -126,57 +102,22 @@ class dateYesterday :
         self.date= datetime.datetime.now() + datetime.timedelta(days=1)
         
     def heure(self):
-        return str(self.date.time().hour)
+        return TriageDate.heure(self.date)
 
     def minute(self):
-        return str(self.date.time().minute)
+        return TriageDate.minute(self.date)
     
     def second(self):
-        return str(self.date.time().second)
+        return TriageDate.second(self.date)
     
     def jour(self):
-        return str(self.date.day)
+        return TriageDate.jour(self.date)
     
-    def mois(self):
-        mois = int(self.date.month)
-        if mois == 1 :
-            monthSTR = "Janvier"
-        else :
-            if mois == 2 :
-                monthSTR = "Fevrier"
-            else :
-                if mois == 3 :
-                    monthSTR = "Mars"
-                else :
-                    if mois == 4 :
-                        monthSTR = "Avril"
-                    else :
-                        if mois == 5 :
-                            monthSTR = "Mai"
-                        else:
-                            if mois == 6 :
-                                monthSTR = "Juin"
-                            else:
-                                if mois == 7 :
-                                    monthSTR = "Juillet"
-                                else :
-                                    if mois == 8 :
-                                        monthSTR = "Aout"
-                                    else :
-                                        if mois == 9 :
-                                            monthSTR = "Septembre"
-                                        else :
-                                            if mois == 10 :
-                                                monthSTR = "Octobre"
-                                            else:
-                                                if mois == 11 :
-                                                    monthSTR = "Novembre"
-                                                else :
-                                                    monthSTR = "Décembre"
-        return monthSTR
+    def moisSTR(self):
+        return TriageDate.nomMois(self.date)
     
     def moisINT(self):
-        return int(self.date.month)
+        return TriageDate.numMois(self.date)
     
     def annes(self):
-        return str(self.date.year)
+        return TriageDate.annes(self.date) 

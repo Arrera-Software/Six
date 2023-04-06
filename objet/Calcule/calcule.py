@@ -4,7 +4,6 @@ from objet.Calcule.calculeNombreComplex import*
 from objet.Calcule.TheoremePythagore import*
 
 class Calcule:
-     
     def __init__(self,mainColor,mainTextColor,titre):
         self.mainColor = mainColor
         self.mainTextColor = mainTextColor

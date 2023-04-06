@@ -16,16 +16,13 @@ class Actualiter :
         self.reponseCrypto = requests.get(self.urlActuCrypto)
         
     def NetoyageTitre(self,dictionnnaire):
-        titre = dictionnnaire["title"]
-        return str(titre)
+        return str(dictionnnaire["title"])
     
     def NetoyageURL(self,dictionnnaire):
-        url = dictionnnaire["url"]
-        return str(url)
+        return str (dictionnnaire["url"])
     
     def NetoyageDescription(self,dictionnnaire):
-        description = dictionnnaire["description"]
-        return str(description)
+        return str(dictionnnaire["description"])
     
     def recuperationTitre(self):#Permet de recuperer les actualiter sous la forme d'une liste
         listactu = []
