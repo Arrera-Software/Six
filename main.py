@@ -1,4 +1,4 @@
-from tkinter import*
+#from tkinter import*
 import pygame
 from  pygame.locals import *
 #fichier
@@ -6,10 +6,8 @@ from neuron.neuronMAIN import *
 from neuron.neuronWeb import *
 from neuron.neuronSoftware import *
 from neuron.neuronUser import*
-from function.api import Resumer
-from function.search import*
+from function.search import internet 
 from setting.setting import*
-from src.varInterface import*
 from neuron.neuronTime import*
 from src.srcSix import*
 class Six :
