@@ -20,7 +20,7 @@ match rep :
     case 3 :
       Calcule("#3c0f14","white","Six : Calcule")
     case 4 :
-      AppHorloge("white","black","Horloge","Acceuil")
+      AppHorloge("#3c0f14","white","Six : Horloge","Acceuil")
     case 5 :
       DescriptionActu()
     case 6 :

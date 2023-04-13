@@ -12,22 +12,21 @@ class MINUTEUR:
         self.textColor =  textColor
         self.duration = duration
         self.label = Label(master, text=self.FormatTemps(self.duration), font=("arial", 40),bg=mainColor,fg=textColor)
-        self.label.place(relx=0.5, rely=0.5, anchor=CENTER)
-
         self.start_button = Button(master, text="Start", command=self.start,font=("arial", 15),bg=mainColor,fg=textColor)
-        self.start_button.place(x=15,y=315)
-
         self.stop_button = Button(master, text="Stop", command=self.stop,font=("arial", 15),bg=mainColor,fg=textColor)
-        self.stop_button.place(x=425,y=315)
-
         self.reset_button = Button(master, text="Reset", command=self.reset,font=("arial", 15),bg=mainColor,fg=textColor)
-        self.reset_button.place(x=215,y=315)
-
         self.is_running = False
         self.current_time = 0
         self.start_time = 0
         self.elapsed_time = 0
+        self.affichageBase()
 
+
+    def affichageBase(self):
+        self.label.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.start_button.place(x=15,y=315)
+        self.stop_button.place(x=425,y=315)
+        self.reset_button.place(x=215,y=315) 
         
     def start(self):
         if not self.is_running:
@@ -39,9 +38,11 @@ class MINUTEUR:
         self.label.place_forget()
         self.stop_button.place_forget()
         self.reset_button.place_forget()
+        self.start_button.place_forget()
         if self.is_running:
             self.is_running = False
-
+        AppMinuteur(self.master,self.mainColor,self.textColor)
+    
     def reset(self):
         self.current_time = 0
         self.start_time = 0

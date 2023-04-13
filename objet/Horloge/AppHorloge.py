@@ -20,10 +20,10 @@ class AppHorloge :
         self.frameChrono = Frame(self.screen,bg=mainColor,height=465,width=500)
         self.frameMinuteur = Frame(self.screen,bg=mainColor,height=465,width=500)
         self.frameHorloge = Frame(self.screen,bg=mainColor,height=465,width=500)
-        self.btn1 = Button(self.frameBottom,text="Acceuil",font=("arial","13"),bg=mainColor,command=self.affichageAcceuil)
-        self.btn2 = Button(self.frameBottom,text="Chronometre",font=("arial","13"),bg=mainColor,command=self.affichageChrono)
-        self.btn3 = Button(self.frameBottom,text="Minuteur",font=("arial","13"),bg=mainColor,command=self.affichageMinuteur)
-        self.btn4 = Button(self.frameBottom,text="Horloge",font=("arial","13"),bg=mainColor,command=self.affichageHorloge)
+        self.btn1 = Button(self.frameBottom,text="Acceuil",font=("arial","13"),bg=mainColor,fg=textColor,command=self.affichageAcceuil)
+        self.btn2 = Button(self.frameBottom,text="Chronometre",font=("arial","13"),bg=mainColor,fg=textColor,command=self.affichageChrono)
+        self.btn3 = Button(self.frameBottom,text="Minuteur",font=("arial","13"),bg=mainColor,fg=textColor,command=self.affichageMinuteur)
+        self.btn4 = Button(self.frameBottom,text="Horloge",font=("arial","13"),bg=mainColor,fg=textColor,command=self.affichageHorloge)
         if mode == "acceuil" :
             self.affichageAcceuil()
         else : 
