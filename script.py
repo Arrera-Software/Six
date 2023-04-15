@@ -8,9 +8,10 @@ from src.varInterface import*
 from function.calendar import*
 from function.traduction import*
 from function.reading import*
+from function.openSofware import ouvertureAide
 import pygame
 
-rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n8.Traduction\n9.Lecture\n0.Quitter\n$ "))
+rep = int(input("Outil debugage:\n1.Parametre\n2.Youtube download\n3.Calcule\n4.Application Horloge\n5.Actualités description\n6.Calendrier\n7.Fenetre Pygame\n8.Traduction\n9.Lecture\n10.Ouverture fichier\n0.Quitter\n$ "))
 
 match rep :
     case 1 :
@@ -75,5 +76,7 @@ match rep :
       root.blit(fond, (0, 0))
       pygame.display.update()
       Reading(root,police)
+    case 10 :
+      ouvertureAide()
     case other:
         print("sa correspont pas")
