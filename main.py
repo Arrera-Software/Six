@@ -31,11 +31,13 @@ class Six :
         self.sourceSix =  SIXsrc(self.root,self.police)
         #Programme principale
         etatInternet = internet.testInternet()
-        userCourt = principalUser
-        genreCourt = principalUserGenre
         courtNom = self.NomAssistant
         if etatInternet == True :
-            self.salutation(userCourt,genreCourt)
+            webNeuron = neuronWeb(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
+            mainNeuron=neuronMain(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
+            softwareNeuron = neuronSoftware(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
+            timeNeuron = neuronTime(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
+            self.salutation(principalUser,principalUserGenre)
             condition = 0
             while (condition < 15):
                 #HourActuel = datetime.datetime.now().hour
@@ -53,17 +55,13 @@ class Six :
                         if "programmation" in statement :  
                             condition = 15
                         else :
-                            if "stop" in statement or "bye" in statement or "au revoir" in statement or "tu peux t'arrêter" in statement:
-                                self.Arret(userCourt,genreCourt)
-                                condition = 15
-                            else :
-                                condition = Main(statement,genreCourt,userCourt,courtNom,self.root,userCourt,genreCourt,self.police)
+                                condition = mainNeuron.neuron(statement)
                                 if condition == 0 :
-                                    condition = NeuronWeb(statement,genreCourt,userCourt,self.root,self.police)
+                                    condition = webNeuron.neuron(statement)
                                     if condition == 0 :
-                                        condition = Software(statement,genreCourt,userCourt,courtNom,self.root,self.police)
+                                        condition = softwareNeuron.neuron(statement)
                                         if condition == 0 :
-                                            condition = neuronTime(statement,genreCourt,userCourt,courtNom,self.root,self.police)
+                                            condition = timeNeuron.neuron(statement)
                                             if condition == 0 :
                                                 nbUser,condition = neuronUser(statement)
                                                 if nbUser == 0 :
@@ -73,23 +71,39 @@ class Six :
                                                         userCourt = principalUser
                                                         genreCourt = principalUserGenre
                                                         self.sourceSix.speak("Rebonjour "+genreCourt+" "+userCourt)
+                                                        webNeuron = neuronWeb(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                        mainNeuron=neuronMain(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                        softwareNeuron = neuronSoftware(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                        timeNeuron = neuronTime(courtNom,self.root,userCourt,genreCourt,self.police)
                                                         condition = 0
                                                     else :
                                                         if nbUser == 2:
                                                             userCourt = secondairUser
                                                             genreCourt = secondairUserGenre
                                                             self.sourceSix.speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
+                                                            webNeuron = neuronWeb(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                            mainNeuron=neuronMain(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                            softwareNeuron = neuronSoftware(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                            timeNeuron = neuronTime(courtNom,self.root,userCourt,genreCourt,self.police)
                                                             condition = 0  
                                                         else :
                                                             if nbUser == 3 :
                                                                 userCourt = troisiemeUser
                                                                 genreCourt = troisiemeUserGenre
                                                                 self.sourceSix.speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
+                                                                webNeuron = neuronWeb(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                mainNeuron=neuronMain(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                softwareNeuron = neuronSoftware(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                timeNeuron = neuronTime(courtNom,self.root,userCourt,genreCourt,self.police)
                                                             else :
                                                                 if nbUser == 4 :
                                                                     userCourt = quatriemeUser
                                                                     genreCourt = quatriemeUserGenre
                                                                     self.sourceSix.speak("Bonjour "+genreCourt+" "+userCourt+" en quoi je peux vous aidez ?")
+                                                                    webNeuron = neuronWeb(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                    mainNeuron=neuronMain(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                    softwareNeuron = neuronSoftware(courtNom,self.root,userCourt,genreCourt,self.police)
+                                                                    timeNeuron = neuronTime(courtNom,self.root,userCourt,genreCourt,self.police)
                                                                     condition = 0
                                                                                                               
             else :     
@@ -136,27 +150,7 @@ class Six :
                     else :
                         self.sourceSix.speak(listFinSoiree[nrad])  
         
-    def Arret(self,User,Genre):#Fonction quand l'uttilisateur coup l'assistant
-        hour=datetime.datetime.now().hour
-        if hour>=0 and hour<3:
-            self.sourceSix.speak("Au revoir" +Genre+" "+User+" ,bonne nuit")
-        else :
-            if hour>=3 and hour<9:
-                self.sourceSix.speak("Au revoir "+Genre+" "+User+" ,passez une bonne matinée")
-            else :
-                if hour>=9 and hour<12:
-                    self.sourceSix.speak("Au revoir "+Genre+" "+User+" ,passez une bonne journée")
-                else : 
-                    if hour>=12 and hour<16:
-                        self.sourceSix.speak("Au revoir "+Genre+" "+User+" ,passez une bonne aprem")
-                    else :
-                        if hour>=16 and hour<18:
-                            self.sourceSix.speak("Au revoir "+Genre+" "+User+" ,passez une bonne fin d'aprés-midi")
-                        else :
-                            if hour>=18 and hour<22:
-                                self.sourceSix.speak("Au revoir "+Genre+" "+User+" ,passez une bonne soirée")
-                            else :
-                                self.sourceSix.speak("Au revoir "+Genre+" "+User+" , passez une bonne nuit.")
+    
         
 
 Six()    
