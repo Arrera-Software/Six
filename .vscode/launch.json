@@ -8,7 +8,7 @@
             "name": "lancement",
             "type": "python",
             "request": "launch",
-            "program": "main.py",
+            "program": "script.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }
