@@ -94,5 +94,4 @@ class neuronMain :
                                                                 self.sourceSIX.speak("Au revoir "+self.genre+" "+self.user+" ,passez une bonne soirée")
                                                             else :
                                                                 self.sourceSIX.speak("Au revoir "+self.genre+" "+self.user+" , passez une bonne nuit.")
-                                        return 15
-                                    
+                                        return 15                                 
