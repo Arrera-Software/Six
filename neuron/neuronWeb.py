@@ -8,7 +8,7 @@ from objet.meteo.apiMeteo import*
 from objet.GPS.apiGPS import*
 from objet.actualiter.apiActualiter import*
 from function.fenetrePygame import*
-class neuronWeb :
+class neuroneWeb :
     def __init__(self,name,root,UserCourt,GenreCourt,police):
         self.root = root
         self.police = police

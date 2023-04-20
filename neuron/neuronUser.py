@@ -1,7 +1,7 @@
 from src.varInterface import*
 
 
-def neuronUser(var):
+def neuroneUser(var):
     if "passe à l'utilisateur 1" in var or "l'utilisateur 1"in var or "utilisateur 1" in var or "utilisateur numéro 1" in var:
         return 1,0
     else :

@@ -5,7 +5,7 @@ from objet.date.objetdate import*
 from function.calendar import *
 from function.fenetrePygame import*
 
-class neuronTime :
+class neuroneTime :
     def __init__(self,name,root,UserCourt,GenreCourt,police):
         self.root = root
         self.police = police
@@ -15,7 +15,7 @@ class neuronTime :
         self.user = UserCourt
         self.genre = GenreCourt
 
-    def neuron(self,var):
+    def neurone(self,var):
         self.fenetre = pygameFond(self.root,self.police,self.genre)
         self.sourceSIX = SIXsrc(self.root,self.police)
         var = str(var)

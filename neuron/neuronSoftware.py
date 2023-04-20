@@ -3,7 +3,7 @@ from src.srcSix import*
 from objet.Calcule.calcule import *
 from function.openSofware import*
 from function.fenetrePygame import*
-class neuronSoftware:
+class neuroneSoftware:
     def __init__(self,name,root,UserCourt,GenreCourt,police):
         self.root = root
         self.police = police
@@ -13,7 +13,7 @@ class neuronSoftware:
         self.user = UserCourt
         self.genre = GenreCourt
         
-    def neuron(self,var):
+    def neurone(self,var):
         var = str(var)
         if "enregistre de la musique" in var or "enregistrement de la musique" in var or "enregistre moi des vidéos" in var or "enregistre-moi une vidéo" in var:
             self.fenetre.OuvertureTK("Ok "+self.genre+" je vous ouvre le téléchargeur de video Youtube.")
