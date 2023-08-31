@@ -9,7 +9,7 @@ from neuron.neuronUser import*
 from function.search import internet 
 from setting.setting import*
 from neuron.neuronTime import*
-from neuron.neuronDiscution import *
+#from neuron.neuronDiscution import *
 from src.srcSix import*
 class Six :
     def __init__(self):
