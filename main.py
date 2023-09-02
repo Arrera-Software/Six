@@ -1,45 +1,6 @@
-#from tkinter import*
-import pygame
-from  pygame.locals import *
-#fichier
-from neuron.neuronMAIN import *
-from neuron.neuronWeb import *
-from neuron.neuronSoftware import *
-from neuron.neuronUser import*
-from function.search import internet 
-from setting.setting import*
-from neuron.neuronTime import*
-#from neuron.neuronDiscution import *
-from src.srcSix import*
-class Six :
-    def __init__(self):
-        #Varriable
-        self.Color = "#3c0f14"
-        self.TextColor = "white"
-        self.varSix = True
-        self.NomAssistant =   lectureJSON("setting/config.json","nomAssistant")
-        self.PrononceAssistant =   lectureJSON("setting/config.json","pronociationAssistant")   
-        #Fenetre pygame
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
-        pygame.init()
-        pygame.display.set_icon(pygame.image.load("image/logo.png"))
-        pygame.display.set_caption("Assistant SIX")
-        self.root  = pygame.display.set_mode((rootWidht,rootHeight),pygame.NOFRAME)
-        self.police = pygame.font.SysFont("arial", 25)
-        self.root.blit(fond.convert(),(0,0))
-        pygame.display.update()
-        #declaration objet
-        self.sourceSix =  SIXsrc(self.root,self.police)
-        #Programme principale
-        etatInternet = internet.testInternet()
-        courtNom = self.NomAssistant
-        if etatInternet == True :
-            webNeuron = neuroneWeb(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
-            mainNeuron=neuroneMain(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
-            softwareNeuron = neuroneSoftware(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
-            timeNeuron = neuroneTime(self.NomAssistant,self.root,principalUser,principalUserGenre,self.police)
-            self.salutation(principalUser,principalUserGenre)
-            condition = 0
+from SIX import *
+
+"""
             while (condition < 15):
                 #HourActuel = datetime.datetime.now().hour
                 statement = self.sourceSix.micro().lower()
@@ -154,4 +115,7 @@ class Six :
     
         
 
-#Six()    
+#Six() 
+"""   
+six = AssistantSIX()
+six.assistant()
