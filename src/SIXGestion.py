@@ -1,5 +1,4 @@
-import pygame
-from  pygame.locals import *
+from tkinter import*
 from librairy.travailJSON import *
 import requests
 
@@ -31,90 +30,90 @@ class SIXGestion :
     
     def getGUIMain(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienMain[0])
+            return PhotoImage(file = self.lienMain[0])
         else :
             if self.varTheme == "white" :
-                return pygame.image.load(self.lienMain[1])
+                return PhotoImage(file = self.lienMain[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienMain[2])
+                    return PhotoImage(file = self.lienMain[2])
                 else :
-                    return pygame.image.load(self.lienMain[0])
+                    return PhotoImage(file = self.lienMain[0])
 
 
     def getGUIMute(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienMute[0])
+            return PhotoImage(file=self.lienMute[0])
         else :
             if self.varTheme == "white" :
-                return pygame.image.load(self.lienMute[1])
+                return PhotoImage(file = self.lienMute[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienMute[2])
+                    return PhotoImage(file = self.lienMute[2])
                 else :
-                    return pygame.image.load(self.lienMute[0])
+                    return PhotoImage(file = self.lienMute[0])
 
     def getGUIparole1(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienParole1[0])
+            return PhotoImage(file = self.lienParole1[0])
         else :
             if self.varTheme == "white" :
-                return pygame.image.load(self.lienParole1[1])
+                return PhotoImage(file = self.lienParole1[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienParole1[2])
+                    return PhotoImage(file = self.lienParole1[2])
                 else :
-                    return pygame.image.load(self.lienParole1[0])   
+                    return PhotoImage(file = self.lienParole1[0])
 
     def getGUIparole2(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienParole2[0])
+            return PhotoImage(file = self.lienParole2[0])
         else :
             if self.varTheme == "white" :
-                return pygame.image.load(self.lienParole2[1])
+                return PhotoImage(file = self.lienParole2[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienParole2[2])  
+                    return PhotoImage(file = self.lienParole2[2])
                 else :
-                    return pygame.image.load(self.lienParole2[0])
+                    return PhotoImage(file = self.lienParole2[0])
 
     def getGUIparole3(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienParole3[0])
+            return PhotoImage(file = self.lienParole3[0])
         else :
             if self.varTheme == "white" :
-                return pygame.image.load(self.lienParole3[1])
+                return PhotoImage(file = self.lienParole3[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienParole3[2])
+                    return PhotoImage(file = self.lienParole3[2])
                 else :
-                    return pygame.image.load(self.lienParole3[0]) 
+                    return PhotoImage(file = self.lienParole3[0])
                 
 
     def getGUItextColor(self):
         if self.varTheme == "default" :
-            return (255,255,255)
+            return "white"
         else :
             if self.varTheme == "white" :
-                return (0,0,0)
+                return "black"
             else :
                 if self.varTheme == "dark" :
-                    return (255,255,255)
+                    return "white"
                 else :
-                    return (255,255,255)
+                    return "white"
                     
 
     def getGUIOpenFentreTkinter(self):
         if self.varTheme == "default" :
-            return pygame.image.load(self.lienFenetre[0])
+            return PhotoImage(file = self.lienFenetre[0])
         else :
             if self.varTheme == "white":
-                return pygame.image.load(self.lienFenetre[1])
+                return PhotoImage(file = self.lienFenetre[1])
             else :
                 if self.varTheme == "dark" :
-                    return pygame.image.load(self.lienFenetre[2])
+                    return PhotoImage(file = self.lienFenetre[2])
                 else :
-                    return pygame.image.load(self.lienFenetre[0])
+                    return PhotoImage(file = self.lienFenetre[0])
 """
 rootWidht = 600
 rootHeight = 200

@@ -118,4 +118,4 @@ from SIX import *
 #Six() 
 """   
 six = AssistantSIX()
-six.assistant()
+six.bootAssistant()
