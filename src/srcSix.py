@@ -101,7 +101,6 @@ class SIXsrc :
             audio=r.listen(source)
             try:
                 Requette=r.recognize_google(audio,language='fr')
-                print(Requette)
                 labelUser = self.formatText.render(Requette,1,(255,255,255))
                 text_rect = labelUser.get_rect(center=(self.rootWidht/2 ,self.rootHeight/2))
                 self.fenetre.blit(labelUser,text_rect)
