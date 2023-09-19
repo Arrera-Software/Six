@@ -4,6 +4,7 @@ from pygame.locals import *
 from ObjetsNetwork.arreraNeuron import*
 from src.srcSix import *
 from unidecode import unidecode
+from src.sixInterface import*
 from src.SIXGestion import*
 
 
@@ -15,24 +16,17 @@ class AssistantSIX :
         #mise en place du theme
         self.objetGestion.setTheme()
         #varriable
-        self.fond = self.objetGestion.getGUIMain()
         self.etatInternet = self.objetGestion.getEtatInternet()
         self.varSix = 0
-        #Fenetre pygame
-        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
-        pygame.init()
-        pygame.display.set_icon(pygame.image.load("asset/logo.png"))
-        pygame.display.set_caption("Assistant SIX")
-        self.root  = pygame.display.set_mode((600,200),pygame.NOFRAME)
-        self.police = pygame.font.SysFont("arial", 25)
-        self.root.blit(self.fond.convert(),(0,0))
-        pygame.display.update()
+        #objet interface
+        self.interafaceSIX = SIXInterface(self.objetGestion)
         #source six 
-        self.srcSIX = SIXsrc(self.root,self.police,self.objetGestion)
+        self.srcSIX = SIXsrc(self.interafaceSIX)
         
     def assistant(self):
+        self.interafaceSIX.initialisationFenetre()
         self.srcSIX.speak(self.arreraAssistant.boot())
-        while self.varSix != 15 :
+        while (self.varSix != 15 ):
             statement = self.srcSIX.micro()
             statement = unidecode(statement)
             self.varSix,text = self.arreraAssistant.neuron(statement)
