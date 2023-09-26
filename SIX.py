@@ -3,7 +3,6 @@ import pygame
 from pygame.locals import *
 from ObjetsNetwork.arreraNeuron import*
 from src.srcSix import *
-from unidecode import unidecode
 from src.sixInterface import*
 from src.SIXGestion import*
 
@@ -25,10 +24,9 @@ class AssistantSIX :
         
     def assistant(self):
         self.interafaceSIX.initialisationFenetre()
-        self.srcSIX.speak(self.arreraAssistant.boot())
+        self.srcSIX.booting(self.arreraAssistant.boot())
         while (self.varSix != 15 ):
             statement = self.srcSIX.micro()
-            statement = unidecode(statement)
             self.varSix,text = self.arreraAssistant.neuron(statement)
             
             self.srcSIX.speak(text)
