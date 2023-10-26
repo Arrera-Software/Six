@@ -2,6 +2,7 @@ import os
 import pygame 
 import time as t
 from src.SIXGestion import*
+import re
 
 class SIXInterface:
     def __init__(self,objetGestion:SIXGestion):
@@ -64,7 +65,6 @@ class SIXInterface:
         
     def interfaceSpeak(self,texte:str):
         nbMots = self._compteur(texte)
-        print(nbMots)
         if nbMots > 6 :
             text1,text2 = self._division(texte,6)
             nbMots = self._compteur(text2)
@@ -136,3 +136,24 @@ class SIXInterface:
     def _compteur(self,s:str):
         mots = s.split()
         return int(len(mots))
+    
+
+    def _sautLigne(texte:str, nbMots:int):
+        # Utilise une expression régulière pour diviser le texte en mots
+        mots = re.findall(r'\S+\s*', texte)
+
+        lignes = []  # Liste pour stocker les lignes de texte
+        ligne_actuelle = []  # Liste pour stocker les mots de la ligne actuelle
+
+        for mot in mots:
+            ligne_actuelle.append(mot)
+            # Si la ligne actuelle contient plus de mots_par_ligne, commencez une nouvelle ligne
+            if len(ligne_actuelle) >= nbMots:
+                lignes.append(" ".join(ligne_actuelle))
+                ligne_actuelle = []
+
+        # Ajoutez la ligne finale si elle n'est pas vide
+        if ligne_actuelle:
+            lignes.append(" ".join(ligne_actuelle))
+
+        return "\n".join(lignes)
