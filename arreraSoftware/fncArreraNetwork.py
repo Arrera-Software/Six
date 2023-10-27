@@ -6,6 +6,7 @@ from librairy.travailJSON import *
 from librairy.openSoftware import*
 #objet de fonctionement du reseau
 from ObjetsNetwork.gestion import*
+from ObjetsNetwork.network import*
 #differente fonctionnalitée
 from arreraSoftware.fonctionLecture import *
 from arreraSoftware.fonctionMeteoActu import *
@@ -19,11 +20,12 @@ from arreraSoftware.fonctionHorloge import*
 from arreraSoftware.fonctionCalendar import *
 
 class fncArreraNetwork:
-    def __init__(self,fichierConfigurationNeuron:jsonWork,gestionNeuron:gestionNetwork,decteurOS:OS):
+    def __init__(self,fichierConfigurationNeuron:jsonWork,gestionNeuron:gestionNetwork,decteurOS:OS,network:network):
         #Recuperation des objet
         self.configNeuron = fichierConfigurationNeuron
         self.gestionNeuron = gestionNeuron
         self.detecteurOS = decteurOS
+        self.objetNetwork =  network
         self.icon = self.configNeuron.lectureJSON("iconAssistant")
         #Recuperation varriable
         self.color = self.configNeuron.lectureJSON("interfaceColor")
@@ -32,16 +34,18 @@ class fncArreraNetwork:
         self.name = self.gestionNeuron.getName()
         self.user = self.gestionNeuron.getUser()
         self.genre = self.gestionNeuron.getGenre()
+        #Recuperation etat de la connextion internet
+        etatConnextion = self.objetNetwork.getEtatInternet()
         #initialisation objet 
         self.fncReading = fncLecture(self.configNeuron,self.detecteurOS)
         self.actu = Actu("3b43e18afcf945888748071d177b8513","6","fr","fr")
-        self.gps = GPS("19bfbee6112be5b3d9a64d4ccec72602")
+        self.gps = GPS("19bfbee6112be5b3d9a64d4ccec72602",etatConnextion)
         self.meteo = Meteo("19bfbee6112be5b3d9a64d4ccec72602")
         self.itineraires = GPSItineraires()
         self.traducteur = fncArreraTrad(self.configNeuron)
         self.downloader = fncArreraVideoDownload(self.configNeuron)
         self.calculatrice = fncCalculatrice(self.configNeuron)  
-        self.objetRecherche = fncArreraSearch()
+        self.objetRecherche = fncArreraSearch(etatConnextion)
         self.objetDate = fncDate()
         self.objetHorloge = fncArreraHorloge()
         self.objetCalendar = fncArreraCalendar(self.configNeuron,self.gestionNeuron)
@@ -256,7 +260,7 @@ class fncArreraNetwork:
     
     def sortieOpenSoftware(self,soft):
         dictionnaireSoft = self.gestionNeuron.getDictionnaireLogiciel()
-        objet = OpenSoftware(dictionnaireSoft[soft])
+        objet = OpenSoftware(self.gestionNeuron,dictionnaireSoft[soft])
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -278,7 +282,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("wordLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -307,7 +311,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("exelLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -336,7 +340,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("diapoLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -365,7 +369,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("browserLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -402,7 +406,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("noteLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :
@@ -425,7 +429,7 @@ class fncArreraNetwork:
         else :
             if etatWindows == False and etatLinux == True :
                 logiciel = self.gestionNeuron.getValeurfichierUtilisateur("musicLinux")
-        objet = OpenSoftware(logiciel)
+        objet = OpenSoftware(self.gestionNeuron,logiciel)
         sortie = objet.open()
         if sortie == True :
             if self.etatVous == True :

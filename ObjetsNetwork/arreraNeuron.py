@@ -5,6 +5,7 @@ from librairy.travailJSON import *
 from neuron.chatBots import*
 from ObjetsNetwork.formule import*
 from ObjetsNetwork.gestion import *
+from ObjetsNetwork.network import*
 from neuron.main import*
 from neuron.API import*
 from neuron.software import*
@@ -23,12 +24,15 @@ class ArreraNetwork :
         #initilisation du gestionnaire du reseau de neuron
         self.detecteurOS = OS()
         self.gestionnaire = gestionNetwork(self.fichierUtilisateur,self.configNeuron,self.detecteurOS,self.fichierVille)
+        self.network = network()
         #set des atribut
         self.gestionnaire.setAll()
         self.gestionnaire.setVilleMeteo()
         #initialisation objet
         self.formuleNeuron = formule(self.gestionnaire)
-        self.fonctionAssistant = fncArreraNetwork(self.configNeuron,self.gestionnaire,self.detecteurOS)
+        self.fonctionAssistant = fncArreraNetwork(self.configNeuron,self.gestionnaire,self.detecteurOS,self.network)
+        #recuperation etat du reseau
+        self.etatReseau = self.network.getEtatInternet()
         #initilisation des neuron
         self.chatBot = neuroneDiscution(self.gestionnaire,self.formuleNeuron)
         self.main = neuroneMain(self.fonctionAssistant,self.gestionnaire)
@@ -56,7 +60,11 @@ class ArreraNetwork :
         valeur = 0
         valeur,text = self.main.neurone(requette,self.oldSorti,self.oldRequette)
         if valeur == 0 :
-            valeur,text = self.api.neurone(requette,self.oldSorti,self.oldRequette)
+            #api
+            if self.etatReseau == True :
+                valeur,text = self.api.neurone(requette,self.oldSorti,self.oldRequette)
+            else :
+                valeur = 0 
             if valeur == 0 :
                 #software
                 valeur,text = self.software.neurone(requette,self.oldSorti,self.oldRequette)
@@ -68,17 +76,19 @@ class ArreraNetwork :
                         valeur,text = self.open.neurone(requette,self.oldSorti,self.oldRequette)
                         if valeur == 0 :
                             #search
-                            valeur,text = self.search.neurone(requette,self.oldSorti,self.oldSorti)
+                            if self.etatReseau == True :
+                                valeur,text = self.search.neurone(requette,self.oldSorti,self.oldSorti)
+                            else :
+                                valeur = 0
                             if valeur == 0 :
                                 valeur,text = self.chatBot.neurone(requette,self.oldSorti,self.oldRequette)
                                 if valeur == 0 :
-                                    if "tu peux t'arreter" in requette or "stop" in requette or "au revoir" in requette or "quitter" in requette or "bonne nuit" in requette or "adieu" in requette or "bonne soirée" in requette :
+                                    if "stop" in requette or "au revoir" in requette or "quitter" in requette or "bonne nuit" in requette or "adieu" in requette or "bonne soirée" in requette :
                                         text = self.formuleNeuron.aurevoir(datetime.datetime.now().hour)
                                         valeur = 15
                                     else : 
-                                        valeur = 0
-                                        if requette != "None" :
-                                            text = self.formuleNeuron.nocomprehension()
+                                        valeur = 0 
+                                        text = self.formuleNeuron.nocomprehension()
                                         self.gestionnaire.addDiscution()
                                 
         #Sauvegarde des sortie                         
