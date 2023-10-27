@@ -13,6 +13,7 @@
    "createur":"Baptiste Pauchet",
    "listFonction":["ouvrir une application","aider sur les recherches de internet","donner la meteo","faire un résumer des actualités","lancer vos application de votre ordinateur"],
    "toucheCalculatrice":"asset/IMGcalculatrice",
-   "moteurRechercheDefault":"duckduckgo"
-   
+   "moteurRechercheDefault":"duckduckgo",
+   "emplacementSoftWindows":""
+
 }

@@ -7,11 +7,8 @@
     "adresseDomicile" : "",
     "adresseTravail":"",
     "nbSoft" : "0",
-    "dictSoftWindows" :{
-    },
-    "dictSoftLinux" :{
-        
-    },
+    "dictSoftWindows" :{},
+    "dictSoftLinux" :{},
     "wordLinux":"",
     "wordWindows":"",
     "exelLinux":"",
@@ -26,9 +23,7 @@
     "musicWindows":"",
     "lienCloud":"",
     "nbSite":"0",
-    "dictSite":{
-        
-    },
+    "dictSite":{},
     "moteurRecherche":"",
     "emplacementEvenenement" :"FileUser/evenementUser.json"
 }
