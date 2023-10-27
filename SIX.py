@@ -28,6 +28,5 @@ class AssistantSIX :
         while (self.varSix != 15 ):
             statement = self.srcSIX.micro()
             self.varSix,text = self.arreraAssistant.neuron(statement)
-            
             self.srcSIX.speak(text)
         
