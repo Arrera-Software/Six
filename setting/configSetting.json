@@ -1,0 +1,11 @@
+{
+    "color1":"#3c0f14",
+    "color2":"#2b0b0e",
+    "textColor1":"white",
+    "textColor2":"white",
+    "colorInterface":"1",
+    "setIcon":"1",
+    "iconAssistant":"asset/logo.png",
+    "listeTheme":["Default","Dark","Light"],
+    "listGenre":["Monsieur","Madame","Maitre"]
+}
