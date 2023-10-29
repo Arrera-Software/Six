@@ -14,7 +14,7 @@ class OpenSoftware :
             self.etat = False
         else :
             if self.windowsOS == True and self.linuxOS == False :
-                self.emplacement = os.path.abspath(objetGestion.getEmplacementSoftwareWindows()+name+".lnk")
+                self.emplacement = os.path.abspath(objetGestion.getEmplacementSoftwareWindows()+"/"+name+".lnk")
                 self.etat = True
             else :
                 if self.windowsOS == False and self.linuxOS == True : 
