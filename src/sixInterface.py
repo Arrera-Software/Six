@@ -12,8 +12,6 @@ class SIXInterface:
         self.AcceuilGUI = objetGestion.getGUIAcceuil()
         self.paroleGUI = [objetGestion.getGUIparoleBigSmall(),
                                objetGestion.getGUIparoleSmallSmall()]
-        self.microGUI = [objetGestion.getGUImicroSmallBig(),
-                         objetGestion.getGUImicroSmallSmall()]
             
         self.colorText = objetGestion.getGUItextColor()
         self.oldRequette = str
