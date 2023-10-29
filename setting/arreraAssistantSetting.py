@@ -47,7 +47,7 @@ class ArreraSettingAssistant :
         #variable
         xlabel2 = int 
         yBTNQuitter = int 
-        listMoteur = ["Duckduckgo","google","bing","brave","ecosia","qwant"]
+        listMoteur = ["duckduckgo","google","bing","brave","ecosia","qwant"]
         self.varRecherche = StringVar(windows)
         self.varTheme = StringVar(windows)
         #widget
