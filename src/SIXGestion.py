@@ -12,6 +12,15 @@ class SIXGestion :
         except requests.ConnectionError :
             self.etatConnexion = False
         #Emplacement image interface
+        self.acceuil = "IMGAcceuil.png"
+        self.main = "IMGmain.png"
+        self.attent1 = "IMGAttent1.png"
+        self.attent2 = "IMGAttent2.png"
+        self.attent3 = "IMGAttent3.png"
+        self.mute = "IMGMute.png"
+        self.speakBigSmall = "IMGSpeak-BIG-Small.png"
+        self.speakSmallSmall = "IMGSpeak-Small-Small.png"
+        #listUtiliser
         self.lienAcceuil = str
         self.lienMute = str
         self.lienMain = str
@@ -32,16 +41,6 @@ class SIXGestion :
     def setTheme(self):
         varTheme = self.fileSixConfig.lectureJSON("theme") #Valeur possible "default","white","dark"
         #Non de fichier Image
-        acceuil = "IMGAcceuil.png"
-        main = "IMGmain.png"
-        attent1 = "IMGAttent1.png"
-        attent2 = "IMGAttent2.png"
-        attent3 = "IMGAttent3.png"
-        microSmallSmall = "IMGMicro-Small-Small.png" 
-        microSmallBig = "IMGMicroSmall-Big.png"
-        mute = "IMGMute.png"
-        speakBigSmall = "IMGSpeak-BIG-Small.png"
-        speakSmallSmall = "IMGSpeak-Small-Small.png"
         if varTheme == "default" :
             chemin = "asset/IMGinterface/default/"
             self.colorText = (0,0,0)
@@ -56,17 +55,15 @@ class SIXGestion :
                 else:
                     chemin = "asset/IMGinterface/default/"
                     self.colorText = (0,0,0)
-        self.lienAcceuil = chemin+acceuil
-        self.lienMute = chemin+mute
-        self.lienMain = chemin+main
-        self.lienAttent = [chemin+attent1,
-                            chemin+attent2,
-                            chemin+attent3]
-        self.lienParole = [chemin+speakBigSmall,
-                            chemin+speakSmallSmall]
-        self.lienMicro = [chemin+microSmallBig,
-                            chemin+microSmallSmall]
-        
+        self.lienAcceuil = chemin+self.acceuil
+        self.lienMute = chemin+self.mute
+        self.lienMain = chemin+self.main
+        self.lienAttent = [chemin+self.attent1,
+                            chemin+self.attent2,
+                            chemin+self.attent3]
+        self.lienParole = [chemin+self.speakBigSmall,
+                            chemin+self.speakSmallSmall]
+               
         self.themeSet = True
     
     def getGUIAcceuil(self):
@@ -89,15 +86,7 @@ class SIXGestion :
     def getGUIparoleSmallSmall(self):
         if self.themeSet == True :
             return pygame.image.load(self.lienParole[1])
-    
-
-    def getGUImicroSmallBig(self):
-        if self.themeSet == True :
-            return pygame.image.load(self.lienMicro[0])
-        
-    def getGUImicroSmallSmall(self):
-        if self.themeSet == True :
-            return pygame.image.load(self.lienMicro[1])          
+             
 
     def getGUItextColor(self):
         if self.themeSet == True:
