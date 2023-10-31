@@ -88,3 +88,7 @@ class SIXGestion :
     def getGUItextColor(self):
         if self.themeSet == True:
             return self.colorText
+        
+    def getGUIAttent(self):
+        if self.themeSet == True :
+            return [pygame.image.load(self.lienAttent[0]),pygame.image.load(self.lienAttent[1]),pygame.image.load(self.lienAttent[2])]

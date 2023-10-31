@@ -39,7 +39,6 @@ class AssistantSIX :
                 self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
                 self.srcSIX.closeParametre("Les modification on bien été pris en compte")
                 self.arreraAssistant.sortieParametre("Ok je vous ouvre les parametre","parametre")
-                
             else :
                 self.srcSIX.speak(text)
             

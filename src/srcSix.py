@@ -37,6 +37,7 @@ class SIXsrc :
     def micro(self):
         r = sr.Recognizer()
         with sr.Microphone() as source:
+            playsound("asset/Sound/bootMicro.mp3")
             audio = r.listen(source)
             try:
                 requette = unidecode(r.recognize_google(audio, language='fr'))
@@ -51,6 +52,28 @@ class SIXsrc :
                 requette = "None"
             self.interface.saveValMicro(requette)
             return requette
+    
+    def trigerWord(self):
+        theardGUIMain = th.Thread(target=self.interface.interfaceMain)
+        theardGUIMain.start()
+        theardGUIMain.join()
+        micro = sr.Recognizer()
+        theardGUI = th.Thread(target=self.interface.interfaceAttente)
+        with sr.Microphone() as source:
+            audio = micro.listen(source)
+        try:
+            microOut = micro.recognize_google(audio)
+            print(microOut)
+            if "6" in microOut or "dit" in microOut:
+                return True
+            else :
+                theardGUI.start()
+                theardGUI.join()
+                return False
+        except sr.UnknownValueError:
+            return False
+        
+
         
     def openParametre(self,texte:str):
         tts = gTTS(texte, lang="fr")

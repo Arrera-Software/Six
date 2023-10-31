@@ -10,15 +10,16 @@ class SIXInterface:
         self.rootHeight = 500
         self.objetGestion = objetGestion 
         self.oldRequette = str
+        self.nbInterfaceAttent = 0
 
     def setGUI(self):
         self.mainGUI = self.objetGestion.getGUIMain()
         self.AcceuilGUI = self.objetGestion.getGUIAcceuil()
         self.paroleGUI = [self.objetGestion.getGUIparoleBigSmall(),
-                               self.objetGestion.getGUIparoleSmallSmall()]   
+                               self.objetGestion.getGUIparoleSmallSmall()] 
+        self.attendGUI = self.objetGestion.getGUIAttent()
         self.colorText = self.objetGestion.getGUItextColor()
-        
-        
+            
     def initialisationFenetre(self):
         os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (20,35)
         pygame.init()
@@ -33,6 +34,10 @@ class SIXInterface:
 
     def quitWindows(self):
         pygame.display.quit()
+    
+    def interfaceMain(self):
+        self.root.blit(self.mainGUI.convert(),(0,0))
+        pygame.display.update()
     
     def interfaceBoot(self,text:str):
         texte = text
@@ -64,7 +69,6 @@ class SIXInterface:
         self.speakBig = True
         self.oldSpeak = texte
         pygame.display.update()
-
         
     def interfaceSpeak(self,texte:str):
         nbMots = self._compteur(texte)
@@ -135,6 +139,22 @@ class SIXInterface:
         self.oldSpeak = texte
         pygame.display.update()
         
+    def interfaceAttente(self):
+        if self.nbInterfaceAttent == 0 :
+            self.root.blit(self.attendGUI[0].convert(),(0,0))
+            self.nbInterfaceAttent =+ 1
+        else :
+            if self.nbInterfaceAttent == 1 :
+                self.root.blit(self.attendGUI[1].convert(),(0,0))
+                self.nbInterfaceAttent =+ 1
+            else :
+                if self.nbInterfaceAttent == 2 :
+                    self.root.blit(self.attendGUI[2].convert(),(0,0))
+                    self.nbInterfaceAttent = 0
+                else :
+                    self.root.blit(self.attendGUI[0].convert(),(0,0))
+                    self.nbInterfaceAttent = 1
+        pygame.display.update()
 
     def interfaceParametre(self):
         self.root.blit(self.parametreGUI.convert(),(0,0))
@@ -174,8 +194,7 @@ class SIXInterface:
     
     def _compteur(self,s:str):
         mots = s.split()
-        return int(len(mots))
-    
+        return int(len(mots))   
 
     def _sautLigne(texte:str, nbMots:int):
         # Utilise une expression régulière pour diviser le texte en mots
