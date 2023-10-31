@@ -54,6 +54,9 @@ class ArreraNetwork :
         text = self.formuleNeuron.aurevoir(hour)
         return str(text)
     
+    def sortieParametre(self,sortie,requette):
+        self.oldSorti = sortie
+        self.oldRequette = requette
     
     def neuron(self,var:str) :
         requette = chaine.netoyage(str(var))

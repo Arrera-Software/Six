@@ -62,8 +62,7 @@ class SIXGestion :
                             chemin+self.attent2,
                             chemin+self.attent3]
         self.lienParole = [chemin+self.speakBigSmall,
-                            chemin+self.speakSmallSmall]
-               
+                            chemin+self.speakSmallSmall]   
         self.themeSet = True
     
     def getGUIAcceuil(self):
@@ -82,12 +81,10 @@ class SIXGestion :
         if self.themeSet == True :
             return pygame.image.load(self.lienParole[0])
 
-        
     def getGUIparoleSmallSmall(self):
         if self.themeSet == True :
             return pygame.image.load(self.lienParole[1])
              
-
     def getGUItextColor(self):
         if self.themeSet == True:
             return self.colorText

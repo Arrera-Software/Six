@@ -8,13 +8,15 @@ class SIXInterface:
     def __init__(self,objetGestion:SIXGestion):
         self.rootWidht = 600
         self.rootHeight = 500
-        self.mainGUI = objetGestion.getGUIMain()
-        self.AcceuilGUI = objetGestion.getGUIAcceuil()
-        self.paroleGUI = [objetGestion.getGUIparoleBigSmall(),
-                               objetGestion.getGUIparoleSmallSmall()]
-            
-        self.colorText = objetGestion.getGUItextColor()
+        self.objetGestion = objetGestion 
         self.oldRequette = str
+
+    def setGUI(self):
+        self.mainGUI = self.objetGestion.getGUIMain()
+        self.AcceuilGUI = self.objetGestion.getGUIAcceuil()
+        self.paroleGUI = [self.objetGestion.getGUIparoleBigSmall(),
+                               self.objetGestion.getGUIparoleSmallSmall()]   
+        self.colorText = self.objetGestion.getGUItextColor()
         
         
     def initialisationFenetre(self):
@@ -28,6 +30,9 @@ class SIXInterface:
         self.root.blit(self.mainGUI.convert(),(0,0))
         self.formatSpeak = pygame.font.SysFont("arial", 20)
         pygame.display.update()
+
+    def quitWindows(self):
+        pygame.display.quit()
     
     def interfaceBoot(self,text:str):
         texte = text
@@ -98,11 +103,47 @@ class SIXInterface:
             self.root.blit(labelText,textRect)
             self._affichageEntre(False)
         pygame.display.update()
+
+    def interfaceCloseOpenParametre(self,texte:str):
+        texte = texte
+        self.root.blit(self.AcceuilGUI.convert(),(0,0))
+        if self._compteur(texte) >= 4 :
+            text1,text2 = self._division(texte,4)
+            if self._compteur(text2) >= 4 :
+                text2,text3 = self._division(text2,4)
+                labelText1 = self.policeTitre.render(text1,1,(self.colorText))
+                labelText2 = self.policeTitre.render(text2,1,(self.colorText))
+                labelText3 = self.policeTitre.render(text3,1,(self.colorText))
+                textRect1 = labelText1.get_rect(center=(600/2 ,240))
+                textRect2 = labelText2.get_rect(center=(600/2 ,270))
+                textRect3 = labelText3.get_rect(center=(600/2 ,300))
+                self.root.blit(labelText1,textRect1)
+                self.root.blit(labelText2,textRect2)
+                self.root.blit(labelText3,textRect3)
+            else :
+                labelText1 = self.policeTitre.render(text1,1,(self.colorText))
+                labelText2 = self.policeTitre.render(text2,1,(self.colorText))
+                textRect1 = labelText1.get_rect(center=(600/2 ,240))
+                textRect2 = labelText2.get_rect(center=(600/2 ,270))
+                self.root.blit(labelText1,textRect1)
+                self.root.blit(labelText2,textRect2)
+        else :
+            labelText = self.policeTitre.render(texte,1,(self.colorText))
+            textRect = labelText.get_rect(center=(600/2 ,240))
+            self.root.blit(labelText,textRect)
+        self.speakBig = True
+        self.oldSpeak = texte
+        pygame.display.update()
+        
+
+    def interfaceParametre(self):
+        self.root.blit(self.parametreGUI.convert(),(0,0))
+        pygame.display.update()
       
     def _affichageEntre(self,big:bool):
         texte = self.oldRequette
         if self._compteur(texte) > 6 :
-            texte1,texte2 = self._division(texte)
+            texte1,texte2 = self._division(texte,6)
             labelRequette1 = self.police.render(texte1,1,(self.colorText))
             labelRequette2 = self.police.render(texte2,1,(self.colorText))
             if big == True :

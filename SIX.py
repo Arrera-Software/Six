@@ -20,6 +20,7 @@ class AssistantSIX :
         self.varSix = 0
         #objet interface
         self.interafaceSIX = SIXInterface(self.objetGestion)
+        self.interafaceSIX.setGUI()
         #source six 
         self.srcSIX = SIXsrc(self.interafaceSIX)
         
@@ -31,8 +32,14 @@ class AssistantSIX :
             statement = self.srcSIX.micro()
             self.varSix,text = self.arreraAssistant.neuron(statement)
             if self.varSix == 0 and "parametre" in statement :
-                self.srcSIX.speak("Ok je vous ouvre les parametre")
+                self.srcSIX.openParametre("Ok je vous ouvre les parametre")
                 self.parametre.active()
+                self.objetGestion.setTheme()
+                self.interafaceSIX.setGUI()
+                self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
+                self.srcSIX.closeParametre("Les modification on bien été pris en compte")
+                self.arreraAssistant.sortieParametre("Ok je vous ouvre les parametre","parametre")
+                
             else :
                 self.srcSIX.speak(text)
             

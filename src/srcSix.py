@@ -35,16 +35,44 @@ class SIXsrc :
         os.remove("voc.mp3")
     
     def micro(self):
-        r=sr.Recognizer()
+        r = sr.Recognizer()
         with sr.Microphone() as source:
-            audio=r.listen(source)
+            audio = r.listen(source)
             try:
-                requette=unidecode(r.recognize_google(audio,language='fr'))   
-            except Exception as e:
+                requette = unidecode(r.recognize_google(audio, language='fr'))
+            except sr.WaitTimeoutError as e:
+                #print("Erreur : La reconnaissance vocale a expiré. Vérifiez votre microphone.")
+                requette = "None"
+            except sr.RequestError as e:
+                #print(f"Erreur : Impossible de faire la demande : {e}")
+                requette = "None"
+            except sr.UnknownValueError:
+                #print("Erreur : Aucune parole reconnue.")
                 requette = "None"
             self.interface.saveValMicro(requette)
             return requette
-    
+        
+    def openParametre(self,texte:str):
+        tts = gTTS(texte, lang="fr")
+        theardParole = th.Thread(target=self.interface.interfaceCloseOpenParametre,args=(texte,))
+        tts.save("voc.mp3")
+        theardParole.start()
+        playsound("voc.mp3")
+        theardParole.join()
+        os.remove("voc.mp3")
+        time.sleep(0.5)
+        self.interface.quitWindows()
+
+    def closeParametre(self,texte):
+        tts = gTTS(texte, lang="fr")
+        self.interface.initialisationFenetre()
+        theardParole = th.Thread(target=self.interface.interfaceCloseOpenParametre,args=(texte,))
+        tts.save("voc.mp3")
+        theardParole.start()
+        playsound("voc.mp3")
+        theardParole.join()
+        os.remove("voc.mp3")
+
     def _division(self,text, nombre):
         mots = text.split()
         premierPartie = mots[:nombre]
