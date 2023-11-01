@@ -30,7 +30,6 @@ class AssistantSIX :
         self.interafaceSIX.initialisationFenetre()
         self.srcSIX.booting(self.arreraAssistant.boot())
         while (self.varSix != 15 ):
-            print(self.compteurNothing)
             statement = self.srcSIX.micro()
             if ("mute" in statement) or (self.compteurNothing>=MAXNOTING):
                 if (self.compteurNothing==MAXNOTING):
