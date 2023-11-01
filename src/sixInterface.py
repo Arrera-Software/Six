@@ -155,10 +155,7 @@ class SIXInterface:
                     self.root.blit(self.attendGUI[0].convert(),(0,0))
                     self.nbInterfaceAttent = 1
         pygame.display.update()
-
-    def interfaceParametre(self):
-        self.root.blit(self.parametreGUI.convert(),(0,0))
-        pygame.display.update()
+    
       
     def _affichageEntre(self,big:bool):
         texte = self.oldRequette
@@ -197,20 +194,14 @@ class SIXInterface:
         return int(len(mots))   
 
     def _sautLigne(texte:str, nbMots:int):
-        # Utilise une expression régulière pour diviser le texte en mots
         mots = re.findall(r'\S+\s*', texte)
-
-        lignes = []  # Liste pour stocker les lignes de texte
-        ligne_actuelle = []  # Liste pour stocker les mots de la ligne actuelle
-
+        lignes = []  
+        ligne_actuelle = [] 
         for mot in mots:
             ligne_actuelle.append(mot)
-            # Si la ligne actuelle contient plus de mots_par_ligne, commencez une nouvelle ligne
             if len(ligne_actuelle) >= nbMots:
                 lignes.append(" ".join(ligne_actuelle))
                 ligne_actuelle = []
-
-        # Ajoutez la ligne finale si elle n'est pas vide
         if ligne_actuelle:
             lignes.append(" ".join(ligne_actuelle))
 

@@ -35,21 +35,18 @@ class SIXsrc :
         os.remove("voc.mp3")
     
     def micro(self):
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
+        objetReconnaissance = sr.Recognizer()
+        with sr.Microphone() as micro:
             playsound("asset/Sound/bootMicro.mp3")
-            audio = r.listen(source)
+            entrer = objetReconnaissance.listen(micro)
             try:
-                requette = unidecode(r.recognize_google(audio, language='fr'))
+                requette = unidecode(objetReconnaissance.recognize_google(entrer, language='fr'))
             except sr.WaitTimeoutError as e:
-                #print("Erreur : La reconnaissance vocale a expiré. Vérifiez votre microphone.")
-                requette = "None"
+                requette = "nothing"
             except sr.RequestError as e:
-                #print(f"Erreur : Impossible de faire la demande : {e}")
-                requette = "None"
+                requette = "nothing"
             except sr.UnknownValueError:
-                #print("Erreur : Aucune parole reconnue.")
-                requette = "None"
+                requette = "nothing"
             self.interface.saveValMicro(requette)
             return requette
     
@@ -119,6 +116,11 @@ class SIXsrc :
             playsound("voc.mp3")
             theardParole.join()
             os.remove("voc.mp3") 
+
+    def attent(self):
+        self.interface.interfaceAttente()
+        pygame.display.update()
+        
 
     def _division(self,text, nombre):
         mots = text.split()
