@@ -3,7 +3,7 @@ from ObjetsNetwork.arreraNeuron import*
 from src.srcSix import *
 from src.sixInterface import*
 from src.SIXGestion import*
-from setting.SixSetting import *
+from src.SixTK import *
 import threading as th
 
 
@@ -12,7 +12,7 @@ class AssistantSIX :
         #objet
         self.objetGestion = SIXGestion()
         self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
-        self.parametre = SIXSetting()  
+        self.parametre = sixTk()  
         #mise en place du theme
         self.objetGestion.setTheme()
         #varriable
@@ -33,7 +33,7 @@ class AssistantSIX :
             self.varSix,text = self.arreraAssistant.neuron(statement)
             if self.varSix == 0 and "parametre" in statement :
                 self.srcSIX.openParametre("Ok je vous ouvre les parametre")
-                self.parametre.active()
+                self.parametre.activePara()
                 self.objetGestion.setTheme()
                 self.interafaceSIX.setGUI()
                 self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")

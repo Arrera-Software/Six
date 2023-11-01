@@ -1,10 +1,10 @@
 from setting.arreraAssistantSetting import *
 
-class SIXSetting :
+class sixTk :
     def __init__(self):
         self.para = ArreraSettingAssistant("setting/configSetting.json","configNeuron.json","sixConfig.json","FileUser/configUser.json") 
         
-    def active(self):
+    def activePara(self):
         self.screenPara = Tk()
         self.para.windows(self.screenPara)
         self.para.passageFonctionQuitter(self.fncQuit)
