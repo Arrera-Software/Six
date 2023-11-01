@@ -38,7 +38,7 @@ class SIXInterface:
     def interfaceMain(self):
         self.root.blit(self.mainGUI.convert(),(0,0))
         pygame.display.update()
-    
+
     def interfaceBoot(self,text:str):
         texte = text
         self.root.blit(self.AcceuilGUI.convert(),(0,0))
@@ -108,7 +108,7 @@ class SIXInterface:
             self._affichageEntre(False)
         pygame.display.update()
 
-    def interfaceCloseOpenParametre(self,texte:str):
+    def interfaceCloseOpenTKInterface(self,texte:str):
         texte = texte
         self.root.blit(self.AcceuilGUI.convert(),(0,0))
         if self._compteur(texte) >= 4 :

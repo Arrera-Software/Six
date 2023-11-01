@@ -77,7 +77,7 @@ class SIXsrc :
         
     def openParametre(self,texte:str):
         tts = gTTS(texte, lang="fr")
-        theardParole = th.Thread(target=self.interface.interfaceCloseOpenParametre,args=(texte,))
+        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
         tts.save("voc.mp3")
         theardParole.start()
         playsound("voc.mp3")
@@ -89,12 +89,36 @@ class SIXsrc :
     def closeParametre(self,texte):
         tts = gTTS(texte, lang="fr")
         self.interface.initialisationFenetre()
-        theardParole = th.Thread(target=self.interface.interfaceCloseOpenParametre,args=(texte,))
+        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
         tts.save("voc.mp3")
         theardParole.start()
         playsound("voc.mp3")
         theardParole.join()
         os.remove("voc.mp3")
+
+    def activeMute(self,texte)->int:
+        tts = gTTS(texte, lang="fr")
+        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+        tts.save("voc.mp3")
+        theardParole.start()
+        playsound("voc.mp3")
+        theardParole.join()
+        os.remove("voc.mp3")
+        self.interface.quitWindows()
+
+    def quitMute(self,var:int,texte:str):
+        tts = gTTS(texte, lang="fr")
+        tts.save("voc.mp3")
+        if var == 15 :
+            playsound("voc.mp3")
+            os.remove("voc.mp3")
+        else :
+            self.interface.initialisationFenetre()
+            theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+            theardParole.start()
+            playsound("voc.mp3")
+            theardParole.join()
+            os.remove("voc.mp3") 
 
     def _division(self,text, nombre):
         mots = text.split()

@@ -75,7 +75,7 @@ class SIXGestion :
        
     def getGUIMute(self):
         if self.themeSet == True :
-            return pygame.image.load(self.lienMute)
+            return self.lienMute
 
     def getGUIparoleBigSmall(self):
         if self.themeSet == True :
