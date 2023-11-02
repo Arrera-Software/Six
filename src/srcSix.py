@@ -2,9 +2,7 @@ import speech_recognition as sr
 import pygame
 from  pygame.locals import *
 import time
-import os
-from gtts import gTTS
-from playsound import playsound
+from src.pygamePlaysound import*
 from unidecode import unidecode
 from  pygame.locals import *
 from src.SIXGestion import*
@@ -17,22 +15,22 @@ class SIXsrc :
         self.interface = interface
 
     def booting(self,texte:str):
-        tts = gTTS(texte, lang="fr")
         theardGUI = th.Thread(target=self.interface.interfaceBoot,args=(texte,))
-        tts.save("voc.mp3")
+        theardParole = th.Thread(target=sixParole,args=(texte,))
         theardGUI.start()
-        playsound("voc.mp3")
+        theardParole.start()
         theardGUI.join()
-        os.remove("voc.mp3")
+        theardParole.join()
+       
 
     def speak(self,texte:str):
-        tts = gTTS(texte, lang="fr")
-        theardGUI = th.Thread(target=self.interface.interfaceSpeak,args=(texte,))        
-        tts.save("voc.mp3")
+        theardGUI = th.Thread(target=self.interface.interfaceSpeak,args=(texte,))
+        theardParole = th.Thread(target=sixParole,args=(texte,))        
         theardGUI.start()
-        playsound("voc.mp3")
+        theardParole.start()
         theardGUI.join()
-        os.remove("voc.mp3")
+        theardParole.join()
+        
     
     def micro(self):
         objetReconnaissance = sr.Recognizer()
@@ -73,49 +71,45 @@ class SIXsrc :
 
         
     def openParametre(self,texte:str):
-        tts = gTTS(texte, lang="fr")
-        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
-        tts.save("voc.mp3")
+        theardGUI = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+        theardParole = th.Thread(target=sixParole,args=(texte,))
+        theardGUI.start()
         theardParole.start()
-        playsound("voc.mp3")
+        theardGUI.join()
         theardParole.join()
-        os.remove("voc.mp3")
         time.sleep(0.5)
         self.interface.quitWindows()
 
     def closeParametre(self,texte):
-        tts = gTTS(texte, lang="fr")
         self.interface.initialisationFenetre()
-        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
-        tts.save("voc.mp3")
+        theardGUI = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+        theardParole = th.Thread(target=sixParole,args=(texte,))
+        theardGUI.start()
         theardParole.start()
-        playsound("voc.mp3")
+        theardGUI.join()
         theardParole.join()
-        os.remove("voc.mp3")
 
     def activeMute(self,texte)->int:
-        tts = gTTS(texte, lang="fr")
-        theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
-        tts.save("voc.mp3")
+        theardGUI = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+        theardParole = th.Thread(target=sixParole,args=(texte,))
+        theardGUI.start()
         theardParole.start()
-        playsound("voc.mp3")
+        theardGUI.join()
         theardParole.join()
-        os.remove("voc.mp3")
         self.interface.quitWindows()
 
     def quitMute(self,var:int,texte:str):
-        tts = gTTS(texte, lang="fr")
-        tts.save("voc.mp3")
+        theardParole = th.Thread(target=sixParole,args=(texte,))
         if var == 15 :
-            playsound("voc.mp3")
-            os.remove("voc.mp3")
+           theardParole.start()
+           theardParole.join()
         else :
             self.interface.initialisationFenetre()
-            theardParole = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+            theardGUI = th.Thread(target=self.interface.interfaceCloseOpenTKInterface,args=(texte,))
+            theardGUI.start()
             theardParole.start()
-            playsound("voc.mp3")
+            theardGUI.join()
             theardParole.join()
-            os.remove("voc.mp3") 
 
     def attent(self):
         self.interface.interfaceAttente()
