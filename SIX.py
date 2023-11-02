@@ -10,7 +10,8 @@ MAXNOTING = 5
 class AssistantSIX :
     def __init__(self):
         #objet
-        self.objetGestion = SIXGestion()
+        sixConfig = jsonWork("sixConfig.json")
+        self.objetGestion = SIXGestion(sixConfig)
         self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
         self.sixTK = sixTk(self.objetGestion)
         self.compteurNothing = 0
@@ -23,7 +24,7 @@ class AssistantSIX :
         self.interafaceSIX = SIXInterface(self.objetGestion)
         self.interafaceSIX.setGUI()
         #source six 
-        self.srcSIX = SIXsrc(self.interafaceSIX)
+        self.srcSIX = SIXsrc(self.interafaceSIX,sixConfig)
         
         
     def assistant(self):

@@ -4,7 +4,7 @@ from librairy.travailJSON import *
 import requests
 
 class SIXGestion :
-    def __init__(self) :
+    def __init__(self,file:jsonWork) :
         #testInternet
         try:
             _ = requests.get("https://duckduckgo.com",timeout=5)
@@ -31,7 +31,7 @@ class SIXGestion :
         #Creation var de verification
         self.themeSet = bool
         #Ouverture fichier config Six
-        self.fileSixConfig = jsonWork("sixConfig.json")
+        self.fileSixConfig = file
         #varriable theme
         self.varTheme =  str
     

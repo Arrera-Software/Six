@@ -11,8 +11,9 @@ from src.sixInterface import*
 
 
 class SIXsrc :
-    def __init__(self,interface:SIXInterface):
+    def __init__(self,interface:SIXInterface,sixAssistant:jsonWork):
         self.interface = interface
+        self.configSix=sixAssistant
 
     def booting(self,texte:str):
         theardGUI = th.Thread(target=self.interface.interfaceBoot,args=(texte,))
@@ -33,9 +34,11 @@ class SIXsrc :
         
     
     def micro(self):
+        valeur = self.configSix.lectureJSON("soundMicro")
         objetReconnaissance = sr.Recognizer()
         with sr.Microphone() as micro:
-            playsound("asset/Sound/bootMicro.mp3")
+            if valeur == "1" :
+                playsound("asset/Sound/bootMicro.mp3")
             entrer = objetReconnaissance.listen(micro)
             try:
                 requette = unidecode(objetReconnaissance.recognize_google(entrer, language='fr'))

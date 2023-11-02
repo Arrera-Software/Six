@@ -7,6 +7,7 @@ from setting.objetPara.paraRecherche import *
 from setting.objetPara.paraSoftware import*
 from setting.objetPara.paraInternet import *
 from setting.objetPara.paraTheme import*
+from setting.objetPara.paraMicro import *
 
 class ArreraSettingAssistant :
     def __init__(self,configSettingFile:str,configFile:str,configAssistant:str,fichierConfigUser:str):
@@ -61,6 +62,7 @@ class ArreraSettingAssistant :
         self.cadreSoft = Frame(windows,width=350,height=600,bg=self.colorPrimaire)
         self.cadreInternet = Frame(windows,width=350,height=600,bg=self.colorPrimaire)
         self.cadreTheme = Frame(windows,width=350,height=600,bg=self.colorPrimaire)
+        self.cadreMicro = Frame(windows,width=350,height=600,bg=self.colorPrimaire)
         #initilisation objet para
         self.paraUser = SettingUser(windows,self.cadreUser,self.fileUser,self.settingFile,self.textColorPrimaire,self.colorPrimaire)
         self.paraMeteo = SettingMeteo(windows,self.cadreMeteo,self.fileUser,self.textColorPrimaire,self.colorPrimaire)
@@ -68,6 +70,7 @@ class ArreraSettingAssistant :
         self.paraRecherche = SettingRecherche(windows,self.cadreRecherche,self.fileUser,self.textColorPrimaire,self.colorPrimaire,listMoteur)
         self.paraSoftware = SettingSoftware(windows,self.cadreSoft,self.fileUser,self.settingFile, self.fileNeuronConfig,self.textColorPrimaire,self.colorPrimaire)
         self.paraInternet = SettingInternet(windows,self.cadreInternet,self.fileUser,self.textColorPrimaire,self.colorPrimaire)
+        self.paraMicro = SettingMicro(self.cadreMicro,self.assistantFile,self.textColorPrimaire,self.colorPrimaire)
         if self.changeColor == True:
             self.paraTheme = SettingTheme(windows,self.cadreTheme,self.listTheme,self.assistantFile,self.textColorPrimaire,self.colorPrimaire)
         #cadre interne a l'acceuil
@@ -117,6 +120,7 @@ class ArreraSettingAssistant :
         boutonMenu6=Button(self.cadreMenu,font=("arial","15"),bg=self.colorPrimaire,fg=self.textColorPrimaire,text="Software",command=lambda :self.softwareView())
         boutonMenu7 = Button(self.cadreMenu,font=("arial","15"),bg=self.colorPrimaire,fg=self.textColorPrimaire,text="Internet",command=lambda :self.internetView())
         boutonMenu8=Button(self.cadreMenu,font=("arial","15"),bg=self.colorPrimaire,fg=self.textColorPrimaire,text="Theme",command=lambda :self.themeView())
+        boutonMenu9= Button(self.cadreMenu,font=("arial","15"),bg=self.colorPrimaire,fg=self.textColorPrimaire,text="Micro",command=lambda :self.microView())
         boutonQuitter = Button(self.cadreMenu,font=("arial","15"),bg=self.colorPrimaire,fg=self.textColorPrimaire,text="Quitter",command=lambda :self.quittePara())
         #formatage de la fenetre
         windows.maxsize(500,600)
@@ -167,7 +171,7 @@ class ArreraSettingAssistant :
         boutonMenu7.place(x=xBoutonMenu,y=350)
         if self.changeColor == True :
             boutonMenu8.place(x=xBoutonMenu,y=400)
-
+        boutonMenu9.place(x=xBoutonMenu,y=450)
         boutonQuitter.place(x=xBoutonMenu,y=yBTNQuitter)
         #Affichage cadre principal
         self.cadreMenu.pack(side="left")
@@ -182,6 +186,7 @@ class ArreraSettingAssistant :
         self.cadreSoft.pack_forget()
         self.cadreInternet.pack_forget()
         self.cadreTheme.pack_forget()
+        self.cadreMicro.pack_forget()
         
               
     def mainView(self) -> bool :
@@ -272,6 +277,10 @@ class ArreraSettingAssistant :
         else :
             return False
         
+    def microView(self)->bool :
+        self._unView()
+        self.paraMicro.view()
+
     def setThemeAcceuil(self):
         valeur = self.varTheme.get()
         if valeur :
@@ -291,6 +300,7 @@ class ArreraSettingAssistant :
         self.cadreGPS.destroy()
         self.cadreRecherche.destroy()
         self.cadreSoft.destroy()
+        self.cadreMicro.destroy()
         self.fnc()    
         return True 
         
