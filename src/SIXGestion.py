@@ -1,5 +1,3 @@
-import pygame
-from  pygame.locals import *
 from librairy.travailJSON import *
 import requests
 
@@ -67,11 +65,11 @@ class SIXGestion :
     
     def getGUIAcceuil(self):
         if self.themeSet == True :
-            return pygame.image.load(self.lienAcceuil)
+            return self.lienAcceuil
     
     def getGUIMain(self):
         if self.themeSet == True :
-            return pygame.image.load(self.lienMain)
+            return self.lienMain
        
     def getGUIMute(self):
         if self.themeSet == True :
@@ -79,11 +77,11 @@ class SIXGestion :
 
     def getGUIparoleBigSmall(self):
         if self.themeSet == True :
-            return pygame.image.load(self.lienParole[0])
+            return self.lienParole[0]
 
     def getGUIparoleSmallSmall(self):
         if self.themeSet == True :
-            return pygame.image.load(self.lienParole[1])
+            return self.lienParole[1]
              
     def getGUItextColor(self):
         if self.themeSet == True:
@@ -91,4 +89,4 @@ class SIXGestion :
         
     def getGUIAttent(self):
         if self.themeSet == True :
-            return [pygame.image.load(self.lienAttent[0]),pygame.image.load(self.lienAttent[1]),pygame.image.load(self.lienAttent[2])]
+            return [self.lienAttent[0],self.lienAttent[1],self.lienAttent[2]]
