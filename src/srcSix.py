@@ -1,10 +1,6 @@
 import speech_recognition as sr
 from unidecode import*
-import time
-import pygame as p
 from src.pygamePlaysound import*
-from gtts import gTTS
-import os
 from src.SIXGestion import*
 import threading as th
 
@@ -15,15 +11,7 @@ class SIXsrc :
        
 
     def speak(self,texte:str):
-        tts = gTTS(texte, lang="fr")
-        p.mixer.init()
-        tts.save("voc.mp3")
-        p.mixer.music.load("voc.mp3")
-        p.mixer.music.play()
-        while p.mixer.music.get_busy():
-            p.time.Clock().tick(10)
-        p.mixer.quit()
-        os.remove("voc.mp3")
+        paroleSix(texte)
         
     
     def micro(self):

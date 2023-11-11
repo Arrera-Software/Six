@@ -2,4 +2,4 @@ from SIX import *
 
   
 six = AssistantSIX()
-six.assistant()
+six.assistantNoWindows()

@@ -19,8 +19,6 @@ class AssistantSIX :
         #varriable
         self.etatInternet = self.objetGestion.getEtatInternet()
         self.varSix = 0
-
-        self.interafaceSIX.setGUI()
         #source six 
         self.srcSIX = SIXsrc(self.interafaceSIX,sixConfig)
         
