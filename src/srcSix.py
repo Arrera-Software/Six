@@ -3,18 +3,14 @@ from unidecode import*
 import time
 import pygame as p
 from src.pygamePlaysound import*
-
 from gtts import gTTS
 import os
-
 from src.SIXGestion import*
 import threading as th
-from src.sixInterface import*
 
 
 class SIXsrc :
-    def __init__(self,interface:SIXInterface,sixAssistant:jsonWork):
-        self.interface = interface
+    def __init__(self,sixAssistant:jsonWork):
         self.configSix=sixAssistant
        
 

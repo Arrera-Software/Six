@@ -1,7 +1,6 @@
 from pygame.locals import *
 from ObjetsNetwork.arreraNeuron import*
 from src.srcSix import *
-from src.sixInterface import*
 from src.SIXGestion import*
 from src.SixTK import *
 import threading as th
@@ -20,8 +19,7 @@ class AssistantSIX :
         #varriable
         self.etatInternet = self.objetGestion.getEtatInternet()
         self.varSix = 0
-        #objet interface
-        self.interafaceSIX = SIXInterface(self.objetGestion)
+
         self.interafaceSIX.setGUI()
         #source six 
         self.srcSIX = SIXsrc(self.interafaceSIX,sixConfig)
