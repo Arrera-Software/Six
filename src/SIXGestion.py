@@ -24,8 +24,7 @@ class SIXGestion :
         self.lienMain = str
         self.lienAttent = [str]
         self.lienParole = [str]
-        self.lienMicro = [str]
-        self.colorText = (int,int,int)
+        self.colorText = str
         #Creation var de verification
         self.themeSet = bool
         #Ouverture fichier config Six
@@ -41,18 +40,18 @@ class SIXGestion :
         #Non de fichier Image
         if varTheme == "default" :
             chemin = "asset/IMGinterface/default/"
-            self.colorText = (0,0,0)
+            self.colorText = "black"
         else :
             if varTheme == "black" : 
                chemin = "asset/IMGinterface/black/"
-               self.colorText = (0,0,0)
+               self.colorText = "black"
             else :
                 if varTheme == "white" :
                     chemin = "asset/IMGinterface/white/"
-                    self.colorText = (255,255,255)
+                    self.colorText = "white"
                 else:
                     chemin = "asset/IMGinterface/default/"
-                    self.colorText = (0,0,0)
+                    self.colorText = "black"
         self.lienAcceuil = chemin+self.acceuil
         self.lienMute = chemin+self.mute
         self.lienMain = chemin+self.main
