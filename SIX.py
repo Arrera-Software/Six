@@ -20,14 +20,21 @@ class AssistantSIX :
         self.etatInternet = self.objetGestion.getEtatInternet()
         self.varSix = 0
         #source six 
-        self.srcSIX = SIXsrc(self.interafaceSIX,sixConfig)
-        
-        
-    def assistant(self):
+        self.srcSIX = SIXsrc(sixConfig)
+        #fenetreTkinter       
+        self.windows = Tk()
+        self.windows.title("Six : Assistant  ")
+        self.windows.geometry("500x500+5+30")
+        self.windows.overrideredirect(True)
+
+    def bootAssistant(self):
+        self.root.mainloop()
+
+
+    def _assistant(self):
         self.srcSIX.speak(self.arreraAssistant.boot())
         while (self.varSix != 15 ):
             statement = self.srcSIX.micro()
-            print(statement)
             if ("mute" in statement) or (self.compteurNothing>=MAXNOTING):
                 if (self.compteurNothing==MAXNOTING):
                     self.srcSIX.speak("Je me met en pause appeler moi si vous avez besoin de moi")

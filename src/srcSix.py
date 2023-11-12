@@ -29,5 +29,4 @@ class SIXsrc :
                 requette = "nothing"
             except sr.UnknownValueError:
                 requette = "nothing"
-            self.interface.saveValMicro(requette)
             return requette
