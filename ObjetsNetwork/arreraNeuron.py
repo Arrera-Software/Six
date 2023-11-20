@@ -49,13 +49,15 @@ class ArreraNetwork :
         self.oldSorti = text
         return str(text)
     
+    def setOld(self,requette:str,sortie:str):
+        self.oldRequette = requette
+        self.oldSorti = sortie
+    
     def shutdown(self):
         hour = datetime.datetime.now().hour
         text = self.formuleNeuron.aurevoir(hour)
         return str(text)
-        def sortieParametre(self,sortie,requette):
-            self.oldSorti = sortie
-            self.oldRequette = requette
+    
     
     def neuron(self,var:str) :
         requette = chaine.netoyage(str(var))
@@ -85,7 +87,7 @@ class ArreraNetwork :
                             if valeur == 0 :
                                 valeur,text = self.chatBot.neurone(requette,self.oldSorti,self.oldRequette)
                                 if valeur == 0 :
-                                    if "stop" in requette or "au revoir" in requette or "quitter" in requette or "bonne nuit" in requette or "adieu" in requette or "bonne soirée" in requette :
+                                    if "stop" in requette or "au revoir" in requette or "quitter" in requette or "bonne nuit" in requette or "adieu" in requette or "bonne soirée" in requette or "arreter" in requette :                                       
                                         text = self.formuleNeuron.aurevoir(datetime.datetime.now().hour)
                                         valeur = 15
                                     else : 

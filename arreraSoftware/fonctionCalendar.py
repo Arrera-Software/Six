@@ -20,9 +20,6 @@ class fncArreraCalendar :
         nbEvent = self.fichierEvenement.compteurFlagJSON()
         dateHier = self.objetDate.dateTowmoro()
         
-            
-    
-    
     def addEvenemnt(self):
         self.interfaceCalendar.interfaceAdd()
     
@@ -61,7 +58,7 @@ class ArreraCalendarAddSuppr :
     
     def _fenetreTk(self):
         #fenetre tkinter
-        self.screen = Tk()
+        self.screen = Toplevel()
         self.screen.title(self.name+" : Calendrier")
         self.screen.iconphoto(False,PhotoImage(file=self.icon))
         self.screen.maxsize(500,200)
