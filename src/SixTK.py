@@ -12,7 +12,6 @@ class sixTk :
     
     def activePara(self):
         self.screenPara = Tk()
-        self.screenPara.iconphoto(False,PhotoImage(file="asset/logo.png"))
         self.para.windows(self.screenPara)
         self.para.passageFonctionQuitter(self.fncQuit)
         self.para.mainView()
@@ -21,19 +20,23 @@ class sixTk :
     def muteSix(self)->int:
         self.varOut = 0
         screenMute = Tk()
-        image = Image.open(self.gestionnaire.getGUIMute())
-        photo = PhotoImage(image)
         screenMute.title("Assistant Mute")
-        screenMute.iconphoto(False,PhotoImage(file="asset/logo.png"))
+        #screenMute.iconphoto(False,PhotoImage(file="asset/logo.png"))
         screenMute.maxsize(500,500)
         screenMute.minsize(500,500)
-        fond = Canvas(screenMute,width=500,height=500)
-        fond.create_image(0, 0, anchor=NW, image=photo)
-        btnQuitter = Button(fond,text="Quitter",font=("arial","15"),command=lambda:self.quitMute(screenMute))
-        btnUmute = Button(fond,text="Demuter",font=("arial","15"),command=lambda:self.uMute(screenMute))
-        btnUmute.place(x=((fond.winfo_reqwidth()-btnUmute.winfo_reqwidth())-20),y=((fond.winfo_reqheight()-btnUmute.winfo_reqheight())-20))
-        btnQuitter.place(x=20,y=((fond.winfo_reqheight()-btnQuitter.winfo_reqheight())-20))
-        fond.pack()
+        frameMute = Frame(screenMute,width=500,height=500)
+        
+        fond = Label(frameMute,width=500,height=500)
+        photo = PhotoImage(file=self.gestionnaire.getGUIMute(),master=fond)
+        fond.image_names = photo
+        fond.configure(image=photo)
+
+        btnQuitter = Button(frameMute,text="Quitter",font=("arial","15"),command=lambda:self.quitMute(screenMute))
+        btnUmute = Button(frameMute,text="Demuter",font=("arial","15"),command=lambda:self.uMute(screenMute))
+        btnUmute.place(x=((frameMute.winfo_reqwidth()-btnUmute.winfo_reqwidth())-20),y=((frameMute.winfo_reqheight()-btnUmute.winfo_reqheight())-20))
+        btnQuitter.place(x=20,y=((frameMute.winfo_reqheight()-btnQuitter.winfo_reqheight())-20))
+        frameMute.pack()
+        fond.place(x=0,y=0)
         screenMute.mainloop()
         return self.varOut
     
@@ -198,7 +201,7 @@ class SixTKMain :
             allTexte = texte
             self.frameParoleSmall.pack()
             self.textSmallSix.configure(text=allTexte)
-            self.textBigUser.configure(text=self.textMicro)
+            self.textSmallUser.configure(text=self.textMicro)
         
         self.windows.update()
     

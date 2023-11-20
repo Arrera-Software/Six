@@ -30,7 +30,7 @@ class AssistantSIX :
     def bootAssistant(self):
         self.mainTK.acticeWindows()
         textBoot = self.arreraAssistant.boot()
-        self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(textBoot))
+        self.mainTK.windows.after(0,lambda :self.mainTK.viewBigParole(textBoot))
         self.srcSIX.speak(textBoot)
         self.theardBoucle = th.Thread(target=self._assistant)
         self.theardBoucle.start()
@@ -43,6 +43,7 @@ class AssistantSIX :
     def _assistant(self):
         while (self.mainTK.flagBoucle.is_set() ):
             statement = self.srcSIX.micro()
+            self.mainTK.setTextMicro(statement)
             if ("mute" in statement) or (self.compteurNothing>=MAXNOTING):
                 if (self.compteurNothing==MAXNOTING):
                     texte = "Je me met en pause appeler moi si vous avez besoin de moi"
@@ -57,6 +58,7 @@ class AssistantSIX :
                     texte = "Au revoir"
                     self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(texte))
                     self.srcSIX.speak(texte)
+                    self.mainTK.flagBoucle.clear() 
                 else :
                     texte = "Je vous ecoute monsieur"
                     self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(texte))
@@ -70,20 +72,18 @@ class AssistantSIX :
                     if (self.varSix==15):
                         self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(texte))
                         self.srcSIX.speak(texte)
-                        self.mainTK.flagBoucle.clear()  
+                        self.mainTK.flagBoucle.clear() 
                     else :                  
-                        if self.varSix == 0 and "parametre" in statement :
+                        if (self.varSix == 0) and ("parametre" in statement) :
                             texte = "Ok je vous ouvre les parametre"
-                            self.sixTK.activePara()
-                            self.mainTK.windows.after(0,lambda :self.mainTK.viewParole(texte))
+                            self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(texte))
                             self.srcSIX.speak(texte)
+                            self.sixTK.activePara()
                             self.arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
                             texte = "Les modification on bien été pris en compte"
-                            self.mainTK.windows.after(0,lambda :self.mainTK.viewParole(texte))
+                            self.mainTK.windows.after(0,lambda :self.mainTK.viewParoleGUI(texte))
                             self.srcSIX.speak(texte)
-                            texte = "Ok je vous ouvre les parametre"
-                            self.mainTK.windows.after(0,lambda :self.mainTK.viewParole(texte))
-                            self.srcSIX.speak(texte)
+                            self.arreraAssistant.setOld("parametre","parametre")
                         else :
                             self.mainTK.viewParoleGUI(texte)
                             self.srcSIX.speak(texte)
