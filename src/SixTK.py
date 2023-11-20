@@ -173,10 +173,10 @@ class SixTKMain :
     def viewBigParole(self,texte:str):
         self._clearView()
         self.frameAcceuil.pack()
-        if self._compteur(texte) > 6 :
-            texte1,texte2 = self._division(texte,6)
-            if self._compteur(texte2) > 6 :
-                texte2,texte3 =  self._division(texte2,6)
+        if self._compteur(texte) > 5 :
+            texte1,texte2 = self._division(texte,5)
+            if self._compteur(texte2) > 5 :
+                texte2,texte3 =  self._division(texte2,5)
                 allTexte = texte1+"\n"+texte2+"\n"+texte3
             else :
                 allTexte = texte1+"\n"+texte2
