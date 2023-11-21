@@ -55,83 +55,83 @@ class sixTk :
 
 class SixTKMain :
     def __init__(self,gestion:SIXGestion):
-        self.gestionnaire = gestion 
-        self.gestionnaire.setTheme()
-        self.mainGUI = self.gestionnaire.getGUIMain()
-        self.acceuilIMG = self.gestionnaire.getGUIAcceuil()
-        self.paroleSmallIMG = self.gestionnaire.getGUIparoleSmallSmall()
-        self.paroleBigIMG =self.gestionnaire.getGUIparoleBigSmall()
-        listAttendIMG = self.gestionnaire.getGUIAttent()
-        self.attentIMG1 = str(listAttendIMG[0])
-        self.attentIMG2 = str(listAttendIMG[1])
-        self.attentIMG3 = str(listAttendIMG[2])
-        self.colorTK = self.gestionnaire.getColorInterface()
-        self.colorLabel = self.gestionnaire.getColorLabel()
-        self.colorText = self.gestionnaire.getGUItextColor()
-        self.textMicro = ""
+        self.__gestionnaire = gestion 
+        self.__gestionnaire.setTheme()
+        self.__mainGUI = self.__gestionnaire.getGUIMain()
+        self.__acceuilIMG = self.__gestionnaire.getGUIAcceuil()
+        self.__paroleSmallIMG = self.__gestionnaire.getGUIparoleSmallSmall()
+        self.__paroleBigIMG =self.__gestionnaire.getGUIparoleBigSmall()
+        listAttendIMG = self.__gestionnaire.getGUIAttent()
+        self.__attentIMG1 = str(listAttendIMG[0])
+        self.__attentIMG2 = str(listAttendIMG[1])
+        self.__attentIMG3 = str(listAttendIMG[2])
+        self.__colorTK = self.__gestionnaire.getColorInterface()
+        self.__colorLabel = self.__gestionnaire.getColorLabel()
+        self.__colorText = self.__gestionnaire.getGUItextColor()
+        self.__textMicro = ""
         
 
     def acticeWindows(self):
         self.windows = Tk()
-        self.windows.configure(bg=self.colorTK)
+        self.windows.configure(bg=self.__colorTK)
         self.windows.title("Six : Assistant")
         self.windows.geometry("600x500+5+30")
         self.windows.maxsize(600,500)
         self.windows.minsize(600,500)
         self.windows.overrideredirect(True)
         #Frame
-        self.frameMain = Frame(self.windows,height=500,width=600)
-        self.frameAcceuil = Frame(self.windows,height=500,width=600)
-        self.frameParoleSmall = Frame(self.windows,height=500,width=600)
-        self.frameParoleBig = Frame(self.windows,height=500,width=600)
-        self.frameAttend1 = Frame(self.windows,height=500,width=600)
-        self.frameAttend2 = Frame(self.windows,height=500,width=600)
-        self.frameAttend3 = Frame(self.windows,height=500,width=600)
+        self.__frameMain = Frame(self.windows,height=500,width=600)
+        self.__frameAcceuil = Frame(self.windows,height=500,width=600)
+        self.__frameParoleSmall = Frame(self.windows,height=500,width=600)
+        self.__frameParoleBig = Frame(self.windows,height=500,width=600)
+        self.__frameAttend1 = Frame(self.windows,height=500,width=600)
+        self.__frameAttend2 = Frame(self.windows,height=500,width=600)
+        self.__frameAttend3 = Frame(self.windows,height=500,width=600)
         #Label Image
-        labelImageMain = Label(self.frameMain)
-        labelImageAcceuil = Label(self.frameAcceuil)
-        labelImageParoleSmall = Label(self.frameParoleSmall)
-        labelImageParoleBig = Label(self.frameParoleBig)
-        labelImageAttend1 = Label(self.frameAttend1)
-        labelImageAttend2 = Label(self.frameAttend2)
-        labelImageAttend3 = Label(self.frameAttend3)
+        labelImageMain = Label(self.__frameMain)
+        labelImageAcceuil = Label(self.__frameAcceuil)
+        labelImageParoleSmall = Label(self.__frameParoleSmall)
+        labelImageParoleBig = Label(self.__frameParoleBig)
+        labelImageAttend1 = Label(self.__frameAttend1)
+        labelImageAttend2 = Label(self.__frameAttend2)
+        labelImageAttend3 = Label(self.__frameAttend3)
         #image de fond
         #Main
-        mainIMG = PhotoImage(file=self.mainGUI)
+        mainIMG = PhotoImage(file=self.__mainGUI)
         labelImageMain.configure(image=mainIMG)
         labelImageMain.image = mainIMG
         #Acceuil
-        acceuilIMG = PhotoImage(file=self.acceuilIMG)
+        acceuilIMG = PhotoImage(file=self.__acceuilIMG)
         labelImageAcceuil.configure(image=acceuilIMG)
         labelImageAcceuil.image=acceuilIMG
         #ParoleSmall
-        paroleSmallIMG = PhotoImage(file=self.paroleSmallIMG)
+        paroleSmallIMG = PhotoImage(file=self.__paroleSmallIMG)
         labelImageParoleSmall.configure(image=paroleSmallIMG)
         labelImageParoleSmall.image=paroleSmallIMG
         #ParoleBig
-        paroleBigIMG = PhotoImage(file=self.paroleBigIMG)
+        paroleBigIMG = PhotoImage(file=self.__paroleBigIMG)
         labelImageParoleBig.configure(image=paroleBigIMG)
         labelImageParoleBig.image= paroleBigIMG
         #Attend1
-        attend1IMG = PhotoImage(file=self.attentIMG1)
+        attend1IMG = PhotoImage(file=self.__attentIMG1)
         labelImageAttend1.configure(image=attend1IMG)
         labelImageAttend1.image=attend1IMG
         #Attend2
-        attend2IMG = PhotoImage(file=self.attentIMG2)
+        attend2IMG = PhotoImage(file=self.__attentIMG2)
         labelImageAttend2.configure(image=attend2IMG)
         labelImageAttend2.image=attend2IMG
         #Attend3
-        attend3IMG = PhotoImage(file=self.attentIMG3)
+        attend3IMG = PhotoImage(file=self.__attentIMG3)
         labelImageAttend3.configure(image=attend3IMG)
         labelImageAttend3.image=attend3IMG
         #variable largeur hauteur fenetre 
-        largeur = self.frameMain.winfo_reqwidth()
+        largeur = self.__frameMain.winfo_reqwidth()
         #label 
-        self.textcanvasAcceuil = Label(self.frameAcceuil,font=("arial","15"),text="", bg=self.colorLabel,fg=self.colorText,width=36)
-        self.textSmallSix = Label(self.frameParoleSmall,font=("arial","15"),text="", bg=self.colorLabel,fg=self.colorText,width=40)
-        self.textSmallUser = Label(self.frameParoleSmall,font=("arial","15"),text="", bg=self.colorLabel,fg=self.colorText,width=40)
-        self.textBigSix = Label(self.frameParoleBig,font=("arial","15"),text="", bg=self.colorLabel,fg=self.colorText,width=38)
-        self.textBigUser = Label(self.frameParoleBig,font=("arial","15"),text="", bg=self.colorLabel,fg=self.colorText,width=40)
+        self.__textcanvasAcceuil = Label(self.__frameAcceuil,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=36)
+        self.__textSmallSix = Label(self.__frameParoleSmall,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
+        self.__textSmallUser = Label(self.__frameParoleSmall,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
+        self.__textBigSix = Label(self.__frameParoleBig,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=38)
+        self.__textBigUser = Label(self.__frameParoleBig,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -145,13 +145,13 @@ class SixTKMain :
         labelImageAttend2.place(x=0,y=0)
         labelImageAttend3.place(x=0,y=0)
         # Label Text
-        self.textSmallSix.place(x=140,y=95)
-        self.textSmallUser.place(x=140,y=345)
-        self.textBigSix.place(x=150,y=10)
-        self.textBigUser.place(x=140,y=365)
-        self.textcanvasAcceuil.place(x=((largeur-self.textcanvasAcceuil.winfo_reqwidth())//2),y=235)
+        self.__textSmallSix.place(x=140,y=95)
+        self.__textSmallUser.place(x=140,y=345)
+        self.__textBigSix.place(x=150,y=10)
+        self.__textBigUser.place(x=140,y=365)
+        self.__textcanvasAcceuil.place(x=((largeur-self.__textcanvasAcceuil.winfo_reqwidth())//2),y=235)
         #Affichage main
-        self.frameMain.pack()
+        self.__frameMain.pack()
     
 
     def bootInterface(self):
@@ -159,76 +159,65 @@ class SixTKMain :
         self.windows.mainloop()
 
     def __clearView(self):
-        self.frameMain.pack_forget()
-        self.frameAcceuil.pack_forget()
-        self.frameParoleSmall.pack_forget()
-        self.frameParoleBig.pack_forget()
-        self.frameAttend1.pack_forget()
-        self.frameAttend2.pack_forget()
-        self.frameAttend3.pack_forget()
+        self.__frameMain.pack_forget()
+        self.__frameAcceuil.pack_forget()
+        self.__frameParoleSmall.pack_forget()
+        self.__frameParoleBig.pack_forget()
+        self.__frameAttend1.pack_forget()
+        self.__frameAttend2.pack_forget()
+        self.__frameAttend3.pack_forget()
 
     def setTextMicro(self,texte:str):
-        self.textMicro = texte
+        self.__textMicro = texte
     
     def viewBigParole(self,texte:str):
         self.__clearView()
-        self.frameAcceuil.pack()
-        if self._compteur(texte) > 5 :
-            texte1,texte2 = self._division(texte,5)
-            if self._compteur(texte2) > 5 :
-                texte2,texte3 =  self._division(texte2,5)
+        self.__frameAcceuil.pack()
+        if self.__compteur(texte) > 5 :
+            texte1,texte2 = self.__division(texte,5)
+            if self.__compteur(texte2) > 5 :
+                texte2,texte3 =  self.__division(texte2,5)
                 allTexte = texte1+"\n"+texte2+"\n"+texte3
             else :
                 allTexte = texte1+"\n"+texte2
         else :
             allTexte = texte
-        self.textcanvasAcceuil.configure(text=allTexte)
+        self.__textcanvasAcceuil.configure(text=allTexte)
 
     
     def viewParoleGUI(self,texte:str):
         self.__clearView()
-        if self._compteur(texte) > 6 :
-            texte1,texte2 = self._division(texte,6)
-            if self._compteur(texte2) > 6 :
-                texte2,texte3 =  self._division(texte2,6)
+        if self.__compteur(texte) > 6 :
+            texte1,texte2 = self.__division(texte,6)
+            if self.__compteur(texte2) > 6 :
+                texte2,texte3 =  self.__division(texte2,6)
                 allTexte = texte1+"\n"+texte2+"\n"+texte3
             else :
                 allTexte = texte1+"\n"+texte2
-            self.frameParoleBig.pack()
-            self.textBigSix.configure(text=allTexte)
-            self.textBigUser.configure(text=self.textMicro)
+            self.__frameParoleBig.pack()
+            self.__textBigSix.configure(text=allTexte)
+            self.__textBigUser.configure(text=self.__textMicro)
         else :
             allTexte = texte
-            self.frameParoleSmall.pack()
-            self.textSmallSix.configure(text=allTexte)
-            self.textSmallUser.configure(text=self.textMicro)
+            self.__frameParoleSmall.pack()
+            self.__textSmallSix.configure(text=allTexte)
+            self.__textSmallUser.configure(text=self.__textMicro)
         
         self.windows.update()
     
 
-    def _division(self,text, nombre):
+    def __division(self,text, nombre):
         mots = text.split()
         premierPartie = mots[:nombre]
         deuxiemePartie = mots[nombre:]
         return ' '.join(premierPartie), ' '.join(deuxiemePartie)
     
-    def _compteur(self,s:str):
+    def __compteur(self,s:str):
         mots = s.split()
         return int(len(mots))   
 
-    def _sautLigne(texte:str, nbMots:int):
-        mots = re.findall(r'\S+\s*', texte)
-        lignes = []  
-        ligne_actuelle = [] 
-        for mot in mots:
-            ligne_actuelle.append(mot)
-            if len(ligne_actuelle) >= nbMots:
-                lignes.append(" ".join(ligne_actuelle))
-                ligne_actuelle = []
-        if ligne_actuelle:
-            lignes.append(" ".join(ligne_actuelle))
-
-        return "\n".join(lignes)
-
     def updateWindows(self):
         self.windows.after(1000,self.updateWindows) 
+    
+    def destroyWindows(self):
+        self.windows.destroy()

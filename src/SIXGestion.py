@@ -5,107 +5,105 @@ class SIXGestion :
     def __init__(self,file:jsonWork) :
         #testInternet
         try:
-            _ = requests.get("https://duckduckgo.com",timeout=5)
-            self.etatConnexion = True
+            requetteInternet = requests.get("https://duckduckgo.com",timeout=5)
+            self.__etatConnexion = True
         except requests.ConnectionError :
-            self.etatConnexion = False
+            self.__etatConnexion = False
         #Emplacement image interface
-        self.acceuil = "IMGAcceuil.png"
-        self.main = "IMGmain.png"
-        self.attent1 = "IMGAttent1.png"
-        self.attent2 = "IMGAttent2.png"
-        self.attent3 = "IMGAttent3.png"
-        self.mute = "IMGMute.png"
-        self.speakBigSmall = "IMGSpeak-BIG-Small.png"
-        self.speakSmallSmall = "IMGSpeak-Small-Small.png"
-        self.listColorLabel = ["#ffffff","#000000"]
-        self.listColorInterface = ["#3c0f14","#000000","#ffffff"]
+        self.__acceuil = "IMGAcceuil.png"
+        self.__main = "IMGmain.png"
+        self.__attent1 = "IMGAttent1.png"
+        self.__attent2 = "IMGAttent2.png"
+        self.__attent3 = "IMGAttent3.png"
+        self.__mute = "IMGMute.png"
+        self.__speakBigSmall = "IMGSpeak-BIG-Small.png"
+        self.__speakSmallSmall = "IMGSpeak-Small-Small.png"
+        self.__listColorLabel = ["#ffffff","#000000"]
+        self.__listColorInterface = ["#3c0f14","#000000","#ffffff"]
         #listUtiliser
-        self.lienAcceuil = str
-        self.lienMute = str
-        self.lienMain = str
-        self.lienAttent = [str]
-        self.lienParole = [str]
-        self.colorText = str
-        self.colorLabel = str
-        self.colorInterface = str
+        self.__lienAcceuil = str
+        self.__lienMute = str
+        self.__lienMain = str
+        self.__lienAttent = [str]
+        self.__lienParole = [str]
+        self.__colorText = str
+        self.__colorLabel = str
+        self.__colorInterface = str
         #Creation var de verification
-        self.themeSet = bool
+        self.__themeSet = bool
         #Ouverture fichier config Six
-        self.fileSixConfig = file
-        #varriable theme
-        self.varTheme =  str
+        self.__fileSixConfig = file
     
     def getEtatInternet(self):
-        return self.etatConnexion
+        return self.__etatConnexion
        
     def setTheme(self):
-        varTheme = self.fileSixConfig.lectureJSON("theme") #Valeur possible "default","white","dark"
+        varTheme = self.__fileSixConfig.lectureJSON("theme") #Valeur possible "default","white","dark"
         #Non de fichier Image
         if varTheme == "default" :
             chemin = "asset/IMGinterface/default/"
-            self.colorText = "black"
-            self.colorLabel = self.listColorLabel[0]
-            self.colorInterface = self.listColorInterface[0]
+            self.__colorText = "black"
+            self.__colorLabel = self.__listColorLabel[0]
+            self.__colorInterface = self.__listColorInterface[0]
         else :
             if varTheme == "black" : 
                chemin = "asset/IMGinterface/black/"
-               self.colorText = "black"
-               self.colorLabel = self.listColorLabel[0]
-               self.colorInterface = self.listColorInterface[1]
+               self.__colorText = "black"
+               self.__colorLabel = self.__listColorLabel[0]
+               self.__colorInterface = self.__listColorInterface[1]
             else :
                 if varTheme == "white" :
                     chemin = "asset/IMGinterface/white/"
-                    self.colorText = "white"
-                    self.colorLabel = self.listColorLabel[1]
-                    self.colorInterface = self.listColorInterface[2]
+                    self.__colorText = "white"
+                    self.__colorLabel = self.__listColorLabel[1]
+                    self.__colorInterface = self.__listColorInterface[2]
                 else:
                     chemin = "asset/IMGinterface/default/"
-                    self.colorText = "black"
-                    self.colorLabel = self.listColorLabel[0]
-                    self.colorInterface = self.listColorInterface[0]
-        self.lienAcceuil = chemin+self.acceuil
-        self.lienMute = chemin+self.mute
-        self.lienMain = chemin+self.main
-        self.lienAttent = [chemin+self.attent1,
-                            chemin+self.attent2,
-                            chemin+self.attent3]
-        self.lienParole = [chemin+self.speakBigSmall,
-                            chemin+self.speakSmallSmall]   
-        self.themeSet = True
+                    self.__colorText = "black"
+                    self.__colorLabel = self.__listColorLabel[0]
+                    self.__colorInterface = self.__listColorInterface[0]
+        self.__lienAcceuil = chemin+self.__acceuil
+        self.__lienMute = chemin+self.__mute
+        self.__lienMain = chemin+self.__main
+        self.__lienAttent = [chemin+self.__attent1,
+                            chemin+self.__attent2,
+                            chemin+self.__attent3]
+        self.__lienParole = [chemin+self.__speakBigSmall,
+                            chemin+self.__speakSmallSmall]   
+        self.__themeSet = True
     
     def getGUIAcceuil(self):
-        if self.themeSet == True :
-            return self.lienAcceuil
+        if self.__themeSet == True :
+            return self.__lienAcceuil
     
     def getGUIMain(self):
-        if self.themeSet == True :
-            return self.lienMain
+        if self.__themeSet == True :
+            return self.__lienMain
        
     def getGUIMute(self):
-        if self.themeSet == True :
-            return self.lienMute
+        if self.__themeSet == True :
+            return self.__lienMute
 
     def getGUIparoleBigSmall(self):
-        if self.themeSet == True :
-            return self.lienParole[0]
+        if self.__themeSet == True :
+            return self.__lienParole[0]
 
     def getGUIparoleSmallSmall(self):
-        if self.themeSet == True :
-            return self.lienParole[1]
+        if self.__themeSet == True :
+            return self.__lienParole[1]
              
     def getGUItextColor(self):
-        if self.themeSet == True:
-            return self.colorText
+        if self.__themeSet == True:
+            return self.__colorText
         
     def getGUIAttent(self):
-        if self.themeSet == True :
-            return [self.lienAttent[0],self.lienAttent[1],self.lienAttent[2]]
+        if self.__themeSet == True :
+            return [self.__lienAttent[0],self.__lienAttent[1],self.__lienAttent[2]]
     
     def getColorInterface(self):
-        if self.themeSet == True :
-            return self.colorInterface
+        if self.__themeSet == True :
+            return self.__colorInterface
     
     def getColorLabel(self):
-        if self.themeSet == True :
-            return self.colorLabel
+        if self.__themeSet == True :
+            return self.__colorLabel

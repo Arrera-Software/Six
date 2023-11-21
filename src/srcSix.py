@@ -7,7 +7,7 @@ import threading as th
 
 class SIXsrc :
     def __init__(self,sixAssistant:jsonWork):
-        self.configSix=sixAssistant
+        self.__configSix=sixAssistant
        
 
     def speak(self,texte:str):
@@ -15,7 +15,7 @@ class SIXsrc :
         
     
     def micro(self):
-        valeur = self.configSix.lectureJSON("soundMicro")
+        valeur = self.__configSix.lectureJSON("soundMicro")
         objetReconnaissance = sr.Recognizer()
         with sr.Microphone() as micro:
             if valeur == "1" :
