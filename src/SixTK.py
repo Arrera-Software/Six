@@ -158,7 +158,7 @@ class SixTKMain :
         self.updateWindows()
         self.windows.mainloop()
 
-    def _clearView(self):
+    def __clearView(self):
         self.frameMain.pack_forget()
         self.frameAcceuil.pack_forget()
         self.frameParoleSmall.pack_forget()
@@ -171,7 +171,7 @@ class SixTKMain :
         self.textMicro = texte
     
     def viewBigParole(self,texte:str):
-        self._clearView()
+        self.__clearView()
         self.frameAcceuil.pack()
         if self._compteur(texte) > 5 :
             texte1,texte2 = self._division(texte,5)
@@ -186,7 +186,7 @@ class SixTKMain :
 
     
     def viewParoleGUI(self,texte:str):
-        self._clearView()
+        self.__clearView()
         if self._compteur(texte) > 6 :
             texte1,texte2 = self._division(texte,6)
             if self._compteur(texte2) > 6 :
