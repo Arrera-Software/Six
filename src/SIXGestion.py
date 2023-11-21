@@ -16,6 +16,7 @@ class SIXGestion :
         self.__attent2 = "IMGAttent2.png"
         self.__attent3 = "IMGAttent3.png"
         self.__mute = "IMGMute.png"
+        self.__noConnecte = "IMGNoConnection.png"
         self.__speakBigSmall = "IMGSpeak-BIG-Small.png"
         self.__speakSmallSmall = "IMGSpeak-Small-Small.png"
         self.__listColorLabel = ["#ffffff","#000000"]
@@ -26,6 +27,7 @@ class SIXGestion :
         self.__lienMain = str
         self.__lienAttent = [str]
         self.__lienParole = [str]
+        self.__lienNoConnecte = str
         self.__colorText = str
         self.__colorLabel = str
         self.__colorInterface = str
@@ -69,7 +71,8 @@ class SIXGestion :
                             chemin+self.__attent2,
                             chemin+self.__attent3]
         self.__lienParole = [chemin+self.__speakBigSmall,
-                            chemin+self.__speakSmallSmall]   
+                            chemin+self.__speakSmallSmall]  
+        self.__lienNoConnecte = chemin+self.__noConnecte 
         self.__themeSet = True
     
     def getGUIAcceuil(self):
@@ -99,6 +102,10 @@ class SIXGestion :
     def getGUIAttent(self):
         if self.__themeSet == True :
             return [self.__lienAttent[0],self.__lienAttent[1],self.__lienAttent[2]]
+    
+    def getGUINoConnecte(self):
+        if self.__themeSet == True :
+            return self.__lienNoConnecte
     
     def getColorInterface(self):
         if self.__themeSet == True :

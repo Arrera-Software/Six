@@ -65,6 +65,7 @@ class SixTKMain :
         self.__attentIMG1 = str(listAttendIMG[0])
         self.__attentIMG2 = str(listAttendIMG[1])
         self.__attentIMG3 = str(listAttendIMG[2])
+        self.__noConnectIMG = self.__gestionnaire.getGUINoConnecte()
         self.__colorTK = self.__gestionnaire.getColorInterface()
         self.__colorLabel = self.__gestionnaire.getColorLabel()
         self.__colorText = self.__gestionnaire.getGUItextColor()
@@ -87,6 +88,7 @@ class SixTKMain :
         self.__frameAttend1 = Frame(self.windows,height=500,width=600)
         self.__frameAttend2 = Frame(self.windows,height=500,width=600)
         self.__frameAttend3 = Frame(self.windows,height=500,width=600)
+        self.__frameNoConnect = Frame(self.windows,height=500,width=600)
         #Label Image
         labelImageMain = Label(self.__frameMain)
         labelImageAcceuil = Label(self.__frameAcceuil)
@@ -95,6 +97,7 @@ class SixTKMain :
         labelImageAttend1 = Label(self.__frameAttend1)
         labelImageAttend2 = Label(self.__frameAttend2)
         labelImageAttend3 = Label(self.__frameAttend3)
+        labelImageNoConnecte = Label(self.__frameNoConnect)
         #image de fond
         #Main
         mainIMG = PhotoImage(file=self.__mainGUI)
@@ -124,6 +127,10 @@ class SixTKMain :
         attend3IMG = PhotoImage(file=self.__attentIMG3)
         labelImageAttend3.configure(image=attend3IMG)
         labelImageAttend3.image=attend3IMG
+        #no connect
+        noConnectIMG = PhotoImage(file=self.__noConnectIMG)
+        labelImageNoConnecte.configure(image=noConnectIMG)
+        labelImageNoConnecte.image=noConnectIMG
         #variable largeur hauteur fenetre 
         largeur = self.__frameMain.winfo_reqwidth()
         #label 
@@ -144,6 +151,7 @@ class SixTKMain :
         labelImageAttend1.place(x=0,y=0)
         labelImageAttend2.place(x=0,y=0)
         labelImageAttend3.place(x=0,y=0)
+        labelImageNoConnecte.place(x=0,y=0)
         # Label Text
         self.__textSmallSix.place(x=140,y=95)
         self.__textSmallUser.place(x=140,y=345)
@@ -183,6 +191,12 @@ class SixTKMain :
         else :
             allTexte = texte
         self.__textcanvasAcceuil.configure(text=allTexte)
+    
+    def noConnectionInterface(self):
+        self.__frameMain.pack_forget()
+        self.windows.overrideredirect(False)
+        self.__frameNoConnect.pack()
+        self.updateWindows()
 
     
     def viewParoleGUI(self,texte:str):

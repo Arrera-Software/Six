@@ -23,24 +23,24 @@ class AssistantSIX :
         self.__varSix = 0
         #source six 
         self.__srcSIX = SIXsrc(sixConfig)
-        #theard Assistant 
         
-    
     def bootAssistant(self):
+        self.__mainTK.acticeWindows()
         if self.__etatInternet == True :
-            self.__mainTK.acticeWindows()
             textBoot = self.__arreraAssistant.boot()
             self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
             self.__srcSIX.speak(textBoot)
-            self.theardBoucle = th.Thread(target=self._assistant)
+            self.theardBoucle = th.Thread(target=self.__assistant)
             self.theardBoucle.start()
-            self.__mainTK.bootInterface()
+        else :
+            self.__mainTK.noConnectionInterface()  
+        self.__mainTK.bootInterface()
     
     def quitAssistant(self):
         os.kill(os.getpid(), signal.SIGINT)
         
 
-    def _assistant(self):
+    def __assistant(self):
         while (self.__mainTK.flagBoucle.is_set() ):
             statement = self.__srcSIX.micro()
             self.__mainTK.setTextMicro(statement)
