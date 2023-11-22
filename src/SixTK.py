@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from src.SIXGestion import*
 import re
 import threading as th
+from arreraLynx.arreraLynx import*
 
 class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
@@ -50,6 +51,14 @@ class sixTk :
     
     def fncQuit(self):
         self.screenPara.destroy()
+    
+
+class interfaceLynx :
+    def __init__(self):
+        screen = Tk()
+        arreraLynx = ArreraLynx(screen,jsonWork("arreraLynx/configLynx.json"),jsonWork("FileUser/configUser.json"),jsonWork("configNeuron.json"))
+        arreraLynx.active()
+        screen.mainloop()
 
     
 

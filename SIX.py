@@ -12,9 +12,7 @@ class AssistantSIX :
         #objet
         sixConfig = jsonWork("sixConfig.json")
         self.__objetGestion = SIXGestion(sixConfig)
-        self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
         self.__sixTK = sixTk(self.__objetGestion)
-        self.__mainTK = SixTKMain(self.__objetGestion)
         self.__compteurNothing = 0
         #mise en place du theme
         self.__objetGestion.setTheme()
@@ -25,16 +23,22 @@ class AssistantSIX :
         self.__srcSIX = SIXsrc(sixConfig)
         
     def bootAssistant(self):
-        self.__mainTK.acticeWindows()
-        if self.__etatInternet == True :
-            textBoot = self.__arreraAssistant.boot()
-            self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
-            self.__srcSIX.speak(textBoot)
-            self.theardBoucle = th.Thread(target=self.__assistant)
-            self.theardBoucle.start()
+        fileUser = jsonWork("fileUser/configUser.json")
+        if not fileUser.lectureJSON("user") and not fileUser.lectureJSON("genre") :
+            interfaceLynx()
         else :
-            self.__mainTK.noConnectionInterface()  
-        self.__mainTK.bootInterface()
+            self.__mainTK = SixTKMain(self.__objetGestion)
+            self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
+            self.__mainTK.acticeWindows()
+            if self.__etatInternet == True :
+                textBoot = self.__arreraAssistant.boot()
+                self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
+                self.__srcSIX.speak(textBoot)
+                self.theardBoucle = th.Thread(target=self.__assistant)
+                self.theardBoucle.start()
+            else :
+                self.__mainTK.noConnectionInterface()  
+            self.__mainTK.bootInterface()
     
     def quitAssistant(self):
         os.kill(os.getpid(), signal.SIGINT)
