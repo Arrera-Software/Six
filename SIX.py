@@ -3,6 +3,7 @@ from ObjetsNetwork.arreraNeuron import*
 from src.srcSix import *
 from src.SIXGestion import*
 from src.SixTK import *
+from arreraLynx.arreraLynx import*
 import threading as th
 import os
 import signal
@@ -21,26 +22,33 @@ class AssistantSIX :
         self.__varSix = 0
         #source six 
         self.__srcSIX = SIXsrc(sixConfig)
+    
+    def __bootAssistant(self):
+        self.__mainTK = SixTKMain(self.__objetGestion)
+        self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
+        self.__mainTK.acticeWindows()
+        if self.__etatInternet == True :
+            textBoot = self.__arreraAssistant.boot()
+            self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
+            self.__srcSIX.speak(textBoot)
+            self.theardBoucle = th.Thread(target=self.__assistant)
+            self.theardBoucle.start()
+        else :
+            self.__mainTK.noConnectionInterface()  
+        self.__mainTK.bootInterface()
+
         
-    def bootAssistant(self):
+    def boot(self):
         fileUser = jsonWork("fileUser/configUser.json")
         if not fileUser.lectureJSON("user") and not fileUser.lectureJSON("genre") :
-            interfaceLynx()
-        else :
-            self.__mainTK = SixTKMain(self.__objetGestion)
-            self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
-            self.__mainTK.acticeWindows()
-            if self.__etatInternet == True :
-                textBoot = self.__arreraAssistant.boot()
-                self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
-                self.__srcSIX.speak(textBoot)
-                self.theardBoucle = th.Thread(target=self.__assistant)
-                self.theardBoucle.start()
-            else :
-                self.__mainTK.noConnectionInterface()  
-            self.__mainTK.bootInterface()
+            screen = Tk()
+            arreraLynx = ArreraLynx(screen,jsonWork("arreraLynx/configLynx.json"),jsonWork("FileUser/configUser.json"),jsonWork("configNeuron.json"))
+            arreraLynx.active()
+            screen.mainloop()
+        
+        self.__bootAssistant()
     
-    def quitAssistant(self):
+    def quit(self):
         os.kill(os.getpid(), signal.SIGINT)
         
 
