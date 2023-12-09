@@ -80,24 +80,29 @@ class AssistantSIX :
                 if (statement=="nothing"):
                     self.__compteurNothing = self.__compteurNothing + 1
                 else :
-                    self.__varSix,texte = self.__arreraAssistant.neuron(statement)
-                    if (self.__varSix==15):
-                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
-                        self.__srcSIX.speak(texte)
-                        self.__mainTK.flagBoucle.clear() 
-                    else :                  
-                        if (self.__varSix == 0) and ("parametre" in statement) :
-                            texte = "Ok je vous ouvre les parametre"
+                    self.__varSix,listOut = self.__arreraAssistant.neuron(statement)
+                    if self.__varSix == 12 or self.__varSix ==  11 :
+                        self.__mainTK.vueActu(listOut,self.__varSix)
+                    else :
+                        if (self.__varSix==15):
+                            texte = self.__arreraAssistant.transformeListSTR(listOut)
                             self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
                             self.__srcSIX.speak(texte)
-                            self.__sixTK.activePara()
-                            self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
-                            texte = "Les modification on bien été pris en compte"
-                            self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
-                            self.__srcSIX.speak(texte)
-                            self.__arreraAssistant.setOld("parametre","parametre")
-                        else :
-                            self.__mainTK.viewParoleGUI(texte)
-                            self.__srcSIX.speak(texte)
-                            self.__compteurNothing = 0
+                            self.__mainTK.flagBoucle.clear() 
+                        else :                  
+                            if (self.__varSix == 0) and ("parametre" in statement) :
+                                texte = "Ok je vous ouvre les parametre"
+                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                self.__srcSIX.speak(texte)
+                                self.__sixTK.activePara()
+                                self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
+                                texte = "Les modification on bien été pris en compte"
+                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                self.__srcSIX.speak(texte)
+                                self.__arreraAssistant.setOld("parametre","parametre")
+                            else :
+                                texte = self.__arreraAssistant.transformeListSTR(listOut)
+                                self.__mainTK.viewParoleGUI(texte)
+                                self.__srcSIX.speak(texte)
+                                self.__compteurNothing = 0
         self.__mainTK.destroyWindows()
