@@ -177,6 +177,8 @@ class SixTKMain :
         self.__frameAttend2.configure(bg=colorTK)
         self.__frameAttend3.configure(bg=colorTK)
         self.__frameNoConnect.configure(bg=colorTK)
+        #color parametre
+        #self.__gestionnaire.setColorThemePara()
     
 
     def bootInterface(self):
