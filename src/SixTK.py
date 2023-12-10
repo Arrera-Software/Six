@@ -1,5 +1,6 @@
 from setting.arreraAssistantSetting import *
 from src.SIXGestion import*
+from src.pygamePlaysound import paroleSix
 import threading as th
 
 class sixTk :
@@ -249,6 +250,8 @@ class SixTKMain :
     
     def vueActu(self,sortie:list,valeur:int):
         color = self.__gestionnaire.getColorInterface()
+        colorLabel = self.__gestionnaire.getColorLabel()
+        colorTextLabel = self.__gestionnaire.getGUItextColor()
         colorText = self.__gestionnaire.getColorTextActu()
         windows = Tk()
         windows.maxsize(500,600)
@@ -256,19 +259,29 @@ class SixTKMain :
         windows.configure(bg=color)
         labelActu = Label(windows,bg=color,fg=colorText,font=("arial","14"), anchor="w")
         labelActu.place(x="0",y="0")
+        btnRead = Button(windows,text ="lire a haute voix",bg=colorLabel,fg=colorTextLabel,font=("arial","15"),width=40)
+        btnRead.pack(side="bottom")
         if (valeur==3):
             text = self.__formatageText(sortie[0])+"\n\n"+self.__formatageText(sortie[1])+"\n\n"+self.__formatageText(sortie[2])
             windows.title("Six : Actualites")
             labelActu.configure(text=text, anchor="w")
+            btnRead.configure(command=lambda: self.__readActu(text,windows))
         else :
             if valeur == 11 :
                 windows.title("Six : Resumer")
                 labelActu.configure(text="Une erreur c'est produite", anchor="w")
+                btnRead.configure(text="Quitter",command=lambda :windows.destroy())
             else :
                 if valeur == 12 :
                     text = self.__formatageText(sortie[0])+"\n"+self.__formatageText(sortie[1])+"\n La fete du jour est : "+self.__formatageText(sortie[2])+"\n"+self.__formatageText(sortie[3])+"\n"+self.__formatageText(sortie[4])+"\n\n"+self.__formatageText(sortie[5])
                     windows.title("Six : Resumer")
                     labelActu.configure(text=text, anchor="w")
+                    btnRead.configure(command=lambda: self.__readActu(text,windows))
         windows.mainloop()
 
+    def __readActu(self,text:str,windows:Tk):
+        parole = th.Thread(target= paroleSix,args=(text,))
+        parole.start()
+        parole.join()
+        windows.destroy()
         
