@@ -53,25 +53,11 @@ class sixTk :
 class SixTKMain :
     def __init__(self,gestion:SIXGestion):
         self.__gestionnaire = gestion 
-        self.__gestionnaire.setTheme()
-        self.__mainGUI = self.__gestionnaire.getGUIMain()
-        self.__acceuilIMG = self.__gestionnaire.getGUIAcceuil()
-        self.__paroleSmallIMG = self.__gestionnaire.getGUIparoleSmallSmall()
-        self.__paroleBigIMG =self.__gestionnaire.getGUIparoleBigSmall()
-        listAttendIMG = self.__gestionnaire.getGUIAttent()
-        self.__attentIMG1 = str(listAttendIMG[0])
-        self.__attentIMG2 = str(listAttendIMG[1])
-        self.__attentIMG3 = str(listAttendIMG[2])
-        self.__noConnectIMG = self.__gestionnaire.getGUINoConnecte()
-        self.__colorTK = self.__gestionnaire.getColorInterface()
-        self.__colorLabel = self.__gestionnaire.getColorLabel()
-        self.__colorText = self.__gestionnaire.getGUItextColor()
         self.__textMicro = ""
-        
+    
 
     def acticeWindows(self):
         self.windows = Tk()
-        self.windows.configure(bg=self.__colorTK)
         self.windows.title("Six : Assistant")
         self.windows.geometry("600x500+5+30")
         self.windows.maxsize(600,500)
@@ -87,68 +73,37 @@ class SixTKMain :
         self.__frameAttend3 = Frame(self.windows,height=500,width=600)
         self.__frameNoConnect = Frame(self.windows,height=500,width=600)
         #Label Image
-        labelImageMain = Label(self.__frameMain)
-        labelImageAcceuil = Label(self.__frameAcceuil)
-        labelImageParoleSmall = Label(self.__frameParoleSmall)
-        labelImageParoleBig = Label(self.__frameParoleBig)
-        labelImageAttend1 = Label(self.__frameAttend1)
-        labelImageAttend2 = Label(self.__frameAttend2)
-        labelImageAttend3 = Label(self.__frameAttend3)
-        labelImageNoConnecte = Label(self.__frameNoConnect)
-        #image de fond
-        #Main
-        mainIMG = PhotoImage(file=self.__mainGUI)
-        labelImageMain.configure(image=mainIMG)
-        labelImageMain.image = mainIMG
-        #Acceuil
-        acceuilIMG = PhotoImage(file=self.__acceuilIMG)
-        labelImageAcceuil.configure(image=acceuilIMG)
-        labelImageAcceuil.image=acceuilIMG
-        #ParoleSmall
-        paroleSmallIMG = PhotoImage(file=self.__paroleSmallIMG)
-        labelImageParoleSmall.configure(image=paroleSmallIMG)
-        labelImageParoleSmall.image=paroleSmallIMG
-        #ParoleBig
-        paroleBigIMG = PhotoImage(file=self.__paroleBigIMG)
-        labelImageParoleBig.configure(image=paroleBigIMG)
-        labelImageParoleBig.image= paroleBigIMG
-        #Attend1
-        attend1IMG = PhotoImage(file=self.__attentIMG1)
-        labelImageAttend1.configure(image=attend1IMG)
-        labelImageAttend1.image=attend1IMG
-        #Attend2
-        attend2IMG = PhotoImage(file=self.__attentIMG2)
-        labelImageAttend2.configure(image=attend2IMG)
-        labelImageAttend2.image=attend2IMG
-        #Attend3
-        attend3IMG = PhotoImage(file=self.__attentIMG3)
-        labelImageAttend3.configure(image=attend3IMG)
-        labelImageAttend3.image=attend3IMG
-        #no connect
-        noConnectIMG = PhotoImage(file=self.__noConnectIMG)
-        labelImageNoConnecte.configure(image=noConnectIMG)
-        labelImageNoConnecte.image=noConnectIMG
+        self.__labelImageMain = Label(self.__frameMain)
+        self.__labelImageAcceuil = Label(self.__frameAcceuil)
+        self.__labelImageParoleSmall = Label(self.__frameParoleSmall)
+        self.__labelImageParoleBig = Label(self.__frameParoleBig)
+        self.__labelImageAttend1 = Label(self.__frameAttend1)
+        self.__labelImageAttend2 = Label(self.__frameAttend2)
+        self.__labelImageAttend3 = Label(self.__frameAttend3)
+        self.__labelImageNoConnecte = Label(self.__frameNoConnect)
         #variable largeur hauteur fenetre 
         largeur = self.__frameMain.winfo_reqwidth()
         #label 
-        self.__textcanvasAcceuil = Label(self.__frameAcceuil,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=36)
-        self.__textSmallSix = Label(self.__frameParoleSmall,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
-        self.__textSmallUser = Label(self.__frameParoleSmall,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
-        self.__textBigSix = Label(self.__frameParoleBig,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=38)
-        self.__textBigUser = Label(self.__frameParoleBig,font=("arial","15"),text="", bg=self.__colorLabel,fg=self.__colorText,width=40)
+        self.__textcanvasAcceuil = Label(self.__frameAcceuil,font=("arial","15"),text="",width=36)
+        self.__textSmallSix = Label(self.__frameParoleSmall,font=("arial","15"),text="",width=40)
+        self.__textSmallUser = Label(self.__frameParoleSmall,font=("arial","15"),text="",width=40)
+        self.__textBigSix = Label(self.__frameParoleBig,font=("arial","15"),text="",width=38)
+        self.__textBigUser = Label(self.__frameParoleBig,font=("arial","15"),text="",width=40)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
+        #Mise en place du theme
+        self.setTheme()
         #Affichage
         #  Label Image
-        labelImageAcceuil.place(x=0,y=0)
-        labelImageMain.place(x=0,y=0)
-        labelImageParoleSmall.place(x=0,y=0)
-        labelImageParoleBig.place(x=0,y=0)
-        labelImageAttend1.place(x=0,y=0)
-        labelImageAttend2.place(x=0,y=0)
-        labelImageAttend3.place(x=0,y=0)
-        labelImageNoConnecte.place(x=0,y=0)
+        self.__labelImageAcceuil.place(x=0,y=0)
+        self.__labelImageMain.place(x=0,y=0)
+        self.__labelImageParoleSmall.place(x=0,y=0)
+        self.__labelImageParoleBig.place(x=0,y=0)
+        self.__labelImageAttend1.place(x=0,y=0)
+        self.__labelImageAttend2.place(x=0,y=0)
+        self.__labelImageAttend3.place(x=0,y=0)
+        self.__labelImageNoConnecte.place(x=0,y=0)
         # Label Text
         self.__textSmallSix.place(x=140,y=95)
         self.__textSmallUser.place(x=140,y=345)
@@ -157,6 +112,71 @@ class SixTKMain :
         self.__textcanvasAcceuil.place(x=((largeur-self.__textcanvasAcceuil.winfo_reqwidth())//2),y=235)
         #Affichage main
         self.__frameMain.pack()
+    
+    def setTheme(self):
+        self.__gestionnaire.setTheme()
+        #image GUI
+        mainGUI = self.__gestionnaire.getGUIMain()
+        acceuilGUI = self.__gestionnaire.getGUIAcceuil()
+        paroleSmallGUI = self.__gestionnaire.getGUIparoleSmallSmall()
+        paroleBigGUI =self.__gestionnaire.getGUIparoleBigSmall()
+        listAttendGUI = self.__gestionnaire.getGUIAttent()
+        attentGUI1 = str(listAttendGUI[0])
+        attentGUI2 = str(listAttendGUI[1])
+        attentGUI3 = str(listAttendGUI[2])
+        noConnectGUI = self.__gestionnaire.getGUINoConnecte()
+        colorTK = self.__gestionnaire.getColorInterface()
+        colorLabel = self.__gestionnaire.getColorLabel()
+        colorText = self.__gestionnaire.getGUItextColor()
+        #Couleur fenetre
+        self.windows.configure(bg=colorTK)
+        #Main
+        mainIMG = PhotoImage(file=mainGUI)
+        self.__labelImageMain.configure(image=mainIMG)
+        self.__labelImageMain.image = mainIMG
+        #Acceuil
+        acceuilIMG = PhotoImage(file=acceuilGUI)
+        self.__labelImageAcceuil.configure(image=acceuilIMG)
+        self.__labelImageAcceuil.image=acceuilIMG
+        #ParoleSmall
+        paroleSmallIMG = PhotoImage(file=paroleSmallGUI)
+        self.__labelImageParoleSmall.configure(image=paroleSmallIMG)
+        self.__labelImageParoleSmall.image=paroleSmallIMG
+        #ParoleBig
+        paroleBigIMG = PhotoImage(file=paroleBigGUI)
+        self.__labelImageParoleBig.configure(image=paroleBigIMG)
+        self.__labelImageParoleBig.image= paroleBigIMG
+        #Attend1
+        attend1IMG = PhotoImage(file=attentGUI1)
+        self.__labelImageAttend1.configure(image=attend1IMG)
+        self.__labelImageAttend1.image=attend1IMG
+        #Attend2
+        attend2IMG = PhotoImage(file=attentGUI2)
+        self.__labelImageAttend2.configure(image=attend2IMG)
+        self.__labelImageAttend2.image=attend2IMG
+        #Attend3
+        attend3IMG = PhotoImage(file=attentGUI3)
+        self.__labelImageAttend3.configure(image=attend3IMG)
+        self.__labelImageAttend3.image=attend3IMG
+        #no connect
+        noConnectIMG = PhotoImage(file=noConnectGUI)
+        self.__labelImageNoConnecte.configure(image=noConnectIMG)
+        self.__labelImageNoConnecte.image=noConnectIMG
+        #label
+        self.__textcanvasAcceuil.configure(bg=colorLabel,fg=colorText)
+        self.__textSmallSix.configure(bg=colorLabel,fg=colorText)
+        self.__textSmallUser.configure(bg=colorLabel,fg=colorText)
+        self.__textBigSix.configure(bg=colorLabel,fg=colorText)
+        self.__textBigUser.configure(bg=colorLabel,fg=colorText)
+        #Frame 
+        self.__frameMain.configure(bg=colorTK)
+        self.__frameAcceuil.configure(bg=colorTK)
+        self.__frameParoleSmall.configure(bg=colorTK)
+        self.__frameParoleBig.configure(bg=colorTK)
+        self.__frameAttend1.configure(bg=colorTK)
+        self.__frameAttend2.configure(bg=colorTK)
+        self.__frameAttend3.configure(bg=colorTK)
+        self.__frameNoConnect.configure(bg=colorTK)
     
 
     def bootInterface(self):
@@ -253,6 +273,16 @@ class SixTKMain :
         colorLabel = self.__gestionnaire.getColorLabel()
         colorTextLabel = self.__gestionnaire.getGUItextColor()
         colorText = self.__gestionnaire.getColorTextActu()
+        if (valeur == 3):
+            textOpen = "Voici les actualités du jour."
+        else :
+            if valeur == 11 :
+                textOpen = "Je ne peux pas faire votre resumer une erreur et survenu"
+            else :
+                if valeur == 12 :
+                    textOpen = "Voici votre resumer"
+        self.viewBigParole(textOpen)
+        paroleSix(textOpen)
         windows = Tk()
         windows.maxsize(500,600)
         windows.minsize(500,600)
@@ -266,18 +296,23 @@ class SixTKMain :
             windows.title("Six : Actualites")
             labelActu.configure(text=text, anchor="w")
             btnRead.configure(command=lambda: self.__readActu(text,windows))
+            textClose = "J'espere que sa vous a interessez"
         else :
             if valeur == 11 :
                 windows.title("Six : Resumer")
                 labelActu.configure(text="Une erreur c'est produite", anchor="w")
                 btnRead.configure(text="Quitter",command=lambda :windows.destroy())
+                textClose = "Desoler pour cette erreur"
             else :
                 if valeur == 12 :
                     text = self.__formatageText(sortie[0])+"\n"+self.__formatageText(sortie[1])+"\n La fete du jour est : "+self.__formatageText(sortie[2])+"\n"+self.__formatageText(sortie[3])+"\n"+self.__formatageText(sortie[4])+"\n\n"+self.__formatageText(sortie[5])
                     windows.title("Six : Resumer")
                     labelActu.configure(text=text, anchor="w")
                     btnRead.configure(command=lambda: self.__readActu(text,windows))
+                    textClose = "J'espere que votre resumer vous a plu"
         windows.mainloop()
+        self.viewBigParole(textClose)
+        paroleSix(textClose)
 
     def __readActu(self,text:str,windows:Tk):
         parole = th.Thread(target= paroleSix,args=(text,))

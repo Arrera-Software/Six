@@ -99,6 +99,8 @@ class AssistantSIX :
                                     self.__srcSIX.speak(texte)
                                     self.__sixTK.activePara()
                                     self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
+                                    self.__arreraAssistant.setOld("parametre","open parametre")
+                                    self.__mainTK.setTheme()
                                     texte = "Les modification on bien été pris en compte"
                                     self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
                                     self.__srcSIX.speak(texte)
