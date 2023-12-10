@@ -233,14 +233,15 @@ class SixTKMain :
         self.windows.destroy()
 
     def __formatageText(self,texte):
-        if int(len(texte)) > 6 :
-            texte1,texte2 = self.__division(texte,6)
+        nbMots = 7
+        if int(len(texte)) > nbMots  :
+            texte1,texte2 = self.__division(texte,nbMots)
             allTexte = texte1+"\n"+texte2
-            if int(len(texte2)) > 6 :
-                texte2,texte3 = self.__division(texte2,6)
+            if int(len(texte2)) > nbMots :
+                texte2,texte3 = self.__division(texte2,nbMots)
                 allTexte = texte1+"\n"+texte2+"\n"+texte3
-                if int(len(texte3)) > 6 :
-                    texte3,texte4 = self.__division(texte3,6)
+                if int(len(texte3)) > nbMots:
+                    texte3,texte4 = self.__division(texte3,nbMots)
                     allTexte = texte1+"\n"+texte2+"\n"+texte3+"\n"+texte4
         else :
             allTexte = texte
@@ -248,23 +249,26 @@ class SixTKMain :
     
     def vueActu(self,sortie:list,valeur:int):
         color = self.__gestionnaire.getColorInterface()
-        colorText = self.__gestionnaire.getGUItextColor()
+        colorText = self.__gestionnaire.getColorTextActu()
         windows = Tk()
-        windows.title("")
         windows.maxsize(500,600)
         windows.minsize(500,600)
         windows.configure(bg=color)
-        labelActu = Label(windows,bg=color,fg=colorText)
-        labelActu.place(x="80",y="5")
+        labelActu = Label(windows,bg=color,fg=colorText,font=("arial","14"), anchor="w")
+        labelActu.place(x="0",y="0")
         if (valeur==3):
             text = self.__formatageText(sortie[0])+"\n\n"+self.__formatageText(sortie[1])+"\n\n"+self.__formatageText(sortie[2])
+            windows.title("Six : Actualites")
             labelActu.configure(text=text, anchor="w")
         else :
             if valeur == 11 :
-                print("error")
+                windows.title("Six : Resumer")
+                labelActu.configure(text="Une erreur c'est produite", anchor="w")
             else :
                 if valeur == 12 :
                     text = self.__formatageText(sortie[0])+"\n"+self.__formatageText(sortie[1])+"\n La fete du jour est : "+self.__formatageText(sortie[2])+"\n"+self.__formatageText(sortie[3])+"\n"+self.__formatageText(sortie[4])+"\n\n"+self.__formatageText(sortie[5])
+                    windows.title("Six : Resumer")
                     labelActu.configure(text=text, anchor="w")
+        windows.mainloop()
 
         

@@ -21,6 +21,7 @@ class SIXGestion :
         self.__speakSmallSmall = "IMGSpeak-Small-Small.png"
         self.__listColorLabel = ["#ffffff","#000000"]
         self.__listColorInterface = ["#3c0f14","#000000","#ffffff"]
+        self.__listColorTextActu = ["#ffffff","#000000"]
         #listUtiliser
         self.__lienAcceuil = str
         self.__lienMute = str
@@ -31,6 +32,7 @@ class SIXGestion :
         self.__colorText = str
         self.__colorLabel = str
         self.__colorInterface = str
+        self.__colorTextActu = str
         #Creation var de verification
         self.__themeSet = bool
         #Ouverture fichier config Six
@@ -47,23 +49,27 @@ class SIXGestion :
             self.__colorText = "black"
             self.__colorLabel = self.__listColorLabel[0]
             self.__colorInterface = self.__listColorInterface[0]
+            self.__colorTextActu = self.__listColorTextActu[0]
         else :
             if varTheme == "black" : 
                chemin = "asset/IMGinterface/black/"
                self.__colorText = "black"
                self.__colorLabel = self.__listColorLabel[0]
                self.__colorInterface = self.__listColorInterface[1]
+               self.__colorTextActu = self.__listColorTextActu[0]
             else :
                 if varTheme == "white" :
                     chemin = "asset/IMGinterface/white/"
                     self.__colorText = "white"
                     self.__colorLabel = self.__listColorLabel[1]
                     self.__colorInterface = self.__listColorInterface[2]
+                    self.__colorTextActu = self.__listColorTextActu[1]
                 else:
                     chemin = "asset/IMGinterface/default/"
                     self.__colorText = "black"
                     self.__colorLabel = self.__listColorLabel[0]
                     self.__colorInterface = self.__listColorInterface[0]
+                    self.__colorTextActu = self.__listColorTextActu[0]
         self.__lienAcceuil = chemin+self.__acceuil
         self.__lienMute = chemin+self.__mute
         self.__lienMain = chemin+self.__main
@@ -114,3 +120,7 @@ class SIXGestion :
     def getColorLabel(self):
         if self.__themeSet == True :
             return self.__colorLabel
+    
+    def getColorTextActu(self):
+        if self.__themeSet == True :
+            return self.__colorTextActu
