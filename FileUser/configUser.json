@@ -1,9 +1,9 @@
 {
-  "user": "",
-  "genre": "",
+  "user": "dev",
+  "genre": "monsieur",
   "listVille": [],
-  "lieuDomicile": "",
-  "lieuTravail": "",
+  "lieuDomicile": "Paris",
+  "lieuTravail": "Paris",
   "adresseDomicile": "",
   "adresseTravail": "",
   "nbSoft": "0",
