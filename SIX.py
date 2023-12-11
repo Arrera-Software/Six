@@ -45,8 +45,13 @@ class AssistantSIX :
             arreraLynx = ArreraLynx(screen,jsonWork("arreraLynx/configLynx.json"),jsonWork("FileUser/configUser.json"),jsonWork("configNeuron.json"))
             arreraLynx.active()
             screen.mainloop()
-        
-        self.__bootAssistant()
+            sortieLynx = arreraLynx.confiCreate()
+            if sortieLynx == False :
+                messagebox.showwarning("La configuration mauvaise","Vous avez pas entre votre nom et genre dans l'outil de configuration")
+            else :
+                self.__bootAssistant()
+        else :
+            self.__bootAssistant()
     
     def quit(self):
         os.kill(os.getpid(), signal.SIGINT)
