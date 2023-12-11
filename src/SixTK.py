@@ -199,6 +199,7 @@ class SixTKMain :
     
     def viewBigParole(self,texte:str):
         self.__clearView()
+        self.windows.lift()
         self.__frameAcceuil.pack()
         if self.__compteur(texte) > 5 :
             texte1,texte2 = self.__division(texte,5)
@@ -220,6 +221,7 @@ class SixTKMain :
     
     def viewParoleGUI(self,texte:str):
         self.__clearView()
+        self.windows.lift()
         if self.__compteur(texte) > 6 :
             texte1,texte2 = self.__division(texte,6)
             if self.__compteur(texte2) > 6 :
