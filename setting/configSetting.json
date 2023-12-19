@@ -6,6 +6,6 @@
     "colorInterface":"1",
     "setIcon":"1",
     "iconAssistant":"asset/logo.png",
-    "listeTheme":["default","white","black"],
+    "listeTheme":["white","dark"],
     "listGenre":["Monsieur","Madame","Maitre","Maitresse"]
 }

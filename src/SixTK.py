@@ -2,6 +2,7 @@ from setting.arreraAssistantSetting import *
 from src.SIXGestion import*
 from src.pygamePlaysound import paroleSix
 import threading as th
+import random
 
 class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
@@ -18,15 +19,20 @@ class sixTk :
 
     def muteSix(self)->int:
         self.varOut = 0
+        
         screenMute = Tk()
         screenMute.title("Assistant Mute")
         #screenMute.iconphoto(False,PhotoImage(file="asset/logo.png"))
         screenMute.maxsize(500,500)
         screenMute.minsize(500,500)
+        screenMute.configure(bg="red")
         frameMute = Frame(screenMute,width=500,height=500)
         
         fond = Label(frameMute,width=500,height=500)
-        photo = PhotoImage(file=self.gestionnaire.getGUIMute(),master=fond)
+        if random.randint(0,1) == 0 :
+            photo = PhotoImage(file=self.gestionnaire.getGUIMute1(),master=fond)
+        else :
+           photo = PhotoImage(file=self.gestionnaire.getGUIMute2(),master=fond) 
         fond.image_names = photo
         fond.configure(image=photo)
 
@@ -59,185 +65,168 @@ class SixTKMain :
     def acticeWindows(self):
         self.windows = Tk()
         self.windows.title("Six : Assistant")
-        self.windows.geometry("600x500+5+30")
-        self.windows.maxsize(600,500)
-        self.windows.minsize(600,500)
+        self.windows.geometry("500x350+5+30")
+        self.windows.maxsize(500,350)
+        self.windows.minsize(500,350)
         self.windows.overrideredirect(True)
-        #Frame
-        self.__frameMain = Frame(self.windows,height=500,width=600)
-        self.__frameAcceuil = Frame(self.windows,height=500,width=600)
-        self.__frameParoleSmall = Frame(self.windows,height=500,width=600)
-        self.__frameParoleBig = Frame(self.windows,height=500,width=600)
-        self.__frameAttend1 = Frame(self.windows,height=500,width=600)
-        self.__frameAttend2 = Frame(self.windows,height=500,width=600)
-        self.__frameAttend3 = Frame(self.windows,height=500,width=600)
-        self.__frameNoConnect = Frame(self.windows,height=500,width=600)
-        #Label Image
-        self.__labelImageMain = Label(self.__frameMain)
-        self.__labelImageAcceuil = Label(self.__frameAcceuil)
-        self.__labelImageParoleSmall = Label(self.__frameParoleSmall)
-        self.__labelImageParoleBig = Label(self.__frameParoleBig)
-        self.__labelImageAttend1 = Label(self.__frameAttend1)
-        self.__labelImageAttend2 = Label(self.__frameAttend2)
-        self.__labelImageAttend3 = Label(self.__frameAttend3)
-        self.__labelImageNoConnecte = Label(self.__frameNoConnect)
-        #variable largeur hauteur fenetre 
-        largeur = self.__frameMain.winfo_reqwidth()
+        #Canvas
+        self.__canvasAcceuil = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot0 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot3 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole3 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasMute1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasMute2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasNoConnect = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasContent = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasColere = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasSurprit = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasTriste1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasTriste2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         #label 
-        self.__textcanvasAcceuil = Label(self.__frameAcceuil,font=("arial","15"),text="",width=36)
-        self.__textSmallSix = Label(self.__frameParoleSmall,font=("arial","15"),text="",width=40)
-        self.__textSmallUser = Label(self.__frameParoleSmall,font=("arial","15"),text="",width=40)
-        self.__textBigSix = Label(self.__frameParoleBig,font=("arial","15"),text="",width=38)
-        self.__textBigUser = Label(self.__frameParoleBig,font=("arial","15"),text="",width=40)
+        self.__labelTextParole2 = Label(self.__canvasParole2,font=("arial","15"),bg="red")
+        self.__labelTextParole1Six = Label(self.__canvasParole1,font=("arial","15"),bg="red")
+        self.__labelTextParole1User = Label(self.__canvasParole1,font=("arial","15"),bg="red")
+        self.__labelTextParole3Six = Label(self.__canvasParole3,font=("arial","15"),bg="red")
+        self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red")
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
         #Mise en place du theme
         self.setTheme()
-        #Affichage
-        #  Label Image
-        self.__labelImageAcceuil.place(x=0,y=0)
-        self.__labelImageMain.place(x=0,y=0)
-        self.__labelImageParoleSmall.place(x=0,y=0)
-        self.__labelImageParoleBig.place(x=0,y=0)
-        self.__labelImageAttend1.place(x=0,y=0)
-        self.__labelImageAttend2.place(x=0,y=0)
-        self.__labelImageAttend3.place(x=0,y=0)
-        self.__labelImageNoConnecte.place(x=0,y=0)
-        # Label Text
-        self.__textSmallSix.place(x=140,y=95)
-        self.__textSmallUser.place(x=140,y=345)
-        self.__textBigSix.place(x=150,y=10)
-        self.__textBigUser.place(x=140,y=365)
-        self.__textcanvasAcceuil.place(x=((largeur-self.__textcanvasAcceuil.winfo_reqwidth())//2),y=235)
-        #Affichage main
-        self.__frameMain.pack()
+        #Emplacement label
+        self.__labelTextParole1Six.place(x=120,y=60)
+        self.__labelTextParole1User.place(x=15,y=240)
+        self.__labelTextParole3Six.place(x=120,y=60)
+        self.__labelTextParole3User.place(x=15,y=240)
+        self.__labelTextParole2.place(x=40,y=125)
+        
     
     def setTheme(self):
+        #Mise en place du theme
         self.__gestionnaire.setTheme()
-        #image GUI
-        mainGUI = self.__gestionnaire.getGUIMain()
-        acceuilGUI = self.__gestionnaire.getGUIAcceuil()
-        paroleSmallGUI = self.__gestionnaire.getGUIparoleSmallSmall()
-        paroleBigGUI =self.__gestionnaire.getGUIparoleBigSmall()
-        listAttendGUI = self.__gestionnaire.getGUIAttent()
-        attentGUI1 = str(listAttendGUI[0])
-        attentGUI2 = str(listAttendGUI[1])
-        attentGUI3 = str(listAttendGUI[2])
-        noConnectGUI = self.__gestionnaire.getGUINoConnecte()
-        colorTK = self.__gestionnaire.getColorInterface()
-        colorLabel = self.__gestionnaire.getColorLabel()
-        colorText = self.__gestionnaire.getGUItextColor()
-        #Couleur fenetre
-        self.windows.configure(bg=colorTK)
-        #Main
-        mainIMG = PhotoImage(file=mainGUI)
-        self.__labelImageMain.configure(image=mainIMG)
-        self.__labelImageMain.image = mainIMG
-        #Acceuil
-        acceuilIMG = PhotoImage(file=acceuilGUI)
-        self.__labelImageAcceuil.configure(image=acceuilIMG)
-        self.__labelImageAcceuil.image=acceuilIMG
-        #ParoleSmall
-        paroleSmallIMG = PhotoImage(file=paroleSmallGUI)
-        self.__labelImageParoleSmall.configure(image=paroleSmallIMG)
-        self.__labelImageParoleSmall.image=paroleSmallIMG
-        #ParoleBig
-        paroleBigIMG = PhotoImage(file=paroleBigGUI)
-        self.__labelImageParoleBig.configure(image=paroleBigIMG)
-        self.__labelImageParoleBig.image= paroleBigIMG
-        #Attend1
-        attend1IMG = PhotoImage(file=attentGUI1)
-        self.__labelImageAttend1.configure(image=attend1IMG)
-        self.__labelImageAttend1.image=attend1IMG
-        #Attend2
-        attend2IMG = PhotoImage(file=attentGUI2)
-        self.__labelImageAttend2.configure(image=attend2IMG)
-        self.__labelImageAttend2.image=attend2IMG
-        #Attend3
-        attend3IMG = PhotoImage(file=attentGUI3)
-        self.__labelImageAttend3.configure(image=attend3IMG)
-        self.__labelImageAttend3.image=attend3IMG
-        #no connect
-        noConnectIMG = PhotoImage(file=noConnectGUI)
-        self.__labelImageNoConnecte.configure(image=noConnectIMG)
-        self.__labelImageNoConnecte.image=noConnectIMG
-        #label
-        self.__textcanvasAcceuil.configure(bg=colorLabel,fg=colorText)
-        self.__textSmallSix.configure(bg=colorLabel,fg=colorText)
-        self.__textSmallUser.configure(bg=colorLabel,fg=colorText)
-        self.__textBigSix.configure(bg=colorLabel,fg=colorText)
-        self.__textBigUser.configure(bg=colorLabel,fg=colorText)
-        #Frame 
-        self.__frameMain.configure(bg=colorTK)
-        self.__frameAcceuil.configure(bg=colorTK)
-        self.__frameParoleSmall.configure(bg=colorTK)
-        self.__frameParoleBig.configure(bg=colorTK)
-        self.__frameAttend1.configure(bg=colorTK)
-        self.__frameAttend2.configure(bg=colorTK)
-        self.__frameAttend3.configure(bg=colorTK)
-        self.__frameNoConnect.configure(bg=colorTK)
-        #color parametre
-        #self.__gestionnaire.setColorThemePara()
-    
+        #Recuperation des image
+        bgAcceuil = PhotoImage(file=self.__gestionnaire.getGUIAcceuil(),master=self.__canvasAcceuil)
+        bgBoot0 = PhotoImage(file=self.__gestionnaire.getGUIBoot0(),master=self.__canvasBoot0)
+        bgBoot1 = PhotoImage(file=self.__gestionnaire.getGUIBoot1(),master=self.__canvasBoot1)
+        bgBoot2 = PhotoImage(file=self.__gestionnaire.getGUIBoot2(),master=self.__canvasBoot2)
+        bgBoot3 = PhotoImage(file=self.__gestionnaire.getGUIBoot3(),master=self.__canvasBoot3)
+        bgParole1 = PhotoImage(file=self.__gestionnaire.getGUIParole1(),master=self.__canvasParole1) 
+        bgParole2  = PhotoImage(file=self.__gestionnaire.getGUIParole2(),master=self.__canvasParole2)
+        bgParole3  = PhotoImage(file=self.__gestionnaire.getGUIParole3(),master=self.__canvasParole3)
+        bgMute1  = PhotoImage(file=self.__gestionnaire.getGUIMute1(),master=self.__canvasMute1)
+        bgMute2  = PhotoImage(file=self.__gestionnaire.getGUIMute2(),master=self.__canvasMute2)
+        bgNoConnect = PhotoImage(file=self.__gestionnaire.getGUINoConnecte(),master=self.__canvasNoConnect)
+        bgContent = PhotoImage(file=self.__gestionnaire.getGUIContent(),master=self.__canvasContent)
+        bgColere = PhotoImage(file=self.__gestionnaire.getGUIColere(),master=self.__canvasColere)
+        bgSurprit = PhotoImage(file=self.__gestionnaire.getGUISurprit(),master=self.__canvasSurprit)
+        bgTriste1 = PhotoImage(file=self.__gestionnaire.getGUITrite1(),master=self.__canvasTriste1)
+        bgTriste2 = PhotoImage(file=self.__gestionnaire.getGUITrite2(),master=self.__canvasTriste2)
+        #Recuperation coleur
+        colorLabelParole = self.__gestionnaire.getColorLabelParole()
+        colorLabelParoleUser = self.__gestionnaire.getColorLabelUser()
+        colorTextParole = self.__gestionnaire.getTexteColorParole()
+        #Formatage des canvas avec leurs image
+        self.__canvasAcceuil.image_names = bgAcceuil
+        self.__canvasBoot0.image_names = bgBoot0
+        self.__canvasBoot1.image_names = bgBoot1
+        self.__canvasBoot2.image_names = bgBoot2
+        self.__canvasBoot3.image_names = bgBoot3
+        self.__canvasParole1.image_names = bgParole1
+        self.__canvasParole2.image_names = bgParole2
+        self.__canvasParole3.image_names = bgParole3
+        self.__canvasMute1.image_names = bgMute1
+        self.__canvasMute2.image_names = bgMute2
+        self.__canvasNoConnect.image_names = bgNoConnect
+        self.__canvasContent.image_names=bgContent
+        self.__canvasColere.image_names = bgColere
+        self.__canvasSurprit.image_names = bgSurprit
+        self.__canvasTriste1.image_names = bgTriste1
+        self.__canvasTriste2.image_names = bgTriste2
+        #Mise des image dans les canvas
+        self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
+        self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
+        self.__canvasBoot1.create_image( 0, 0, image =bgBoot1 , anchor = "nw")
+        self.__canvasBoot2.create_image( 0, 0, image =bgBoot2 , anchor = "nw")
+        self.__canvasBoot3.create_image( 0, 0, image =bgBoot3 , anchor = "nw")
+        self.__canvasParole1.create_image( 0, 0, image =bgParole1 , anchor = "nw")
+        self.__canvasParole2.create_image( 0, 0, image =bgParole2 , anchor = "nw")
+        self.__canvasParole3.create_image( 0, 0, image =bgParole3 , anchor = "nw")
+        self.__canvasMute1.create_image( 0, 0, image =bgMute1 , anchor = "nw")
+        self.__canvasMute2.create_image( 0, 0, image =bgMute2 , anchor = "nw")
+        self.__canvasNoConnect.create_image( 0, 0, image =bgNoConnect , anchor = "nw")
+        self.__canvasContent.create_image( 0, 0, image =bgContent , anchor = "nw")
+        self.__canvasColere.create_image( 0, 0, image =bgColere , anchor = "nw")
+        self.__canvasSurprit.create_image( 0, 0, image =bgSurprit , anchor = "nw")
+        self.__canvasTriste1.create_image( 0, 0, image =bgTriste1 , anchor = "nw")
+        self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
+        #Mise en place de coleur pour les label
+        self.__labelTextParole1Six.configure(bg=colorLabelParole,fg=colorTextParole)
+        self.__labelTextParole1User.configure(bg=colorLabelParoleUser,fg=colorTextParole)
+        self.__labelTextParole3Six.configure(bg=colorLabelParole,fg=colorTextParole)
+        self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextParole)
+        self.__labelTextParole2.configure(bg=colorLabelParole,fg=colorTextParole)
 
     def bootInterface(self):
         self.updateWindows()
         self.windows.mainloop()
 
     def __clearView(self):
-        self.__frameMain.pack_forget()
-        self.__frameAcceuil.pack_forget()
-        self.__frameParoleSmall.pack_forget()
-        self.__frameParoleBig.pack_forget()
-        self.__frameAttend1.pack_forget()
-        self.__frameAttend2.pack_forget()
-        self.__frameAttend3.pack_forget()
+        self.__canvasAcceuil.place_forget()
+        self.__canvasBoot0.place_forget()
+        self.__canvasBoot1.place_forget()
+        self.__canvasBoot2.place_forget()
+        self.__canvasBoot3.place_forget()
+        self.__canvasParole1.place_forget()
+        self.__canvasParole2.place_forget()
+        self.__canvasParole3.place_forget()
+        self.__canvasMute1.place_forget()
+        self.__canvasMute2.place_forget()
+        self.__canvasNoConnect.place_forget()
+        self.__canvasContent.place_forget()
+        self.__canvasColere.place_forget()
+        self.__canvasSurprit.place_forget()
+        self.__canvasTriste1.place_forget()
+        self.__canvasTriste2.place_forget()
 
     def setTextMicro(self,texte:str):
         self.__textMicro = texte
-    
-    def viewBigParole(self,texte:str):
-        self.__clearView()
-        self.windows.lift()
-        self.__frameAcceuil.pack()
-        if self.__compteur(texte) > 5 :
-            texte1,texte2 = self.__division(texte,5)
-            if self.__compteur(texte2) > 5 :
-                texte2,texte3 =  self.__division(texte2,5)
-                allTexte = texte1+"\n"+texte2+"\n"+texte3
-            else :
-                allTexte = texte1+"\n"+texte2
-        else :
-            allTexte = texte
-        self.__textcanvasAcceuil.configure(text=allTexte)
+        self.__labelTextParole1User.configure(text=self.__textMicro)
+        self.__labelTextParole3User.configure(text=self.__textMicro)
     
     def noConnectionInterface(self):
-        self.__frameMain.pack_forget()
+        self.__clearView()
         self.windows.overrideredirect(False)
-        self.__frameNoConnect.pack()
+        self.__canvasNoConnect.place(x=0,y=0)
         self.updateWindows()
 
     
-    def viewParoleGUI(self,texte:str):
+    def viewParoleGUI(self,mode:int,texte:str):
         self.__clearView()
         self.windows.lift()
-        if self.__compteur(texte) > 6 :
-            texte1,texte2 = self.__division(texte,6)
-            if self.__compteur(texte2) > 6 :
-                texte2,texte3 =  self.__division(texte2,6)
-                allTexte = texte1+"\n"+texte2+"\n"+texte3
+        if mode == 1 :
+            if self.__compteur(texte) > 6 :
+                texte1,texte2 = self.__division(texte,6)
+                if self.__compteur(texte2) > 6 :
+                    texte2,texte3 =  self.__division(texte2,6)
+                    allTexte = texte1+"\n"+texte2+"\n"+texte3
+                    self.__labelTextParole3Six.configure(text=allTexte)
+                    self.__canvasParole3.place(x=0,y=0)
+                else :
+                    allTexte = texte1+"\n"+texte2
+                    self.__labelTextParole3Six.configure(text=allTexte)
+                    self.__canvasParole3.place(x=0,y=0)
             else :
-                allTexte = texte1+"\n"+texte2
-            self.__frameParoleBig.pack()
-            self.__textBigSix.configure(text=allTexte)
-            self.__textBigUser.configure(text=self.__textMicro)
+                allTexte = texte
+                self.__labelTextParole1Six.configure(text=allTexte)
+                self.__canvasParole1.place(x=0,y=0)
         else :
-            allTexte = texte
-            self.__frameParoleSmall.pack()
-            self.__textSmallSix.configure(text=allTexte)
-            self.__textSmallUser.configure(text=self.__textMicro)
-        
+            allTexte = self.__formatageText(texte)
+            self.__labelTextParole2.configure(text=allTexte)
+            self.__canvasParole2.place(x=0,y=0)
         self.windows.update()
     
 

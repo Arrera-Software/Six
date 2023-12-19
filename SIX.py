@@ -29,7 +29,7 @@ class AssistantSIX :
         self.__mainTK.acticeWindows()
         if self.__etatInternet == True :
             textBoot = self.__arreraAssistant.boot()
-            self.__mainTK.windows.after(0,lambda :self.__mainTK.viewBigParole(textBoot))
+            self.__mainTK.windows.after(0,lambda :self.__mainTK.viewParoleGUI(0,textBoot))
             self.__srcSIX.speak(textBoot)
             self.theardBoucle = th.Thread(target=self.__assistant)
             self.theardBoucle.start()
@@ -94,34 +94,39 @@ class AssistantSIX :
                         else :
                             if (self.__varSix==15):
                                 texte = self.__arreraAssistant.transformeListSTR(listOut)
-                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                                 self.__srcSIX.speak(texte)
                                 self.__mainTK.flagBoucle.clear() 
                                 self.__compteurNothing = 0
                             else : 
-                                 if (self.__varSix == 0) :             
+                                if (self.__varSix == 0) :             
                                     if ("parametre" in statement) :
                                         texte = "Ok je vous ouvre les parametre"
-                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                                         self.__srcSIX.speak(texte)
                                         self.__sixTK.activePara()
                                         self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
                                         self.__arreraAssistant.setOld("parametre","open parametre")
                                         self.__mainTK.setTheme()
                                         texte = "Les modification on bien été pris en compte"
-                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                                         self.__srcSIX.speak(texte)
                                         self.__arreraAssistant.setOld("parametre","parametre")
                                         self.__compteurNothing = 0
                                     else :
                                         if ("codehelp"in statement ):
                                             text ="Je suis desoler, je n'est pas la fonctioanilites CodeHelp."
-                                            self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                                            self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                                             self.__srcSIX.speak(text)
                                             self.__compteurNothing = 0
                                         else :
                                             texte = self.__arreraAssistant.transformeListSTR(listOut)
-                                            self.__mainTK.viewParoleGUI(texte)
+                                            self.__mainTK.viewParoleGUI(1,texte)
                                             self.__srcSIX.speak(texte)
                                             self.__compteurNothing = 0
+                                else :
+                                    texte = self.__arreraAssistant.transformeListSTR(listOut)
+                                    self.__mainTK.viewParoleGUI(1,texte)
+                                    self.__srcSIX.speak(texte)
+                                    self.__compteurNothing = 0
         self.__mainTK.destroyWindows()
