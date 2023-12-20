@@ -28,11 +28,9 @@ class AssistantSIX :
         self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
         self.__mainTK.acticeWindows()
         if self.__etatInternet == True :
-            textBoot = self.__arreraAssistant.boot()
-            self.__mainTK.windows.after(0,lambda :self.__mainTK.viewParoleGUI(0,textBoot))
-            self.__srcSIX.speak(textBoot)
             self.theardBoucle = th.Thread(target=self.__assistant)
             self.theardBoucle.start()
+            self.__mainTK.bootInterface()
         else :
             self.__mainTK.noConnectionInterface()  
         self.__mainTK.bootInterface()
@@ -58,9 +56,9 @@ class AssistantSIX :
         
 
     def __assistant(self):
+        self.__mainTK.sequenceBoot(self.__srcSIX,self.__arreraAssistant.boot())
         while (self.__mainTK.flagBoucle.is_set() ):
-            statement = self.__srcSIX.micro()
-            self.__mainTK.setTextMicro(statement)
+            statement = self.__mainTK.guiMicro(self.__srcSIX)
             if ("mute" in statement) or (self.__compteurNothing>=MAXNOTING):
                 if (self.__compteurNothing==MAXNOTING):
                     texte = "Je me met en pause appeler moi si vous avez besoin de moi"
@@ -93,9 +91,7 @@ class AssistantSIX :
                             self.__mainTK.vueActu(listOut,self.__varSix)
                         else :
                             if (self.__varSix==15):
-                                texte = self.__arreraAssistant.transformeListSTR(listOut)
-                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
-                                self.__srcSIX.speak(texte)
+                                self.__mainTK.sequenceArret(self.__srcSIX,self.__arreraAssistant.transformeListSTR(listOut))
                                 self.__mainTK.flagBoucle.clear() 
                                 self.__compteurNothing = 0
                             else : 

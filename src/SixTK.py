@@ -1,6 +1,8 @@
 from setting.arreraAssistantSetting import *
 from src.SIXGestion import*
+from src.srcSix import *
 from src.pygamePlaysound import paroleSix
+import time
 import threading as th
 import random
 
@@ -9,7 +11,6 @@ class sixTk :
         self.para = ArreraSettingAssistant("setting/configSetting.json","configNeuron.json","sixConfig.json","FileUser/configUser.json") 
         self.gestionnaire = gestionnaire
 
-    
     def activePara(self):
         self.screenPara = Tk()
         self.para.windows(self.screenPara)
@@ -92,6 +93,8 @@ class SixTKMain :
         self.__labelTextParole1User = Label(self.__canvasParole1,font=("arial","15"),bg="red")
         self.__labelTextParole3Six = Label(self.__canvasParole3,font=("arial","15"),bg="red")
         self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red")
+        #label Micro
+        self.__labelMicro = Label(self.windows)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -125,6 +128,7 @@ class SixTKMain :
         bgSurprit = PhotoImage(file=self.__gestionnaire.getGUISurprit(),master=self.__canvasSurprit)
         bgTriste1 = PhotoImage(file=self.__gestionnaire.getGUITrite1(),master=self.__canvasTriste1)
         bgTriste2 = PhotoImage(file=self.__gestionnaire.getGUITrite2(),master=self.__canvasTriste2)
+        bgMicro = PhotoImage(file=self.__gestionnaire.getIconMicro(),master=self.__labelMicro)
         #Recuperation coleur
         colorLabelParole = self.__gestionnaire.getColorLabelParole()
         colorLabelParoleUser = self.__gestionnaire.getColorLabelUser()
@@ -146,6 +150,7 @@ class SixTKMain :
         self.__canvasSurprit.image_names = bgSurprit
         self.__canvasTriste1.image_names = bgTriste1
         self.__canvasTriste2.image_names = bgTriste2
+        self.__labelMicro.image_names =  bgMicro
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -169,12 +174,62 @@ class SixTKMain :
         self.__labelTextParole3Six.configure(bg=colorLabelParole,fg=colorTextParole)
         self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextParole)
         self.__labelTextParole2.configure(bg=colorLabelParole,fg=colorTextParole)
+        self.__labelMicro.configure(image=bgMicro)
+
+    def sequenceBoot(self,src:SIXsrc,texte:str):
+        self.__canvasBoot0.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot0.place_forget()
+        self.__canvasBoot1.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot1.place_forget()
+        self.__canvasBoot2.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot2.place_forget()
+        self.__canvasBoot3.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot3.place_forget()
+        allTexte = self.__formatageText(texte)
+        self.__labelTextParole2.configure(text=allTexte)
+        self.__canvasParole2.place(x=0,y=0)
+        time.sleep(0.2)
+        src.speak(texte)
+        self.__canvasParole2.place_forget()
+        self.__canvasAcceuil.place(x=0,y=0)
+    
+    def sequenceArret(self,src:SIXsrc,texte:str):
+        self.__clearView()
+        allTexte = self.__formatageText(texte)
+        self.__labelTextParole2.configure(text=allTexte)
+        self.__canvasParole2.place(x=0,y=0)
+        src.speak(texte)
+        self.__canvasParole2.place_forget()
+        self.__canvasBoot3.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot3.place_forget()
+        self.__canvasBoot2.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot2.place_forget()
+        self.__canvasBoot3.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot3.place_forget()
+        self.__canvasBoot0.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot0.place_forget()
+
+    
+    def guiMicro(self,src:SIXsrc):
+        self.__labelMicro.place(x=(self.windows.winfo_width()-self.__labelMicro.winfo_reqwidth()),y=(self.windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
+        texte = src.micro()
+        self.setTextMicro(texte)
+        return texte
 
     def bootInterface(self):
         self.updateWindows()
         self.windows.mainloop()
 
     def __clearView(self):
+        self.__labelMicro.place_forget()
         self.__canvasAcceuil.place_forget()
         self.__canvasBoot0.place_forget()
         self.__canvasBoot1.place_forget()
@@ -312,4 +367,3 @@ class SixTKMain :
         parole.start()
         parole.join()
         windows.destroy()
-        
