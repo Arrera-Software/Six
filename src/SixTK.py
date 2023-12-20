@@ -19,39 +19,35 @@ class sixTk :
         self.screenPara.mainloop()
 
     def muteSix(self)->int:
-        self.varOut = 0
-        
+        self.__varOut = 0
         screenMute = Tk()
         screenMute.title("Assistant Mute")
         #screenMute.iconphoto(False,PhotoImage(file="asset/logo.png"))
-        screenMute.maxsize(500,500)
-        screenMute.minsize(500,500)
+        screenMute.maxsize(500,350)
+        screenMute.minsize(500,350)
         screenMute.configure(bg="red")
-        frameMute = Frame(screenMute,width=500,height=500)
-        
-        fond = Label(frameMute,width=500,height=500)
+        frameMute = Canvas(screenMute,width=500,height=350)
         if random.randint(0,1) == 0 :
-            photo = PhotoImage(file=self.gestionnaire.getGUIMute1(),master=fond)
+            photo = PhotoImage(file=self.gestionnaire.getGUIMute1(),master=frameMute)
         else :
-           photo = PhotoImage(file=self.gestionnaire.getGUIMute2(),master=fond) 
-        fond.image_names = photo
-        fond.configure(image=photo)
-
+           photo = PhotoImage(file=self.gestionnaire.getGUIMute2(),master=frameMute) 
+        frameMute.image_names = photo
+        frameMute.create_image( 0, 0, image =photo , anchor = "nw")
         btnQuitter = Button(frameMute,text="Quitter",font=("arial","15"),command=lambda:self.quitMute(screenMute))
         btnUmute = Button(frameMute,text="Demuter",font=("arial","15"),command=lambda:self.uMute(screenMute))
         btnUmute.place(x=((frameMute.winfo_reqwidth()-btnUmute.winfo_reqwidth())-20),y=((frameMute.winfo_reqheight()-btnUmute.winfo_reqheight())-20))
         btnQuitter.place(x=20,y=((frameMute.winfo_reqheight()-btnQuitter.winfo_reqheight())-20))
         frameMute.pack()
-        fond.place(x=0,y=0)
+        frameMute.place(x=0,y=0)
         screenMute.mainloop()
-        return self.varOut
+        return self.__varOut
     
     def uMute(self,screen:Tk):
-        self.varOut = 0 
+        self.__varOut = 0 
         screen.destroy()
     
     def quitMute(self,screen:Tk):
-        self.varOut = 15
+        self.__varOut = 15
         screen.destroy()
     
     def fncQuit(self):
@@ -79,8 +75,6 @@ class SixTKMain :
         self.__canvasParole1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasParole2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasParole3 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasMute1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasMute2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasNoConnect = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasContent = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasColere = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
@@ -120,8 +114,6 @@ class SixTKMain :
         bgParole1 = PhotoImage(file=self.__gestionnaire.getGUIParole1(),master=self.__canvasParole1) 
         bgParole2  = PhotoImage(file=self.__gestionnaire.getGUIParole2(),master=self.__canvasParole2)
         bgParole3  = PhotoImage(file=self.__gestionnaire.getGUIParole3(),master=self.__canvasParole3)
-        bgMute1  = PhotoImage(file=self.__gestionnaire.getGUIMute1(),master=self.__canvasMute1)
-        bgMute2  = PhotoImage(file=self.__gestionnaire.getGUIMute2(),master=self.__canvasMute2)
         bgNoConnect = PhotoImage(file=self.__gestionnaire.getGUINoConnecte(),master=self.__canvasNoConnect)
         bgContent = PhotoImage(file=self.__gestionnaire.getGUIContent(),master=self.__canvasContent)
         bgColere = PhotoImage(file=self.__gestionnaire.getGUIColere(),master=self.__canvasColere)
@@ -142,8 +134,6 @@ class SixTKMain :
         self.__canvasParole1.image_names = bgParole1
         self.__canvasParole2.image_names = bgParole2
         self.__canvasParole3.image_names = bgParole3
-        self.__canvasMute1.image_names = bgMute1
-        self.__canvasMute2.image_names = bgMute2
         self.__canvasNoConnect.image_names = bgNoConnect
         self.__canvasContent.image_names=bgContent
         self.__canvasColere.image_names = bgColere
@@ -160,8 +150,6 @@ class SixTKMain :
         self.__canvasParole1.create_image( 0, 0, image =bgParole1 , anchor = "nw")
         self.__canvasParole2.create_image( 0, 0, image =bgParole2 , anchor = "nw")
         self.__canvasParole3.create_image( 0, 0, image =bgParole3 , anchor = "nw")
-        self.__canvasMute1.create_image( 0, 0, image =bgMute1 , anchor = "nw")
-        self.__canvasMute2.create_image( 0, 0, image =bgMute2 , anchor = "nw")
         self.__canvasNoConnect.create_image( 0, 0, image =bgNoConnect , anchor = "nw")
         self.__canvasContent.create_image( 0, 0, image =bgContent , anchor = "nw")
         self.__canvasColere.create_image( 0, 0, image =bgColere , anchor = "nw")
@@ -238,8 +226,6 @@ class SixTKMain :
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place_forget()
         self.__canvasParole3.place_forget()
-        self.__canvasMute1.place_forget()
-        self.__canvasMute2.place_forget()
         self.__canvasNoConnect.place_forget()
         self.__canvasContent.place_forget()
         self.__canvasColere.place_forget()
@@ -284,6 +270,19 @@ class SixTKMain :
             self.__canvasParole2.place(x=0,y=0)
         self.windows.update()
     
+    def activeMute(self):
+        self.__clearView()
+        if (random.randint(0,1)==1) :
+            self.__canvasTriste1.place(x=0,y=0)
+        else :
+            self.__canvasTriste1.place(x=0,y=0)
+    
+    def guiNoParole(self):
+        self.__clearView()
+        if (random.randint(0,1)==1) :
+            self.__canvasContent.place(x=0,y=0)
+        else :
+            self.__canvasAcceuil.place(x=0,y=0)
 
     def __division(self,text, nombre):
         mots = text.split()

@@ -58,25 +58,25 @@ class AssistantSIX :
     def __assistant(self):
         self.__mainTK.sequenceBoot(self.__srcSIX,self.__arreraAssistant.boot())
         while (self.__mainTK.flagBoucle.is_set() ):
+            self.__mainTK.guiNoParole()
             statement = self.__mainTK.guiMicro(self.__srcSIX)
-            if ("mute" in statement) or (self.__compteurNothing>=MAXNOTING):
+            if ("mute" in statement)or("silence" in statement) or (self.__compteurNothing>=MAXNOTING):
                 if (self.__compteurNothing==MAXNOTING):
                     texte = "Je me met en pause appeler moi si vous avez besoin de moi"
-                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                     self.__srcSIX.speak(texte)
                 else :
                     texte =  "Ok je vous laisse tranquille"
-                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                     self.__srcSIX.speak(texte)
+                self.__mainTK.activeMute()
                 self.__varSix = self.__sixTK.muteSix()
                 if (self.__varSix ==15):
-                    texte = "Au revoir"
-                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
-                    self.__srcSIX.speak(texte)
+                    self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
                     self.__mainTK.flagBoucle.clear() 
                 else :
                     texte = "Je vous ecoute monsieur"
-                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(texte))
+                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
                     self.__srcSIX.speak(texte)
                 self.__compteurNothing = 0
             else :
