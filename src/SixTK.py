@@ -314,12 +314,25 @@ class SixTKMain :
         else :
             allTexte = texte
         return str(allTexte)
+
+    def __formatageTextActu(self,texte):
+        nbMots = 5
+        if int(len(texte)) > nbMots  :
+            texte1,texte2 = self.__division(texte,nbMots)
+            allTexte = texte1+"\n"+texte2
+            if int(len(texte2)) > nbMots :
+                texte2,texte3 = self.__division(texte2,nbMots)
+                allTexte = texte1+"\n"+texte2+"\n"+texte3
+                if int(len(texte3)) > nbMots:
+                    texte3,texte4 = self.__division(texte3,nbMots)
+                    allTexte = texte1+"\n"+texte2+"\n"+texte3+"\n"+texte4
+        else :
+            allTexte = texte
+        return str(allTexte)
     
     def vueActu(self,sortie:list,valeur:int):
-        color = self.__gestionnaire.getColorInterface()
-        colorLabel = self.__gestionnaire.getColorLabel()
-        colorTextLabel = self.__gestionnaire.getGUItextColor()
-        colorText = self.__gestionnaire.getColorTextActu()
+        color = self.__gestionnaire.getColorGUI()
+        textColor = self.__gestionnaire.getColorTextActu()
         if (valeur == 3):
             textOpen = "Voici les actualités du jour."
         else :
@@ -328,18 +341,25 @@ class SixTKMain :
             else :
                 if valeur == 12 :
                     textOpen = "Voici votre resumer"
-        self.viewBigParole(textOpen)
+        self.viewParoleGUI(0,textOpen)
         paroleSix(textOpen)
         windows = Tk()
         windows.maxsize(500,600)
         windows.minsize(500,600)
         windows.configure(bg=color)
-        labelActu = Label(windows,bg=color,fg=colorText,font=("arial","14"), anchor="w")
-        labelActu.place(x="0",y="0")
-        btnRead = Button(windows,text ="lire a haute voix",bg=colorLabel,fg=colorTextLabel,font=("arial","15"),width=40)
-        btnRead.pack(side="bottom")
+        #canvas actu
+        canvasActu = Canvas(windows, width=500,height=600, highlightthickness=0)
+        guiActu = PhotoImage(file=self.__gestionnaire.getGUIActu(),master=canvasActu)
+        canvasActu.image_names = guiActu
+        canvasActu.create_image( 0, 0, image =guiActu , anchor = "nw")
+        canvasActu.place(x=0,y=0)
+        #widget
+        labelActu = Label(canvasActu,bg=color,fg=textColor,font=("arial","13"), anchor="w")
+        labelActu.place(x="75",y="0")
+        btnRead = Button(canvasActu,text ="lire a haute voix",bg=color,fg=textColor,font=("arial","15"),width=40)
+        btnRead.place(x=((canvasActu.winfo_reqwidth()-btnRead.winfo_reqwidth())//2),y=(canvasActu.winfo_reqheight()-btnRead.winfo_reqheight()))
         if (valeur==3):
-            text = self.__formatageText(sortie[0])+"\n\n"+self.__formatageText(sortie[1])+"\n\n"+self.__formatageText(sortie[2])
+            text = self.__formatageTextActu(sortie[0])+"\n\n"+self.__formatageTextActu(sortie[1])+"\n\n"+self.__formatageTextActu(sortie[2])
             windows.title("Six : Actualites")
             labelActu.configure(text=text, anchor="w")
             btnRead.configure(command=lambda: self.__readActu(text,windows))
@@ -352,14 +372,15 @@ class SixTKMain :
                 textClose = "Desoler pour cette erreur"
             else :
                 if valeur == 12 :
-                    text = self.__formatageText(sortie[0])+"\n"+self.__formatageText(sortie[1])+"\n La fete du jour est : "+self.__formatageText(sortie[2])+"\n"+self.__formatageText(sortie[3])+"\n"+self.__formatageText(sortie[4])+"\n\n"+self.__formatageText(sortie[5])
+                    text = self.__formatageTextActu(sortie[0])+"\n"+self.__formatageTextActu(sortie[1])+"\n La fete du jour est : "+self.__formatageTextActu(sortie[2])+"\n"+self.__formatageTextActu(sortie[3])+"\n"+self.__formatageTextActu(sortie[4])+"\n\n"+self.__formatageTextActu(sortie[5])
                     windows.title("Six : Resumer")
                     labelActu.configure(text=text, anchor="w")
                     btnRead.configure(command=lambda: self.__readActu(text,windows))
                     textClose = "J'espere que votre resumer vous a plu"
         windows.mainloop()
-        self.viewBigParole(textClose)
+        self.viewParoleGUI(0,textClose)
         paroleSix(textClose)
+        
 
     def __readActu(self,text:str,windows:Tk):
         parole = th.Thread(target= paroleSix,args=(text,))

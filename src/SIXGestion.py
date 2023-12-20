@@ -33,6 +33,8 @@ class SIXGestion :
         self.__listColorTextParole = ["#ffffff","#000000"]
         self.__colorLabelUser = "#09179c"
         self.__listColorTextActu = ["#000000","#ffffff"]
+        self.__listColorGUI = ["#ebecee","#000000"]
+        self.__listColorTextActu = ["#000000","#ffffff"]
         #listUtiliser
         self.__emplacementAcceuil = str
         self.__emplacementMute1 = str
@@ -52,9 +54,11 @@ class SIXGestion :
         self.__emplacementContent = str
         self.__emplacementActu = str
         self.__emplacementMicro = str
+        self.__colorGUI = str
         self.__colorTexteActu = str
         self.__colorLabelSix = str
         self.__colorTextParole = str
+        self.__colorTextActu = str
         #Creation var de verification
         self.__themeSet = bool
         #Ouverture fichier config Six
@@ -90,6 +94,8 @@ class SIXGestion :
             self.__colorTexteActu = self.__listColorTextActu[0]
             self.__colorTextParole = self.__listColorTextParole[0]
             self.__colorLabelSix = self.__listColorLabelSix[0]
+            self.__colorGUI = self.__listColorGUI[0]
+            self.__colorTextActu = self.__listColorTextActu[0]
         else :
             if varTheme == "dark" :
                 chemin = emplacementGUI+"dark/"
@@ -111,9 +117,11 @@ class SIXGestion :
                 self.__emplacementContent = chemin+self.__fileNameContent
                 self.__emplacementActu = chemin+self.__fileNameActu
                 self.__emplacementMicro = chemin+self.__fileNameMicro
-                self.__colorTexteActu = self.__listColorTextActu[0]
-                self.__colorTextParole = self.__listColorTextParole[0]
-                self.__colorLabelSix = self.__listColorLabelSix[0]
+                self.__colorTexteActu = self.__listColorTextActu[1]
+                self.__colorTextParole = self.__listColorTextParole[1]
+                self.__colorLabelSix = self.__listColorLabelSix[1]
+                self.__colorGUI = self.__listColorGUI[1]
+                self.__colorTextActu = self.__listColorTextActu[1]
             else :
                 chemin = emplacementGUI+"white/"
                 self.__emplacementAcceuil = chemin+self.__fileNameAcceuil
@@ -137,6 +145,8 @@ class SIXGestion :
                 self.__colorTexteActu = self.__listColorTextActu[0]
                 self.__colorTextParole = self.__listColorTextParole[0]
                 self.__colorLabelSix = self.__listColorLabelSix[0]
+                self.__colorGUI = self.__listColorGUI[0]
+                self.__colorTextActu = self.__listColorTextActu[0]
         self.__themeSet = True
 
     
@@ -227,3 +237,11 @@ class SIXGestion :
     def getColorLabelUser(self):
         if self.__themeSet == True :
             return self.__colorLabelUser
+    
+    def getColorGUI(self):
+        if self.__themeSet == True :
+            return self.__colorGUI
+    
+    def getColorTextActu(self):
+        if self.__themeSet == True :
+            return self.__colorTextActu
