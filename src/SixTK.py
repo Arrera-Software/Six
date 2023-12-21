@@ -315,20 +315,12 @@ class SixTKMain :
             allTexte = texte
         return str(allTexte)
 
-    def __formatageTextActu(self,texte):
-        nbMots = 5
-        if int(len(texte)) > nbMots  :
-            texte1,texte2 = self.__division(texte,nbMots)
-            allTexte = texte1+"\n"+texte2
-            if int(len(texte2)) > nbMots :
-                texte2,texte3 = self.__division(texte2,nbMots)
-                allTexte = texte1+"\n"+texte2+"\n"+texte3
-                if int(len(texte3)) > nbMots:
-                    texte3,texte4 = self.__division(texte3,nbMots)
-                    allTexte = texte1+"\n"+texte2+"\n"+texte3+"\n"+texte4
-        else :
-            allTexte = texte
-        return str(allTexte)
+    def __formatageTextActu(self,texte:str):
+        nb_mots_par_ligne = 5
+        mots = texte.split()
+        lignes = [mots[i:i+nb_mots_par_ligne] for i in range(0, len(mots), nb_mots_par_ligne)]
+        texte_formate = "\n".join([" ".join(ligne) for ligne in lignes])
+        return texte_formate
     
     def vueActu(self,sortie:list,valeur:int):
         color = self.__gestionnaire.getColorGUI()
@@ -343,6 +335,8 @@ class SixTKMain :
                     textOpen = "Voici votre resumer"
         self.viewParoleGUI(0,textOpen)
         paroleSix(textOpen)
+        self.__clearView()
+        self.__canvasSurprit.place(x=0,y=0)
         windows = Tk()
         windows.maxsize(500,600)
         windows.minsize(500,600)
