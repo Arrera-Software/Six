@@ -22,6 +22,11 @@ class AssistantSIX :
         self.__varSix = 0
         #source six 
         self.__srcSIX = SIXsrc(sixConfig)
+
+    def __onClose(self):
+        if (messagebox.askyesno("Atention","Voulez-vous vraiment fermer Six")):
+            self.__mainTK.flagBoucle.clear() 
+            self.quit()
     
     def __bootAssistant(self):
         self.__mainTK = SixTKMain(self.__objetGestion)
@@ -30,10 +35,11 @@ class AssistantSIX :
         if self.__etatInternet == True :
             self.theardBoucle = th.Thread(target=self.__assistant)
             self.theardBoucle.start()
+            self.__mainTK.windows.protocol("WM_DELETE_WINDOW",self.__onClose) 
             self.__mainTK.bootInterface()
         else :
-            self.__mainTK.noConnectionInterface()  
-        self.__mainTK.bootInterface()
+            self.__mainTK.noConnectionInterface()
+            self.__mainTK.bootInterface()
 
         
     def boot(self):

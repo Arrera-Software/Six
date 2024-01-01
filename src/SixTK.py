@@ -65,7 +65,7 @@ class SixTKMain :
         self.windows.geometry("500x350+5+30")
         self.windows.maxsize(500,350)
         self.windows.minsize(500,350)
-        self.windows.overrideredirect(True)
+        self.windows.iconphoto(False,PhotoImage(file="asset/logo.png"))
         #Canvas
         self.__canvasAcceuil = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasBoot0 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
