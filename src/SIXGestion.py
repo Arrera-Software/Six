@@ -31,6 +31,7 @@ class SIXGestion :
         #Color label
         self.__listColorLabelSix = ["#2b3ceb","#ffffff"]
         self.__listColorTextParole = ["#ffffff","#000000"]
+        self.__colorTextLabelUser =  "#ffffff"
         self.__colorLabelUser = "#09179c"
         self.__listColorTextActu = ["#000000","#ffffff"]
         self.__listColorGUI = ["#ebecee","#000000"]
@@ -253,3 +254,7 @@ class SIXGestion :
     def getThemePara(self):
         if self.__themeSet == True :
             return self.__colorPara
+
+    def getcolorTextLabelUser(self):
+        if self.__themeSet == True :
+            return self.__colorTextLabelUser

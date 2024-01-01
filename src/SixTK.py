@@ -125,6 +125,7 @@ class SixTKMain :
         colorLabelParole = self.__gestionnaire.getColorLabelParole()
         colorLabelParoleUser = self.__gestionnaire.getColorLabelUser()
         colorTextParole = self.__gestionnaire.getTexteColorParole()
+        colorTextUser = self.__gestionnaire.getcolorTextLabelUser()
         #Formatage des canvas avec leurs image
         self.__canvasAcceuil.image_names = bgAcceuil
         self.__canvasBoot0.image_names = bgBoot0
@@ -158,9 +159,9 @@ class SixTKMain :
         self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
         #Mise en place de coleur pour les label
         self.__labelTextParole1Six.configure(bg=colorLabelParole,fg=colorTextParole)
-        self.__labelTextParole1User.configure(bg=colorLabelParoleUser,fg=colorTextParole)
+        self.__labelTextParole1User.configure(bg=colorLabelParoleUser,fg=colorTextUser)
         self.__labelTextParole3Six.configure(bg=colorLabelParole,fg=colorTextParole)
-        self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextParole)
+        self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextUser)
         self.__labelTextParole2.configure(bg=colorLabelParole,fg=colorTextParole)
         self.__labelMicro.configure(image=bgMicro)
 
