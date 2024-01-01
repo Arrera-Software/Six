@@ -13,7 +13,7 @@ class sixTk :
 
     def activePara(self):
         self.screenPara = Tk()
-        self.para.windows(self.screenPara)
+        self.para.windows(self.screenPara,self.gestionnaire.getThemePara())
         self.para.passageFonctionQuitter(self.fncQuit)
         self.para.mainView()
         self.screenPara.mainloop()

@@ -59,6 +59,7 @@ class SIXGestion :
         self.__colorLabelSix = str
         self.__colorTextParole = str
         self.__colorTextActu = str
+        self.__colorPara = str
         #Creation var de verification
         self.__themeSet = bool
         #Ouverture fichier config Six
@@ -96,6 +97,7 @@ class SIXGestion :
             self.__colorLabelSix = self.__listColorLabelSix[0]
             self.__colorGUI = self.__listColorGUI[0]
             self.__colorTextActu = self.__listColorTextActu[0]
+            self.__colorPara = "light"
         else :
             if varTheme == "dark" :
                 chemin = emplacementGUI+"dark/"
@@ -122,6 +124,7 @@ class SIXGestion :
                 self.__colorLabelSix = self.__listColorLabelSix[1]
                 self.__colorGUI = self.__listColorGUI[1]
                 self.__colorTextActu = self.__listColorTextActu[1]
+                self.__colorPara = "dark"
             else :
                 chemin = emplacementGUI+"white/"
                 self.__emplacementAcceuil = chemin+self.__fileNameAcceuil
@@ -147,6 +150,7 @@ class SIXGestion :
                 self.__colorLabelSix = self.__listColorLabelSix[0]
                 self.__colorGUI = self.__listColorGUI[0]
                 self.__colorTextActu = self.__listColorTextActu[0]
+                self.__colorPara = "light"
         self.__themeSet = True
 
     
@@ -245,3 +249,7 @@ class SIXGestion :
     def getColorTextActu(self):
         if self.__themeSet == True :
             return self.__colorTextActu
+    
+    def getThemePara(self):
+        if self.__themeSet == True :
+            return self.__colorPara
