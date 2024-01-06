@@ -28,6 +28,7 @@ class SIXGestion :
         self.__fileNameContent = "content.png"
         self.__fileNameActu =  "actu.png"
         self.__fileNameMicro = "micro.png"
+        self.__fileNameParaOpen =  "parametreOpen.png"
         #Color label
         self.__listColorLabelSix = ["#2b3ceb","#ffffff"]
         self.__listColorTextParole = ["#ffffff","#000000"]
@@ -55,6 +56,7 @@ class SIXGestion :
         self.__emplacementContent = str
         self.__emplacementActu = str
         self.__emplacementMicro = str
+        self.__emplacementParaOpen = str
         self.__colorGUI = str
         self.__colorTexteActu = str
         self.__colorLabelSix = str
@@ -93,6 +95,7 @@ class SIXGestion :
             self.__emplacementContent = chemin+self.__fileNameContent
             self.__emplacementActu = chemin+self.__fileNameActu
             self.__emplacementMicro = chemin+self.__fileNameMicro
+            self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
             self.__colorTexteActu = self.__listColorTextActu[0]
             self.__colorTextParole = self.__listColorTextParole[0]
             self.__colorLabelSix = self.__listColorLabelSix[0]
@@ -120,6 +123,7 @@ class SIXGestion :
                 self.__emplacementContent = chemin+self.__fileNameContent
                 self.__emplacementActu = chemin+self.__fileNameActu
                 self.__emplacementMicro = chemin+self.__fileNameMicro
+                self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
                 self.__colorTexteActu = self.__listColorTextActu[1]
                 self.__colorTextParole = self.__listColorTextParole[1]
                 self.__colorLabelSix = self.__listColorLabelSix[1]
@@ -146,6 +150,7 @@ class SIXGestion :
                 self.__emplacementContent = chemin+self.__fileNameContent
                 self.__emplacementActu = chemin+self.__fileNameActu
                 self.__emplacementMicro = chemin+self.__fileNameMicro
+                self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
                 self.__colorTexteActu = self.__listColorTextActu[0]
                 self.__colorTextParole = self.__listColorTextParole[0]
                 self.__colorLabelSix = self.__listColorLabelSix[0]
@@ -226,6 +231,10 @@ class SIXGestion :
     def getGUIActu(self):
         if self.__themeSet == True :
             return self.__emplacementActu 
+    
+    def getGUIParaOpen(self):
+        if self.__themeSet == True :
+            return self.__emplacementParaOpen
     
     def getTexteColorParole(self):
         if self.__themeSet == True :

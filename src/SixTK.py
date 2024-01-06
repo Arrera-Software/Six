@@ -84,6 +84,7 @@ class SixTKMain :
         self.__canvasSurprit = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasTriste1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasTriste2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParaOpen = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         #label 
         self.__labelTextParole2 = Label(self.__canvasParole2,font=("arial","15"),bg="red")
         self.__labelTextParole1Six = Label(self.__canvasParole1,font=("arial","15"),bg="red")
@@ -124,6 +125,7 @@ class SixTKMain :
         bgTriste1 = PhotoImage(file=self.__gestionnaire.getGUITrite1(),master=self.__canvasTriste1)
         bgTriste2 = PhotoImage(file=self.__gestionnaire.getGUITrite2(),master=self.__canvasTriste2)
         bgMicro = PhotoImage(file=self.__gestionnaire.getIconMicro(),master=self.__labelMicro)
+        bgParaOpen = PhotoImage(file=self.__gestionnaire.getGUIParaOpen(),master=self.__canvasParaOpen)
         #Recuperation coleur
         colorLabelParole = self.__gestionnaire.getColorLabelParole()
         colorLabelParoleUser = self.__gestionnaire.getColorLabelUser()
@@ -144,6 +146,7 @@ class SixTKMain :
         self.__canvasSurprit.image_names = bgSurprit
         self.__canvasTriste1.image_names = bgTriste1
         self.__canvasTriste2.image_names = bgTriste2
+        self.__canvasParaOpen.image_names = bgParaOpen
         self.__labelMicro.image_names =  bgMicro
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
@@ -160,6 +163,7 @@ class SixTKMain :
         self.__canvasSurprit.create_image( 0, 0, image =bgSurprit , anchor = "nw")
         self.__canvasTriste1.create_image( 0, 0, image =bgTriste1 , anchor = "nw")
         self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
+        self.__canvasParaOpen.create_image( 0, 0, image =bgParaOpen , anchor = "nw")
         #Mise en place de coleur pour les label
         self.__labelTextParole1Six.configure(bg=colorLabelParole,fg=colorTextParole)
         self.__labelTextParole1User.configure(bg=colorLabelParoleUser,fg=colorTextUser)
@@ -236,6 +240,7 @@ class SixTKMain :
         self.__canvasSurprit.place_forget()
         self.__canvasTriste1.place_forget()
         self.__canvasTriste2.place_forget()
+        self.__canvasParaOpen.place_forget()
 
     def setTextMicro(self,texte:str):
         self.__textMicro = texte
@@ -378,6 +383,10 @@ class SixTKMain :
         windows.mainloop()
         self.viewParoleGUI(0,textClose)
         paroleSix(textClose)
+    
+    def paraOpen(self):
+        self.__clearView()
+        self.__canvasParaOpen.place(x=0,y=0)
         
 
     def __readActu(self,text:str,windows:Tk):

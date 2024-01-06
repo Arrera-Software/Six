@@ -106,6 +106,7 @@ class AssistantSIX :
                                         texte = "Ok je vous ouvre les parametre"
                                         self.__mainTK.viewParoleGUI(1,texte)
                                         self.__srcSIX.speak(texte)
+                                        self.__mainTK.paraOpen()
                                         self.__sixTK.activePara()
                                         self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
                                         self.__arreraAssistant.setOld("parametre","open parametre")
