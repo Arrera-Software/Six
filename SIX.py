@@ -82,7 +82,7 @@ class AssistantSIX :
                     self.__mainTK.flagBoucle.clear() 
                 else :
                     texte = "Je vous ecoute monsieur"
-                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
+                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
                     self.__srcSIX.speak(texte)
                 self.__compteurNothing = 0
             else :
