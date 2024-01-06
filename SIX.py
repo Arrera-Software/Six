@@ -123,6 +123,21 @@ class AssistantSIX :
                                             self.__srcSIX.speak(text)
                                             self.__compteurNothing = 0
                                         else :
+                                            if ("aide" in statement ) or ("tu peux faire quoi" in statement ) or ("ouvre wiki" in statement):
+                                                texte = "Ok je vous ouvre le wiki, je me mute pour vous laisser tanquille" 
+                                                self.__mainTK.viewParoleGUI(1,texte)
+                                                self.__srcSIX.speak(texte)
+                                                webbrowser.open("https://github.com/Arrera-Software/Six/wiki")
+                                                self.__mainTK.activeMute()
+                                                self.__varSix = self.__sixTK.muteSix()
+                                                if (self.__varSix ==15):
+                                                    self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
+                                                    self.__mainTK.flagBoucle.clear() 
+                                                else :
+                                                    texte = "J'espere que le wiki vous aiderra"
+                                                    self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
+                                                    self.__srcSIX.speak(texte)
+
                                             texte = self.__arreraAssistant.transformeListSTR(listOut)
                                             self.__mainTK.viewParoleGUI(1,texte)
                                             self.__srcSIX.speak(texte)
