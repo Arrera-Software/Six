@@ -86,13 +86,13 @@ class SixTKMain :
         self.__canvasTriste2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasParaOpen = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         #label 
-        self.__labelTextParole2 = Label(self.__canvasParole2,font=("arial","15"),bg="red")
-        self.__labelTextParole1Six = Label(self.__canvasParole1,font=("arial","15"),bg="red")
-        self.__labelTextParole1User = Label(self.__canvasParole1,font=("arial","15"),bg="red")
-        self.__labelTextParole3Six = Label(self.__canvasParole3,font=("arial","15"),bg="red")
-        self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red")
+        self.__labelTextParole2 = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
+        self.__labelTextParole1Six = Label(self.__canvasParole1,font=("arial","15"),bg="red", bd=0)
+        self.__labelTextParole1User = Label(self.__canvasParole1,font=("arial","15"),bg="red", bd=0)
+        self.__labelTextParole3Six = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
+        self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         #label Micro
-        self.__labelMicro = Label(self.windows)
+        self.__labelMicro = Label(self.windows, bd=0)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -347,6 +347,8 @@ class SixTKMain :
         self.__clearView()
         self.__canvasSurprit.place(x=0,y=0)
         windows = Tk()
+        icon= PhotoImage(file="asset/logo.png",master=windows)
+        windows.iconphoto(False,icon)
         windows.maxsize(500,600)
         windows.minsize(500,600)
         windows.configure(bg=color)
