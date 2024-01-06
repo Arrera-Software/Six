@@ -13,6 +13,8 @@ class sixTk :
 
     def activePara(self):
         self.screenPara = Tk()
+        icon = PhotoImage(file="asset/logo.png",master=self.screenPara)
+        self.screenPara.iconphoto(False,icon)
         self.para.windows(self.screenPara,self.gestionnaire.getThemePara())
         self.para.passageFonctionQuitter(self.fncQuit)
         self.para.mainView()
@@ -22,7 +24,8 @@ class sixTk :
         self.__varOut = 0
         screenMute = Tk()
         screenMute.title("Assistant Mute")
-        #screenMute.iconphoto(False,PhotoImage(file="asset/logo.png"))
+        icon = PhotoImage(file="asset/logo.png",master=screenMute)
+        screenMute.iconphoto(False,icon)
         screenMute.maxsize(500,350)
         screenMute.minsize(500,350)
         screenMute.configure(bg="red")
