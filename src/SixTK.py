@@ -5,6 +5,7 @@ from src.pygamePlaysound import paroleSix
 import time
 import threading as th
 import random
+from PIL import Image, ImageTk
 
 class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
@@ -69,6 +70,10 @@ class SixTKMain :
         self.windows.maxsize(500,350)
         self.windows.minsize(500,350)
         self.windows.iconphoto(False,PhotoImage(file="asset/logo.png"))
+        #Menu
+        sixMenu = Menu(self.windows)
+        sixMenu.add_command(label="Parametre",command=lambda : sixTk(self.__gestionnaire).activePara())
+        sixMenu.add_command(label="A propos",command=self.__Apropop )
         #Canvas
         self.__canvasAcceuil = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
         self.__canvasBoot0 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
@@ -104,6 +109,7 @@ class SixTKMain :
         self.__labelTextParole3Six.place(x=120,y=60)
         self.__labelTextParole3User.place(x=15,y=240)
         self.__labelTextParole2.place(x=40,y=125)
+        self.windows.configure(menu=sixMenu)
         
     
     def setTheme(self):
@@ -396,3 +402,34 @@ class SixTKMain :
         parole.start()
         parole.join()
         windows.destroy()
+    
+    def __Apropop(self):
+        #Variable
+        nameApp = "Six"#Definir le nom de l'app
+        versionApp = ""#Definir le nom de la version
+        imagePath = "asset/logo.png"#Indiquer l'emplacement de l'icon
+        copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
+        tailleIMG = (100,100)
+        #Creation de la fenetre
+        about = Tk()
+        about.title("A propos :"+nameApp)
+        about.maxsize(400,300)
+        about.minsize(400,300)
+        #Traitement Image
+        imageOrigine = Image.open(imagePath)    
+        imageRedim = imageOrigine.resize(tailleIMG)
+        icon = ImageTk.PhotoImage(imageRedim)
+        #Label
+        labelIcon = Label(about)
+        icon = ImageTk.PhotoImage(imageRedim,master=labelIcon)
+        labelIcon.image_names = icon
+        labelIcon.configure(image=icon)
+        labelName = Label(about,text="\n"+nameApp+"\n",font=("arial","12"))
+        labelVersion = Label(about,text=versionApp+"\n",font=("arial","11"))
+        labelCopyright = Label(about,text=copyrightApp,font=("arial","9"))
+        #affichage
+        labelIcon.pack()
+        labelName.pack()
+        labelVersion.pack()
+        labelCopyright.pack()
+        about.mainloop()
