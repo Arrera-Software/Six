@@ -148,3 +148,6 @@ class AssistantSIX :
                                     self.__srcSIX.speak(texte)
                                     self.__compteurNothing = 0
         self.__mainTK.destroyWindows()
+    
+    def bootParametre(self):
+        self.__sixTK.activePara()
