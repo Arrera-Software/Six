@@ -10,14 +10,14 @@ class SettingMicro :
         self.__mainFrame = cadre
         self.__acceuilFrame = Frame(self.__mainFrame,bg=color,width=350,height=600)
         #widget 
-        labelTitre = Label(self.__acceuilFrame,text="Sons au declanchement du micro",bg=color,fg=textColor,font=("arial","20"))
-        self.__btnOnOff = Button(self.__acceuilFrame,bg=color,fg=textColor,font=("arial","20"))
+        labelTitre = Label(self.__acceuilFrame,text="Sons au declanchement du micro",bg=color,fg=textColor,font=("arial","15"))
+        self.__btnOnOff = Button(self.__acceuilFrame,bg=color,fg=textColor,font=("arial","15"))
         #calcule Affichage
         largeur = self.__acceuilFrame.winfo_reqwidth()
         hauteur = self.__acceuilFrame.winfo_reqheight()
         self.setTextButton()
         #affichage
-        labelTitre.place(x=(largeur-labelTitre.winfo_reqwidth()),y=0)
+        labelTitre.place(x=((largeur-labelTitre.winfo_reqwidth())//2),y=0)
         self.__btnOnOff.place(relx=0.5,rely=0.5,anchor="center")
 
     def view(self):

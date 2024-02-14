@@ -1,8 +1,8 @@
 from tkinter import*
-from librairy.travailJSON import*
-from tkinter import messagebox
 from librairy.dectectionOS import*
 from librairy.gestionSoftWindows import*
+from librairy.travailJSON import*
+from tkinter import messagebox
 
 class SettingSoftware :
     def __init__(self,windows:Tk,cadre:Frame,config:jsonWork,settingConfig:jsonWork,neuronFile:jsonWork,textColor:str,color:str):
@@ -148,6 +148,7 @@ class SettingSoftware :
             return False
     
     def _setEmplacementWindows(self)->bool:
+        messagebox.showinfo("Infomation","Vous devait selectionner un dossier deja crée")
         sortie = self.__softWin.setEmplacementSoft()
         self.__assistantFile.EcritureJSON("emplacementSoftWindows",sortie)
         return True

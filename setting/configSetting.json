@@ -11,5 +11,6 @@
     "setIcon":"1",
     "iconAssistant":"asset/logo.png",
     "listeTheme":["white","dark"],
-    "listGenre":["Monsieur","Madame","Maitre","Maitresse"]
+    "listGenre":["Monsieur","Madame","Maitre","Maitresse"],
+    "gestionMicro":"1"
 }

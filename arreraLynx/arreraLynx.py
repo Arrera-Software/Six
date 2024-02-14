@@ -302,6 +302,7 @@ class ArreraLynx :
         if (self.__dectOS.osWindows() == True) :
             sortie = ""
             while not sortie :
+                messagebox.showinfo("Infomation","Vous devait selectionner un dossier deja crée")
                 sortie = self.__softWin.setEmplacementSoft()
                 self.__fileNeuron.EcritureJSON("emplacementSoftWindows",sortie)
         self.__clearView()

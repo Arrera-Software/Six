@@ -1,5 +1,5 @@
 from tkinter import *
-from librairy.travailJSON import*
+from librairy.travailJSON import *
 from setting.objetPara.paraUser import*
 from setting.objetPara.paraMeteo import*
 from setting.objetPara.paraGPS import*
@@ -7,14 +7,16 @@ from setting.objetPara.paraRecherche import *
 from setting.objetPara.paraSoftware import*
 from setting.objetPara.paraInternet import *
 from setting.objetPara.paraTheme import*
-from setting.objetPara.paraMicro import*
+from setting.objetPara.paraMicro import *
 
 class ArreraSettingAssistant :
     def __init__(self,configSettingFile:str,configFile:str,configAssistant:str,fichierConfigUser:str):
         self.__changeColor = bool 
+        self.__controleMicro = bool
         self.__icon = bool 
         self.__fileIcon = str
         self.__fnc = None
+
          
         #overture des fichier
         self.__settingFile = jsonWork(configSettingFile)
@@ -31,12 +33,16 @@ class ArreraSettingAssistant :
             self.__icon = True
         else :
             self.__icon = False
+        if self.__settingFile.lectureJSON("gestionMicro") == "1" :
+            self.__controleMicro = True
+        else :
+            self.__controleMicro = False
         #fichier fileconfig 
         self.__icon = self.__fileNeuronConfig.lectureJSON("iconAssistant")
         self.__nameAssistant = self.__fileNeuronConfig.lectureJSON("name")
         if self.__icon == True :
             self.__fileIcon = self.__assistantFile.lectureJSON("iconAssistant")
-         
+        
        
             
     def windows(self,windows:Tk,mode:str) ->bool :
@@ -78,7 +84,8 @@ class ArreraSettingAssistant :
         self.__paraInternet = SettingInternet(windows,self.__cadreInternet,self.__fileUser,self.__textColorPrimaire,self.__colorPrimaire)
         if self.__changeColor == True:
             self.__paraTheme = SettingTheme(windows,self.__cadreTheme,self.__listTheme,self.__assistantFile,self.__textColorPrimaire,self.__colorPrimaire)
-        self.paraMicro = SettingMicro(self.__cadreMicro,self.__assistantFile,self.__textColorPrimaire,self.__colorPrimaire)
+        if self.__controleMicro == True :
+            self.__paraMicro = SettingMicro(self.__cadreMicro,self.__assistantFile,self.__textColorPrimaire,self.__colorPrimaire)
         #cadre interne a l'acceuil
         cadresPresentations = [
             Frame(self.__cadreAcceuil,width=175,height=200,bg=self.__colorPrimaire,borderwidth=1, relief="solid"),
@@ -126,6 +133,7 @@ class ArreraSettingAssistant :
         boutonMenu6=Button(self.__cadreMenu,font=("arial","15"),bg=self.__colorPrimaire,fg=self.__textColorPrimaire,text="Software",command=lambda :self.softwareView())
         boutonMenu7 = Button(self.__cadreMenu,font=("arial","15"),bg=self.__colorPrimaire,fg=self.__textColorPrimaire,text="Internet",command=lambda :self.internetView())
         boutonMenu8=Button(self.__cadreMenu,font=("arial","15"),bg=self.__colorPrimaire,fg=self.__textColorPrimaire,text="Theme",command=lambda :self.themeView())
+        boutonMenu9  = Button(self.__cadreMenu,font=("arial","15"),bg=self.__colorPrimaire,fg=self.__textColorPrimaire,text="Micro",command=lambda:self.microView())
         boutonQuitter = Button(self.__cadreMenu,font=("arial","15"),bg=self.__colorPrimaire,fg=self.__textColorPrimaire,text="Quitter",command=lambda :self.quittePara())
         #formatage de la fenetre
         windows.maxsize(500,600)
@@ -176,7 +184,11 @@ class ArreraSettingAssistant :
         boutonMenu7.place(x=xBoutonMenu,y=350)
         if self.__changeColor == True :
             boutonMenu8.place(x=xBoutonMenu,y=400)
-
+        if self.__controleMicro == True :
+            if self.__changeColor == False :
+                boutonMenu9.place(x=xBoutonMenu,y=400)
+            else :
+                boutonMenu9.place(x=xBoutonMenu,y=450)
         boutonQuitter.place(x=xBoutonMenu,y=yBTNQuitter)
         #Affichage cadre principal
         self.__cadreMenu.pack(side="left")
@@ -191,7 +203,6 @@ class ArreraSettingAssistant :
         self.__cadreSoft.pack_forget()
         self.__cadreInternet.pack_forget()
         self.__cadreTheme.pack_forget()
-        self.__cadreMicro.pack_forget()
         
               
     def mainView(self) -> bool :
@@ -281,6 +292,14 @@ class ArreraSettingAssistant :
             return True 
         else :
             return False
+    
+    def microView(self)->bool:
+        if self.__controleMicro == True :
+            self._unView()
+            self.__paraMicro.view()
+            return True
+        else :
+            return False
         
     def setThemeAcceuil(self):
         valeur = self.__varTheme.get()
@@ -292,7 +311,6 @@ class ArreraSettingAssistant :
     def passageFonctionQuitter(self,fonctionQuitter):
         self.__fnc = fonctionQuitter
     
-        
     def quittePara(self)->bool :
         self.__cadreAcceuil.destroy()
         self.__cadreUser.destroy()
@@ -302,6 +320,5 @@ class ArreraSettingAssistant :
         self.__cadreRecherche.destroy()
         self.__cadreSoft.destroy()
         self.__cadreTheme.destroy()
-        self.__cadreMicro.destroy()
         self.__fnc()    
         return True 

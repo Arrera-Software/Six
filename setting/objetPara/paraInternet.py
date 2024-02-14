@@ -92,9 +92,7 @@ class SettingInternet :
                 return False
         else :
             if name and lien : 
-                nb = int(self.__config.lectureJSON("nbSite"))
                 self.__config.EcritureJSONDictionnaire("dictSite",name,lien)
-                self.__config.EcritureJSON("nbSite",str(nb+1))
                 self.__edtName.delete("0",END)
                 self.__edtLien.delete("0",END)
                 self._backAcceuil()
