@@ -406,7 +406,7 @@ class SixTKMain :
     def __Apropop(self):
         #Variable
         nameApp = "Six"#Definir le nom de l'app
-        versionApp = ""#Definir le nom de la version
+        versionApp = "I2024-4.06"#Definir le nom de la version
         imagePath = "asset/logo.png"#Indiquer l'emplacement de l'icon
         copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
         tailleIMG = (100,100)
