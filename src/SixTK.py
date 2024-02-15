@@ -7,6 +7,8 @@ import threading as th
 import random
 from PIL import Image, ImageTk
 
+
+VERSION = ""
 class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
         self.para = ArreraSettingAssistant("setting/configSetting.json","configNeuron.json","sixConfig.json","FileUser/configUser.json") 
@@ -418,7 +420,6 @@ class SixTKMain :
     def __Apropop(self):
         #Variable
         nameApp = "Six"#Definir le nom de l'app
-        versionApp = ""#Definir le nom de la version
         imagePath = "asset/logo.png"#Indiquer l'emplacement de l'icon
         copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
         tailleIMG = (100,100)
@@ -437,7 +438,7 @@ class SixTKMain :
         labelIcon.image_names = icon
         labelIcon.configure(image=icon)
         labelName = Label(about,text="\n"+nameApp+"\n",font=("arial","12"))
-        labelVersion = Label(about,text=versionApp+"\n",font=("arial","11"))
+        labelVersion = Label(about,text=VERSION+"\n",font=("arial","11"))
         labelCopyright = Label(about,text=copyrightApp,font=("arial","9"))
         #affichage
         labelIcon.pack()
