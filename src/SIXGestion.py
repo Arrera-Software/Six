@@ -27,7 +27,8 @@ class SIXGestion :
         self.__fileNameColere = "colere.png"
         self.__fileNameContent = "content.png"
         self.__fileNameActu =  "actu.png"
-        self.__fileNameMicro = "micro.png"
+        self.__fileNameMicroEnable = "micro.png"
+        self.__fileNameMicroBTN = "microIcon.png"
         self.__fileNameParaOpen =  "parametreOpen.png"
         #Color label
         self.__listColorLabelSix = ["#2b3ceb","#ffffff"]
@@ -55,8 +56,10 @@ class SIXGestion :
         self.__emplacementColere = str
         self.__emplacementContent = str
         self.__emplacementActu = str
-        self.__emplacementMicro = str
+        self.__emplacementMicroEnable = str
+        self.__emplacementMicroBTN = str
         self.__emplacementParaOpen = str
+        
         self.__colorGUI = str
         self.__colorTexteActu = str
         self.__colorLabelSix = str
@@ -94,8 +97,9 @@ class SIXGestion :
             self.__emplacementColere = chemin+self.__fileNameColere
             self.__emplacementContent = chemin+self.__fileNameContent
             self.__emplacementActu = chemin+self.__fileNameActu
-            self.__emplacementMicro = chemin+self.__fileNameMicro
+            self.__emplacementMicroEnable = chemin+self.__fileNameMicroEnable
             self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
+            self.__emplacementMicroBTN = chemin+self.__fileNameMicroBTN
             self.__colorTexteActu = self.__listColorTextActu[0]
             self.__colorTextParole = self.__listColorTextParole[0]
             self.__colorLabelSix = self.__listColorLabelSix[0]
@@ -122,7 +126,8 @@ class SIXGestion :
                 self.__emplacementColere = chemin+self.__fileNameColere
                 self.__emplacementContent = chemin+self.__fileNameContent
                 self.__emplacementActu = chemin+self.__fileNameActu
-                self.__emplacementMicro = chemin+self.__fileNameMicro
+                self.__emplacementMicroEnable = chemin+self.__fileNameMicroEnable
+                self.__emplacementMicroBTN = chemin+self.__fileNameMicroBTN
                 self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
                 self.__colorTexteActu = self.__listColorTextActu[1]
                 self.__colorTextParole = self.__listColorTextParole[1]
@@ -149,7 +154,7 @@ class SIXGestion :
                 self.__emplacementColere = chemin+self.__fileNameColere
                 self.__emplacementContent = chemin+self.__fileNameContent
                 self.__emplacementActu = chemin+self.__fileNameActu
-                self.__emplacementMicro = chemin+self.__fileNameMicro
+                self.__emplacementMicroEnable = chemin+self.__fileNameMicroEnable
                 self.__emplacementParaOpen = chemin+self.__fileNameParaOpen
                 self.__colorTexteActu = self.__listColorTextActu[0]
                 self.__colorTextParole = self.__listColorTextParole[0]
@@ -224,9 +229,13 @@ class SIXGestion :
         if self.__themeSet == True :
             return self.__emplacementContent
     
-    def getIconMicro(self):
+    def getIconMicroEnable(self):
         if self.__themeSet == True :
-            return self.__emplacementMicro
+            return self.__emplacementMicroEnable
+    
+    def getIconMicroBTN(self):
+        if self.__themeSet == True :
+            return self.__emplacementMicroBTN
 
     def getGUIActu(self):
         if self.__themeSet == True :

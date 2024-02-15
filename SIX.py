@@ -29,7 +29,7 @@ class AssistantSIX :
             self.quit()
     
     def __bootAssistant(self):
-        self.__mainTK = SixTKMain(self.__objetGestion)
+        self.__mainTK = SixTKMain(self.__objetGestion,self.__srcSIX)
         self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")  
         self.__mainTK.acticeWindows()
         if self.__etatInternet == True :
@@ -62,10 +62,10 @@ class AssistantSIX :
         
 
     def __assistant(self):
-        self.__mainTK.sequenceBoot(self.__srcSIX,self.__arreraAssistant.boot())
+        self.__mainTK.sequenceBoot(self.__arreraAssistant.boot())
         while (self.__mainTK.flagBoucle.is_set() ):
             self.__mainTK.guiNoParole()
-            statement = self.__mainTK.guiMicro(self.__srcSIX)
+            statement = self.__mainTK.guiMicro()
             if ("mute" in statement)or("silence" in statement) or (self.__compteurNothing>=MAXNOTING):
                 if (self.__compteurNothing==MAXNOTING):
                     texte = "Je me met en pause appeler moi si vous avez besoin de moi"

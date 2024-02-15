@@ -11,6 +11,7 @@ class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
         self.para = ArreraSettingAssistant("setting/configSetting.json","configNeuron.json","sixConfig.json","FileUser/configUser.json") 
         self.gestionnaire = gestionnaire
+        
 
     def activePara(self):
         self.screenPara = Tk()
@@ -58,9 +59,10 @@ class sixTk :
         self.screenPara.destroy()
 
 class SixTKMain :
-    def __init__(self,gestion:SIXGestion):
+    def __init__(self,gestion:SIXGestion,src:SIXsrc):
         self.__gestionnaire = gestion 
         self.__textMicro = ""
+        self.sixSource = src
     
 
     def acticeWindows(self):
@@ -98,6 +100,8 @@ class SixTKMain :
         self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         #label Micro
         self.__labelMicro = Label(self.windows, bd=0)
+        #btn Reload Micro
+        self.__btnReloadMicro = Button(self.windows)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -130,7 +134,8 @@ class SixTKMain :
         bgSurprit = PhotoImage(file=self.__gestionnaire.getGUISurprit(),master=self.__canvasSurprit)
         bgTriste1 = PhotoImage(file=self.__gestionnaire.getGUITrite1(),master=self.__canvasTriste1)
         bgTriste2 = PhotoImage(file=self.__gestionnaire.getGUITrite2(),master=self.__canvasTriste2)
-        bgMicro = PhotoImage(file=self.__gestionnaire.getIconMicro(),master=self.__labelMicro)
+        bgMicroEnable = PhotoImage(file=self.__gestionnaire.getIconMicroEnable(),master=self.__labelMicro)
+        bgMicroBTN = PhotoImage(file=self.__gestionnaire.getIconMicroBTN(),master=self.__btnReloadMicro)
         bgParaOpen = PhotoImage(file=self.__gestionnaire.getGUIParaOpen(),master=self.__canvasParaOpen)
         #Recuperation coleur
         colorLabelParole = self.__gestionnaire.getColorLabelParole()
@@ -153,7 +158,8 @@ class SixTKMain :
         self.__canvasTriste1.image_names = bgTriste1
         self.__canvasTriste2.image_names = bgTriste2
         self.__canvasParaOpen.image_names = bgParaOpen
-        self.__labelMicro.image_names =  bgMicro
+        self.__labelMicro.image_names =  bgMicroEnable
+        self.__btnReloadMicro.image_names = bgMicroBTN
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -176,9 +182,10 @@ class SixTKMain :
         self.__labelTextParole3Six.configure(bg=colorLabelParole,fg=colorTextParole)
         self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextUser)
         self.__labelTextParole2.configure(bg=colorLabelParole,fg=colorTextParole)
-        self.__labelMicro.configure(image=bgMicro)
+        self.__labelMicro.configure(image=bgMicroEnable)
+        self.__btnReloadMicro.configure(image=bgMicroBTN)
 
-    def sequenceBoot(self,src:SIXsrc,texte:str):
+    def sequenceBoot(self,texte:str):
         self.__canvasBoot0.place(x=0,y=0)
         time.sleep(0.2)
         self.__canvasBoot0.place_forget()
@@ -195,7 +202,7 @@ class SixTKMain :
         self.__labelTextParole2.configure(text=allTexte)
         self.__canvasParole2.place(x=0,y=0)
         time.sleep(0.2)
-        src.speak(texte)
+        self.sixSource.speak(texte)
         self.__canvasParole2.place_forget()
         self.__canvasAcceuil.place(x=0,y=0)
     
@@ -220,11 +227,15 @@ class SixTKMain :
         self.__canvasBoot0.place_forget()
 
     
-    def guiMicro(self,src:SIXsrc):
+    def guiMicro(self):
         self.__labelMicro.place(x=(self.windows.winfo_width()-self.__labelMicro.winfo_reqwidth()),y=(self.windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
-        texte = src.micro()
+        self.__btnReloadMicro.place(x=0,y=(self.windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
+        texte = self.sixSource.micro()
         self.setTextMicro(texte)
         return texte
+    
+    def reloadMicro(self):
+        self.guiMicro()
 
     def bootInterface(self):
         self.updateWindows()
@@ -232,6 +243,7 @@ class SixTKMain :
 
     def __clearView(self):
         self.__labelMicro.place_forget()
+        self.__btnReloadMicro.place_forget()
         self.__canvasAcceuil.place_forget()
         self.__canvasBoot0.place_forget()
         self.__canvasBoot1.place_forget()
