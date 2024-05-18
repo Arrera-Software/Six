@@ -107,7 +107,6 @@ class SixTKMain :
         #label Micro
         self.__labelMicro = Label(self.__windows, bd=0)
         #btn Reload Micro
-        self.__btnReloadMicro = Button(self.__windows)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -141,7 +140,6 @@ class SixTKMain :
         bgTriste1 = PhotoImage(file=self.__gestionnaire.getGUITrite1(),master=self.__canvasTriste1)
         bgTriste2 = PhotoImage(file=self.__gestionnaire.getGUITrite2(),master=self.__canvasTriste2)
         bgMicroEnable = PhotoImage(file=self.__gestionnaire.getIconMicroEnable(),master=self.__labelMicro)
-        bgMicroBTN = PhotoImage(file=self.__gestionnaire.getIconMicroBTN(),master=self.__btnReloadMicro)
         bgParaOpen = PhotoImage(file=self.__gestionnaire.getGUIParaOpen(),master=self.__canvasParaOpen)
         #Recuperation coleur
         colorLabelParole = self.__gestionnaire.getColorLabelParole()
@@ -165,7 +163,6 @@ class SixTKMain :
         self.__canvasTriste2.image_names = bgTriste2
         self.__canvasParaOpen.image_names = bgParaOpen
         self.__labelMicro.image_names =  bgMicroEnable
-        self.__btnReloadMicro.image_names = bgMicroBTN
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -189,7 +186,6 @@ class SixTKMain :
         self.__labelTextParole3User.configure(bg=colorLabelParoleUser,fg=colorTextUser)
         self.__labelTextParole2.configure(bg=colorLabelParole,fg=colorTextParole)
         self.__labelMicro.configure(image=bgMicroEnable)
-        self.__btnReloadMicro.configure(image=bgMicroBTN)
 
     def sequenceBoot(self,texte:str):
         self.__canvasBoot0.place(x=0,y=0)
@@ -204,8 +200,7 @@ class SixTKMain :
         self.__canvasBoot3.place(x=0,y=0)
         time.sleep(0.2)
         self.__canvasBoot3.place_forget()
-        allTexte = self.__formatageText(texte)
-        self.__labelTextParole2.configure(text=allTexte)
+        self.__labelTextParole2.configure(text=texte,wraplength=320)
         self.__canvasParole2.place(x=0,y=0)
         time.sleep(0.2)
         self.sixSource.speak(texte)
@@ -214,8 +209,7 @@ class SixTKMain :
     
     def sequenceArret(self,src:SIXsrc,texte:str):
         self.__clearView()
-        allTexte = self.__formatageText(texte)
-        self.__labelTextParole2.configure(text=allTexte)
+        self.__labelTextParole2.configure(text=texte,wraplength=320)
         self.__canvasParole2.place(x=0,y=0)
         src.speak(texte)
         self.__canvasParole2.place_forget()
@@ -235,7 +229,6 @@ class SixTKMain :
     
     def guiMicro(self):
         self.__labelMicro.place(x=(self.__windows.winfo_width()-self.__labelMicro.winfo_reqwidth()),y=(self.__windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
-        self.__btnReloadMicro.place(x=0,y=(self.__windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
         texte = self.sixSource.micro()
         self.setTextMicro(texte)
         return texte
@@ -249,7 +242,6 @@ class SixTKMain :
 
     def __clearView(self):
         self.__labelMicro.place_forget()
-        self.__btnReloadMicro.place_forget()
         self.__canvasAcceuil.place_forget()
         self.__canvasBoot0.place_forget()
         self.__canvasBoot1.place_forget()
@@ -311,12 +303,6 @@ class SixTKMain :
             self.__canvasContent.place(x=0,y=0)
         else :
             self.__canvasAcceuil.place(x=0,y=0)
-
-    def __division(self,text, nombre):
-        mots = text.split()
-        premierPartie = mots[:nombre]
-        deuxiemePartie = mots[nombre:]
-        return ' '.join(premierPartie), ' '.join(deuxiemePartie)
     
     def __compteur(self,s:str):
         mots = s.split()
@@ -327,21 +313,6 @@ class SixTKMain :
     
     def destroyWindows(self):
         self.__windows.destroy()
-
-    def __formatageText(self,texte):
-        nbMots = 7
-        if int(len(texte)) > nbMots  :
-            texte1,texte2 = self.__division(texte,nbMots)
-            allTexte = texte1+"\n"+texte2
-            if int(len(texte2)) > nbMots :
-                texte2,texte3 = self.__division(texte2,nbMots)
-                allTexte = texte1+"\n"+texte2+"\n"+texte3
-                if int(len(texte3)) > nbMots:
-                    texte3,texte4 = self.__division(texte3,nbMots)
-                    allTexte = texte1+"\n"+texte2+"\n"+texte3+"\n"+texte4
-        else :
-            allTexte = texte
-        return str(allTexte)
 
     def __formatageTextActu(self,texte:str):
         nb_mots_par_ligne = 5
