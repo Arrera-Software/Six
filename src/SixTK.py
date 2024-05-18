@@ -6,6 +6,8 @@ import time
 import threading as th
 import random
 from PIL import Image, ImageTk
+import os
+import signal
 
 
 VERSION = ""
@@ -74,6 +76,8 @@ class SixTKMain :
         self.windows.maxsize(500,350)
         self.windows.minsize(500,350)
         self.windows.iconphoto(False,PhotoImage(file="asset/logo.png"))
+        # Ajout fonction de fermeture
+        self.windows.protocol("WM_DELETE_WINDOW",self.__onClose)
         #Menu
         sixMenu = Menu(self.windows)
         sixMenu.add_command(label="Parametre",command=lambda : sixTk(self.__gestionnaire).activePara())
@@ -446,3 +450,10 @@ class SixTKMain :
         labelVersion.pack()
         labelCopyright.pack()
         about.mainloop()
+    
+    def __onClose(self):
+        if (messagebox.askyesno("Atention","Voulez-vous vraiment fermer Six")):
+            self.quit()
+    
+    def quit(self):
+        os.kill(os.getpid(), signal.SIGINT)
