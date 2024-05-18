@@ -10,7 +10,7 @@ import os
 import signal
 
 
-VERSION = ""
+VERSION = "I2024-4.20"
 class sixTk :
     def __init__(self,gestionnaire:SIXGestion):
         self.para = ArreraSettingAssistant("setting/configSetting.json","configNeuron.json","sixConfig.json","FileUser/configUser.json") 
