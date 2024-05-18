@@ -281,25 +281,20 @@ class SixTKMain :
     def viewParoleGUI(self,mode:int,texte:str):
         self.__clearView()
         self.__windows.lift()
+        nombre = self.__compteur(texte)
         if mode == 1 :
-            if self.__compteur(texte) > 6 :
-                texte1,texte2 = self.__division(texte,6)
-                if self.__compteur(texte2) > 6 :
-                    texte2,texte3 =  self.__division(texte2,6)
-                    allTexte = texte1+"\n"+texte2+"\n"+texte3
-                    self.__labelTextParole3Six.configure(text=allTexte)
+            if nombre > 6 :
+                if nombre > 12 :
+                    self.__labelTextParole3Six.configure(text=texte,wraplength=320)
                     self.__canvasParole3.place(x=0,y=0)
                 else :
-                    allTexte = texte1+"\n"+texte2
-                    self.__labelTextParole3Six.configure(text=allTexte)
+                    self.__labelTextParole3Six.configure(text=texte,wraplength=320)
                     self.__canvasParole3.place(x=0,y=0)
             else :
-                allTexte = texte
-                self.__labelTextParole1Six.configure(text=allTexte)
+                self.__labelTextParole1Six.configure(text=texte,wraplength=320)
                 self.__canvasParole1.place(x=0,y=0)
         else :
-            allTexte = self.__formatageText(texte)
-            self.__labelTextParole2.configure(text=allTexte)
+            self.__labelTextParole2.configure(text=texte,wraplength=320)
             self.__canvasParole2.place(x=0,y=0)
         self.__windows.update()
     
