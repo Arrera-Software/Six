@@ -5,6 +5,7 @@ from src.SIXGestion import*
 from src.SixTK import *
 from arreraLynx.arreraLynx import*
 import threading as th
+from src.CArreraTrigerWord import*
 
 MAXNOTING = 5 
 class AssistantSIX :
@@ -21,6 +22,10 @@ class AssistantSIX :
         self.__varSix = 0
         #source six 
         self.__srcSIX = SIXsrc(sixConfig)
+        # Triger word 
+        self.__trigerWord = CArreraTrigerWord("6")
+        # Creation du theard  Assistant 
+        self.__theardAssistant = th.Thread(target=self.__assistant)
 
     
     
@@ -32,6 +37,7 @@ class AssistantSIX :
             #self.theardBoucle = th.Thread(target=self.__assistant)
             theardBoot = th.Thread(target=self.__mainTK.sequenceBoot,args=(self.__arreraAssistant.boot(),))
             theardBoot.start()
+            self.__theardAssistant.start()
             self.__mainTK.bootInterface()
         else :
             self.__mainTK.noConnectionInterface()
@@ -54,89 +60,93 @@ class AssistantSIX :
             self.__bootAssistant()
     
     def __assistant(self):
-        self.__mainTK.guiNoParole()
-        statement = self.__mainTK.guiMicro()
-        if ("mute" in statement)or("silence" in statement) or (self.__compteurNothing>=MAXNOTING):
-            if (self.__compteurNothing==MAXNOTING):
-                texte = "Je me met en pause appeler moi si vous avez besoin de moi"
-                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
-                self.__srcSIX.speak(texte)
-            else :
-                texte =  "Ok je vous laisse tranquille"
-                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
-                self.__srcSIX.speak(texte)
-            self.__mainTK.activeMute()
-            self.__varSix = self.__sixTK.muteSix()
-            if (self.__varSix ==15):
-                self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
-                self.__mainTK.flagBoucle.clear() 
-            else :
-                texte = "Je vous ecoute monsieur"
-                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
-                self.__srcSIX.speak(texte)
-            self.__compteurNothing = 0
-        else :
-            if (statement=="nothing"):
-                self.__compteurNothing = self.__compteurNothing + 1
-            else :
-                self.__varSix,listOut = self.__arreraAssistant.neuron(statement)
-                if self.__varSix == 12 or self.__varSix ==  11 :
-                    self.__mainTK.vueActu(listOut,self.__varSix)
-                else :
-                    if self.__varSix ==  3 :
-                        self.__mainTK.vueActu(listOut,self.__varSix)
+        while True :
+            sortieTriger = self.__trigerWord.detectWord()
+            if (sortieTriger==1):
+                self.__mainTK.detectTrigerWWord()
+                self.__mainTK.guiNoParole()
+                statement = self.__mainTK.guiMicro()
+                if ("mute" in statement)or("silence" in statement) or (self.__compteurNothing>=MAXNOTING):
+                    if (self.__compteurNothing==MAXNOTING):
+                        texte = "Je me met en pause appeler moi si vous avez besoin de moi"
+                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
+                        self.__srcSIX.speak(texte)
                     else :
-                        if (self.__varSix==15):
-                            self.__mainTK.sequenceArret(self.__srcSIX,self.__arreraAssistant.transformeListSTR(listOut))
-                            self.__mainTK.quit()
-                            self.__compteurNothing = 0
-                        else : 
-                            if (self.__varSix == 0) :             
-                                if ("parametre" in statement) :
-                                    texte = "Ok je vous ouvre les parametre"
-                                    self.__mainTK.viewParoleGUI(1,texte)
-                                    self.__srcSIX.speak(texte)
-                                    self.__mainTK.paraOpen()
-                                    self.__sixTK.activePara()
-                                    self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
-                                    self.__arreraAssistant.setOld("parametre","open parametre")
-                                    self.__mainTK.setTheme()
-                                    texte = "Les modification on bien été pris en compte"
-                                    self.__mainTK.viewParoleGUI(1,texte)
-                                    self.__srcSIX.speak(texte)
-                                    self.__arreraAssistant.setOld("parametre","parametre")
+                        texte =  "Ok je vous laisse tranquille"
+                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
+                        self.__srcSIX.speak(texte)
+                    self.__mainTK.activeMute()
+                    self.__varSix = self.__sixTK.muteSix()
+                    if (self.__varSix ==15):
+                        self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
+                        self.__mainTK.flagBoucle.clear() 
+                    else :
+                        texte = "Je vous ecoute monsieur"
+                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
+                        self.__srcSIX.speak(texte)
+                    self.__compteurNothing = 0
+                else :
+                    if (statement=="nothing"):
+                        self.__compteurNothing = self.__compteurNothing + 1
+                    else :
+                        self.__varSix,listOut = self.__arreraAssistant.neuron(statement)
+                        if self.__varSix == 12 or self.__varSix ==  11 :
+                            self.__mainTK.vueActu(listOut,self.__varSix)
+                        else :
+                            if self.__varSix ==  3 :
+                                self.__mainTK.vueActu(listOut,self.__varSix)
+                            else :
+                                if (self.__varSix==15):
+                                    self.__mainTK.sequenceArret(self.__srcSIX,self.__arreraAssistant.transformeListSTR(listOut))
+                                    self.__mainTK.quit()
                                     self.__compteurNothing = 0
-                                else :
-                                    if ("codehelp"in statement ):
-                                        text ="Je suis desoler, je n'est pas la fonctioanilites CodeHelp."
-                                        self.__mainTK.viewParoleGUI(1,texte)
-                                        self.__srcSIX.speak(text)
-                                        self.__compteurNothing = 0
-                                    else :
-                                        if ("aide" in statement ) or ("tu peux faire quoi" in statement ) or ("ouvre wiki" in statement):
-                                            texte = "Ok je vous ouvre le wiki, je me mute pour vous laisser tanquille" 
+                                else : 
+                                    if (self.__varSix == 0) :             
+                                        if ("parametre" in statement) :
+                                            texte = "Ok je vous ouvre les parametre"
                                             self.__mainTK.viewParoleGUI(1,texte)
                                             self.__srcSIX.speak(texte)
-                                            webbrowser.open("https://github.com/Arrera-Software/Six/wiki")
-                                            self.__mainTK.activeMute()
-                                            self.__varSix = self.__sixTK.muteSix()
-                                            if (self.__varSix ==15):
-                                                self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
-                                                self.__mainTK.flagBoucle.clear() 
+                                            self.__mainTK.paraOpen()
+                                            self.__sixTK.activePara()
+                                            self.__arreraAssistant = ArreraNetwork("fileUser/configUser.json","configNeuron.json","listFete.json")
+                                            self.__arreraAssistant.setOld("parametre","open parametre")
+                                            self.__mainTK.setTheme()
+                                            texte = "Les modification on bien été pris en compte"
+                                            self.__mainTK.viewParoleGUI(1,texte)
+                                            self.__srcSIX.speak(texte)
+                                            self.__arreraAssistant.setOld("parametre","parametre")
+                                            self.__compteurNothing = 0
+                                        else :
+                                            if ("codehelp"in statement ):
+                                                text ="Je suis desoler, je n'est pas la fonctioanilites CodeHelp."
+                                                self.__mainTK.viewParoleGUI(1,texte)
+                                                self.__srcSIX.speak(text)
+                                                self.__compteurNothing = 0
                                             else :
-                                                texte = "J'espere que le wiki vous aiderra"
-                                                self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
-                                                self.__srcSIX.speak(texte)
+                                                if ("aide" in statement ) or ("tu peux faire quoi" in statement ) or ("ouvre wiki" in statement):
+                                                    texte = "Ok je vous ouvre le wiki, je me mute pour vous laisser tanquille" 
+                                                    self.__mainTK.viewParoleGUI(1,texte)
+                                                    self.__srcSIX.speak(texte)
+                                                    webbrowser.open("https://github.com/Arrera-Software/Six/wiki")
+                                                    self.__mainTK.activeMute()
+                                                    self.__varSix = self.__sixTK.muteSix()
+                                                    if (self.__varSix ==15):
+                                                        self.__mainTK.sequenceArret(self.__srcSIX,"Au revoir")
+                                                        self.__mainTK.flagBoucle.clear() 
+                                                    else :
+                                                        texte = "J'espere que le wiki vous aiderra"
+                                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
+                                                        self.__srcSIX.speak(texte)
 
+                                                texte = self.__arreraAssistant.transformeListSTR(listOut)
+                                                self.__mainTK.viewParoleGUI(1,texte)
+                                                self.__srcSIX.speak(texte)
+                                                self.__compteurNothing = 0
+                                    else :
                                         texte = self.__arreraAssistant.transformeListSTR(listOut)
                                         self.__mainTK.viewParoleGUI(1,texte)
                                         self.__srcSIX.speak(texte)
                                         self.__compteurNothing = 0
-                            else :
-                                texte = self.__arreraAssistant.transformeListSTR(listOut)
-                                self.__mainTK.viewParoleGUI(1,texte)
-                                self.__srcSIX.speak(texte)
-                                self.__compteurNothing = 0
         
     
     def bootParametre(self):

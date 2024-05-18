@@ -457,3 +457,25 @@ class SixTKMain :
     
     def quit(self):
         os.kill(os.getpid(), signal.SIGINT)
+    
+    def detectTrigerWWord(self):
+        radGUI = random.randint(0,1)
+        radText = random.randint(0,3)
+        match (radGUI) :
+            case 0 :
+                cadre = self.__canvasContent
+            case 1 :
+               cadre = self.__canvasSurprit
+        match(radText):
+            case 0 :
+                texte = "Je vous ecoute" 
+            case 1 :
+                texte = "A votre service"
+            case 2 :
+                texte = "Je suis la"
+            case 3 : 
+                texte = "Que voulez-vous que je fasse"
+        self.__clearView()
+        cadre.place(x=0,y=0)
+        self.sixSource.speak(texte)
+        
