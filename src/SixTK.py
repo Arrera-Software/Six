@@ -70,34 +70,34 @@ class SixTKMain :
     
 
     def acticeWindows(self):
-        self.windows = Tk()
-        self.windows.title("Six : Assistant")
-        self.windows.geometry("500x350+5+30")
-        self.windows.maxsize(500,350)
-        self.windows.minsize(500,350)
-        self.windows.iconphoto(False,PhotoImage(file="asset/logo.png"))
+        self.__windows = Tk()
+        self.__windows.title("Six : Assistant")
+        self.__windows.geometry("500x350+5+30")
+        self.__windows.maxsize(500,350)
+        self.__windows.minsize(500,350)
+        self.__windows.iconphoto(False,PhotoImage(file="asset/logo.png"))
         # Ajout fonction de fermeture
-        self.windows.protocol("WM_DELETE_WINDOW",self.__onClose)
+        self.__windows.protocol("WM_DELETE_WINDOW",self.__onClose)
         #Menu
-        sixMenu = Menu(self.windows)
+        sixMenu = Menu(self.__windows)
         sixMenu.add_command(label="Parametre",command=lambda : sixTk(self.__gestionnaire).activePara())
         sixMenu.add_command(label="A propos",command=self.__Apropop )
         #Canvas
-        self.__canvasAcceuil = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasBoot0 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasBoot1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasBoot2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasBoot3 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasParole1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasParole2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasParole3 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasNoConnect = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasContent = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasColere = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasSurprit = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasTriste1 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasTriste2 = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
-        self.__canvasParaOpen = Canvas( self.windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasAcceuil = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot0 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot1 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot2 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasBoot3 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole1 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole2 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParole3 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasNoConnect = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasContent = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasColere = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasSurprit = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasTriste1 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasTriste2 = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
+        self.__canvasParaOpen = Canvas( self.__windows, width = 500,height = 400, highlightthickness=0)
         #label 
         self.__labelTextParole2 = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
         self.__labelTextParole1Six = Label(self.__canvasParole1,font=("arial","15"),bg="red", bd=0)
@@ -105,9 +105,9 @@ class SixTKMain :
         self.__labelTextParole3Six = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         self.__labelTextParole3User = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         #label Micro
-        self.__labelMicro = Label(self.windows, bd=0)
+        self.__labelMicro = Label(self.__windows, bd=0)
         #btn Reload Micro
-        self.__btnReloadMicro = Button(self.windows)
+        self.__btnReloadMicro = Button(self.__windows)
         #definition du flag theard
         self.flagBoucle = th.Event()
         self.flagBoucle.set()
@@ -119,7 +119,7 @@ class SixTKMain :
         self.__labelTextParole3Six.place(x=120,y=60)
         self.__labelTextParole3User.place(x=15,y=240)
         self.__labelTextParole2.place(x=40,y=125)
-        self.windows.configure(menu=sixMenu)
+        self.__windows.configure(menu=sixMenu)
         
     
     def setTheme(self):
@@ -234,8 +234,8 @@ class SixTKMain :
 
     
     def guiMicro(self):
-        self.__labelMicro.place(x=(self.windows.winfo_width()-self.__labelMicro.winfo_reqwidth()),y=(self.windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
-        self.__btnReloadMicro.place(x=0,y=(self.windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
+        self.__labelMicro.place(x=(self.__windows.winfo_width()-self.__labelMicro.winfo_reqwidth()),y=(self.__windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
+        self.__btnReloadMicro.place(x=0,y=(self.__windows.winfo_height()-self.__labelMicro.winfo_reqheight()))
         texte = self.sixSource.micro()
         self.setTextMicro(texte)
         return texte
@@ -245,7 +245,7 @@ class SixTKMain :
 
     def bootInterface(self):
         self.updateWindows()
-        self.windows.mainloop()
+        self.__windows.mainloop()
 
     def __clearView(self):
         self.__labelMicro.place_forget()
@@ -273,14 +273,14 @@ class SixTKMain :
     
     def noConnectionInterface(self):
         self.__clearView()
-        self.windows.overrideredirect(False)
+        self.__windows.overrideredirect(False)
         self.__canvasNoConnect.place(x=0,y=0)
         self.updateWindows()
 
     
     def viewParoleGUI(self,mode:int,texte:str):
         self.__clearView()
-        self.windows.lift()
+        self.__windows.lift()
         if mode == 1 :
             if self.__compteur(texte) > 6 :
                 texte1,texte2 = self.__division(texte,6)
@@ -301,7 +301,7 @@ class SixTKMain :
             allTexte = self.__formatageText(texte)
             self.__labelTextParole2.configure(text=allTexte)
             self.__canvasParole2.place(x=0,y=0)
-        self.windows.update()
+        self.__windows.update()
     
     def activeMute(self):
         self.__clearView()
@@ -328,10 +328,10 @@ class SixTKMain :
         return int(len(mots))   
 
     def updateWindows(self):
-        self.windows.after(1000,self.updateWindows) 
+        self.__windows.after(1000,self.updateWindows) 
     
     def destroyWindows(self):
-        self.windows.destroy()
+        self.__windows.destroy()
 
     def __formatageText(self,texte):
         nbMots = 7

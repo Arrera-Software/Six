@@ -69,11 +69,11 @@ class AssistantSIX :
                 if ("mute" in statement)or("silence" in statement) or (self.__compteurNothing>=MAXNOTING):
                     if (self.__compteurNothing==MAXNOTING):
                         texte = "Je me met en pause appeler moi si vous avez besoin de moi"
-                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
+                        self.__mainTK.viewParoleGUI(1,texte)
                         self.__srcSIX.speak(texte)
                     else :
                         texte =  "Ok je vous laisse tranquille"
-                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(1,texte))
+                        self.__mainTK.viewParoleGUI(1,texte)
                         self.__srcSIX.speak(texte)
                     self.__mainTK.activeMute()
                     self.__varSix = self.__sixTK.muteSix()
@@ -82,7 +82,7 @@ class AssistantSIX :
                         self.__mainTK.flagBoucle.clear() 
                     else :
                         texte = "Je vous ecoute monsieur"
-                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
+                        self.__mainTK.viewParoleGUI(0,texte)
                         self.__srcSIX.speak(texte)
                     self.__compteurNothing = 0
                 else :
@@ -135,7 +135,7 @@ class AssistantSIX :
                                                         self.__mainTK.flagBoucle.clear() 
                                                     else :
                                                         texte = "J'espere que le wiki vous aiderra"
-                                                        self.__mainTK.windows.after(0,lambda : self.__mainTK.viewParoleGUI(0,texte))
+                                                        self.__mainTK.viewParoleGUI(0,texte)
                                                         self.__srcSIX.speak(texte)
 
                                                 texte = self.__arreraAssistant.transformeListSTR(listOut)
