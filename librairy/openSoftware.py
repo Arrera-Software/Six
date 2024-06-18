@@ -1,5 +1,5 @@
 from librairy.dectectionOS import*
-from ObjetsNetwork.gestion import*
+from ArreraNeuron.ObjetsNetwork.gestion import*
 import subprocess
 import os
 
