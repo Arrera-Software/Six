@@ -2,8 +2,8 @@ import holidays
 from tkinter import *
 from tkinter.messagebox import showinfo 
 from tkcalendar import DateEntry
-from ObjetsNetwork.gestion import *
-from arreraSoftware.fonctionDate import *
+from ArreraNeuron.ObjetsNetwork.gestion import *
+from ArreraNeuron.arreraSoftware.fonctionDate import *
 
 class fncArreraCalendar :
     def __init__(self,fichierConfig:jsonWork,gestionnaire:gestionNetwork):

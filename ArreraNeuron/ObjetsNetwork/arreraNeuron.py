@@ -1,7 +1,7 @@
 import datetime
 from librairy.dectectionOS import*
 from librairy.travailJSON import *
-from neuron.chatBots import*
+from ArreraNeuron.neuron.chatBots import*
 from ArreraNeuron.ObjetsNetwork.formule import*
 from ArreraNeuron.ObjetsNetwork.gestion import *
 from ArreraNeuron.ObjetsNetwork.network import*
