@@ -281,23 +281,31 @@ class SixGUI :
         self.__labelTextAfterSpeak.configure(text=texte,wraplength=475,justify="left")
         
         
-    def __sequenceArret(self,texte:str):
+    def __sequenceArret(self):
+        texte = self.__six.shutdown()
         self.__clearView()
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=320)
         self.__canvasParole2.place(x=0,y=0)
+        self.__screen.update()
+        paroleSix(texte)
         self.__canvasParole2.place_forget()
         self.__canvasBoot3.place(x=0,y=0)
+        self.__screen.update()
         time.sleep(0.2)
         self.__canvasBoot3.place_forget()
         self.__canvasBoot2.place(x=0,y=0)
+        self.__screen.update()
         time.sleep(0.2)
         self.__canvasBoot2.place_forget()
         self.__canvasBoot3.place(x=0,y=0)
+        self.__screen.update()
         time.sleep(0.2)
         self.__canvasBoot3.place_forget()
         self.__canvasBoot0.place(x=0,y=0)
+        self.__screen.update()
         time.sleep(0.2)
         self.__canvasBoot0.place_forget()
+        self.__screen.update()
 
     def __detectionTouche(self,fonc,touche):
         def anychar(event):
@@ -356,7 +364,6 @@ class SixGUI :
         sortieMicro = str
         while True :
             sortieTriger = self.__objTriger.detectWord()
-            time.sleep(0.2)
             if (sortieTriger == 1 ):
                 sortieMicro = self.__objSRCSix.micro()
                 self.__entryUser.delete(0,END)

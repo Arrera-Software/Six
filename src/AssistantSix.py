@@ -17,6 +17,9 @@ class CArreraSix :
     def boot(self):
         return self.__neuronArrera.boot()
 
+    def shutdown(self):
+        return self.__neuronArrera.shutdown()
+
     def neuron(self,texte:str):
         self.__nbSortie,self.__listSortie = self.__neuronArrera.neuron(texte)
     
