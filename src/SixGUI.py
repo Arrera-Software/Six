@@ -317,7 +317,7 @@ class SixGUI :
                 fonc()               
         self.__screen.bind("<Key>", anychar)  
     
-    def __envoie(self): # Fonction a mofifer quand six sera integrer
+    def __envoie(self): 
         texte = self.__entryUser.get()
         if ("parametre" in texte ) :
             self.__activeParametre()
