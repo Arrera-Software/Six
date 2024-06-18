@@ -270,15 +270,18 @@ class SixGUI :
         self.__canvasParaOpen.place_forget()
     
     def __sequenceParole(self,texte:str):
+        thSpeak = th.Thread(target=paroleSix(texte))
         self.__clearView()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=440,justify="left")
         self.__screen.update()
-        paroleSix(texte)
+        thSpeak.start()
+        thSpeak.join()
         self.__canvasParole2.place_forget()
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=texte,wraplength=475,justify="left")
+        del thSpeak
         
         
     def __sequenceArret(self):
