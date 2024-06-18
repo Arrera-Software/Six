@@ -356,7 +356,7 @@ class SixGUI :
         sortieMicro = str
         while True :
             sortieTriger = self.__objTriger.detectWord()
-            print(sortieTriger)
+            time.sleep(0.2)
             if (sortieTriger == 1 ):
                 sortieMicro = self.__objSRCSix.micro()
                 self.__entryUser.delete(0,END)
