@@ -298,28 +298,28 @@ class SixGUI :
     
     def __envoie(self): # Fonction a mofifer quand six sera integrer
         texte = self.__entryUser.get()
-        self.__six.neuron(texte)
-        self.__clearView()
-        self.__canvasParole1.place(x=0,y=0)
-        self.__screen.update()
-        nbSortie = self.__six.getNbSortie()
-        if (nbSortie==15):
-            self.__sequenceArret()
-            self.__quit()
+        if ("parametre" in texte ) :
+            self.__activeParametre()
         else :
-            listSortie  = self.__six.getListSortie()
-            self.__canvasParole1.place_forget()
-            self.__canvasParole2.place(x=0,y=0)
-            self.__labelTextDuringSpeak.configure(text=listSortie[0],wraplength=440,justify="left")
+            self.__six.neuron(texte)
+            self.__clearView()
+            self.__canvasParole1.place(x=0,y=0)
             self.__screen.update()
-            paroleSix(listSortie[0])
-            self.__canvasParole2.place_forget()
-            self.__canvasParole3.place(x=0,y=0)
-            self.__labelTextAfterSpeak.configure(text=listSortie[0],wraplength=475,justify="left")
-    
+            nbSortie = self.__six.getNbSortie()
+            if (nbSortie==15):
+                self.__sequenceArret()
+                self.__quit()
+            else :
+                listSortie  = self.__six.getListSortie()
+                self.__canvasParole1.place_forget()
+                self.__canvasParole2.place(x=0,y=0)
+                self.__labelTextDuringSpeak.configure(text=listSortie[0],wraplength=440,justify="left")
+                self.__screen.update()
+                paroleSix(listSortie[0])
+                self.__canvasParole2.place_forget()
+                self.__canvasParole3.place(x=0,y=0)
+                self.__labelTextAfterSpeak.configure(text=listSortie[0],wraplength=475,justify="left")
 
-
-    
     def __reloadTheme(self):
         self.__setTheme()
         self.__screen.update()
