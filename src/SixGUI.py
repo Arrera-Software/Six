@@ -7,6 +7,8 @@ import threading as th
 import random
 import os
 from librairy.dectectionOS import*
+from src.CArreraTrigerWord import*
+from src.srcSix import*
 import signal
 from tkinter import*
 from tkinter.messagebox import*
@@ -26,8 +28,14 @@ class SixGUI :
         self.__six = CArreraSix(jsonUser,
                                 jsonNeuronNetwork,
                                 jsonListeFete)
+        # Instentation de l'objet Arrera Triger
+        self.__objTriger = CArreraTrigerWord("6")
+        # Instantation de l'objet srcSix
+        self.__objSRCSix = SIXsrc(jsonWork(jsonConfAssistant))
         # Objet 
         self.__objetDectOS = OS()
+        # Creation du theard Trigger word
+        self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
         # initilisation fenetre
         self.__screen = Tk()
         self.__screen.title(self.__nameSoft)
@@ -241,6 +249,7 @@ class SixGUI :
         self.__canvasAcceuil.place(x=0,y=0)
         self.__entryUser.pack(side="bottom")
         self.__sequenceParole(self.__six.boot())
+        self.__thTrigger.start()
     
     def __clearView(self):
         self.__labelMicro.place_forget()
@@ -341,3 +350,17 @@ class SixGUI :
         self.__sequenceParole("Les parametre on etais mit a jour")
         self.__entryUser.pack(side="bottom")
         self.__reloadTheme()
+    
+    def __sixTrigerWord(self):
+        sortieTriger = int 
+        sortieMicro = str
+        while True :
+            sortieTriger = self.__objTriger.detectWord()
+            print(sortieTriger)
+            if (sortieTriger == 1 ):
+                sortieMicro = self.__objSRCSix.micro()
+                self.__entryUser.delete(0,END)
+                self.__entryUser.insert(0,sortieMicro)
+                time.sleep(0.2)
+                self.__envoie()
+            
