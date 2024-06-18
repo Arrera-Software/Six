@@ -339,6 +339,7 @@ class SixGUI :
                 self.__canvasParole2.place_forget()
                 self.__canvasParole3.place(x=0,y=0)
                 self.__labelTextAfterSpeak.configure(text=listSortie[0],wraplength=475,justify="left")
+        self.__entryUser.delete(0,END)
 
     def __reloadTheme(self):
         self.__setTheme()
