@@ -24,6 +24,7 @@ class SixGUI :
         self.__nameSoft = "Arrera Six"
         self.__themeNB = int # 0 : white 1 : black
         self.__darkModeEnable = bool
+        self.__settingEnable = False
         # Instantation de l'objet Six
         self.__six = CArreraSix(jsonUser,
                                 jsonNeuronNetwork,
@@ -346,6 +347,7 @@ class SixGUI :
         self.__screen.update()
     
     def __activeParametre(self):
+        self.__settingEnable = True
         self.__screen.title(self.__nameSoft+" : Parametre")
         self.__screen.maxsize(500,600)
         self.__screen.minsize(500,600)
@@ -355,6 +357,7 @@ class SixGUI :
         self.__gazelleUI.active(self.__darkModeEnable)
     
     def __quitParametre(self):
+        self.__settingEnable = False
         self.__screen.maxsize(500,400)
         self.__screen.minsize(500,400)
         self.__screen.title(self.__nameSoft)
@@ -367,11 +370,12 @@ class SixGUI :
         sortieTriger = int 
         sortieMicro = str
         while True :
-            sortieTriger = self.__objTriger.detectWord()
-            if (sortieTriger == 1 ):
-                sortieMicro = self.__objSRCSix.micro()
-                self.__entryUser.delete(0,END)
-                self.__entryUser.insert(0,sortieMicro)
-                time.sleep(0.2)
-                self.__envoie()
+            if (self.__settingEnable == False ):
+                sortieTriger = self.__objTriger.detectWord()
+                if (sortieTriger == 1 ):
+                    sortieMicro = self.__objSRCSix.micro()
+                    self.__entryUser.delete(0,END)
+                    self.__entryUser.insert(0,sortieMicro)
+                    time.sleep(0.2)
+                    self.__envoie()
             
