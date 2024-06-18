@@ -4,7 +4,11 @@ from src.SixGUI import*
 json = jsonWork("FileJSON/configUser.json")
 sortieLynx = False
 
-if (json.lectureJSON("user") == "" or jsonWork.lectureJSON("genre")==""):
+name = json.lectureJSON("user")
+genre = json.lectureJSON("genre")
+del json
+
+if ( (name == "") and (genre == "")):
     showwarning("Arrera Six","Configurer votre assistant")
     windows = Tk()
     lynx = ArreraLynx(windows,
@@ -15,8 +19,10 @@ if (json.lectureJSON("user") == "" or jsonWork.lectureJSON("genre")==""):
     lynx.active()
     windows.mainloop()
     sortieLynx = lynx.confiCreate()
+else :
+    sortieLynx = True
 
-del json
+
 if (sortieLynx==False):
     showerror("Six","L'assistant n'est pas configurer")
 else :
