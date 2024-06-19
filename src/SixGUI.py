@@ -44,6 +44,8 @@ class SixGUI :
         self.__objetDectOS = OS()
         # Creation du theard Trigger word
         self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+        # Creation du theard Minuteur Actu 
+        self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # initilisation fenetre
         self.__screen = Tk()
         self.__screen.title(self.__nameSoft)
@@ -452,6 +454,7 @@ class SixGUI :
                                    "."+listSortie[4]+
                                    "."+listSortie[5]))
         self.__actuEnable = True
+        self.__thMinuteurActu.start()
     
     def __quitActu(self):
         self.__clearView()
@@ -463,9 +466,16 @@ class SixGUI :
         self.__screen.update()
         self.__sequenceParole("J'éspere que sa vous a étais utile")
         self.__actuEnable = False
+        del self.__thMinuteurActu
+        self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
     
     def __readActu(self,texte:str):
         thSpeak = th.Thread(target=paroleSix,args=(texte,))
         thSpeak.start()
         thSpeak.join()
         del thSpeak
+    
+    def __minuteurActu(self):
+        time.sleep(60)
+        self.__quitActu()
+        
