@@ -345,7 +345,7 @@ class SixGUI :
         self.__canvasParaOpen.place_forget()
     
     def __sequenceParole(self,texte:str):
-        thSpeak = th.Thread(target=paroleSix(texte))
+        thSpeak = th.Thread(target=paroleSix,args=(texte,))
         self.__clearView()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
