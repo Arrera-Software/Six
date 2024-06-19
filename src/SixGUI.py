@@ -25,6 +25,7 @@ class SixGUI :
         self.__themeNB = int # 0 : white 1 : black
         self.__darkModeEnable = bool
         self.__settingEnable = False
+        self.__actuEnable = False
         # Instantation de l'objet Six
         self.__six = CArreraSix(jsonUser,
                                 jsonNeuronNetwork,
@@ -64,30 +65,45 @@ class SixGUI :
         # widget et canvas
         # canvas
         self.__canvasAcceuil = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasBoot0 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasBoot1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasBoot2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasBoot3 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasParole1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasParole2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasParole3 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasNoConnect = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasContent = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasColere = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasSurprit = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasTriste1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
         self.__canvasTriste2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
         self.__canvasParaOpen = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+
+        self.__canvasActu = Canvas(self.__screen,width=500,height=600,highlightthickness=0)
         # widget 
         self.__entryUser = Entry(self.__screen,font=("Arial","20"),width=25,relief=SOLID)
         self.__labelTextDuringSpeak = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
         self.__labelTextAfterSpeak = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         self.__labelMicro = Label(self.__screen, bd=0)
+        # Canvas Actu
+        self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
+        self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
+        self.__btnReadActu =  Button(self.__canvasActu,text="Lire a voix haute",font=("arial","15"),bg="red")
         # appelle de la methode pour initiliser le gui
         self.__setTheme()
         #Affichage label parole
         self.__labelTextDuringSpeak.place(x=30,y=110)
         self.__labelTextAfterSpeak.place(x=10,y=80)
+        self.__labelActu.place(x=70,y=0)
+        self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
+        self.__btnQuitActu.place(relx=1, rely=1, anchor='se')
         # Mise a place de la touche entree
         if (self.__objetDectOS.osWindows()==True) and (self.__objetDectOS.osLinux()==False) : 
             self.__detectionTouche(self.__envoie,13)
@@ -107,6 +123,9 @@ class SixGUI :
             cheminImage = emplacementGUI+"white/"
             self.__screen.configure(bg="white")
             self.__labelTextAfterSpeak.configure(bg="#ffffff",fg="#000000")
+            self.__labelActu.configure(bg="#ffffff",fg="#000000")
+            self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
+            self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
@@ -114,12 +133,18 @@ class SixGUI :
                 cheminImage = emplacementGUI+"dark/"
                 self.__screen.configure(bg="black")
                 self.__labelTextAfterSpeak.configure(bg="#000000",fg="#ffffff")
+                self.__labelActu.configure(bg="#000000",fg="#ffffff")
+                self.__btnReadActu.configure(bg="#000000",fg="#ffffff")
+                self.__btnQuitActu.configure(bg="#000000",fg="#ffffff")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
                 cheminImage = emplacementGUI+"white/"
                 self.__screen.configure(bg="white")
                 self.__labelTextAfterSpeak.configure(bg="#ffffff",fg="#000000")
+                self.__labelActu.configure(bg="#ffffff",fg="#000000")
+                self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
+                self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
                 self.__themeNB = 0 
                 self.__darkModeEnable = False
         self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
@@ -146,6 +171,8 @@ class SixGUI :
 
         bgMicroEnable = PhotoImage(file=cheminImage+fileImage[17],master=self.__labelMicro)
         bgParaOpen = PhotoImage(file=cheminImage+fileImage[19],master=self.__canvasParaOpen)
+
+        bgActu = PhotoImage(file=cheminImage+fileImage[16],master=self.__canvasActu)
         #Formatage des canvas avec leurs image
         self.__canvasAcceuil.image_names = bgAcceuil
         self.__canvasBoot0.image_names = bgBoot0
@@ -163,6 +190,7 @@ class SixGUI :
         self.__canvasTriste2.image_names = bgTriste2
         self.__canvasParaOpen.image_names = bgParaOpen
         self.__labelMicro.image_names =  bgMicroEnable
+        self.__canvasActu.image_names = bgActu
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -179,6 +207,7 @@ class SixGUI :
         self.__canvasTriste1.create_image( 0, 0, image =bgTriste1 , anchor = "nw")
         self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
         self.__canvasParaOpen.create_image( 0, 0, image =bgParaOpen , anchor = "nw")
+        self.__canvasActu.create_image( 0, 0, image =bgActu , anchor = "nw")
         #Mise en place de coleur pour les label
         self.__labelMicro.configure(image=bgMicroEnable)
     
@@ -331,16 +360,26 @@ class SixGUI :
                 self.__sequenceArret()
                 self.__quit()
             else :
-                listSortie  = self.__six.getListSortie()
-                self.__canvasParole1.place_forget()
-                self.__canvasParole2.place(x=0,y=0)
-                self.__labelTextDuringSpeak.configure(text=listSortie[0],wraplength=440,justify="left")
-                self.__screen.update()
-                paroleSix(listSortie[0])
-                self.__canvasParole2.place_forget()
-                self.__canvasParole3.place(x=0,y=0)
-                self.__labelTextAfterSpeak.configure(text=listSortie[0],wraplength=475,justify="left")
+                if (nbSortie==11):
+                    self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
+                else :
+                    listSortie  = self.__six.getListSortie()
+                    if (nbSortie==12):
+                        self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
+                        self.__viewActu(listSortie)
+                    else :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
         self.__entryUser.delete(0,END)
+    
+    def __sequenceParoleReponseNeuron(self,text:str):
+        self.__canvasParole1.place_forget()
+        self.__canvasParole2.place(x=0,y=0)
+        self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
+        self.__screen.update()
+        paroleSix(text)
+        self.__canvasParole2.place_forget()
+        self.__canvasParole3.place(x=0,y=0)
+        self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
 
     def __reloadTheme(self):
         self.__setTheme()
@@ -370,7 +409,7 @@ class SixGUI :
         sortieTriger = int 
         sortieMicro = str
         while True :
-            if (self.__settingEnable == False ):
+            if ((self.__settingEnable == False) and (self.__actuEnable == False) ):
                 sortieTriger = self.__objTriger.detectWord()
                 if (sortieTriger == 1 ):
                     sortieMicro = self.__objSRCSix.micro()
@@ -378,4 +417,43 @@ class SixGUI :
                     self.__entryUser.insert(0,sortieMicro)
                     time.sleep(0.2)
                     self.__envoie()
-            
+    
+    def __viewActu(self,listSortie:list):
+        self.__clearView()
+        self.__entryUser.pack_forget()
+        self.__screen.maxsize(500,600)
+        self.__screen.minsize(500,600)
+        self.__screen.update()
+        self.__canvasActu.place(x=0,y=0)
+        self.__labelActu.configure(text=listSortie[0]+
+                                   "\n"+listSortie[1]+
+                                   "\n"+listSortie[2]+
+                                   "\n"+listSortie[3]+
+                                   "\n"+listSortie[4]+
+                                   "\n"+listSortie[5],
+                                   justify="left",
+                                   wraplength=400)
+        self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
+                                   "."+listSortie[1]+
+                                   "."+listSortie[2]+
+                                   "."+listSortie[3]+
+                                   "."+listSortie[4]+
+                                   "."+listSortie[5]))
+        self.__actuEnable = True
+    
+    def __quitActu(self):
+        self.__clearView()
+        self.__canvasActu.place_forget()
+        self.__screen.maxsize(500,400)
+        self.__screen.minsize(500,400)
+        self.__screen.update()
+        self.__entryUser.pack(side="bottom")
+        self.__screen.update()
+        self.__sequenceParole("J'éspere que sa vous a étais utile")
+        self.__actuEnable = False
+    
+    def __readActu(self,texte:str):
+        thSpeak = th.Thread(target=paroleSix,args=(texte,))
+        thSpeak.start()
+        thSpeak.join()
+        del thSpeak
