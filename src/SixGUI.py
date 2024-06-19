@@ -26,6 +26,7 @@ class SixGUI :
         self.__darkModeEnable = bool
         self.__settingEnable = False
         self.__actuEnable = False
+        self.__muteEnable = False
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -95,6 +96,9 @@ class SixGUI :
         self.__canvasParaOpen = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
 
         self.__canvasActu = Canvas(self.__screen,width=500,height=600,highlightthickness=0)
+
+        self.__canvasMute = [Canvas(self.__screen, width = 500,height = 350, highlightthickness=0),
+                             Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)]
         # widget 
         self.__entryUser = Entry(self.__screen,font=("Arial","20"),width=25,relief=SOLID)
         self.__labelTextDuringSpeak = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
@@ -104,6 +108,10 @@ class SixGUI :
         self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
         self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
         self.__btnReadActu =  Button(self.__canvasActu,text="Lire a voix haute",font=("arial","15"),bg="red")
+        self.__btnStopMute = [Button(self.__canvasMute[0],text="Demute",font=("arial","15"),bg="red",command=self.__quitMute),
+                             Button(self.__canvasMute[1],text="Demute",font=("arial","15"),bg="red",command=self.__quitMute)]
+        self.__btnQuitMute = [Button(self.__canvasMute[0],text="Quitter",font=("arial","15"),bg="red",command=self.__quit),
+                             Button(self.__canvasMute[1],text="Quitter",font=("arial","15"),bg="red",command=self.__quit)]   
         # appelle de la methode pour initiliser le gui
         self.__setTheme()
         #Affichage label parole
@@ -112,6 +120,10 @@ class SixGUI :
         self.__labelActu.place(x=70,y=0)
         self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
         self.__btnQuitActu.place(relx=1, rely=1, anchor='se')
+        self.__btnStopMute[0].place(relx=0, rely=1, anchor='sw')
+        self.__btnQuitMute[0].place(relx=1, rely=1, anchor='se')
+        self.__btnStopMute[1].place(relx=0, rely=1, anchor='sw')
+        self.__btnQuitMute[1].place(relx=1, rely=1, anchor='se')
         # Mise a place de la touche entree
         if (self.__objetDectOS.osWindows()==True) and (self.__objetDectOS.osLinux()==False) : 
             self.__detectionTouche(self.__envoie,13)
@@ -181,6 +193,9 @@ class SixGUI :
         bgParaOpen = PhotoImage(file=cheminImage+fileImage[19],master=self.__canvasParaOpen)
 
         bgActu = PhotoImage(file=cheminImage+fileImage[16],master=self.__canvasActu)
+
+        bgMute = [PhotoImage(file=cheminImage+fileImage[4],master=self.__canvasMute[0]),
+                  PhotoImage(file=cheminImage+fileImage[5],master=self.__canvasMute[1])]
         #Formatage des canvas avec leurs image
         self.__canvasAcceuil.image_names = bgAcceuil
         self.__canvasBoot0.image_names = bgBoot0
@@ -199,6 +214,8 @@ class SixGUI :
         self.__canvasParaOpen.image_names = bgParaOpen
         self.__labelMicro.image_names =  bgMicroEnable
         self.__canvasActu.image_names = bgActu
+        self.__canvasMute[0].image_names =  bgMute[0]
+        self.__canvasMute[1].image_names =  bgMute[1]
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -216,6 +233,8 @@ class SixGUI :
         self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
         self.__canvasParaOpen.create_image( 0, 0, image =bgParaOpen , anchor = "nw")
         self.__canvasActu.create_image( 0, 0, image =bgActu , anchor = "nw")
+        self.__canvasMute[0].create_image( 0, 0, image =bgMute[0] , anchor = "nw")
+        self.__canvasMute[1].create_image( 0, 0, image =bgMute[1] , anchor = "nw")
         #Mise en place de coleur pour les label
         self.__labelMicro.configure(image=bgMicroEnable)
     
@@ -365,24 +384,27 @@ class SixGUI :
         if ("parametre" in texte ) :
             self.__activeParametre()
         else :
-            self.__six.neuron(texte)
-            self.__clearView()
-            self.__canvasParole1.place(x=0,y=0)
-            self.__screen.update()
-            nbSortie = self.__six.getNbSortie()
-            if (nbSortie==15):
-                self.__sequenceArret()
-                self.__quit()
+            if ("mute" in texte):
+                self.__viewMute()
             else :
-                if (nbSortie==11):
-                    self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
+                self.__six.neuron(texte)
+                self.__clearView()
+                self.__canvasParole1.place(x=0,y=0)
+                self.__screen.update()
+                nbSortie = self.__six.getNbSortie()
+                if (nbSortie==15):
+                    self.__sequenceArret()
+                    self.__quit()
                 else :
-                    listSortie  = self.__six.getListSortie()
-                    if (nbSortie==12):
-                        self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
-                        self.__viewActu(listSortie)
+                    if (nbSortie==11):
+                        self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
                     else :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        listSortie  = self.__six.getListSortie()
+                        if (nbSortie==12):
+                            self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
+                            self.__viewActu(listSortie)
+                        else :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
         self.__entryUser.delete(0,END)
     
     def __sequenceParoleReponseNeuron(self,text:str):
@@ -423,7 +445,7 @@ class SixGUI :
         sortieTriger = int 
         sortieMicro = str
         while True :
-            if ((self.__settingEnable == False) and (self.__actuEnable == False) ):
+            if ((self.__settingEnable == False) and (self.__actuEnable == False) and (self.__muteEnable == False)):
                 sortieTriger = self.__objTriger.detectWord()
                 if (sortieTriger == 1 ):
                     sortieMicro = self.__objSRCSix.micro()
@@ -478,4 +500,26 @@ class SixGUI :
     def __minuteurActu(self):
         time.sleep(60)
         self.__quitActu()
-        
+    
+    def __viewMute(self):
+        self.__sequenceParole("Okay je vous laisse tranquille")
+        self.__clearView()
+        self.__muteEnable = True
+        self.__entryUser.pack_forget()
+        self.__screen.maxsize(500,350)
+        self.__screen.minsize(500,350)
+        self.__screen.update()
+        nb = random.randint(0,1)
+        self.__canvasMute[nb].place(x=0,y=0)
+    
+    def __quitMute(self):        
+        self.__clearView()
+        self.__muteEnable = False
+        self.__screen.maxsize(500,400)
+        self.__screen.minsize(500,400)
+        self.__screen.update()
+        self.__canvasMute[0].place_forget()
+        self.__canvasMute[1].place_forget()
+        self.__entryUser.pack(side="bottom")
+        self.__screen.update()
+        self.__sequenceParole("Content d'etre de retour")
