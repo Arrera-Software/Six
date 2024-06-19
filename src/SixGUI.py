@@ -26,6 +26,12 @@ class SixGUI :
         self.__darkModeEnable = bool
         self.__settingEnable = False
         self.__actuEnable = False
+        # Teste de la connextion internet
+        try:
+            requests.get("https://duckduckgo.com",timeout=5)
+            self.__etatConnexion = True
+        except requests.ConnectionError :
+            self.__etatConnexion = False
         # Instantation de l'objet Six
         self.__six = CArreraSix(jsonUser,
                                 jsonNeuronNetwork,
@@ -277,9 +283,15 @@ class SixGUI :
         self.__canvasBoot3.place(x=0,y=0)
         time.sleep(0.2)
         self.__canvasAcceuil.place(x=0,y=0)
-        self.__entryUser.pack(side="bottom")
-        self.__sequenceParole(self.__six.boot())
-        self.__thTrigger.start()
+        if (self.__etatConnexion==False):
+            self.__canvasAcceuil.place_forget()
+            self.__screen.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.__canvasNoConnect.place(x=0,y=0)
+            self.__screen.update()
+        else :
+            self.__entryUser.pack(side="bottom")
+            self.__sequenceParole(self.__six.boot())
+            self.__thTrigger.start()
     
     def __clearView(self):
         self.__labelMicro.place_forget()
