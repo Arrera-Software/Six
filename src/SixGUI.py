@@ -103,7 +103,8 @@ class SixGUI :
         self.__entryUser = Entry(self.__screen,font=("Arial","20"),width=25,relief=SOLID)
         self.__labelTextDuringSpeak = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
         self.__labelTextAfterSpeak = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
-        self.__labelMicro = Label(self.__screen, bd=0)
+        # Label Micro 
+        self.__labelTriggerMicro = Label(self.__screen,width=50,height=40)
         # Canvas Actu
         self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
         self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
@@ -150,6 +151,7 @@ class SixGUI :
             self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
             self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
             self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
+            self.__labelTriggerMicro.configure(bg="#ffffff")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
@@ -164,6 +166,7 @@ class SixGUI :
                 self.__btnQuitMute[0].configure(bg="#000000",fg="#ffffff")
                 self.__btnStopMute[1].configure(bg="#000000",fg="#ffffff")
                 self.__btnQuitMute[1].configure(bg="#000000",fg="#ffffff")
+                self.__labelTriggerMicro.configure(bg="#000000")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
@@ -177,6 +180,7 @@ class SixGUI :
                 self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
                 self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
                 self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
+                self.__labelTriggerMicro.configure(bg="#ffffff")
                 self.__themeNB = 0 
                 self.__darkModeEnable = False
         self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
@@ -201,7 +205,7 @@ class SixGUI :
         bgTriste1 = PhotoImage(file=cheminImage+fileImage[1],master=self.__canvasTriste1)
         bgTriste2 = PhotoImage(file=cheminImage+fileImage[2],master=self.__canvasTriste2)
 
-        bgMicroEnable = PhotoImage(file=cheminImage+fileImage[17],master=self.__labelMicro)
+        bgMicroEnable = PhotoImage(file=cheminImage+fileImage[17],master=self.__labelTriggerMicro)
         bgParaOpen = PhotoImage(file=cheminImage+fileImage[19],master=self.__canvasParaOpen)
 
         bgActu = PhotoImage(file=cheminImage+fileImage[16],master=self.__canvasActu)
@@ -224,10 +228,11 @@ class SixGUI :
         self.__canvasTriste1.image_names = bgTriste1
         self.__canvasTriste2.image_names = bgTriste2
         self.__canvasParaOpen.image_names = bgParaOpen
-        self.__labelMicro.image_names =  bgMicroEnable
+        self.__labelTriggerMicro.image_names =  bgMicroEnable
         self.__canvasActu.image_names = bgActu
         self.__canvasMute[0].image_names =  bgMute[0]
         self.__canvasMute[1].image_names =  bgMute[1]
+        self.__labelTriggerMicro.image_names = bgMicroEnable
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -247,8 +252,9 @@ class SixGUI :
         self.__canvasActu.create_image( 0, 0, image =bgActu , anchor = "nw")
         self.__canvasMute[0].create_image( 0, 0, image =bgMute[0] , anchor = "nw")
         self.__canvasMute[1].create_image( 0, 0, image =bgMute[1] , anchor = "nw")
+        self.__labelTriggerMicro.configure(image=bgMicroEnable)
         #Mise en place de coleur pour les label
-        self.__labelMicro.configure(image=bgMicroEnable)
+        self.__labelTriggerMicro.configure(image=bgMicroEnable)
     
 
     def active(self):
@@ -327,7 +333,7 @@ class SixGUI :
             self.__thTrigger.start()
     
     def __clearView(self):
-        self.__labelMicro.place_forget()
+        self.__labelTriggerMicro.place_forget()
         self.__canvasAcceuil.place_forget()
         self.__canvasBoot0.place_forget()
         self.__canvasBoot1.place_forget()
@@ -458,7 +464,9 @@ class SixGUI :
         sortieMicro = str
         while True :
             if ((self.__settingEnable == False) and (self.__actuEnable == False) and (self.__muteEnable == False)):
+                self.__microTriggerEnable()
                 sortieTriger = self.__objTriger.detectWord()
+                self.__microTriggerDisable()
                 if (sortieTriger == 1 ):
                     sortieMicro = self.__objSRCSix.micro()
                     self.__entryUser.delete(0,END)
@@ -535,3 +543,11 @@ class SixGUI :
         self.__entryUser.pack(side="bottom")
         self.__screen.update()
         self.__sequenceParole("Content d'etre de retour")
+    
+    def __microTriggerEnable(self):
+        self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')
+        self.__screen.update()
+    
+    def __microTriggerDisable(self):
+        self.__labelTriggerMicro.place_forget()
+        self.__screen.update()
