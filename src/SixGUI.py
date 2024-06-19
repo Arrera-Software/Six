@@ -146,6 +146,10 @@ class SixGUI :
             self.__labelActu.configure(bg="#ffffff",fg="#000000")
             self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
             self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
+            self.__btnStopMute[0].configure(bg="#ffffff",fg="#000000")
+            self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
+            self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
+            self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
@@ -156,6 +160,10 @@ class SixGUI :
                 self.__labelActu.configure(bg="#000000",fg="#ffffff")
                 self.__btnReadActu.configure(bg="#000000",fg="#ffffff")
                 self.__btnQuitActu.configure(bg="#000000",fg="#ffffff")
+                self.__btnStopMute[0].configure(bg="#000000",fg="#ffffff")
+                self.__btnQuitMute[0].configure(bg="#000000",fg="#ffffff")
+                self.__btnStopMute[1].configure(bg="#000000",fg="#ffffff")
+                self.__btnQuitMute[1].configure(bg="#000000",fg="#ffffff")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
@@ -165,6 +173,10 @@ class SixGUI :
                 self.__labelActu.configure(bg="#ffffff",fg="#000000")
                 self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
                 self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
+                self.__btnStopMute[0].configure(bg="#ffffff",fg="#000000")
+                self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
+                self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
+                self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
                 self.__themeNB = 0 
                 self.__darkModeEnable = False
         self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
