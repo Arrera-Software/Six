@@ -1,0 +1,13 @@
+{
+    "colorLight1":"white",
+    "colorLight2":"#1e33ff",
+    "colorDark1":"black",
+    "colorDark2":"#0017ff",
+    "textColorDark1":"white",
+    "textColorDark2":"white",
+    "textColorLight1":"black",
+    "textColorLight2":"white",
+    "gestionMicro":"1",
+    "listeTheme":["white","dark"],
+    "listGenre":["monsieur","madame","maitre"]
+}
