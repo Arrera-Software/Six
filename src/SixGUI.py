@@ -105,6 +105,7 @@ class SixGUI :
         self.__labelTextAfterSpeak = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
         # Label Micro 
         self.__labelTriggerMicro = Label(self.__screen,width=50,height=40)
+        self.__labelMicroRequette = Label(self.__screen,width=50,height=40)
         # Canvas Actu
         self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
         self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
@@ -152,6 +153,7 @@ class SixGUI :
             self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
             self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
             self.__labelTriggerMicro.configure(bg="#ffffff")
+            self.__labelMicroRequette.configure(bg="#ffffff")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
@@ -167,6 +169,7 @@ class SixGUI :
                 self.__btnStopMute[1].configure(bg="#000000",fg="#ffffff")
                 self.__btnQuitMute[1].configure(bg="#000000",fg="#ffffff")
                 self.__labelTriggerMicro.configure(bg="#000000")
+                self.__labelMicroRequette.configure(bg="#000000")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
@@ -181,6 +184,7 @@ class SixGUI :
                 self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
                 self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
                 self.__labelTriggerMicro.configure(bg="#ffffff")
+                self.__labelMicroRequette.configure(bg="#ffffff")
                 self.__themeNB = 0 
                 self.__darkModeEnable = False
         self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
@@ -212,6 +216,8 @@ class SixGUI :
 
         bgMute = [PhotoImage(file=cheminImage+fileImage[4],master=self.__canvasMute[0]),
                   PhotoImage(file=cheminImage+fileImage[5],master=self.__canvasMute[1])]
+        
+        bgMicroRequette = PhotoImage(file=cheminImage+fileImage[18],master=self.__labelMicroRequette)
         #Formatage des canvas avec leurs image
         self.__canvasAcceuil.image_names = bgAcceuil
         self.__canvasBoot0.image_names = bgBoot0
@@ -233,6 +239,7 @@ class SixGUI :
         self.__canvasMute[0].image_names =  bgMute[0]
         self.__canvasMute[1].image_names =  bgMute[1]
         self.__labelTriggerMicro.image_names = bgMicroEnable
+        self.__labelMicroRequette.image_names = bgMicroRequette
         #Mise des image dans les canvas
         self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
         self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
@@ -253,8 +260,8 @@ class SixGUI :
         self.__canvasMute[0].create_image( 0, 0, image =bgMute[0] , anchor = "nw")
         self.__canvasMute[1].create_image( 0, 0, image =bgMute[1] , anchor = "nw")
         self.__labelTriggerMicro.configure(image=bgMicroEnable)
-        #Mise en place de coleur pour les label
         self.__labelTriggerMicro.configure(image=bgMicroEnable)
+        self.__labelMicroRequette.configure(image=bgMicroRequette)
     
 
     def active(self):
@@ -468,9 +475,12 @@ class SixGUI :
                 sortieTriger = self.__objTriger.detectWord()
                 self.__microTriggerDisable()
                 if (sortieTriger == 1 ):
+                    self.__microRequetteEnable()
                     sortieMicro = self.__objSRCSix.micro()
                     self.__entryUser.delete(0,END)
-                    self.__entryUser.insert(0,sortieMicro)
+                    if (sortieMicro!="nothing"):
+                        self.__entryUser.insert(0,sortieMicro)
+                    self.__microRequetteDisable()
                     time.sleep(0.2)
                     self.__envoie()
     
@@ -550,4 +560,12 @@ class SixGUI :
     
     def __microTriggerDisable(self):
         self.__labelTriggerMicro.place_forget()
+        self.__screen.update()
+    
+    def __microRequetteEnable(self):
+        self.__labelMicroRequette.place(relx=1.0, rely=0.0, anchor='ne')
+        self.__screen.update()
+    
+    def __microRequetteDisable(self):
+        self.__labelMicroRequette.place_forget()
         self.__screen.update()
