@@ -1,9 +1,9 @@
 {
-  "user": "dev",
-  "genre": "monsieur",
+  "user": "",
+  "genre": "",
   "listVille": [],
-  "lieuDomicile": "Paris",
-  "lieuTravail": "Paris",
+  "lieuDomicile": "",
+  "lieuTravail": "",
   "adresseDomicile": "",
   "adresseTravail": "",
   "nbSoft": "0",
@@ -25,5 +25,5 @@
   "nbSite": "0",
   "dictSite": {},
   "moteurRecherche": "",
-  "emplacementEvenenement": "FileUser/evenementUser.json"
+  "emplacementEvenenement": "File/evenementUser.json"
 }
