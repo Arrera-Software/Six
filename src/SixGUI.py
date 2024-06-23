@@ -406,7 +406,7 @@ class SixGUI :
         if ("parametre" in texte ) :
             self.__activeParametre()
         else :
-            if ("mute" in texte):
+            if (("mute" in texte)or("silence" in texte)or("ta gueule" in texte)):
                 self.__viewMute()
             else :
                 self.__six.neuron(texte)
