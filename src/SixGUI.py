@@ -24,9 +24,6 @@ class SixGUI :
         self.__nameSoft = "Arrera Six"
         self.__themeNB = int # 0 : white 1 : black
         self.__darkModeEnable = bool
-        self.__settingEnable = False
-        self.__actuEnable = False
-        self.__muteEnable = False
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -504,7 +501,7 @@ class SixGUI :
                                    "."+listSortie[3]+
                                    "."+listSortie[4]+
                                    "."+listSortie[5]))
-        self.__actuEnable = True
+        self.__stopingTriggerWord()
         self.__thMinuteurActu.start()
     
     def __quitActu(self):
@@ -516,7 +513,7 @@ class SixGUI :
         self.__entryUser.pack(side="bottom")
         self.__screen.update()
         self.__sequenceParole("J'éspere que sa vous a étais utile")
-        self.__actuEnable = False
+        self.__startingTriggerWord()
         del self.__thMinuteurActu
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
     
