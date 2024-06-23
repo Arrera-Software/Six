@@ -424,9 +424,13 @@ class SixGUI :
                         listSortie  = self.__six.getListSortie()
                         if (nbSortie==12):
                             self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
-                            self.__viewActu(listSortie)
+                            self.__viewActu(listSortie,1)
                         else :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            if (nbSortie==3):
+                                self.__sequenceParoleReponseNeuron("Je vous affiche les actualité du moment")
+                                self.__viewActu(listSortie,2)
+                            else :
+                                self.__sequenceParoleReponseNeuron(listSortie[0])
         self.__entryUser.delete(0,END)
     
     def __sequenceParoleReponseNeuron(self,text:str):
@@ -480,27 +484,42 @@ class SixGUI :
                 time.sleep(0.2)
                 self.__envoie()
     
-    def __viewActu(self,listSortie:list):
+    def __viewActu(self,listSortie:list,mode:int):
+        """
+        1 : Resumer 
+        2 : actu
+        """
         self.__clearView()
         self.__entryUser.pack_forget()
         self.__screen.maxsize(500,600)
         self.__screen.minsize(500,600)
         self.__screen.update()
         self.__canvasActu.place(x=0,y=0)
-        self.__labelActu.configure(text=listSortie[0]+
-                                   "\n"+listSortie[1]+
-                                   "\n"+listSortie[2]+
-                                   "\n"+listSortie[3]+
-                                   "\n"+listSortie[4]+
-                                   "\n"+listSortie[5],
-                                   justify="left",
-                                   wraplength=400)
-        self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
-                                   "."+listSortie[1]+
-                                   "."+listSortie[2]+
-                                   "."+listSortie[3]+
-                                   "."+listSortie[4]+
-                                   "."+listSortie[5]))
+        match mode :
+            case 1 : 
+                self.__labelActu.configure(text=listSortie[0]+
+                                        "\n"+listSortie[1]+
+                                        "\n"+listSortie[2]+
+                                        "\n"+listSortie[3]+
+                                        "\n"+listSortie[4]+
+                                        "\n"+listSortie[5],
+                                        justify="left",
+                                        wraplength=400)
+                self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
+                                        "."+listSortie[1]+
+                                        "."+listSortie[2]+
+                                        "."+listSortie[3]+
+                                        "."+listSortie[4]+
+                                        "."+listSortie[5]))
+            case 2 : 
+                self.__labelActu.configure(text=listSortie[0]+
+                                        "\n"+listSortie[1]+
+                                        "\n"+listSortie[2],
+                                        justify="left",
+                                        wraplength=400)
+                self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
+                                        "."+listSortie[1]+
+                                        "."+listSortie[2]))
         self.__stopingTriggerWord()
         self.__thMinuteurActu.start()
     
