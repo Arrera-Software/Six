@@ -44,7 +44,7 @@ class SixGUI :
         # Objet 
         self.__objetDectOS = OS()
         # Creation du theard Trigger word
-        self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+        self.__TriggerWorkStop = th.Event()
         # Creation du theard Minuteur Actu 
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # initilisation fenetre
@@ -337,7 +337,7 @@ class SixGUI :
         else :
             self.__entryUser.pack(side="bottom")
             self.__sequenceParole(self.__six.boot())
-            self.__thTrigger.start()
+            self.__startingTriggerWord()
     
     def __clearView(self):
         self.__labelTriggerMicro.place_forget()
@@ -447,7 +447,7 @@ class SixGUI :
         self.__screen.update()
     
     def __activeParametre(self):
-        self.__settingEnable = True
+        self.__stopingTriggerWord()
         self.__screen.title(self.__nameSoft+" : Parametre")
         self.__screen.maxsize(500,600)
         self.__screen.minsize(500,600)
@@ -457,32 +457,31 @@ class SixGUI :
         self.__gazelleUI.active(self.__darkModeEnable)
     
     def __quitParametre(self):
-        self.__settingEnable = False
         self.__screen.maxsize(500,400)
         self.__screen.minsize(500,400)
         self.__screen.title(self.__nameSoft)
         self.__screen.update()
         self.__sequenceParole("Les parametre on etais mit a jour")
+        self.__startingTriggerWord()
         self.__entryUser.pack(side="bottom")
         self.__reloadTheme()
     
     def __sixTrigerWord(self):
         sortieTriger = int 
         sortieMicro = str
-        while True :
-            if ((self.__settingEnable == False) and (self.__actuEnable == False) and (self.__muteEnable == False)):
-                self.__microTriggerEnable()
-                sortieTriger = self.__objTriger.detectWord()
-                self.__microTriggerDisable()
-                if (sortieTriger == 1 ):
-                    self.__microRequetteEnable()
-                    sortieMicro = self.__objSRCSix.micro()
-                    self.__entryUser.delete(0,END)
-                    if (sortieMicro!="nothing"):
-                        self.__entryUser.insert(0,sortieMicro)
-                    self.__microRequetteDisable()
-                    time.sleep(0.2)
-                    self.__envoie()
+        while not self.__TriggerWorkStop.is_set():
+            self.__microTriggerEnable()
+            sortieTriger = self.__objTriger.detectWord()
+            self.__microTriggerDisable()
+            if (sortieTriger == 1 ):
+                self.__microRequetteEnable()
+                sortieMicro = self.__objSRCSix.micro()
+                self.__entryUser.delete(0,END)
+                if (sortieMicro!="nothing"):
+                    self.__entryUser.insert(0,sortieMicro)
+                self.__microRequetteDisable()
+                time.sleep(0.2)
+                self.__envoie()
     
     def __viewActu(self,listSortie:list):
         self.__clearView()
@@ -534,7 +533,7 @@ class SixGUI :
     def __viewMute(self):
         self.__sequenceParole("Okay je vous laisse tranquille")
         self.__clearView()
-        self.__muteEnable = True
+        self.__stopingTriggerWord()
         self.__entryUser.pack_forget()
         self.__screen.maxsize(500,350)
         self.__screen.minsize(500,350)
@@ -544,7 +543,6 @@ class SixGUI :
     
     def __quitMute(self):        
         self.__clearView()
-        self.__muteEnable = False
         self.__screen.maxsize(500,400)
         self.__screen.minsize(500,400)
         self.__screen.update()
@@ -553,6 +551,7 @@ class SixGUI :
         self.__entryUser.pack(side="bottom")
         self.__screen.update()
         self.__sequenceParole("Content d'etre de retour")
+        self.__startingTriggerWord()
     
     def __microTriggerEnable(self):
         self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')
@@ -569,3 +568,12 @@ class SixGUI :
     def __microRequetteDisable(self):
         self.__labelMicroRequette.place_forget()
         self.__screen.update()
+    
+    def __startingTriggerWord(self):
+        # Création du thread Trigger word
+        self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+        self.__TriggerWorkStop.clear()
+        self.__thTrigger.start()
+
+    def __stopingTriggerWord(self):
+        self.__TriggerWorkStop.set()
