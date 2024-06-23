@@ -15,7 +15,7 @@ from tkinter.messagebox import*
 from setting.ArreraGazelleUIOld import*
 from PIL import Image, ImageTk
 
-VERSION = ""
+VERSION = "I2024-4.40.2"
 
 class SixGUI :
     def __init__(self,icon:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str,jsonListeFete:str):
