@@ -24,6 +24,7 @@ class SixGUI :
         self.__nameSoft = "Arrera Six"
         self.__themeNB = int # 0 : white 1 : black
         self.__darkModeEnable = bool
+        self.__sixSpeaking = bool
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -332,8 +333,8 @@ class SixGUI :
             self.__canvasNoConnect.place(x=0,y=0)
             self.__screen.update()
         else :
-            self.__entryUser.pack(side="bottom")
             self.__sequenceParole(self.__six.boot())
+            self.__entryUser.pack(side="bottom")
             self.__startingTriggerWord()
     
     def __clearView(self):
@@ -355,6 +356,7 @@ class SixGUI :
         self.__canvasParaOpen.place_forget()
     
     def __sequenceParole(self,texte:str):
+        self.__sixSpeaking = True 
         thSpeak = th.Thread(target=paroleSix,args=(texte,))
         self.__clearView()
         self.__canvasParole1.place_forget()
@@ -367,6 +369,7 @@ class SixGUI :
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=texte,wraplength=475,justify="left")
         del thSpeak
+        self.__sixSpeaking = False
         
         
     def __sequenceArret(self):
@@ -402,36 +405,37 @@ class SixGUI :
         self.__screen.bind("<Key>", anychar)  
     
     def __envoie(self): 
-        texte = self.__entryUser.get()
-        if ("parametre" in texte ) :
-            self.__activeParametre()
-        else :
-            if (("mute" in texte)or("silence" in texte)or("ta gueule" in texte)):
-                self.__viewMute()
+        if (self.__sixSpeaking==False):
+            texte = self.__entryUser.get()
+            if ("parametre" in texte ) :
+                self.__activeParametre()
             else :
-                self.__six.neuron(texte)
-                self.__clearView()
-                self.__canvasParole1.place(x=0,y=0)
-                self.__screen.update()
-                nbSortie = self.__six.getNbSortie()
-                if (nbSortie==15):
-                    self.__sequenceArret()
-                    self.__quit()
+                if (("mute" in texte)or("silence" in texte)or("ta gueule" in texte)):
+                    self.__viewMute()
                 else :
-                    if (nbSortie==11):
-                        self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
+                    self.__six.neuron(texte)
+                    self.__clearView()
+                    self.__canvasParole1.place(x=0,y=0)
+                    self.__screen.update()
+                    nbSortie = self.__six.getNbSortie()
+                    if (nbSortie==15):
+                        self.__sequenceArret()
+                        self.__quit()
                     else :
-                        listSortie  = self.__six.getListSortie()
-                        if (nbSortie==12):
-                            self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
-                            self.__viewActu(listSortie,1)
+                        if (nbSortie==11):
+                            self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
                         else :
-                            if (nbSortie==3):
-                                self.__sequenceParoleReponseNeuron("Je vous affiche les actualité du moment")
-                                self.__viewActu(listSortie,2)
+                            listSortie  = self.__six.getListSortie()
+                            if (nbSortie==12):
+                                self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
+                                self.__viewActu(listSortie,1)
                             else :
-                                self.__sequenceParoleReponseNeuron(listSortie[0])
-        self.__entryUser.delete(0,END)
+                                if (nbSortie==3):
+                                    self.__sequenceParoleReponseNeuron("Je vous affiche les actualité du moment")
+                                    self.__viewActu(listSortie,2)
+                                else :
+                                    self.__sequenceParoleReponseNeuron(listSortie[0])
+            self.__entryUser.delete(0,END)
     
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__canvasParole1.place_forget()
