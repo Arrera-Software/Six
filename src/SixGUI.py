@@ -312,7 +312,11 @@ class SixGUI :
             self.__quit()
     
     def __quit(self):
-        os.kill(os.getpid(), signal.SIGINT)
+        if (self.__objetDectOS.osWindows()==True) and (self.__objetDectOS.osLinux()==False) :
+            os.kill(os.getpid(), signal.SIGINT)
+        else :
+            if (self.__objetDectOS.osWindows()==False) and (self.__objetDectOS.osLinux()==True) :
+                os.kill(os.getpid(), signal.SIGKILL)
     
     def __sequenceBoot(self):
         self.__canvasBoot0.place(x=0,y=0)
