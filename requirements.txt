@@ -16,4 +16,5 @@ pyperclip
 pygame
 speechrecognition
 unidecode
+customtkinter
 pillow
