@@ -1,24 +1,17 @@
-import time
 from src.AssistantSix import*
-from src.pygamePlaysound import*
-from librairy.travailJSON import *
 import requests
 import threading as th
 import random
-import os
-from librairy.dectectionOS import*
 from src.CArreraTrigerWord import*
 from src.srcSix import*
 import signal
-from tkinter import*
-from tkinter.messagebox import*
 from setting.ArreraGazelleUIOld import*
-from PIL import Image, ImageTk
+from librairy.arrera_tk import *
 
-VERSION = ""
+VERSION = "I2025-1.00"
 
 class SixGUI :
-    def __init__(self,icon:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str,jsonListeFete:str):
+    def __init__(self,icon:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str):
         # var
         self.__emplacementIcon = icon
         self.__nameSoft = "Arrera Six"
@@ -31,6 +24,8 @@ class SixGUI :
             self.__etatConnexion = True
         except requests.ConnectionError :
             self.__etatConnexion = False
+        # Demarage d'Arrera TK
+        self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
         self.__six = CArreraSix(jsonNeuronNetwork)
         # Instentation de l'objet Arrera Triger
@@ -44,13 +39,11 @@ class SixGUI :
         # Creation du theard Minuteur Actu 
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # initilisation fenetre
-        self.__screen = Tk()
+        self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)
         self.__screen.geometry("500x350+5+30")
-        self.__screen.maxsize(500,400)
-        self.__screen.minsize(500,400)
+        self.__arrTK.setResizable(False)
         self.__screen.protocol("WM_DELETE_WINDOW",self.__onClose)
-        self.__screen.iconphoto(False,PhotoImage(file=self.__emplacementIcon))
         # Declaration de l'objet Arrera Gazelle 
         self.__gazelleUI = CArreraGazelleUIOld(self.__screen,jsonUser,jsonNeuronNetwork,jsonConfAssistant,jsonConfSetting)
         self.__gazelleUI.passQuitFnc(self.__quitParametre)
@@ -63,10 +56,14 @@ class SixGUI :
         except requests.ConnectionError :
             self.__etatConnexion = False
         # initilisation du menu six
-        sixMenu = Menu(self.__screen)
-        sixMenu.add_command(label="Parametre",command=self.__activeParametre)
-        sixMenu.add_command(label="A propos",command=self.__Apropop )
-        self.__screen.configure(menu=sixMenu)
+        sixMenu = self.__arrTK.createTopMenu(self.__screen)
+        self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",command=self.__activeParametre)
+        self.__arrTK.addCommandTopMenu(sixMenu,text="A propos",command=lambda : self.__arrTK.aproposWindows(nameSoft=self.__nameSoft,
+                                                                                                            iconFile=self.__emplacementIcon,
+                                                                                                            version=VERSION,
+                                                                                                            copyright="Copyright Arrera Software by Baptiste P 2023-2025",
+                                                                                                            linkSource="https://github.com/Arrera-Software/Six",
+                                                                                                            linkWeb="https://arrera-software.fr/"))
         # widget et canvas
         # canvas
         self.__canvasAcceuil = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
@@ -136,7 +133,6 @@ class SixGUI :
                            "actu.png","micro.png","microIcon.png","parametreOpen.png"]
         theme = self.__fileSixConfig.lectureJSON("theme") #Valeur possible "white" et "dark"
         emplacementGUI  = "asset/IMGinterface/"
-        cheminImage = str
         if theme == "white" :
             cheminImage = emplacementGUI+"white/"
             self.__screen.configure(bg="white")
@@ -264,46 +260,6 @@ class SixGUI :
         theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
         theardSequenceBoot.start()
         self.__screen.mainloop()
-    
-    def __Apropop(self):
-        if self.__themeNB == 0 :
-            background = "white"
-            textColor = "black"
-        else :
-            if self.__themeNB == 1 :
-                background = "black"
-                textColor = "white"
-            else :
-                background = "white"
-                textColor = "black"
-        #Variable
-        copyrightApp = "Copyright Arrera Software by Baptiste P 2023-2024"
-        tailleIMG = (100,100)
-        #Creation de la fenetre
-        about = Tk()
-        #about.configure(bg="white")
-        about.title("A propos :"+self.__nameSoft)
-        about.maxsize(400,300)
-        about.minsize(400,300)
-        about.configure(bg=background)
-        #Traitement Image
-        imageOrigine = Image.open(self.__emplacementIcon)    
-        imageRedim = imageOrigine.resize(tailleIMG)
-        icon = ImageTk.PhotoImage(imageRedim)
-        #Label
-        labelIcon = Label(about,bg=background)
-        icon = ImageTk.PhotoImage(imageRedim,master=labelIcon)
-        labelIcon.image_names = icon
-        labelIcon.configure(image=icon)
-        labelName = Label(about,text="\n"+self.__nameSoft+"\n",font=("arial","12"),bg=background,fg=textColor)
-        labelVersion = Label(about,text=VERSION+"\n",font=("arial","11"),bg=background,fg=textColor)
-        labelCopyright = Label(about,text=copyrightApp,font=("arial","9"),bg=background,fg=textColor)
-        #affichage
-        labelIcon.pack()
-        labelName.pack()
-        labelVersion.pack()
-        labelCopyright.pack()
-        about.mainloop()
     
     def __onClose(self):
         if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
