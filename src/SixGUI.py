@@ -32,9 +32,7 @@ class SixGUI :
         except requests.ConnectionError :
             self.__etatConnexion = False
         # Instantation de l'objet Six
-        self.__six = CArreraSix(jsonUser,
-                                jsonNeuronNetwork,
-                                jsonListeFete)
+        self.__six = CArreraSix(jsonNeuronNetwork)
         # Instentation de l'objet Arrera Triger
         self.__objTriger = CArreraTrigerWord("6")
         # Instantation de l'objet srcSix

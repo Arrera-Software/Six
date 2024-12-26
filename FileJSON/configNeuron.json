@@ -21,5 +21,13 @@
    "etatOpen":"1",
    "etatSearch":"1",
    "etatChatbot":"1",
-   "etatApi":"1"
+   "etatApi":"1",
+   "etatCodehelp":"1",
+   "etatWork":"1",
+   "lienDoc":"www.google.com",
+   "emplacementFileHist":"FileJSON/neuronHist.json",
+   "emplacementFileRoutine":"FileJSON/routineFile.json",
+   "fileUser": "FileJSON/configUser.json",
+   "fileFete": "FileJSON/listFete.json",
+   "moduleLanguage": "language/"
 }

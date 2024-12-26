@@ -2,7 +2,6 @@ import speech_recognition as sr
 from unidecode import*
 from src.pygamePlaysound import*
 from librairy.travailJSON import*
-import threading as th
 
 
 class SIXsrc :
