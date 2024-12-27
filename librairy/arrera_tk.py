@@ -153,10 +153,10 @@ class CArreraTK :
                 label.configure(text=text)
             if (image != None):
                 label.configure(image=image)
-            if (bg != ""):
-                label.configure(bg_color=bg)
             if (fg != ""):
-                label.configure(fg_color=fg)
+                label.configure(text_color=fg)
+            if (bg != ""):
+                label.configure(fg_color=bg)
             if (width != 0):
                 label.configure(width=width)
             if (height != 0):
@@ -200,10 +200,10 @@ class CArreraTK :
                 btn.configure(text="")
             if (image != None):
                 btn.configure(image=image)
-            if (bg != ""):
-                btn.configure(bg_color=bg)
             if (fg != ""):
-                btn.configure(fg_color=fg)
+                btn.configure(text_color=fg)
+            if (bg != ""):
+                btn.configure(fg_color=bg)
             if (command != None):
                 btn.configure(command=command)
             if (width != 0):
@@ -246,10 +246,10 @@ class CArreraTK :
     def createEntry(self, screen, bg : str = "", fg : str = "",placeholderText :str = "",police : str = "Arial", taille : int = 12,width : int = 20):
         if (self.__mode == 0):
             entry = ctk.CTkEntry(screen)
-            if (bg != ""):
-                entry.configure(bg_color=bg)
             if (fg != ""):
-                entry.configure(fg_color=fg)
+                entry.configure(text_color=fg)
+            if (bg != ""):
+                entry.configure(fg_color=bg)
             if (placeholderText != ""):
                 entry.configure(placeholder_text=placeholderText)
             if (police != "Arial" or taille != 12):
@@ -318,9 +318,9 @@ class CArreraTK :
             if (height != 0):
                 frame.configure(height=height)
             if (bg != ""):
-                frame.configure(bg_color=bg)
+                frame.configure(fg_color=bg)
             else:
-                frame.configure(bg_color=self.__windowsColor)
+                frame.configure(fg_color=self.__windowsColor)
             if (wightBoder != 0):
                 frame.configure(border_width=wightBoder)
             frame.update()
@@ -560,10 +560,10 @@ class CArreraTK :
             if (fg != ""):
                 label.configure(fg=fg)
         else:
-            if (bg != ""):
-                label.configure(bg_color=bg)
             if (fg != ""):
-                label.configure(fg_color=fg)
+                label.configure(text_color=fg)
+            if (bg != ""):
+                label.configure(fg_color=bg)
 
     def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str):
         if isinstance (button, Button):
@@ -572,7 +572,7 @@ class CArreraTK :
             if (fg != ""):
                 button.configure(fg=fg)
         else:
-            if (bg != ""):
-                button.configure(bg_color=bg)
             if (fg != ""):
-                button.configure(fg_color=fg)
+                button.configure(text_color=fg)
+            if (bg != ""):
+                button.configure(fg_color=bg)
