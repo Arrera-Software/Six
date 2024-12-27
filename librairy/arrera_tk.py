@@ -552,3 +552,27 @@ class CArreraTK :
             label = ctk.CTkLabel(frame,image=image,text="")
             label.place(relx=0.5, rely=0.5, anchor='center')
             return frame
+
+    def labelChangeColor(self,label : Union[Label,ctk.CTkLabel],bg:str = "" ,fg :str = "" ):
+        if isinstance (label,Label):
+            if (bg != ""):
+                label.configure(bg=bg)
+            if (fg != ""):
+                label.configure(fg=fg)
+        else:
+            if (bg != ""):
+                label.configure(bg_color=bg)
+            if (fg != ""):
+                label.configure(fg_color=fg)
+
+    def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str):
+        if isinstance (button, Button):
+            if (bg != ""):
+                button.configure(bg=bg)
+            if (fg != ""):
+                button.configure(fg=fg)
+        else:
+            if (bg != ""):
+                button.configure(bg_color=bg)
+            if (fg != ""):
+                button.configure(fg_color=fg)
