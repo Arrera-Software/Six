@@ -528,3 +528,17 @@ class CArreraTK :
 
     def addCascadeTopMenu(self, menuMaster:Menu, menuChild:Menu, text:str):
         menuMaster.add_cascade(label=text, menu=menuChild)
+
+    def createArreraBackgroudImage(self,screen:Union[Tk,ctk.CTk,Toplevel,ctk.CTkToplevel],imageLight:str,imageDark :str = "",height:int = 600,width:int = 800):
+        if (self.__mode == 0):
+            if (imageDark != ""):
+                image = ctk.CTkImage(light_image=Image.open(imageLight),
+                                     dark_image=Image.open(imageDark),
+                                     size=(width, height))
+            else :
+                image = ctk.CTkImage(light_image=Image.open(imageLight)
+                                     ,size=(width, height))
+            frame = ctk.CTkFrame(screen,width=width,height=height,border_width=0)
+            label = ctk.CTkLabel(frame,image=image)
+            label.place(relx=0.5, rely=0.5, anchor='center')
+            return frame
