@@ -41,7 +41,7 @@ class SixGUI :
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)
-        self.__screen.geometry("500x350+5+30")
+        self.__screen.geometry("500x400+5+30")
         self.__arrTK.setResizable(False)
         self.__screen.protocol("WM_DELETE_WINDOW",self.__onClose)
         # Declaration de l'objet Arrera Gazelle 
@@ -66,39 +66,126 @@ class SixGUI :
                                                                                                             linkWeb="https://arrera-software.fr/"))
         # widget et canvas
         # canvas
-        self.__canvasAcceuil = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
 
-        self.__canvasBoot0 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasBoot1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasBoot2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasBoot3 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
+        # Image de fond
+        fileImage = ["acceuil.png",#0
+                     "triste1.png",#1
+                     "triste2.png",#2
+                     "sureprit.png",#3
+                     "mute1.png",#4
+                     "mute2.png",#5
+                     "noConnect.png",#6
+                     "parole1.png",#7
+                     "parole2.png",#8
+                     "parole3.png",#9
+                     "boot0.png",#10
+                     "boot1.png",#11
+                     "boot2.png",#12
+                     "boot3.png",#13
+                     "colere.png",#14
+                     "content.png",#15
+                     "actu.png",#16
+                     "micro.png",#17
+                     "microIcon.png",#18
+                     "parametreOpen.png"#18
+                     ]
+        emplacementGUIDark = "asset/IMGinterface/dark/"
+        emplacementGUILight = "asset/IMGinterface/white/"
 
-        self.__canvasParole1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasParole2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasParole3 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-
-        self.__canvasNoConnect = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-
-        self.__canvasContent = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasColere = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasSurprit = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-
-        self.__canvasTriste1 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-        self.__canvasTriste2 = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-
-        self.__canvasParaOpen = Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)
-
-        self.__canvasActu = Canvas(self.__screen,width=500,height=600,highlightthickness=0)
-
-        self.__canvasMute = [Canvas(self.__screen, width = 500,height = 350, highlightthickness=0),
-                             Canvas(self.__screen, width = 500,height = 350, highlightthickness=0)]
+        # Canvas Acceuil
+        self.__canvasAcceuil = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[0],
+                                                                       imageDark=emplacementGUIDark+fileImage[0],
+                                                                       width=500,height=350)
+        # Canvas Boot
+        self.__canvasBoot0 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[10],
+                                                                       imageDark=emplacementGUIDark+fileImage[10],
+                                                                       width=500,height=350)
+        self.__canvasBoot1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[11],
+                                                                       imageDark=emplacementGUIDark+fileImage[11],
+                                                                       width=500,height=350)
+        self.__canvasBoot2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[12],
+                                                                       imageDark=emplacementGUIDark+fileImage[12],
+                                                                       width=500,height=350)
+        self.__canvasBoot3 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[13],
+                                                                       imageDark=emplacementGUIDark+fileImage[13],
+                                                                       width=500,height=350)
+        # Canvas Parole
+        self.__canvasParole1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[7],
+                                                                       imageDark=emplacementGUIDark+fileImage[7],
+                                                                       width=500,height=350)
+        self.__canvasParole2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[8],
+                                                                       imageDark=emplacementGUIDark+fileImage[8],
+                                                                       width=500,height=350)
+        self.__canvasParole3 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[9],
+                                                                       imageDark=emplacementGUIDark+fileImage[9],
+                                                                       width=500,height=350)
+        # Canvas NoConnect
+        self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[6],
+                                                                       imageDark=emplacementGUIDark+fileImage[6],
+                                                                       width=500,height=350)
+        # Canvas Emotion
+        self.__canvasContent = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[15],
+                                                                       imageDark=emplacementGUIDark+fileImage[15],
+                                                                       width=500,height=350)
+        self.__canvasColere = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[14],
+                                                                       imageDark=emplacementGUIDark+fileImage[14],
+                                                                       width=500,height=350)
+        self.__canvasSurprit = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[3],
+                                                                       imageDark=emplacementGUIDark+fileImage[3],
+                                                                       width=500,height=350)
+        # Canvas Triste
+        self.__canvasTriste1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[1],
+                                                                       imageDark=emplacementGUIDark+fileImage[1],
+                                                                       width=500,height=350)
+        self.__canvasTriste2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[2],
+                                                                       imageDark=emplacementGUIDark+fileImage[2],
+                                                                       width=500,height=350)
+        # Canvas Parametre
+        self.__canvasParaOpen = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[19],
+                                                                       imageDark=emplacementGUIDark+fileImage[19],
+                                                                       width=500,height=350)
+        # Canvas Actu
+        self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                       imageLight=emplacementGUILight+fileImage[16],
+                                                                       imageDark=emplacementGUIDark+fileImage[16],
+                                                                       width=500,height=350)
+        # Canvas Mute
+        self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                     imageLight=emplacementGUILight+fileImage[4],
+                                                                     imageDark=emplacementGUIDark+fileImage[4],
+                                                                     width=500,height=350),
+                             self.__arrTK.createArreraBackgroudImage(self.__screen,
+                                                                     imageLight=emplacementGUILight+fileImage[5],
+                                                                     imageDark=emplacementGUIDark+fileImage[5],
+                                                                     width=500,height=350)]
         # widget 
         self.__entryUser = Entry(self.__screen,font=("Arial","20"),width=25,relief=SOLID)
         self.__labelTextDuringSpeak = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
         self.__labelTextAfterSpeak = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
-        # Label Micro 
-        self.__labelTriggerMicro = Label(self.__screen,width=50,height=40)
-        self.__labelMicroRequette = Label(self.__screen,width=50,height=40)
+        # Label Micro
+        imageMicroTriger=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[17],
+                                                  pathDark=emplacementGUIDark+fileImage[17],
+                                                  tailleX=50,tailleY=50)
+        imageMicroRequette=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[18],
+                                                  pathDark=emplacementGUIDark+fileImage[18],
+                                                    tailleX=50,tailleY=50)
+        self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger,text=" ")
+        self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette,text=" ")
         # Canvas Actu
         self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
         self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
@@ -127,133 +214,51 @@ class SixGUI :
                 self.__detectionTouche(self.__envoie,36)
     
     def __setTheme(self):
-        fileImage = ["acceuil.png","triste1.png","triste2.png","sureprit.png","mute1.png",
-                           "mute2.png","noConnect.png","parole1.png","parole2.png","parole3.png",
-                           "boot0.png","boot1.png","boot2.png","boot3.png","colere.png","content.png",
-                           "actu.png","micro.png","microIcon.png","parametreOpen.png"]
+
         theme = self.__fileSixConfig.lectureJSON("theme") #Valeur possible "white" et "dark"
-        emplacementGUI  = "asset/IMGinterface/"
+
         if theme == "white" :
-            cheminImage = emplacementGUI+"white/"
-            self.__screen.configure(bg="white")
-            self.__labelTextAfterSpeak.configure(bg="#ffffff",fg="#000000")
-            self.__labelActu.configure(bg="#ffffff",fg="#000000")
-            self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
-            self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
-            self.__btnStopMute[0].configure(bg="#ffffff",fg="#000000")
-            self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
-            self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
-            self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
-            self.__labelTriggerMicro.configure(bg="#ffffff")
-            self.__labelMicroRequette.configure(bg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
+            self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnReadActu,bg="#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnQuitActu,"#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnStopMute[0],bg="#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnQuitMute[0],bg="#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnStopMute[1],bg="#ffffff",fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnQuitMute[1],bg="#ffffff",fg="#000000")
+            self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
             if theme == "dark" :
-                cheminImage = emplacementGUI+"dark/"
-                self.__screen.configure(bg="black")
-                self.__labelTextAfterSpeak.configure(bg="#000000",fg="#ffffff")
-                self.__labelActu.configure(bg="#000000",fg="#ffffff")
-                self.__btnReadActu.configure(bg="#000000",fg="#ffffff")
-                self.__btnQuitActu.configure(bg="#000000",fg="#ffffff")
-                self.__btnStopMute[0].configure(bg="#000000",fg="#ffffff")
-                self.__btnQuitMute[0].configure(bg="#000000",fg="#ffffff")
-                self.__btnStopMute[1].configure(bg="#000000",fg="#ffffff")
-                self.__btnQuitMute[1].configure(bg="#000000",fg="#ffffff")
-                self.__labelTriggerMicro.configure(bg="#000000")
                 self.__labelMicroRequette.configure(bg="#000000")
+                self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
+                self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnReadActu, bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnQuitActu, bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnStopMute[0], bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnQuitMute[0], bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnStopMute[1], bg="#000000",fg="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnQuitMute[1], bg="#000000",fg="#ffffff")
+                self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
+                self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
-                cheminImage = emplacementGUI+"white/"
-                self.__screen.configure(bg="white")
-                self.__labelTextAfterSpeak.configure(bg="#ffffff",fg="#000000")
-                self.__labelActu.configure(bg="#ffffff",fg="#000000")
-                self.__btnReadActu.configure(bg="#ffffff",fg="#000000")
-                self.__btnQuitActu.configure(bg="#ffffff",fg="#000000")
-                self.__btnStopMute[0].configure(bg="#ffffff",fg="#000000")
-                self.__btnQuitMute[0].configure(bg="#ffffff",fg="#000000")
-                self.__btnStopMute[1].configure(bg="#ffffff",fg="#000000")
-                self.__btnQuitMute[1].configure(bg="#ffffff",fg="#000000")
-                self.__labelTriggerMicro.configure(bg="#ffffff")
-                self.__labelMicroRequette.configure(bg="#ffffff")
+                self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
+                self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnReadActu, bg="#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnQuitActu, "#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnStopMute[0], bg="#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnQuitMute[0], bg="#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnStopMute[1], bg="#ffffff", fg="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnQuitMute[1], bg="#ffffff", fg="#000000")
+                self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
+                self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
                 self.__themeNB = 0 
                 self.__darkModeEnable = False
         self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
-        #Recuperation des image
-        bgAcceuil = PhotoImage(file=cheminImage+fileImage[0],master=self.__canvasAcceuil)
-
-        bgBoot0 = PhotoImage(file=cheminImage+fileImage[10],master=self.__canvasBoot0)
-        bgBoot1 = PhotoImage(file=cheminImage+fileImage[11],master=self.__canvasBoot1)
-        bgBoot2 = PhotoImage(file=cheminImage+fileImage[12],master=self.__canvasBoot2)
-        bgBoot3 = PhotoImage(file=cheminImage+fileImage[13],master=self.__canvasBoot3)
-
-        bgParole1 = PhotoImage(file=cheminImage+fileImage[7],master=self.__canvasParole1) 
-        bgParole2  = PhotoImage(file=cheminImage+fileImage[8],master=self.__canvasParole2)
-        bgParole3  = PhotoImage(file=cheminImage+fileImage[9],master=self.__canvasParole3)
-
-        bgNoConnect = PhotoImage(file=cheminImage+fileImage[6],master=self.__canvasNoConnect)
-
-        bgContent = PhotoImage(file=cheminImage+fileImage[15],master=self.__canvasContent)
-        bgColere = PhotoImage(file=cheminImage+fileImage[14],master=self.__canvasColere)
-        bgSurprit = PhotoImage(file=cheminImage+fileImage[3],master=self.__canvasSurprit)
-
-        bgTriste1 = PhotoImage(file=cheminImage+fileImage[1],master=self.__canvasTriste1)
-        bgTriste2 = PhotoImage(file=cheminImage+fileImage[2],master=self.__canvasTriste2)
-
-        bgMicroEnable = PhotoImage(file=cheminImage+fileImage[17],master=self.__labelTriggerMicro)
-        bgParaOpen = PhotoImage(file=cheminImage+fileImage[19],master=self.__canvasParaOpen)
-
-        bgActu = PhotoImage(file=cheminImage+fileImage[16],master=self.__canvasActu)
-
-        bgMute = [PhotoImage(file=cheminImage+fileImage[4],master=self.__canvasMute[0]),
-                  PhotoImage(file=cheminImage+fileImage[5],master=self.__canvasMute[1])]
-        
-        bgMicroRequette = PhotoImage(file=cheminImage+fileImage[18],master=self.__labelMicroRequette)
-        #Formatage des canvas avec leurs image
-        self.__canvasAcceuil.image_names = bgAcceuil
-        self.__canvasBoot0.image_names = bgBoot0
-        self.__canvasBoot1.image_names = bgBoot1
-        self.__canvasBoot2.image_names = bgBoot2
-        self.__canvasBoot3.image_names = bgBoot3
-        self.__canvasParole1.image_names = bgParole1
-        self.__canvasParole2.image_names = bgParole2
-        self.__canvasParole3.image_names = bgParole3
-        self.__canvasNoConnect.image_names = bgNoConnect
-        self.__canvasContent.image_names=bgContent
-        self.__canvasColere.image_names = bgColere
-        self.__canvasSurprit.image_names = bgSurprit
-        self.__canvasTriste1.image_names = bgTriste1
-        self.__canvasTriste2.image_names = bgTriste2
-        self.__canvasParaOpen.image_names = bgParaOpen
-        self.__labelTriggerMicro.image_names =  bgMicroEnable
-        self.__canvasActu.image_names = bgActu
-        self.__canvasMute[0].image_names =  bgMute[0]
-        self.__canvasMute[1].image_names =  bgMute[1]
-        self.__labelTriggerMicro.image_names = bgMicroEnable
-        self.__labelMicroRequette.image_names = bgMicroRequette
-        #Mise des image dans les canvas
-        self.__canvasAcceuil.create_image( 0, 0, image =bgAcceuil , anchor = "nw")
-        self.__canvasBoot0.create_image( 0, 0, image =bgBoot0 , anchor = "nw")
-        self.__canvasBoot1.create_image( 0, 0, image =bgBoot1 , anchor = "nw")
-        self.__canvasBoot2.create_image( 0, 0, image =bgBoot2 , anchor = "nw")
-        self.__canvasBoot3.create_image( 0, 0, image =bgBoot3 , anchor = "nw")
-        self.__canvasParole1.create_image( 0, 0, image =bgParole1 , anchor = "nw")
-        self.__canvasParole2.create_image( 0, 0, image =bgParole2 , anchor = "nw")
-        self.__canvasParole3.create_image( 0, 0, image =bgParole3 , anchor = "nw")
-        self.__canvasNoConnect.create_image( 0, 0, image =bgNoConnect , anchor = "nw")
-        self.__canvasContent.create_image( 0, 0, image =bgContent , anchor = "nw")
-        self.__canvasColere.create_image( 0, 0, image =bgColere , anchor = "nw")
-        self.__canvasSurprit.create_image( 0, 0, image =bgSurprit , anchor = "nw")
-        self.__canvasTriste1.create_image( 0, 0, image =bgTriste1 , anchor = "nw")
-        self.__canvasTriste2.create_image( 0, 0, image =bgTriste2 , anchor = "nw")
-        self.__canvasParaOpen.create_image( 0, 0, image =bgParaOpen , anchor = "nw")
-        self.__canvasActu.create_image( 0, 0, image =bgActu , anchor = "nw")
-        self.__canvasMute[0].create_image( 0, 0, image =bgMute[0] , anchor = "nw")
-        self.__canvasMute[1].create_image( 0, 0, image =bgMute[1] , anchor = "nw")
-        self.__labelTriggerMicro.configure(image=bgMicroEnable)
-        self.__labelTriggerMicro.configure(image=bgMicroEnable)
-        self.__labelMicroRequette.configure(image=bgMicroRequette)
     
 
     def active(self):
