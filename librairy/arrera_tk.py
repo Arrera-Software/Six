@@ -146,7 +146,7 @@ class CArreraTK :
                 imageLight = PhotoImage(file=pathLight)
                 return imageLight
 
-    def createLabel(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", ppolice : str = "Arial", ptaille : int = 12,pstyle : str = "normal"):
+    def createLabel(self, screen, text: str = "", image : Union[ctk.CTkImage, PhotoImage] = None, bg : str = "", fg : str = "", ppolice : str = "Arial", ptaille : int = 12,pstyle : str = "normal",width : int = 0,height : int = 0):
         if (self.__mode == 0):
             label = ctk.CTkLabel(screen)
             if (text != ""):
@@ -157,6 +157,10 @@ class CArreraTK :
                 label.configure(bg_color=bg)
             if (fg != ""):
                 label.configure(fg_color=fg)
+            if (width != 0):
+                label.configure(width=width)
+            if (height != 0):
+                label.configure(height=height)
             police = "Arial"
             style = "normal"
             taille = 12
@@ -166,6 +170,8 @@ class CArreraTK :
                 taille = ptaille
             if (pstyle != "normal" and (pstyle == "bold" or pstyle == "italic" or pstyle == "underline")):
                 style = pstyle
+            if (image != None):
+                label.configure(image=image)
             label.configure(font=(police, taille, style))
         else :
             label = Label(screen)
@@ -177,6 +183,10 @@ class CArreraTK :
                 label.configure(bg=bg)
             if (fg != ""):
                 label.configure(fg=fg)
+            if (width != 0):
+                label.configure(width=width)
+            if (height != 0):
+                label.configure(height=height)
             if (ppolice != "Arial" or ptaille != 12):
                 label.configure(font=(ppolice, ptaille))
         return label
@@ -539,6 +549,6 @@ class CArreraTK :
                 image = ctk.CTkImage(light_image=Image.open(imageLight)
                                      ,size=(width, height))
             frame = ctk.CTkFrame(screen,width=width,height=height,border_width=0)
-            label = ctk.CTkLabel(frame,image=image)
+            label = ctk.CTkLabel(frame,image=image,text="")
             label.place(relx=0.5, rely=0.5, anchor='center')
             return frame
