@@ -39,7 +39,7 @@ class CArreraTK :
         self.__mode = mode
         if mode == 0:
             self.__root = ctk.CTk()
-            self.__root.configure(bg_color=defaultColor)
+            self.__root.configure(fg_color=defaultColor)
         else:
             self.__root = Tk()
         if icon != "":
