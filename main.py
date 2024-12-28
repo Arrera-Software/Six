@@ -31,6 +31,6 @@ else :
                        "FileJSON/sixConfig.json",
                        "FileJSON/configUser.json",
                        "FileJSON/configNeuron.json",
-                       "FileJSON/configOldSetting.json",)
+                       "FileJSON/configSetting.json")
 
     assistant.active()

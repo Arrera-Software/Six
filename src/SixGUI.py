@@ -5,7 +5,7 @@ import random
 from src.CArreraTrigerWord import*
 from src.srcSix import*
 import signal
-from setting.ArreraGazelleUIOld import*
+from setting.ArreraGazelleUISix import*
 from librairy.arrera_tk import *
 
 VERSION = "I2025-1.00"
@@ -54,8 +54,12 @@ class SixGUI :
         self.__arrTK.setResizable(False)
         self.__screen.protocol("WM_DELETE_WINDOW",self.__onClose)
         # Declaration de l'objet Arrera Gazelle 
-        self.__gazelleUI = CArreraGazelleUIOld(self.__screen,jsonUser,jsonNeuronNetwork,jsonConfAssistant,jsonConfSetting)
-        self.__gazelleUI.passQuitFnc(self.__quitParametre)
+        self.__gazelleUI = CArreraGazelleUISix(self.__arrTK,
+                                               self.__screen,
+                                               jsonUser,
+                                               jsonNeuronNetwork,
+                                               jsonConfAssistant,
+                                               jsonConfSetting)
         # initilisation du menu six
         sixMenu = self.__arrTK.createTopMenu(self.__screen)
         self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",command=self.__activeParametre)
@@ -396,12 +400,10 @@ class SixGUI :
     def __activeParametre(self):
         self.__stopingTriggerWord()
         self.__screen.title(self.__nameSoft+" : Parametre")
-        self.__screen.maxsize(500,600)
-        self.__screen.minsize(500,600)
         self.__screen.update()
         self.__clearView()
         self.__entryUser.pack_forget()
-        self.__gazelleUI.active(False)
+        self.__gazelleUI.active()
     
     def __quitParametre(self):
         self.__screen.maxsize(500,400)

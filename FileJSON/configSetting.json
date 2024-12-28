@@ -1,0 +1,6 @@
+{
+    "listeTheme":["Dark","Light"],
+    "listGenre":["monsieur","madame","maitre"],
+    "iconSoft": "asset/icon/icon.png",
+    "listMoteurRecherche": ["google","brave","duckduckgo","qwant","ecosia","bing","perplexity"]
+}
