@@ -163,7 +163,7 @@ class SixGUI :
         self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self.__screen,
                                                                        imageLight=emplacementGUILight+fileImage[16],
                                                                        imageDark=emplacementGUIDark+fileImage[16],
-                                                                       width=500,height=350)
+                                                                       width=500,height=600)
         # Canvas Mute
         self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self.__screen,
                                                                      imageLight=emplacementGUILight+fileImage[4],
@@ -187,13 +187,13 @@ class SixGUI :
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger,text=" ")
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette,text=" ")
         # Canvas Actu
-        self.__labelActu = Label(self.__canvasActu,font=("arial","15"),bg="red", bd=0)
-        self.__btnQuitActu = Button(self.__canvasActu,text="Quitter",font=("arial","15"),bg="red",command=self.__quitActu)
-        self.__btnReadActu =  Button(self.__canvasActu,text="Lire a voix haute",font=("arial","15"),bg="red")
-        self.__btnStopMute = [Button(self.__canvasMute[0],text="Demute",font=("arial","15"),bg="red",command=self.__quitMute),
-                             Button(self.__canvasMute[1],text="Demute",font=("arial","15"),bg="red",command=self.__quitMute)]
-        self.__btnQuitMute = [Button(self.__canvasMute[0],text="Quitter",font=("arial","15"),bg="red",command=self.__quit),
-                             Button(self.__canvasMute[1],text="Quitter",font=("arial","15"),bg="red",command=self.__quit)]   
+        self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
+        self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
+        self.__btnReadActu =  self.__arrTK.createButton(self.__canvasActu,text="Lire a voix haute",ppolice="arial",ptaille=15)
+        self.__btnStopMute = [self.__arrTK.createButton(self.__canvasMute[0],text="Demute",ppolice="arial",ptaille=15,command=self.__quitMute),
+                             self.__arrTK.createButton(self.__canvasMute[1],text="Demute",ppolice="arial",ptaille=15,command=self.__quitMute)]
+        self.__btnQuitMute = [self.__arrTK.createButton(self.__canvasMute[0],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit),
+                             self.__arrTK.createButton(self.__canvasMute[1],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit)]
         # appelle de la methode pour initiliser le gui
         self.__setTheme()
         #Affichage label parole
@@ -214,46 +214,28 @@ class SixGUI :
                 self.__detectionTouche(self.__envoie,36)
     
     def __setTheme(self):
-
-        theme = self.__fileSixConfig.lectureJSON("theme") #Valeur possible "white" et "dark"
-
-        if theme == "white" :
+        theme = self.__arrTK.getTheme().lower()
+        if theme == "light" :
+            self.__screen.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnReadActu,bg="#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnQuitActu,"#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnStopMute[0],bg="#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnQuitMute[0],bg="#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnStopMute[1],bg="#ffffff",fg="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnQuitMute[1],bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
             self.__themeNB = 0 
             self.__darkModeEnable = False
         else :
             if theme == "dark" :
-                self.__labelMicroRequette.configure(bg="#000000")
+                self.__screen.configure(fg_color="#000000")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnReadActu, bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnQuitActu, bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnStopMute[0], bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnQuitMute[0], bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnStopMute[1], bg="#000000",fg="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnQuitMute[1], bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
                 self.__themeNB = 1
                 self.__darkModeEnable = True
             else :
+                self.__screen.configure(fg_color="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnReadActu, bg="#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnQuitActu, "#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnStopMute[0], bg="#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnQuitMute[0], bg="#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnStopMute[1], bg="#ffffff", fg="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnQuitMute[1], bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
                 self.__themeNB = 0 
