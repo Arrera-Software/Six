@@ -77,9 +77,9 @@ class CArreraGazelleUISix :
         self.__varMoteurRecherche = StringVar(self.__windows)
         self.__varSupprSoft = StringVar(self.__windows)
         self.__varSupprWeb = StringVar(self.__windows)
-        # Widget 
+        # Widget
         # Main frame
-        btnIcon = self.__arrtk.createButton(self.__mainCadre,width=100,height=100,image=iconAssistant)
+        self.__btnIcon = self.__arrtk.createButton(self.__mainCadre,width=100,height=100,image=iconAssistant)
         btnAcceuilUser = self.__arrtk.createButton(self.__mainCadre, width=100, height=100, text="Utilisateur"
                                                    , ppolice="Arial", ptaille=taillePolice-2, pstyle="bold",
                                                    command= lambda  : self.__viewUserAcceuil())
@@ -458,7 +458,7 @@ class CArreraGazelleUISix :
                                                                     command=lambda:self.__chooseFolderArreraDownload())
 
         # Affichage
-        btnIcon.place(x=20,y=20)
+
         btnAcceuilUser.place(x=140,y=20)
         btnAcceuilMeteo.place(x=260,y=20)
         btnAcceuilGPS.place(x=380,y=20)
@@ -469,7 +469,7 @@ class CArreraGazelleUISix :
         btnAcceuilArreraWork.place(x=20,y=260)
         btnAcceuilDownload.place(x=140,y=260)
         btnAcceuilMicro.place(x=260,y=260)
-        self.__btnRetourAssistant.place(x=380,y=260)
+
         # backFrame
         self.__arrtk.placeCenterRight(retourAcceuilBTN)
         # userFrame
@@ -631,6 +631,17 @@ class CArreraGazelleUISix :
     def __backAcceuil(self):
         self.__clearAll()
         self.__mainCadre.pack()
+
+    def passFNCQuit(self,fnc):
+        self.__btnRetourAssistant.configure(command=fnc)
+        self.__btnRetourAssistant.place(x=380, y=260)
+
+    def passFNCBTNIcon(self,fnc):
+        self.__btnIcon.configure(command=fnc)
+        self.__btnIcon.place(x=20, y=20)
+
+    def clearAllFrame(self):
+        self.__clearAll()
 
     # Methode pour la partie User
     def __viewUserAcceuil(self):

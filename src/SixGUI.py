@@ -60,17 +60,14 @@ class SixGUI :
                                                jsonNeuronNetwork,
                                                jsonConfAssistant,
                                                jsonConfSetting)
+        self.__gazelleUI.passFNCQuit(self.__quitParametre)
+        self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
         # initilisation du menu six
         sixMenu = self.__arrTK.createTopMenu(self.__screen)
-        self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",command=self.__activeParametre)
+        self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",
+                                       command=self.__activeParametre)
         self.__arrTK.addCommandTopMenu(sixMenu,text="A propos",
-                                       command=lambda : self.__arrTK.aproposWindows(
-                                           nameSoft=self.__nameSoft,
-                                           iconFile=self.__emplacementIcon,
-                                           version=VERSION,
-                                           copyright="Copyright Arrera Software by Baptiste P 2023-2025",
-                                           linkSource="https://github.com/Arrera-Software/Six",
-                                           linkWeb="https://arrera-software.fr/"))
+                                       command=lambda : self.__apropos())
         # widget et canvas
         # canvas
 
@@ -248,6 +245,15 @@ class SixGUI :
         theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
         theardSequenceBoot.start()
         self.__screen.mainloop()
+
+    def __apropos(self):
+        self.__arrTK.aproposWindows(
+            nameSoft=self.__nameSoft,
+            iconFile=self.__emplacementIcon,
+            version=VERSION,
+            copyright="Copyright Arrera Software by Baptiste P 2023-2025",
+            linkSource="https://github.com/Arrera-Software/Six",
+            linkWeb="https://arrera-software.fr/")
     
     def __onClose(self):
         if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
@@ -406,9 +412,8 @@ class SixGUI :
         self.__gazelleUI.active()
     
     def __quitParametre(self):
-        self.__screen.maxsize(500,400)
-        self.__screen.minsize(500,400)
         self.__screen.title(self.__nameSoft)
+        self.__gazelleUI.clearAllFrame()
         self.__screen.update()
         self.__sequenceParole("Les parametre on etais mit a jour")
         self.__startingTriggerWord()
@@ -416,8 +421,6 @@ class SixGUI :
         self.__reloadTheme()
     
     def __sixTrigerWord(self):
-        sortieTriger = int 
-        sortieMicro = str
         while not self.__TriggerWorkStop.is_set():
             self.__microTriggerEnable()
             sortieTriger = self.__objTriger.detectWord()
