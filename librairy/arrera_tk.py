@@ -576,3 +576,6 @@ class CArreraTK :
                 button.configure(text_color=fg)
             if (bg != ""):
                 button.configure(fg_color=bg)
+
+    def getTheme(self):
+        return ctk.get_appearance_mode()
