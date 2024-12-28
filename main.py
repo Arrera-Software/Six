@@ -26,10 +26,11 @@ else :
 if (sortieLynx==False):
     showerror("Six","L'assistant n'est pas configurer")
 else :
-    assistant = SixGUI("asset/logo.png",
-                   "FileJSON/sixConfig.json",
-                   "FileJSON/configUser.json",
-                   "FileJSON/configNeuron.json",
-                   "FileJSON/configOldSetting.json",)
+    assistant = SixGUI("asset/icon/",
+                       "icon",
+                       "FileJSON/sixConfig.json",
+                       "FileJSON/configUser.json",
+                       "FileJSON/configNeuron.json",
+                       "FileJSON/configOldSetting.json",)
 
     assistant.active()

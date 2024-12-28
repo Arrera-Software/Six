@@ -11,12 +11,9 @@ from librairy.arrera_tk import *
 VERSION = "I2025-1.00"
 
 class SixGUI :
-    def __init__(self,icon:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str):
+    def __init__(self,iconFolder:str,iconName:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str):
         # var
-        self.__emplacementIcon = icon
         self.__nameSoft = "Arrera Six"
-        self.__themeNB = int # 0 : white 1 : black
-        self.__darkModeEnable = bool
         self.__sixSpeaking = bool
         # Teste de la connextion internet
         try:
@@ -38,6 +35,18 @@ class SixGUI :
         self.__TriggerWorkStop = th.Event()
         # Creation du theard Minuteur Actu 
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
+        # Recuperation de l'emplacement de l'icon
+        if (self.__objetDectOS.osWindows() == True) and (self.__objetDectOS.osLinux() == False):
+            self.__emplacementIcon = iconFolder + "/" + iconName + ".ico"
+        else:
+            if (self.__objetDectOS.osWindows() == False) and (self.__objetDectOS.osLinux() == True):
+                self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
+        # Teste de de la connection internet
+        try:
+            requests.get("https://duckduckgo.com", timeout=5)
+            self.__etatConnexion = True
+        except requests.ConnectionError:
+            self.__etatConnexion = False
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)
@@ -47,23 +56,17 @@ class SixGUI :
         # Declaration de l'objet Arrera Gazelle 
         self.__gazelleUI = CArreraGazelleUIOld(self.__screen,jsonUser,jsonNeuronNetwork,jsonConfAssistant,jsonConfSetting)
         self.__gazelleUI.passQuitFnc(self.__quitParametre)
-        # Fichier json
-        self.__fileSixConfig = jsonWork(jsonConfAssistant)
-        # Teste de de la connection internet
-        try:
-            requests.get("https://duckduckgo.com",timeout=5)
-            self.__etatConnexion = True
-        except requests.ConnectionError :
-            self.__etatConnexion = False
         # initilisation du menu six
         sixMenu = self.__arrTK.createTopMenu(self.__screen)
         self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",command=self.__activeParametre)
-        self.__arrTK.addCommandTopMenu(sixMenu,text="A propos",command=lambda : self.__arrTK.aproposWindows(nameSoft=self.__nameSoft,
-                                                                                                            iconFile=self.__emplacementIcon,
-                                                                                                            version=VERSION,
-                                                                                                            copyright="Copyright Arrera Software by Baptiste P 2023-2025",
-                                                                                                            linkSource="https://github.com/Arrera-Software/Six",
-                                                                                                            linkWeb="https://arrera-software.fr/"))
+        self.__arrTK.addCommandTopMenu(sixMenu,text="A propos",
+                                       command=lambda : self.__arrTK.aproposWindows(
+                                           nameSoft=self.__nameSoft,
+                                           iconFile=self.__emplacementIcon,
+                                           version=VERSION,
+                                           copyright="Copyright Arrera Software by Baptiste P 2023-2025",
+                                           linkSource="https://github.com/Arrera-Software/Six",
+                                           linkWeb="https://arrera-software.fr/"))
         # widget et canvas
         # canvas
 
@@ -87,7 +90,7 @@ class SixGUI :
                      "actu.png",#16
                      "micro.png",#17
                      "microIcon.png",#18
-                     "parametreOpen.png"#18
+                     "parametreOpen.png"#19
                      ]
         emplacementGUIDark = "asset/IMGinterface/dark/"
         emplacementGUILight = "asset/IMGinterface/white/"
@@ -174,9 +177,9 @@ class SixGUI :
                                                                      imageDark=emplacementGUIDark+fileImage[5],
                                                                      width=500,height=350)]
         # widget 
-        self.__entryUser = Entry(self.__screen,font=("Arial","20"),width=25,relief=SOLID)
-        self.__labelTextDuringSpeak = Label(self.__canvasParole2,font=("arial","15"),bg="red", bd=0)
-        self.__labelTextAfterSpeak = Label(self.__canvasParole3,font=("arial","15"),bg="red", bd=0)
+        self.__entryUser = self.__arrTK.createEntry(self.__screen,police="Arial",taille=25,width=400)
+        self.__labelTextDuringSpeak = self.__arrTK.createLabel(self.__canvasParole2,ppolice="Arial",ptaille=20,pstyle="bold")
+        self.__labelTextAfterSpeak = self.__arrTK.createLabel(self.__canvasParole3,ppolice="Arial",ptaille=20,pstyle="bold")
         # Label Micro
         imageMicroTriger=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[17],
                                                   pathDark=emplacementGUIDark+fileImage[17],
@@ -221,8 +224,6 @@ class SixGUI :
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
-            self.__themeNB = 0 
-            self.__darkModeEnable = False
         else :
             if theme == "dark" :
                 self.__screen.configure(fg_color="#000000")
@@ -230,18 +231,14 @@ class SixGUI :
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
-                self.__themeNB = 1
-                self.__darkModeEnable = True
             else :
                 self.__screen.configure(fg_color="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
-                self.__themeNB = 0 
-                self.__darkModeEnable = False
-        self.__labelTextDuringSpeak.configure(bg="#2b3ceb",fg="white")
-    
+        self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
+
 
     def active(self):
         theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
@@ -404,7 +401,7 @@ class SixGUI :
         self.__screen.update()
         self.__clearView()
         self.__entryUser.pack_forget()
-        self.__gazelleUI.active(self.__darkModeEnable)
+        self.__gazelleUI.active(False)
     
     def __quitParametre(self):
         self.__screen.maxsize(500,400)
