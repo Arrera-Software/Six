@@ -5,7 +5,10 @@ from typing import Union
 class CArreraGazelleUISix :
     def __init__(self,arrTK:CArreraTK,windows:Union[ctk.CTk,ctk.CTkToplevel],emplacementJsonUser:str,emplacementJsonNeuronNetwork:str,emplacementJsonAssistant:str,emplacementConfigSetting:str):
         # Ouverture de l'objet
-        self.__gazelle = CArreraGazelle(emplacementJsonUser,emplacementJsonNeuronNetwork,emplacementJsonAssistant)
+        self.__gazelle = CArreraGazelle(emplacementJsonUser,
+                                        emplacementJsonNeuronNetwork,
+                                        emplacementJsonAssistant,
+                                        "icon/ecoute.mp3")
         jsonSetting = jsonWork(emplacementConfigSetting)
 
         # Mise de la fenetre dans un atribut
@@ -54,6 +57,9 @@ class CArreraGazelleUISix :
         self.__microAcceuil = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
         self.__microSound = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
         self.__microTigerWord = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
+        self.__microVoicePrint = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
+        self.__microViewSave = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
+        self.__microViewWordSave = self.__arrtk.createFrame(self.__microFrame,width=500,height=330)
 
         self.__arreraWorkFrame = self.__arrtk.createFrame(self.__windows,width=500,height=330)
 
@@ -421,13 +427,23 @@ class CArreraGazelleUISix :
                             self.__arrtk.createLabel(self.__microSound,text="Son émis au déclenchement du micro",
                                                     ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
                             self.__arrtk.createLabel(self.__microTigerWord,text="Définition du mot de déclenchement du micro",
-                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold")]
+                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold")
+                            ,self.__arrtk.createLabel(self.__microViewSave,text="Enregistrement de l'empreinte vocale",
+                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
+                            self.__arrtk.createLabel(self.__microViewWordSave,text="Mots enregistrer",
+                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold"),]
+        self.__labelVoicePrint = self.__arrtk.createLabel(self.__microVoicePrint,text="Empreinte vocale",
+                                                            ppolice="Arial",ptaille=taillePolice,pstyle="bold")
+        self.__labelWordVoicePrint = self.__arrtk.createLabel(self.__microViewSave,text="",
+                                                            ppolice="Arial",ptaille=taillePolice,pstyle="bold")
+        self.__labelWordViewSave = self.__arrtk.createLabel(self.__microViewWordSave,text="",
+                                                            ppolice="Arial",ptaille=taillePolice,pstyle="bold")
 
         # Button
         btnAcceuilMicroSound = self.__arrtk.createButton(self.__microAcceuil,text="Son\némis",ppolice="Arial",
                                                             ptaille=taillePolice,pstyle="bold",
                                                          command=lambda:self.__viewMicroSound())
-        btnAcceuilMicroTigerWord = self.__arrtk.createButton(self.__microAcceuil,text="Mot\nde\ndéclenchement",
+        btnAcceuilMicroTigerWord = self.__arrtk.createButton(self.__microAcceuil,text="Empreinte\nvocale",
                                                             ppolice="Arial",ptaille=taillePolice,pstyle="bold",
                                                              command=lambda:self.__viewMicroTigerWord())
 
@@ -441,6 +457,40 @@ class CArreraGazelleUISix :
         btnMicroTigerWordRetour = self.__arrtk.createButton(self.__microTigerWord, text="Retour", ppolice="Arial",
                                                             ptaille=taillePolice, pstyle="bold",
                                                             command=lambda:self.__viewMicroAcceuil())
+
+        self.__btnTrigerWordVoicePrint1 = self.__arrtk.createButton(self.__microTigerWord,text="Empreinte\nvocale 1",
+                                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold"
+                                                                    ,command=lambda : self.__viewVoicePrint(1))
+        self.__btnTrigerWordVoicePrint2 = self.__arrtk.createButton(self.__microTigerWord, text="Empreinte\nvocale 2",
+                                                                    ppolice="Arial",ptaille=taillePolice, pstyle="bold"
+                                                                    ,command=lambda : self.__viewVoicePrint(2))
+        self.__btnTrigerWordVoicePrint3 = self.__arrtk.createButton(self.__microTigerWord, text="Empreinte\nvocale 3",
+                                                                    ppolice="Arial",ptaille=taillePolice, pstyle="bold"
+                                                                    ,command=lambda : self.__viewVoicePrint(3))
+        btnSauvegarderVoicePrint = self.__arrtk.createButton(self.__microViewSave,text="Sauvegarder",ppolice="Arial",
+                                                             ptaille=taillePolice,pstyle="bold",
+                                                             command=lambda : self.__saveTigerWord() )
+
+        btnRetourVoicePrint = self.__arrtk.createButton(self.__microVoicePrint, text="Retour", ppolice="Arial",
+                                                        ptaille=taillePolice, pstyle="bold",
+                                                        command=lambda:self.__viewMicroTigerWord())
+        btnRetourWordVoicePrint = self.__arrtk.createButton(self.__microViewSave, text="Annuler", ppolice="Arial",
+                                                            ptaille=taillePolice, pstyle="bold",
+                                                            command=lambda:self.__viewMicroAcceuil())
+        btnRetourViewWord = self.__arrtk.createButton(self.__microViewWordSave, text="Retour", ppolice="Arial",
+                                                        ptaille=taillePolice, pstyle="bold",
+                                                        command=lambda:self.__viewMicroTigerWord())
+
+        self.__btnSaveVoicePrint = self.__arrtk.createButton(self.__microVoicePrint,text="Enregister",ppolice="Arial",
+                                                            ptaille=taillePolice,pstyle="bold",
+                                                             command=lambda :self.__saveVoicePrint())
+
+        self.__btnSupprVoicePrint = self.__arrtk.createButton(self.__microVoicePrint,text="Supprimer",ppolice="Arial",
+                                                                ptaille=taillePolice,pstyle="bold")
+
+        self.__btnViewVoicePrint = self.__arrtk.createButton(self.__microVoicePrint, text="Voir le mot", ppolice="Arial",
+                                                              ptaille=taillePolice, pstyle="bold")
+
 
         # Frame Arrera Work
         labelTitleArreraWork = self.__arrtk.createLabel(self.__arreraWorkFrame,text="Paramètre Arrera Work",
@@ -592,12 +642,18 @@ class CArreraGazelleUISix :
         for i in range(0,len(labelTitleMicro)):
             self.__arrtk.placeTopCenter(labelTitleMicro[i])
 
-        self.__arrtk.placeCenter(btnAcceuilMicroSound)
+        self.__arrtk.placeTopCenter(self.__labelVoicePrint)
+        self.__arrtk.placeRightBottom(btnRetourVoicePrint)
+        self.__arrtk.placeCenter(self.__labelWordVoicePrint)
+        self.__arrtk.placeRightBottom(btnRetourWordVoicePrint)
+        self.__arrtk.placeBottomLeft(btnSauvegarderVoicePrint)
+        self.__arrtk.placeRightBottom(btnRetourViewWord)
+        self.__arrtk.placeCenter(self.__labelWordViewSave)
 
-        """
+        #self.__arrtk.placeCenter(btnAcceuilMicroSound)
+
         self.__arrtk.placeRightCenter(btnAcceuilMicroSound)
         self.__arrtk.placeLeftCenter(btnAcceuilMicroTigerWord)
-        """
 
         self.__arrtk.placeCenter(self.__btnMicroSoundChangeEtat)
 
@@ -1099,6 +1155,9 @@ class CArreraGazelleUISix :
         self.__microAcceuil.pack()
         self.__microSound.pack_forget()
         self.__microTigerWord.pack_forget()
+        self.__microVoicePrint.pack_forget()
+        self.__microViewSave.pack_forget()
+        self.__microViewWordSave.pack_forget()
 
     def __viewMicroSound(self):
         self.__microAcceuil.pack_forget()
@@ -1113,7 +1172,99 @@ class CArreraGazelleUISix :
     def __viewMicroTigerWord(self):
         self.__microAcceuil.pack_forget()
         self.__microSound.pack_forget()
+        self.__microVoicePrint.pack_forget()
+        self.__microViewSave.pack_forget()
+        self.__microViewWordSave.pack_forget()
+
         self.__microTigerWord.pack()
+
+        nbTriger = self.__gazelle.getNbTrigerWord()
+
+        self.__btnTrigerWordVoicePrint1.place_forget()
+        self.__btnTrigerWordVoicePrint2.place_forget()
+        self.__btnTrigerWordVoicePrint3.place_forget()
+
+        if nbTriger == 0:
+            self.__arrtk.placeCenter(self.__btnTrigerWordVoicePrint1)
+        else :
+            if nbTriger == 1:
+                self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
+                self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint2)
+            else :
+                self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
+                self.__arrtk.placeCenter(self.__btnTrigerWordVoicePrint2)
+                self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint3)
+
+
+    def __viewVoicePrint(self,mode:int):
+        self.__microTigerWord.pack_forget()
+        self.__microVoicePrint.pack()
+        listWord = self.__gazelle.getTrigerWord()
+        nb = len(listWord)
+        self.__btnSaveVoicePrint.place_forget()
+        self.__btnSupprVoicePrint.place_forget()
+        self.__btnViewVoicePrint.place_forget()
+        match mode :
+            case 1 :
+                self.__labelVoicePrint.configure(text="Gestion empreinte vocale 1")
+                if (nb == 0):
+                    self.__arrtk.placeCenter(self.__btnSaveVoicePrint)
+                else :
+                    self.__arrtk.placeLeftCenter(self.__btnSupprVoicePrint)
+                    self.__arrtk.placeRightCenter(self.__btnViewVoicePrint)
+                    self.__btnViewVoicePrint.configure(command=lambda : self.__viewSaveWord(1))
+                    self.__btnSupprVoicePrint.configure(command=lambda :self.__supprTrigerWord(1))
+            case 2 :
+                self.__labelVoicePrint.configure(text="Gestion empreinte vocale 2")
+                if (nb == 1):
+                    self.__arrtk.placeCenter(self.__btnSaveVoicePrint)
+                else :
+                    self.__arrtk.placeLeftCenter(self.__btnSupprVoicePrint)
+                    self.__arrtk.placeRightCenter(self.__btnViewVoicePrint)
+                    self.__btnViewVoicePrint.configure(command=lambda: self.__viewSaveWord(2))
+                    self.__btnSupprVoicePrint.configure(command=lambda: self.__supprTrigerWord(2))
+            case 3 :
+                self.__labelVoicePrint.configure(text="Gestion empreinte vocale 3")
+                if (nb == 2):
+                    self.__arrtk.placeCenter(self.__btnSaveVoicePrint)
+                else :
+                    self.__arrtk.placeLeftCenter(self.__btnSupprVoicePrint)
+                    self.__arrtk.placeRightCenter(self.__btnViewVoicePrint)
+                    self.__btnViewVoicePrint.configure(command=lambda: self.__viewSaveWord(3))
+                    self.__btnSupprVoicePrint.configure(command=lambda: self.__supprTrigerWord(3))
+
+    def __saveVoicePrint(self):
+
+        sortie = self.__gazelle.recordTrigerWord()
+
+        if sortie:
+            self.__microTigerWord.pack_forget()
+            self.__microVoicePrint.pack_forget()
+            self.__microViewSave.pack()
+            self.__labelWordVoicePrint.configure(text="Mots enregistrer : "+self.__gazelle.getRecordTrigerWord())
+
+    def __saveTigerWord(self):
+        self.__viewMicroAcceuil()
+        self.__gazelle.saveRecordTrigerWord()
+        messagebox.showinfo("Parametre","Le mot déclencheur ont bien été enregistrés.")
+
+    def __viewSaveWord(self,mode:int):
+        self.__microAcceuil.pack_forget()
+        self.__microSound.pack_forget()
+        self.__microTigerWord.pack_forget()
+        self.__microVoicePrint.pack_forget()
+        self.__microViewSave.pack_forget()
+        self.__microViewWordSave.pack()
+
+        word = self.__gazelle.getTrigerWord()[mode-1]
+        self.__labelWordViewSave.configure(text="Le mots enregister est : "+word)
+
+    def __supprTrigerWord(self,mode:int):
+        self.__viewMicroAcceuil()
+
+        word = self.__gazelle.getTrigerWord()[mode-1]
+
+        self.__gazelle.supprTrigerWord(word)
 
     def __changeMicroSound(self):
         microEnable = self.__gazelle.getSoundMicroAsEnable()

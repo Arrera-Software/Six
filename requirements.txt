@@ -14,7 +14,11 @@ PyGithub
 language_tool_python
 pyperclip
 pygame
-speechrecognition
 unidecode
 customtkinter
 pillow
+
+gtts
+playsound3
+SpeechRecognition
+pyaudio
