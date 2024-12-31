@@ -375,7 +375,6 @@ class SixGUI :
                     self.__screen.update()
                     nbSortie = self.__assistantSix.getValeurSortie()
                     if (nbSortie==15):
-                        self.__sequenceArret()
                         self.__quit()
                     else :
                         if (nbSortie==11):
