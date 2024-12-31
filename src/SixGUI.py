@@ -1,10 +1,8 @@
-from src.AssistantSix import*
-import requests
-import random
 import signal
 from setting.ArreraGazelleUISix import*
 from librairy.arrera_tk import *
 from librairy.arrera_voice import *
+from ObjetsNetwork.arreraNeuron import*
 
 VERSION = "I2025-1.00"
 
@@ -22,7 +20,7 @@ class SixGUI :
         # Demarage d'Arrera TK
         self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
-        self.__six = CArreraSix(jsonNeuronNetwork)
+        self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet 
@@ -289,7 +287,7 @@ class SixGUI :
             self.__canvasNoConnect.place(x=0,y=0)
             self.__screen.update()
         else :
-            self.__sequenceParole(self.__six.boot())
+            self.__sequenceParole(self.__assistantSix.boot(2))
             self.__entryUser.pack(side="bottom")
             self.__startingTriggerWord()
     
@@ -330,7 +328,7 @@ class SixGUI :
         
         
     def __sequenceArret(self):
-        texte = self.__six.shutdown()
+        texte = self.__assistantSix.shutdown()
         self.__clearView()
         thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
         thSpeak.start()
@@ -373,11 +371,11 @@ class SixGUI :
                 if (("mute" in texte)or("silence" in texte)or("ta gueule" in texte)):
                     self.__viewMute()
                 else :
-                    self.__six.neuron(texte)
+                    self.__assistantSix.neuron(texte)
                     self.__clearView()
                     self.__canvasParole1.place(x=0,y=0)
                     self.__screen.update()
-                    nbSortie = self.__six.getNbSortie()
+                    nbSortie = self.__assistantSix.getValeurSortie()
                     if (nbSortie==15):
                         self.__sequenceArret()
                         self.__quit()
@@ -385,7 +383,7 @@ class SixGUI :
                         if (nbSortie==11):
                             self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
                         else :
-                            listSortie  = self.__six.getListSortie()
+                            listSortie  = self.__assistantSix.getListSortie()
                             if (nbSortie==12):
                                 self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
                                 self.__viewActu(listSortie,1)
