@@ -3,12 +3,12 @@ from setting.arreraGazelle import*
 from typing import Union
 
 class CArreraGazelleUISix :
-    def __init__(self,arrTK:CArreraTK,windows:Union[ctk.CTk,ctk.CTkToplevel],emplacementJsonUser:str,emplacementJsonNeuronNetwork:str,emplacementJsonAssistant:str,emplacementConfigSetting:str):
+    def __init__(self,arrTK:CArreraTK,windows:Union[ctk.CTk,ctk.CTkToplevel],emplacementJsonUser:str,emplacementJsonNeuronNetwork:str,emplacementJsonAssistant:str,emplacementConfigSetting:str,sound:str = ""):
         # Ouverture de l'objet
         self.__gazelle = CArreraGazelle(emplacementJsonUser,
                                         emplacementJsonNeuronNetwork,
                                         emplacementJsonAssistant,
-                                        "icon/ecoute.mp3")
+                                        sound)
         jsonSetting = jsonWork(emplacementConfigSetting)
 
         # Mise de la fenetre dans un atribut
@@ -1273,6 +1273,13 @@ class CArreraGazelleUISix :
         else :
             self.__gazelle.changeSoundMicro(True)
         self.__viewMicroAcceuil()
+
+    def gettigerWordSet(self):
+        nb = self.__gazelle.getNbTrigerWord()
+        if (nb == 0):
+            return False
+        else :
+            return True
 
     # Methode Arrera Work
 

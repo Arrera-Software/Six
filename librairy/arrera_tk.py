@@ -153,6 +153,7 @@ class CArreraTK :
                 label.configure(text=text)
             if (image != None):
                 label.configure(image=image)
+                label.configure(text="")
             if (fg != ""):
                 label.configure(text_color=fg)
             if (bg != ""):
@@ -200,6 +201,7 @@ class CArreraTK :
                 btn.configure(text="")
             if (image != None):
                 btn.configure(image=image)
+                btn.configure(text="")
             if (fg != ""):
                 btn.configure(text_color=fg)
             if (bg != ""):
@@ -219,6 +221,7 @@ class CArreraTK :
                 taille = ptaille
             if (pstyle != "normal" and (pstyle == "bold" or pstyle == "italic" or pstyle == "underline")):
                 style = pstyle
+
             btn.configure(font=(police,taille,style))
 
         else :

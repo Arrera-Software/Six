@@ -1,7 +1,6 @@
 from src.AssistantSix import*
 import requests
 import random
-from src.CArreraTrigerWord import*
 import signal
 from setting.ArreraGazelleUISix import*
 from librairy.arrera_tk import *
@@ -24,8 +23,6 @@ class SixGUI :
         self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
         self.__six = CArreraSix(jsonNeuronNetwork)
-        # Instentation de l'objet Arrera Triger
-        self.__objTriger = CArreraTrigerWord("6")
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet 
@@ -58,7 +55,8 @@ class SixGUI :
                                                jsonUser,
                                                jsonNeuronNetwork,
                                                jsonConfAssistant,
-                                               jsonConfSetting)
+                                               jsonConfSetting,
+                                               "asset/Sound/ecoute.mp3")
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
         # initilisation du menu six
@@ -90,7 +88,8 @@ class SixGUI :
                      "actu.png",#16
                      "micro.png",#17
                      "microIcon.png",#18
-                     "parametreOpen.png"#19
+                     "parametreOpen.png",#19
+                     "microsimple.png",#20
                      ]
         emplacementGUIDark = "asset/IMGinterface/dark/"
         emplacementGUILight = "asset/IMGinterface/white/"
@@ -187,8 +186,13 @@ class SixGUI :
         imageMicroRequette=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[18],
                                                   pathDark=emplacementGUIDark+fileImage[18],
                                                     tailleX=50,tailleY=50)
-        self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger,text=" ")
-        self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette,text=" ")
+        imageMicroSimple = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[20],
+                                                    pathDark=emplacementGUIDark + fileImage[20],
+                                                    tailleX=35, tailleY=35)
+
+        self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
+        self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
+        self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,image=imageMicroSimple)
         # Canvas Actu
         self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
         self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
@@ -217,6 +221,7 @@ class SixGUI :
                 self.__detectionTouche(self.__envoie,36)
     
     def __setTheme(self):
+        self.__avoice.loadConfig()
         theme = self.__arrTK.getTheme().lower()
         if theme == "light" :
             self.__screen.configure(fg_color="#ffffff")
@@ -305,6 +310,7 @@ class SixGUI :
         self.__canvasTriste1.place_forget()
         self.__canvasTriste2.place_forget()
         self.__canvasParaOpen.place_forget()
+        self.__btnMicro.place_forget()
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
@@ -404,7 +410,7 @@ class SixGUI :
         thSpeak.join()
         del thSpeak
 
-    def __reloadTheme(self):
+    def __loadSetting(self):
         self.__setTheme()
         self.__screen.update()
     
@@ -421,14 +427,14 @@ class SixGUI :
         self.__gazelleUI.clearAllFrame()
         self.__screen.update()
         self.__sequenceParole("Les parametre on etais mit a jour")
-        self.__startingTriggerWord()
         self.__entryUser.pack(side="bottom")
-        self.__reloadTheme()
+        self.__loadSetting()
+        self.__startingTriggerWord()
     
     def __sixTrigerWord(self):
         while not self.__TriggerWorkStop.is_set():
             self.__microTriggerEnable()
-            sortieTriger = self.__objTriger.detectWord()
+            sortieTriger = self.__avoice.trigerWord()
             self.__microTriggerDisable()
             if (sortieTriger == 1 ):
                 self.__microRequetteEnable()
@@ -545,9 +551,16 @@ class SixGUI :
     
     def __startingTriggerWord(self):
         # Création du thread Trigger word
-        self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
-        self.__TriggerWorkStop.clear()
-        self.__thTrigger.start()
+        self.__btnMicro.place_forget()
+        if self.__gazelleUI.gettigerWordSet():
+            self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+            self.__TriggerWorkStop.clear()
+            self.__thTrigger.start()
+        else :
+            self.__arrTK.placeRightBottom(self.__btnMicro)
 
     def __stopingTriggerWord(self):
         self.__TriggerWorkStop.set()
+
+    def __checkTrigerWord(self):
+        self.__startingTriggerWord()
