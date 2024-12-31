@@ -23,24 +23,21 @@ class SixGUI :
         self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
-        # Objet 
-        self.__objetDectOS = OS()
+        # Objet
+        objOS = OS()
+        self.__windowsOS = objOS.osWindows()
+        self.__linuxOS = objOS.osLinux()
+        del objOS
         # Creation du theard Trigger word
         self.__TriggerWorkStop = th.Event()
         # Creation du theard Minuteur Actu 
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # Recuperation de l'emplacement de l'icon
-        if (self.__objetDectOS.osWindows() == True) and (self.__objetDectOS.osLinux() == False):
+        if (self.__windowsOS == True) and (self.__linuxOS == False):
             self.__emplacementIcon = iconFolder + "/" + iconName + ".ico"
         else:
-            if (self.__objetDectOS.osWindows() == False) and (self.__objetDectOS.osLinux() == True):
+            if (self.__windowsOS == False) and (self.__linuxOS == True):
                 self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
-        # Teste de de la connection internet
-        try:
-            requests.get("https://duckduckgo.com", timeout=5)
-            self.__etatConnexion = True
-        except requests.ConnectionError:
-            self.__etatConnexion = False
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)
@@ -212,10 +209,10 @@ class SixGUI :
         self.__btnStopMute[1].place(relx=0, rely=1, anchor='sw')
         self.__btnQuitMute[1].place(relx=1, rely=1, anchor='se')
         # Mise a place de la touche entree
-        if (self.__objetDectOS.osWindows()==True) and (self.__objetDectOS.osLinux()==False) : 
+        if (self.__windowsOS==True) and (self.__linuxOS==False) :
             self.__detectionTouche(self.__envoie,13)
         else :
-            if (self.__objetDectOS.osWindows()==False) and (self.__objetDectOS.osLinux()==True) :
+            if (self.__windowsOS==False) and (self.__linuxOS==True) :
                 self.__detectionTouche(self.__envoie,36)
     
     def __setTheme(self):
@@ -262,10 +259,11 @@ class SixGUI :
             self.__quit()
     
     def __quit(self):
-        if (self.__objetDectOS.osWindows()==True) and (self.__objetDectOS.osLinux()==False) :
+        self.__sequenceArret()
+        if (self.__windowsOS==True) and (self.__linuxOS==False) :
             os.kill(os.getpid(), signal.SIGINT)
         else :
-            if (self.__objetDectOS.osWindows()==False) and (self.__objetDectOS.osLinux()==True) :
+            if (self.__windowsOS==False) and (self.__linuxOS==True) :
                 os.kill(os.getpid(), signal.SIGKILL)
     
     def __sequenceBoot(self):
