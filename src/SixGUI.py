@@ -190,7 +190,8 @@ class SixGUI :
 
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
-        self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,image=imageMicroSimple)
+        self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
+                                                    image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
         # Canvas Actu
         self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
         self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
@@ -289,7 +290,7 @@ class SixGUI :
             self.__screen.update()
         else :
             self.__sequenceParole(self.__assistantSix.boot(2))
-            self.__entryUser.pack(side="bottom")
+            self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__startingTriggerWord()
     
     def __clearView(self):
@@ -366,6 +367,7 @@ class SixGUI :
     def __envoie(self): 
         if (self.__sixSpeaking==False):
             texte = self.__entryUser.get().lower()
+            self.__entryUser.delete(0, END)
             if ("parametre" in texte ) :
                 self.__activeParametre()
             else :
@@ -393,7 +395,7 @@ class SixGUI :
                                     self.__viewActu(listSortie,2)
                                 else :
                                     self.__sequenceParoleReponseNeuron(listSortie[0])
-            self.__entryUser.delete(0,END)
+
     
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
@@ -419,7 +421,7 @@ class SixGUI :
         self.__screen.title(self.__nameSoft+" : Parametre")
         self.__screen.update()
         self.__clearView()
-        self.__entryUser.pack_forget()
+        self.__entryUser.place_forget()
         self.__gazelleUI.active()
     
     def __quitParametre(self):
@@ -427,7 +429,7 @@ class SixGUI :
         self.__gazelleUI.clearAllFrame()
         self.__screen.update()
         self.__sequenceParole(self.__language.getPhQuitSetting())
-        self.__entryUser.pack(side="bottom")
+        self.__arrTK.placeBottomCenter(self.__entryUser)
         self.__loadSetting()
         self.__startingTriggerWord()
     
@@ -447,6 +449,20 @@ class SixGUI :
                 self.__microRequetteDisable()
                 time.sleep(0.2)
                 self.__envoie()
+
+    def __sixMicroEnable(self):
+        self.__microRequetteEnable()
+        microOK = self.__avoice.listen()
+        if (microOK == 0):
+            sortieMicro = self.__avoice.getTextMicro()
+            self.__entryUser.delete(0, END)
+            if (sortieMicro != "nothing"):
+                self.__entryUser.insert(0, sortieMicro)
+                self.__microRequetteDisable()
+                self.__envoie()
+            else :
+                self.__microRequetteDisable()
+
     
     def __viewActu(self,listSortie:list,mode:int):
         """
@@ -454,7 +470,7 @@ class SixGUI :
         2 : actu
         """
         self.__clearView()
-        self.__entryUser.pack_forget()
+        self.__entryUser.place_forget()
         self.__screen.maxsize(500,600)
         self.__screen.minsize(500,600)
         self.__screen.update()
@@ -493,7 +509,7 @@ class SixGUI :
         self.__screen.maxsize(500,400)
         self.__screen.minsize(500,400)
         self.__screen.update()
-        self.__entryUser.pack(side="bottom")
+        self.__arrTK.placeBottomCenter(self.__entryUser)
         self.__screen.update()
         self.__sequenceParole(self.__language.getPhQuitActu())
         self.__startingTriggerWord()
@@ -514,7 +530,7 @@ class SixGUI :
         self.__sequenceParole(self.__language.getPhActiveMute())
         self.__clearView()
         self.__stopingTriggerWord()
-        self.__entryUser.pack_forget()
+        self.__entryUser.place_forget()
         self.__screen.maxsize(500,350)
         self.__screen.minsize(500,350)
         self.__screen.update()
@@ -528,7 +544,7 @@ class SixGUI :
         self.__screen.update()
         self.__canvasMute[0].place_forget()
         self.__canvasMute[1].place_forget()
-        self.__entryUser.pack(side="bottom")
+        self.__arrTK.placeBottomCenter(self.__entryUser)
         self.__screen.update()
         self.__sequenceParole(self.__language.getPhQuitMute())
         self.__startingTriggerWord()
