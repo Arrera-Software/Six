@@ -3,6 +3,7 @@ from setting.ArreraGazelleUISix import*
 from librairy.arrera_tk import *
 from librairy.arrera_voice import *
 from ObjetsNetwork.arreraNeuron import*
+from src.languageSIX import *
 
 VERSION = "I2025-1.00"
 
@@ -21,6 +22,8 @@ class SixGUI :
         self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
         self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
+        # Instantation de l'objet language
+        self.__language = CLanguageSIX("FileJSON/phraseSix.json")
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet
@@ -378,15 +381,15 @@ class SixGUI :
                         self.__quit()
                     else :
                         if (nbSortie==11):
-                            self.__sequenceParoleReponseNeuron("Désoler, il a un probleme qui m'empeche de vous donner votre résumer")
+                            self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
                         else :
                             listSortie  = self.__assistantSix.getListSortie()
                             if (nbSortie==12):
-                                self.__sequenceParoleReponseNeuron("Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile")
+                                self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
                                 self.__viewActu(listSortie,1)
                             else :
                                 if (nbSortie==3):
-                                    self.__sequenceParoleReponseNeuron("Je vous affiche les actualité du moment")
+                                    self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
                                     self.__viewActu(listSortie,2)
                                 else :
                                     self.__sequenceParoleReponseNeuron(listSortie[0])
@@ -421,7 +424,7 @@ class SixGUI :
         self.__screen.title(self.__nameSoft)
         self.__gazelleUI.clearAllFrame()
         self.__screen.update()
-        self.__sequenceParole("Les parametre on etais mit a jour")
+        self.__sequenceParole(self.__language.getPhQuitSetting())
         self.__entryUser.pack(side="bottom")
         self.__loadSetting()
         self.__startingTriggerWord()
@@ -490,7 +493,7 @@ class SixGUI :
         self.__screen.update()
         self.__entryUser.pack(side="bottom")
         self.__screen.update()
-        self.__sequenceParole("J'éspere que sa vous a étais utile")
+        self.__sequenceParole(self.__language.getPhQuitActu())
         self.__startingTriggerWord()
         del self.__thMinuteurActu
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
@@ -506,7 +509,7 @@ class SixGUI :
         self.__quitActu()
     
     def __viewMute(self):
-        self.__sequenceParole("Okay je vous laisse tranquille")
+        self.__sequenceParole(self.__language.getPhActiveMute())
         self.__clearView()
         self.__stopingTriggerWord()
         self.__entryUser.pack_forget()
@@ -525,7 +528,7 @@ class SixGUI :
         self.__canvasMute[1].place_forget()
         self.__entryUser.pack(side="bottom")
         self.__screen.update()
-        self.__sequenceParole("Content d'etre de retour")
+        self.__sequenceParole(self.__language.getPhQuitMute())
         self.__startingTriggerWord()
     
     def __microTriggerEnable(self):
