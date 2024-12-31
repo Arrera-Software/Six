@@ -1,12 +1,11 @@
 from src.AssistantSix import*
 import requests
-import threading as th
 import random
 from src.CArreraTrigerWord import*
-from src.srcSix import*
 import signal
 from setting.ArreraGazelleUISix import*
 from librairy.arrera_tk import *
+from librairy.arrera_voice import *
 
 VERSION = "I2025-1.00"
 
@@ -27,8 +26,8 @@ class SixGUI :
         self.__six = CArreraSix(jsonNeuronNetwork)
         # Instentation de l'objet Arrera Triger
         self.__objTriger = CArreraTrigerWord("6")
-        # Instantation de l'objet srcSix
-        self.__objSRCSix = SIXsrc(jsonWork(jsonConfAssistant))
+        # Instantation de l'objet arrera voice
+        self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet 
         self.__objetDectOS = OS()
         # Creation du theard Trigger word
@@ -309,7 +308,7 @@ class SixGUI :
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
-        thSpeak = th.Thread(target=paroleSix,args=(texte,))
+        thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__clearView()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
@@ -327,10 +326,12 @@ class SixGUI :
     def __sequenceArret(self):
         texte = self.__six.shutdown()
         self.__clearView()
+        thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
+        thSpeak.start()
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=320)
         self.__canvasParole2.place(x=0,y=0)
         self.__screen.update()
-        paroleSix(texte)
+        thSpeak.join()
         self.__canvasParole2.place_forget()
         self.__canvasBoot3.place(x=0,y=0)
         self.__screen.update()
@@ -349,6 +350,7 @@ class SixGUI :
         time.sleep(0.2)
         self.__canvasBoot0.place_forget()
         self.__screen.update()
+        del thSpeak
 
     def __detectionTouche(self,fonc,touche):
         def anychar(event):
@@ -394,10 +396,13 @@ class SixGUI :
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
         self.__screen.update()
-        paroleSix(text)
+        thSpeak = th.Thread(target=self.__avoice.say,args=(text,))
+        thSpeak.start()
         self.__canvasParole2.place_forget()
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
+        thSpeak.join()
+        del thSpeak
 
     def __reloadTheme(self):
         self.__setTheme()
@@ -427,10 +432,12 @@ class SixGUI :
             self.__microTriggerDisable()
             if (sortieTriger == 1 ):
                 self.__microRequetteEnable()
-                sortieMicro = self.__objSRCSix.micro()
-                self.__entryUser.delete(0,END)
-                if (sortieMicro!="nothing"):
-                    self.__entryUser.insert(0,sortieMicro)
+                microOK = self.__avoice.listen()
+                if (microOK == 0):
+                    sortieMicro = self.__avoice.getTextMicro()
+                    self.__entryUser.delete(0,END)
+                    if (sortieMicro!="nothing"):
+                        self.__entryUser.insert(0,sortieMicro)
                 self.__microRequetteDisable()
                 time.sleep(0.2)
                 self.__envoie()
@@ -488,7 +495,7 @@ class SixGUI :
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
     
     def __readActu(self,texte:str):
-        thSpeak = th.Thread(target=paroleSix,args=(texte,))
+        thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         thSpeak.start()
         thSpeak.join()
         del thSpeak
