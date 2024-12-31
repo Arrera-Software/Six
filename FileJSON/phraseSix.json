@@ -1,9 +1,9 @@
 {
-  "phQuitSetting": "Les parametre on etais mit a jour",
-  "phQuitActu": "J'éspere que sa vous a étais utile",
-  "phActiveMute": "Okay je vous laisse tranquille",
-  "phQuitMute" : "Content d'etre de retour",
-  "phErreurResumer": "Désoler, il a un probleme qui m'empeche de vous donner votre résumer",
-  "phOpenResumerActu": "Okay voici votre résumer des actualités du jour. J'éspere qui vous sera utile",
-  "phOpenActu": "Je vous affiche les actualité du moment"
+  "phQuitSetting": "Les paramètres ont été mis à jour.",
+  "phQuitActu": "J'espère que ça vous a été utile.",
+  "phActiveMute": "Okay, je vous laisse tranquille.",
+  "phQuitMute" : "Content d'être de retour pour vous assister au mieux.",
+  "phErreurResumer": "Désolé, il y a un problème qui m'empêche de vous donner votre résumé.",
+  "phOpenResumerActu": "Okay, voici votre résumé des actualités du jour. J'espère qu'il vous sera utile.",
+  "phOpenActu": "Je vous affiche les actualités du moment."
 }
