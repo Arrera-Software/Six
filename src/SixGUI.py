@@ -365,7 +365,7 @@ class SixGUI :
     
     def __envoie(self): 
         if (self.__sixSpeaking==False):
-            texte = self.__entryUser.get()
+            texte = self.__entryUser.get().lower()
             if ("parametre" in texte ) :
                 self.__activeParametre()
             else :
@@ -396,16 +396,18 @@ class SixGUI :
             self.__entryUser.delete(0,END)
     
     def __sequenceParoleReponseNeuron(self,text:str):
+        self.__entryUser.place_forget()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
         self.__screen.update()
         thSpeak = th.Thread(target=self.__avoice.say,args=(text,))
         thSpeak.start()
+        thSpeak.join()
         self.__canvasParole2.place_forget()
+        self.__arrTK.placeBottomCenter(self.__entryUser)
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
-        thSpeak.join()
         del thSpeak
 
     def __loadSetting(self):
