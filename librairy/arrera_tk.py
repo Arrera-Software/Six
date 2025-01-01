@@ -48,7 +48,6 @@ class CArreraTK :
                     self.__root.iconbitmap(icon)
             else:
                 if os.path.splitext(icon)[1].lower() == '.png' :
-                    print("bite")
                     self.__root.iconphoto(True, PhotoImage(file=icon))
         self.__root.geometry(f"{width}x{height}")
         self.__root.title(title)

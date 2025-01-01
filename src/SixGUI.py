@@ -380,7 +380,6 @@ class SixGUI :
                     self.__screen.update()
                     nbSortie = self.__assistantSix.getValeurSortie()
                     listSortie = self.__assistantSix.getListSortie()
-                    print(nbSortie)
                     match nbSortie:
                         case 0 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
