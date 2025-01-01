@@ -379,24 +379,66 @@ class SixGUI :
                     self.__canvasParole1.place(x=0,y=0)
                     self.__screen.update()
                     nbSortie = self.__assistantSix.getValeurSortie()
-                    if (nbSortie==15):
-                        self.__quit()
-                    else :
-                        if (nbSortie==11):
+                    listSortie = self.__assistantSix.getListSortie()
+                    print(nbSortie)
+                    match nbSortie:
+                        case 0 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 1 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 2 :
+                            pass
+                        case 3 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
+                            self.__viewActu(listSortie, 2)
+                        case 4 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 5 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 6 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhErreurActu())
+                        case 7 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            # Rajouter un fonction qui affiche qu'il a un document ouvert
+                        case 8 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            # Rajouter un fonction qui affiche la fermeture du document
+                        case 9 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
+                            # Rajouter la fonction view actu avec un autre mode
+                        case 10 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            # Rajouter un fonction pour afficher qu'un projet est ouvert
+                        case 11 :
                             self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
-                        else :
-                            listSortie  = self.__assistantSix.getListSortie()
-                            if (nbSortie==12):
-                                self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
-                                self.__viewActu(listSortie,1)
-                            else :
-                                if (nbSortie==3):
-                                    self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
-                                    self.__viewActu(listSortie,2)
-                                else :
-                                    self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 12 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
+                            self.__viewActu(listSortie, 1)
+                        case 13 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
+                            # Fonction view actu avec un autre mode
+                        case 14 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            # Rajouter un fonction pour afficher qu'un projet est ouvert
+                        case 15 :
+                            self.__quit()
+                        case 16 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                        case 17 :
+                            print()
+                            # Faire une fonction special pour les aides (S'inspirer de Ryley)
+                        case 18 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
+                            # Fonction view actu avec un autre mode
+                        case 19 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAll())
+                            # Fonction view actu avec un autre mode
+                        case 20 :
+                            self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
+                        case other :
+                            pass
 
-    
+
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
         self.__canvasParole1.place_forget()

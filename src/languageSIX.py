@@ -25,3 +25,20 @@ class CLanguageSIX :
     def getPhOpenActu(self):
         return self.language.lectureJSON("phOpenActu")
 
+    def getPhErreurActu(self):
+        return self.language.lectureJSON("phErreurActu")
+
+    def getPhReadDocument(self):
+        return self.language.lectureJSON("phReadDocument")
+
+    def getPhReadTableur(self):
+        return self.language.lectureJSON("phReadTableur")
+
+    def getPhOpenResumerAgendaTache(self):
+        return self.language.lectureJSON("phOpenResumerAgendaTache")
+
+    def getPhOpenResumerAll(self):
+        return self.language.lectureJSON("phOpenResumerAll")
+
+    def getPhErreurResumerAll(self):
+        return self.language.lectureJSON("phErreurResumerAll")
