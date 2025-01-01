@@ -389,7 +389,7 @@ class SixGUI :
                             pass
                         case 3 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
-                            self.__viewActu(listSortie, 2)
+                            self.__viewResumer(listSortie, 2)
                         case 4 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                         case 5 :
@@ -404,7 +404,7 @@ class SixGUI :
                             # Rajouter un fonction qui affiche la fermeture du document
                         case 9 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
-                            # Rajouter la fonction view actu avec un autre mode
+                            # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 10 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                             # Rajouter un fonction pour afficher qu'un projet est ouvert
@@ -412,10 +412,10 @@ class SixGUI :
                             self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
                         case 12 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
-                            self.__viewActu(listSortie, 1)
+                            self.__viewResumer(listSortie, 1)
                         case 13 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
-                            # Fonction view actu avec un autre mode
+                            # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 14 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                             # Rajouter un fonction pour afficher qu'un projet est ouvert
@@ -428,10 +428,10 @@ class SixGUI :
                             # Faire une fonction special pour les aides (S'inspirer de Ryley)
                         case 18 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
-                            # Fonction view actu avec un autre mode
+                            self.__viewResumer(listSortie,3)
                         case 19 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAll())
-                            # Fonction view actu avec un autre mode
+                            self.__viewResumer(listSortie,4)
                         case 20 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
                         case other :
@@ -505,10 +505,12 @@ class SixGUI :
                 self.__microRequetteDisable()
 
     
-    def __viewActu(self,listSortie:list,mode:int):
+    def __viewResumer(self, listSortie:list, mode:int):
         """
-        1 : Resumer 
-        2 : actu
+        1 : Resumer actualités
+        2 : actuliés
+        3 : Resumer agenda
+        4 : Resumer totale
         """
         self.__clearView()
         self.__entryUser.place_forget()
@@ -541,6 +543,27 @@ class SixGUI :
                 self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
                                         "."+listSortie[1]+
                                         "."+listSortie[2]))
+            case 3 :
+                self.__labelActu.configure(text=listSortie[0]+"\n"+listSortie[1],
+                                        justify="left",
+                                        wraplength=400)
+                self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0]
+                                                                             +"."+listSortie[1] ))
+            case 4 :
+                self.__labelActu.configure(text=listSortie[0] + "\n" + listSortie[1]+"\n"
+                                                +listSortie[2] + "\n" + listSortie[3]+"\n"
+                                                +listSortie[4] + "\n" + listSortie[5]+"\n"
+                                                +listSortie[7] + "\n" + listSortie[8],
+                                           justify="left",
+                                           wraplength=400)
+                self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0] + "."
+                                                                             + listSortie[1]+"."
+                                                                             +listSortie[2] + "."
+                                                                             + listSortie[3]+"."
+                                                                             +listSortie[4] + "."
+                                                                             + listSortie[5]+"."
+                                                                             +listSortie[7] + "."
+                                                                             + listSortie[8]))
         self.__stopingTriggerWord()
         self.__thMinuteurActu.start()
     
