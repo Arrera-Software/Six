@@ -11,5 +11,9 @@
   "phReadTableur" : "Je vous ouvre la fenetre pour lire votre tableur.",
   "phOpenResumerAgendaTache": "Tres bien voici votre resumer de l'agenda et des taches du jour.",
   "phOpenResumerAll": "Voici votre resumer de l'agenda, des taches et des actualités du jour.",
-  "phErreurResumerAll": "Désolé, il y a un problème qui m'empêche de vous donner votre résumé de l'agenda, des taches et des actualités du jour."
+  "phErreurResumerAll": "Désolé, il y a un problème qui m'empêche de vous donner votre résumé de l'agenda, des taches et des actualités du jour.",
+  "phOpenAideTableur": "Très bien, je vous ouvre l'aide pour manipuler un tableur avec mon assistance.",
+  "phOpenAideWord": "Très bien, je vous affiche l'aide pour modifier avec moi un traitement de texte.",
+  "phOpenAideFichier": "Voici tous les types de fichiers que je peux créer pour vous.",
+  "phOpenAideRadio": "Voici toutes les radios que je peux lancer pour vous."
 }

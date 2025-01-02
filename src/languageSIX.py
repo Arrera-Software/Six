@@ -42,3 +42,15 @@ class CLanguageSIX :
 
     def getPhErreurResumerAll(self):
         return self.language.lectureJSON("phErreurResumerAll")
+
+    def getPhOpenAideTableur(self):
+        return self.language.lectureJSON("phOpenAideTableur")
+
+    def getPhOpenAideWord(self):
+        return self.language.lectureJSON("phOpenAideWord")
+
+    def getPhOpenAideFichier(self):
+        return self.language.lectureJSON("phOpenAideFichier")
+
+    def getPhOpenAideRadio(self):
+        return self.language.lectureJSON("phOpenAideRadio")
