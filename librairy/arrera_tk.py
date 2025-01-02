@@ -590,3 +590,60 @@ class CArreraTK :
 
     def getTheme(self):
         return ctk.get_appearance_mode()
+
+    def createTextBox(self,screen:Union[Tk,ctk.CTk,Toplevel,ctk.CTkToplevel],width:int = 0,height:int = 0,bg:str = "",fg:str = "",ppolice:str="Arial",ptaille:int=12,pstyle:str="normal",wrap:str="word"):
+        if (self.__mode == 0):
+            text = ctk.CTkTextbox(screen)
+            if (fg != ""):
+                text.configure(text_color=fg)
+            if (bg != ""):
+                text.configure(fg_color=bg)
+            if (width != 0):
+                text.configure(width=width)
+            if (height != 0):
+                text.configure(height=height)
+
+            police = "Arial"
+            style = "normal"
+            taille = 12
+
+            if (ppolice != "Arial"):
+                police = ppolice
+            if (ptaille != 12):
+                taille = ptaille
+            if (pstyle != "normal" and (pstyle == "bold" or pstyle == "italic" or pstyle == "underline")):
+                style = pstyle
+
+            text.configure(font=(police, taille, style),wrap=wrap)
+
+        else :
+            text = Text(screen,width=width,height=height,bg=bg,fg=fg)
+            if (fg != ""):
+                text.configure(fg=fg)
+            if (bg != ""):
+                text.configure(bg=bg)
+            if (width != 0):
+                text.configure(width=width)
+            if (height != 0):
+                text.configure(height=height)
+
+            police = "Arial"
+            style = "normal"
+            taille = 12
+
+            if (ppolice != "Arial"):
+                police = ppolice
+            if (ptaille != 12):
+                taille = ptaille
+            if (pstyle != "normal" and (pstyle == "bold" or pstyle == "italic" or pstyle == "underline")):
+                style = pstyle
+
+            text.configure(font=(police, taille, style))
+
+        text.configure(state="disabled")
+        return text
+
+    def insertTextOnTextBox(self,textbox:Union[Text,ctk.CTkTextbox],text:str):
+        textbox.configure(state="normal")
+        textbox.insert("1.0", text)
+        textbox.configure(state="disabled")
