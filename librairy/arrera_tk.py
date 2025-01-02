@@ -90,16 +90,21 @@ class CArreraTK :
         else:
             self.__root = Toplevel()
         if icon != "":
-            self.__root.iconbitmap(icon)
+            if platform.system() == "Windows":
+                if os.path.splitext(icon)[1].lower() == '.ico':
+                    self.__root.iconbitmap(icon)
+            else:
+                if os.path.splitext(icon)[1].lower() == '.png':
+                    self.__root.iconphoto(True, PhotoImage(file=icon))
         self.__root.geometry(f"{width}x{height}")
         self.__root.title(title)
         self.__root.resizable(resizable, resizable)
         if bg == "":
-            self.__root.configure(bg=defaultColor)
+            self.__root.configure(fg_color=defaultColor)
             self.__windowsColor = defaultColor
             self.__textColor = defaultTextColor
         else:
-            self.__root.configure(bg=bg)
+            self.__root.configure(fg_color=bg)
             self.__windowsColor = bg
             self.__textColor = fg
 
@@ -145,7 +150,7 @@ class CArreraTK :
                 imageLight = PhotoImage(file=pathLight)
                 return imageLight
 
-    def createLabel(self, screen, text: str = "", image : Union[ctk.CTkImage, PhotoImage] = None, bg : str = "", fg : str = "", ppolice : str = "Arial", ptaille : int = 12,pstyle : str = "normal",width : int = 0,height : int = 0):
+    def createLabel(self, screen, text: str = "", image : Union[ctk.CTkImage, PhotoImage] = None, bg : str = "", fg : str = "", ppolice : str = "Arial", ptaille : int = 12,pstyle : str = "normal",width : int = 0,height : int = 0,pwraplength : int = 0,justify : str = "center"):
         if (self.__mode == 0):
             label = ctk.CTkLabel(screen)
             if (text != ""):
@@ -161,6 +166,8 @@ class CArreraTK :
                 label.configure(width=width)
             if (height != 0):
                 label.configure(height=height)
+            if (pwraplength != 0):
+                label.configure(wraplength=pwraplength)
             police = "Arial"
             style = "normal"
             taille = 12
@@ -172,7 +179,7 @@ class CArreraTK :
                 style = pstyle
             if (image != None):
                 label.configure(image=image)
-            label.configure(font=(police, taille, style))
+            label.configure(font=(police, taille, style),justify=justify)
         else :
             label = Label(screen)
             if (text != ""):
@@ -187,6 +194,8 @@ class CArreraTK :
                 label.configure(width=width)
             if (height != 0):
                 label.configure(height=height)
+            if (pwraplength != 0):
+                label.configure(wraplength=pwraplength)
             if (ppolice != "Arial" or ptaille != 12):
                 label.configure(font=(ppolice, ptaille))
         return label
