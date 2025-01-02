@@ -424,8 +424,7 @@ class SixGUI :
                         case 16 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                         case 17 :
-                            print()
-                            # Faire une fonction special pour les aides (S'inspirer de Ryley)
+                            self.__windowsHelp(listSortie)
                         case 18 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
                             self.__viewResumer(listSortie,3)
@@ -644,3 +643,34 @@ class SixGUI :
 
     def __checkTrigerWord(self):
         self.__startingTriggerWord()
+
+    def __windowsHelp(self, list: list):
+        winHelp = self.__arrTK.aTopLevel(width=500, height=600,
+                                         title="Arrera Six : Aide",
+                                         resizable=False,
+                                         icon=self.__emplacementIcon)
+        labelTitleHelp = self.__arrTK.createLabel(winHelp, ppolice="Arial", ptaille=25, pstyle="bold")
+        aideView = self.__arrTK.createTextBox(winHelp, width=450, height=500,
+                                              wrap="word", ppolice="Arial",
+                                              ptaille=20, pstyle="normal")
+        self.__arrTK.insertTextOnTextBox(aideView, list[0])
+
+        textSpeak = ""
+
+        match list[1]:
+            case "tableur":
+                textSpeak = self.__language.getPhOpenAideTableur()
+                labelTitleHelp.configure(text="Aide Tableur")
+            case "word":
+                textSpeak = self.__language.getPhOpenAideWord()
+                labelTitleHelp.configure(text="Aide Traitement de texte")
+            case "fichier":
+                textSpeak = self.__language.getPhOpenAideFichier()
+                labelTitleHelp.configure(text="Types créables par Arrera SIX")
+            case "radio":
+                textSpeak = self.__language.getPhOpenAideRadio()
+                labelTitleHelp.configure(text="Radio disponible avec Arrera SIX")
+
+        self.__arrTK.placeTopCenter(labelTitleHelp)
+        self.__arrTK.placeCenter(aideView)
+        self.__sequenceParoleReponseNeuron(textSpeak)
