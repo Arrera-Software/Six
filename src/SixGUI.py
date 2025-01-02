@@ -439,6 +439,7 @@ class SixGUI :
 
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
+        self.__btnMicro.place_forget()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
@@ -448,6 +449,8 @@ class SixGUI :
         thSpeak.join()
         self.__canvasParole2.place_forget()
         self.__arrTK.placeBottomCenter(self.__entryUser)
+        if self.__gazelleUI.gettigerWordSet() == False:
+            self.__arrTK.placeBottomRight(self.__btnMicro)
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
         del thSpeak
