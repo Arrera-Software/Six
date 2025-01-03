@@ -57,12 +57,6 @@ class SixGUI :
                                                "asset/Sound/ecoute.mp3")
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
-        # initilisation du menu six
-        sixMenu = self.__arrTK.createTopMenu(self.__screen)
-        self.__arrTK.addCommandTopMenu(sixMenu,text="Parametre",
-                                       command=self.__activeParametre)
-        self.__arrTK.addCommandTopMenu(sixMenu,text="A propos",
-                                       command=lambda : self.__apropos())
         # widget et canvas
         # canvas
 
@@ -88,6 +82,7 @@ class SixGUI :
                      "microIcon.png",#18
                      "parametreOpen.png",#19
                      "microsimple.png",#20
+                     "settings.png"#21
                      ]
         emplacementGUIDark = "asset/IMGinterface/dark/"
         emplacementGUILight = "asset/IMGinterface/white/"
@@ -187,11 +182,16 @@ class SixGUI :
         imageMicroSimple = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[20],
                                                     pathDark=emplacementGUIDark + fileImage[20],
                                                     tailleX=35, tailleY=35)
+        imageParametre = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[21],
+                                                  pathDark=emplacementGUIDark + fileImage[21],
+                                                  tailleX=35, tailleY=35)
 
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
         self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
                                                     image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
+        self.__btnParametre = self.__arrTK.createButton(self.__screen,width=35,height=35,
+                                                        image=imageParametre,command=self.__activeParametre)
         # Canvas Actu
         self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
         self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
@@ -224,6 +224,7 @@ class SixGUI :
         theme = self.__arrTK.getTheme().lower()
         if theme == "light" :
             self.__arrTK.boutonChangeColor(self.__btnMicro,bg="#e0e0e0",hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
             self.__screen.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
@@ -233,6 +234,7 @@ class SixGUI :
             if theme == "dark" :
                 self.__screen.configure(fg_color="#000000")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
+                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
@@ -240,6 +242,7 @@ class SixGUI :
             else :
                 self.__screen.configure(fg_color="#ffffff")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
+                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
@@ -295,6 +298,7 @@ class SixGUI :
         else :
             self.__sequenceParole(self.__assistantSix.boot(2))
             self.__arrTK.placeBottomCenter(self.__entryUser)
+            self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
     
     def __clearView(self):
@@ -315,6 +319,7 @@ class SixGUI :
         self.__canvasTriste2.place_forget()
         self.__canvasParaOpen.place_forget()
         self.__btnMicro.place_forget()
+        self.__btnParametre.place_forget()
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
@@ -444,6 +449,7 @@ class SixGUI :
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
         self.__btnMicro.place_forget()
+        self.__btnParametre.place_forget()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
@@ -455,6 +461,7 @@ class SixGUI :
         self.__arrTK.placeBottomCenter(self.__entryUser)
         if self.__gazelleUI.gettigerWordSet() == False:
             self.__arrTK.placeBottomRight(self.__btnMicro)
+        self.__arrTK.placeBottomLeft(self.__btnParametre)
         self.__canvasParole3.place(x=0,y=0)
         self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
         del thSpeak
@@ -477,6 +484,7 @@ class SixGUI :
         self.__screen.update()
         self.__sequenceParole(self.__language.getPhQuitSetting())
         self.__arrTK.placeBottomCenter(self.__entryUser)
+        self.__arrTK.placeBottomLeft(self.__btnParametre)
         self.__loadSetting()
         self.__startingTriggerWord()
     
