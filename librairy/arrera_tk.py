@@ -200,7 +200,7 @@ class CArreraTK :
                 label.configure(font=(ppolice, ptaille))
         return label
 
-    def createButton(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", command = None,ppolice : str = "Arial", ptaille : int = 12,pstyle :str = "normal",width : int = 0,height : int = 0):
+    def createButton(self, screen, text: str = "", image = None, bg : str = "", fg : str = "", command = None,ppolice : str = "Arial", ptaille : int = 12,pstyle :str = "normal",width : int = 0,height : int = 0,hoverbg:str=""):
         if (self.__mode == 0):
             btn = (ctk.CTkButton(screen))
             if (text != ""):
@@ -214,6 +214,8 @@ class CArreraTK :
                 btn.configure(text_color=fg)
             if (bg != ""):
                 btn.configure(fg_color=bg)
+            if (hoverbg != ""):
+                btn.configure(hover_color=hoverbg)
             if (command != None):
                 btn.configure(command=command)
             if (width != 0):
@@ -576,7 +578,7 @@ class CArreraTK :
             if (bg != ""):
                 label.configure(fg_color=bg)
 
-    def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str):
+    def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str,hoverbg:str=""):
         if isinstance (button, Button):
             if (bg != ""):
                 button.configure(bg=bg)
@@ -587,6 +589,8 @@ class CArreraTK :
                 button.configure(text_color=fg)
             if (bg != ""):
                 button.configure(fg_color=bg)
+            if (hoverbg != ""):
+                button.configure(hover_color=hoverbg)
 
     def getTheme(self):
         return ctk.get_appearance_mode()
