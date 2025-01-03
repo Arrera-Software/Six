@@ -223,6 +223,7 @@ class SixGUI :
         self.__avoice.loadConfig()
         theme = self.__arrTK.getTheme().lower()
         if theme == "light" :
+            self.__arrTK.boutonChangeColor(self.__btnMicro,bg="#e0e0e0",hoverbg="#949494")
             self.__screen.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
@@ -231,12 +232,15 @@ class SixGUI :
         else :
             if theme == "dark" :
                 self.__screen.configure(fg_color="#000000")
+                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
             else :
                 self.__screen.configure(fg_color="#ffffff")
+                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
+                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
