@@ -578,7 +578,7 @@ class CArreraTK :
             if (bg != ""):
                 label.configure(fg_color=bg)
 
-    def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str,hoverbg:str=""):
+    def boutonChangeColor(self, button : Union[Button,ctk.CTkButton], bg:str, fg:str ="",hoverbg:str=""):
         if isinstance (button, Button):
             if (bg != ""):
                 button.configure(bg=bg)
