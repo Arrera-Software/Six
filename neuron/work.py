@@ -76,7 +76,7 @@ class neuronWork :
                                 nameProjet = self.__fonctionArreraNetwork.getNameProjetOpen()
                                 self.__listSortie = [self.__fonctionArreraNetwork.sortieCloseProject(),""]
                                 self.__objHistorique.setAction("Fermeture du projet "+nameProjet)
-                                self.__valeurOut = 1
+                                self.__valeurOut = 21
                 else :
                     if (("lis" in requette) and ("liste" not in requette)):
                         if ("word" in requette):

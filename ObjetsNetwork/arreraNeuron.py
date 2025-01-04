@@ -86,6 +86,7 @@ class ArreraNetwork :
         18 : Resumer tache / agenda
         19 : Resumer all ok 
         20 : Resumer all fail
+        21 : Close projet
         """
         return self.__valeurOut
     
