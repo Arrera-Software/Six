@@ -166,6 +166,7 @@ class fncArreraWork :
             del self.__objTableur
             self.__objTableur = None
             self.__fileTableur = ""
+            self.__tableurOpen = False
             return True
         else :
             return False
