@@ -82,7 +82,10 @@ class SixGUI :
                      "microIcon.png",#18
                      "parametreOpen.png",#19
                      "microsimple.png",#20
-                     "settings.png"#21
+                     "settings.png",#21
+                     "projet.png",#22
+                     "tableur.png",#23
+                     "word.png",#24
                      ]
         emplacementGUIDark = "asset/IMGinterface/dark/"
         emplacementGUILight = "asset/IMGinterface/white/"
@@ -185,9 +188,23 @@ class SixGUI :
         imageParametre = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[21],
                                                   pathDark=emplacementGUIDark + fileImage[21],
                                                   tailleX=35, tailleY=35)
+        imageTableurOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[23],
+                                                  pathDark=emplacementGUIDark + fileImage[23],
+                                                  tailleX=35, tailleY=35)
+        imageProjetOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[22],
+                                                    pathDark=emplacementGUIDark + fileImage[22],
+                                                    tailleX=35, tailleY=35)
+        imageWordOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[24],
+                                                    pathDark=emplacementGUIDark + fileImage[24],
+                                                    tailleX=35, tailleY=35)
 
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
+
+        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,image=imageTableurOpen)
+        self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35, image=imageProjetOpen)
+        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,image=imageWordOpen)
+
         self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
                                                     image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
         self.__btnParametre = self.__arrTK.createButton(self.__screen,width=35,height=35,
@@ -225,6 +242,9 @@ class SixGUI :
         if theme == "light" :
             self.__arrTK.boutonChangeColor(self.__btnMicro,bg="#e0e0e0",hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__screen.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
@@ -235,6 +255,9 @@ class SixGUI :
                 self.__screen.configure(fg_color="#000000")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
                 self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
+                self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
+                self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
+                self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
@@ -242,6 +265,9 @@ class SixGUI :
             else :
                 self.__screen.configure(fg_color="#ffffff")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
+                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
+                self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
+                self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
                 self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
                 self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
                 self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
