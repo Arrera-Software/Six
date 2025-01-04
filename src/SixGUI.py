@@ -433,16 +433,16 @@ class SixGUI :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhErreurActu())
                         case 7 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            # Rajouter un fonction qui affiche qu'il a un document ouvert
+                            self.setButtonOpen()
                         case 8 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            # Rajouter un fonction qui affiche la fermeture du document
+                            self.setButtonOpen()
                         case 9 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
                             # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 10 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            # Rajouter un fonction pour afficher qu'un projet est ouvert
+                            self.setButtonProjet(True)
                         case 11 :
                             self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
                         case 12 :
@@ -453,7 +453,7 @@ class SixGUI :
                             # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 14 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            # Rajouter un fonction pour afficher qu'un projet est ouvert
+                            self.setButtonProjet(True)
                         case 15 :
                             self.__quit()
                         case 16 :
@@ -468,6 +468,9 @@ class SixGUI :
                             self.__viewResumer(listSortie,4)
                         case 20 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
+                        case 21 :
+                            self.__sequenceParoleReponseNeuron(listSortie[0])
+                            self.setButtonProjet(False)
                         case other :
                             pass
 
@@ -715,3 +718,20 @@ class SixGUI :
         self.__arrTK.placeTopCenter(labelTitleHelp)
         self.__arrTK.placeCenter(aideView)
         self.__sequenceParoleReponseNeuron(textSpeak)
+
+    def setButtonOpen(self):
+        if self.__assistantSix.getTableur() :
+            self.__arrTK.placeBottomRight(self.__btnTableurOpen)
+        else :
+            self.__btnTableurOpen.place_forget()
+
+        if self.__assistantSix.getWord():
+            self.__arrTK.placeBottomLeft(self.__btnWordOpen)
+        else :
+            self.__btnWordOpen.place_forget()
+
+    def setButtonProjet(self,projet:bool):
+        if projet:
+            self.__arrTK.placeBottomCenter(self.__btnProjetOpen)
+        else :
+            self.__btnProjetOpen.place_forget()
