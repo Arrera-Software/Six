@@ -543,6 +543,7 @@ class SixGUI :
             if (sortieMicro != "nothing"):
                 self.__entryUser.insert(0, sortieMicro)
                 self.__microRequetteDisable()
+                time.sleep(0.5)
                 self.__envoie()
             else :
                 self.__microRequetteDisable()
