@@ -96,6 +96,9 @@ class ArreraNetwork :
     def getWord(self):
         return self.__fonctionAssistant.getWordOpen()
 
+    def getProject(self):
+        return self.__fonctionAssistant.getProjectOpen()
+
     
     def neuron(self,var:str) :
         # Var local

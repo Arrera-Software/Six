@@ -27,7 +27,9 @@ class neuronWork :
             self.__listSortie = ["",""]
             oldRequette,oldSortie = self.__gestionNeuron.getOld()
 
-            if (("ouvre" in requette)):
+            if (("ouvre" in requette) and (("ouvre le projet nommer" not in requette)
+                or ("ouvre le projet nomme" not in requette) or ("ouvre le projet" not in requette))):
+                print("pas bon")
                 if ((("exel" in requette) or ("tableur" in requette)) 
                     and  ("ordinateur" in requette)):
                     self.__listSortie = [self.__fonctionArreraNetwork.sortieOpenSoftTableurFile(),""]
@@ -192,6 +194,7 @@ class neuronWork :
                                                         self.__valeurOut = 5
                                                     else :
                                                         if (("ouvre le projet nommer" in requette) or ("ouvre le projet nomme" in requette) or ("ouvre le projet" in requette)):
+                                                            print("Cool")
                                                             projet,text = self.__fonctionArreraNetwork.sortieOpenProjet(requette)
                                                             self.__listSortie = [text,""]
                                                             self.__objHistorique.setAction("Ouverture du projet "+projet)

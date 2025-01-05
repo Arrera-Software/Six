@@ -198,6 +198,9 @@ class fncArreraWork :
     
     def getEtatWord(self):
         return self.__wordOpen
+
+    def getEtatProject(self):
+        return self.__projectOpen
     
     def getNameFileTableur(self):
         return self.__fileTableur
