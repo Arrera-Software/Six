@@ -1,62 +1,72 @@
 from librairy.travailJSON import *
 
 class CLanguageSIX :
-    def __init__(self,fileLanguage:str):
-        self.language = jsonWork(fileLanguage)
+    def __init__(self, fileLanguage:str, fileHelp:str):
+        self.__language = jsonWork(fileLanguage)
+        self.__help = jsonWork(fileHelp)
 
     def getPhQuitSetting(self):
-        return self.language.lectureJSON("phQuitSetting")
+        return self.__language.lectureJSON("phQuitSetting")
 
     def getPhQuitActu(self):
-        return self.language.lectureJSON("phQuitActu")
+        return self.__language.lectureJSON("phQuitActu")
 
     def getPhActiveMute(self):
-        return self.language.lectureJSON("phActiveMute")
+        return self.__language.lectureJSON("phActiveMute")
 
     def getPhQuitMute(self):
-        return self.language.lectureJSON("phQuitMute")
+        return self.__language.lectureJSON("phQuitMute")
 
     def getphErreurResumer(self):
-        return self.language.lectureJSON("phErreurResumer")
+        return self.__language.lectureJSON("phErreurResumer")
 
     def getPhOpenResumerActu(self):
-        return self.language.lectureJSON("phOpenResumerActu")
+        return self.__language.lectureJSON("phOpenResumerActu")
 
     def getPhOpenActu(self):
-        return self.language.lectureJSON("phOpenActu")
+        return self.__language.lectureJSON("phOpenActu")
 
     def getPhErreurActu(self):
-        return self.language.lectureJSON("phErreurActu")
+        return self.__language.lectureJSON("phErreurActu")
 
     def getPhReadDocument(self):
-        return self.language.lectureJSON("phReadDocument")
+        return self.__language.lectureJSON("phReadDocument")
 
     def getPhReadTableur(self):
-        return self.language.lectureJSON("phReadTableur")
+        return self.__language.lectureJSON("phReadTableur")
 
     def getPhOpenResumerAgendaTache(self):
-        return self.language.lectureJSON("phOpenResumerAgendaTache")
+        return self.__language.lectureJSON("phOpenResumerAgendaTache")
 
     def getPhOpenResumerAll(self):
-        return self.language.lectureJSON("phOpenResumerAll")
+        return self.__language.lectureJSON("phOpenResumerAll")
 
     def getPhErreurResumerAll(self):
-        return self.language.lectureJSON("phErreurResumerAll")
+        return self.__language.lectureJSON("phErreurResumerAll")
 
     def getPhOpenAideTableur(self):
-        return self.language.lectureJSON("phOpenAideTableur")
+        return self.__language.lectureJSON("phOpenAideTableur")
 
     def getPhOpenAideWord(self):
-        return self.language.lectureJSON("phOpenAideWord")
+        return self.__language.lectureJSON("phOpenAideWord")
 
     def getPhOpenAideFichier(self):
-        return self.language.lectureJSON("phOpenAideFichier")
+        return self.__language.lectureJSON("phOpenAideFichier")
 
     def getPhOpenAideRadio(self):
-        return self.language.lectureJSON("phOpenAideRadio")
+        return self.__language.lectureJSON("phOpenAideRadio")
 
     def getPhOpenAideProjet(self):
-        return self.language.lectureJSON("phOpenAideProjet")
+        return self.__language.lectureJSON("phOpenAideProjet")
 
     def getPhOpenAideWork(self):
-        return self.language.lectureJSON("phOpenAideWork")
+        return self.__language.lectureJSON("phOpenAideWork")
+
+    def getHelpTableur(self):
+        return self.__help.lectureJSON("tableur")
+
+    def getHelpWord(self):
+        return self.__help.lectureJSON("word")
+
+    def getHelpProjet(self):
+        return self.__help.lectureJSON("projet")

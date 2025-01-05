@@ -23,7 +23,8 @@ class SixGUI :
         # Instantation de l'objet Six
         self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
         # Instantation de l'objet language
-        self.__language = CLanguageSIX("FileJSON/phraseSix.json")
+        self.__language = CLanguageSIX("FileJSON/phraseSix.json",
+                                       "FileJSON/aideSix.json")
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet
@@ -741,3 +742,37 @@ class SixGUI :
             self.__arrTK.placeBottomCenter(self.__btnProjetOpen)
         else :
             self.__btnProjetOpen.place_forget()
+
+    def __winHelpFileAndProjet(self,mode:int):
+        """
+        :param mode:
+            1. Tableur
+            2. Word
+            3. Projet
+        :return:
+        """
+        winHelp = self.__arrTK.aTopLevel(width=500, height=600,
+                                         resizable=False,
+                                         icon=self.__emplacementIcon)
+
+        labelTitleHelp = self.__arrTK.createLabel(winHelp, ppolice="Arial", ptaille=25, pstyle="bold")
+        aideView = self.__arrTK.createTextBox(winHelp, width=450, height=500,
+                                              wrap="word", ppolice="Arial",
+                                              ptaille=20, pstyle="normal")
+
+        match mode:
+            case 1:
+                winHelp.title("Arrera Six : Aide Tableur")
+                labelTitleHelp.configure(text="Aide Tableur")
+                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpTableur())
+            case 2:
+                winHelp.title("Arrera Six : Aide Traitement de texte")
+                labelTitleHelp.configure(text="Aide Traitement de texte")
+                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpWord())
+            case 3:
+                winHelp.title("Arrera Six : Aide Arrera Projet")
+                labelTitleHelp.configure(text="Aide Arrera Projet")
+                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpProjet())
+
+        self.__arrTK.placeTopCenter(labelTitleHelp)
+        self.__arrTK.placeCenter(aideView)
