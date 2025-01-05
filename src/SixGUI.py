@@ -715,6 +715,12 @@ class SixGUI :
             case "radio":
                 textSpeak = self.__language.getPhOpenAideRadio()
                 labelTitleHelp.configure(text="Radio disponible avec Arrera SIX")
+            case "projet" :
+                textSpeak = self.__language.getPhOpenAideProjet()
+                labelTitleHelp.configure(text="Aide Arrera Projet")
+            case "work" :
+                textSpeak = self.__language.getPhOpenAideWork()
+                labelTitleHelp.configure(text="Aide fonction Arrera Work")
 
         self.__arrTK.placeTopCenter(labelTitleHelp)
         self.__arrTK.placeCenter(aideView)

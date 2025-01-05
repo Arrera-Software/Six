@@ -54,3 +54,9 @@ class CLanguageSIX :
 
     def getPhOpenAideRadio(self):
         return self.language.lectureJSON("phOpenAideRadio")
+
+    def getPhOpenAideProjet(self):
+        return self.language.lectureJSON("phOpenAideProjet")
+
+    def getPhOpenAideWork(self):
+        return self.language.lectureJSON("phOpenAideWork")

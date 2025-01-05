@@ -15,5 +15,7 @@
   "phOpenAideTableur": "Très bien, je vous ouvre l'aide pour manipuler un tableur avec mon assistance.",
   "phOpenAideWord": "Très bien, je vous affiche l'aide pour modifier avec moi un traitement de texte.",
   "phOpenAideFichier": "Voici tous les types de fichiers que je peux créer pour vous.",
-  "phOpenAideRadio": "Voici toutes les radios que je peux lancer pour vous."
+  "phOpenAideRadio": "Voici toutes les radios que je peux lancer pour vous.",
+  "phOpenAideProjet": "Je vous affiche l'aide pour que nous puissions réaliser des projets ensemble.",
+  "phOpenAideWork": "Voici l'aide pour mieux maîtriser la fonction Work, qui permet de travailler avec moi."
 }
