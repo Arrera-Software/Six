@@ -442,7 +442,7 @@ class SixGUI :
                             # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 10 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonProjet(True)
+                            self.setButtonOpen()
                         case 11 :
                             self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
                         case 12 :
@@ -453,7 +453,7 @@ class SixGUI :
                             # Faire un fonction pour ouvrir une interface pour lire un document et tableur
                         case 14 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonProjet(True)
+                            self.setButtonOpen()
                         case 15 :
                             self.__quit()
                         case 16 :
@@ -470,7 +470,7 @@ class SixGUI :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
                         case 21 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonProjet(False)
+                            self.setButtonOpen()
                         case other :
                             pass
 
@@ -730,8 +730,7 @@ class SixGUI :
         else :
             self.__btnWordOpen.place_forget()
 
-    def setButtonProjet(self,projet:bool):
-        if projet:
+        if self.__assistantSix.getProject():
             self.__arrTK.placeBottomCenter(self.__btnProjetOpen)
         else :
             self.__btnProjetOpen.place_forget()
