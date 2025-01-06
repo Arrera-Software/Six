@@ -276,6 +276,7 @@ class SixGUI :
                 self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
                 self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
         self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
+        self.__labelTextDuringSpeak.configure(corner_radius=0)
 
 
     def active(self):
