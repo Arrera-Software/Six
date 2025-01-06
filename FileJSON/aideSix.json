@@ -31,6 +31,21 @@
     "* 'Suppr une valeur du tableur'",
     "* 'Supprime une valeur d'Excel'",
     "* 'Suppr une valeur d'Excel'"],
-  "word":"",
+  "word":[
+    "- 0uvrir le traitement de texte sur le logiciel de l'ordinateur :",
+    "* 'Ouvre le fichier traitement de texte avec le logiciel de l'ordinateur'",
+    "* 'Ouvre le fichier Word avec le logiciel de l'ordinateur'",
+    "* 'Ouvre le fichier Word avec l'ordinateur'",
+    "- Fermer le Word :",
+    "* 'Ferme le Word'",
+    "* 'Ferme le traitement de texte'",
+    "- Lire le contenu du Word :",
+    "* 'Lis le Word'",
+    "- Écrire dans le fichier de traitement de texte :",
+    "* 'Écris dans le Word'",
+    "- Ouvrir le traitement de texte avec l'interface de l'assistant :",
+    "* 'Montre le Word'",
+    "* 'Montre le traitement de texte'",
+    "* 'Montre le document'"],
   "projet":""
 }

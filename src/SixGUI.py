@@ -204,7 +204,7 @@ class SixGUI :
 
         self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,image=imageTableurOpen,command=lambda : self.__winHelpFileAndProjet(1))
         self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35, image=imageProjetOpen)
-        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,image=imageWordOpen)
+        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,image=imageWordOpen,command = lambda : self.__winHelpFileAndProjet(2))
 
         self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
                                                     image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
@@ -771,7 +771,9 @@ class SixGUI :
             case 2:
                 winHelp.title("Arrera Six : Aide Traitement de texte")
                 labelTitleHelp.configure(text="Aide Traitement de texte")
-                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpWord())
+                self.__arrTK.insertTextOnTextBox(aideView,
+                                                 self.__traitementTextHelpFileAndProjet(
+                                                     self.__language.getHelpWord()))
             case 3:
                 winHelp.title("Arrera Six : Aide Arrera Projet")
                 labelTitleHelp.configure(text="Aide Arrera Projet")
