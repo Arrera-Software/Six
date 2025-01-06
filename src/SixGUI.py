@@ -202,7 +202,7 @@ class SixGUI :
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
 
-        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,image=imageTableurOpen)
+        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,image=imageTableurOpen,command=lambda : self.__winHelpFileAndProjet(1))
         self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35, image=imageProjetOpen)
         self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,image=imageWordOpen)
 
@@ -756,7 +756,7 @@ class SixGUI :
                                          icon=self.__emplacementIcon)
 
         labelTitleHelp = self.__arrTK.createLabel(winHelp, ppolice="Arial", ptaille=25, pstyle="bold")
-        aideView = self.__arrTK.createTextBox(winHelp, width=450, height=500,
+        aideView = self.__arrTK.createTextBox(winHelp, width=475, height=500,
                                               wrap="word", ppolice="Arial",
                                               ptaille=20, pstyle="normal")
 
@@ -764,7 +764,9 @@ class SixGUI :
             case 1:
                 winHelp.title("Arrera Six : Aide Tableur")
                 labelTitleHelp.configure(text="Aide Tableur")
-                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpTableur())
+                self.__arrTK.insertTextOnTextBox(aideView,
+                                                 self.__traitementTextHelpFileAndProjet(
+                                                     self.__language.getHelpTableur()))
             case 2:
                 winHelp.title("Arrera Six : Aide Traitement de texte")
                 labelTitleHelp.configure(text="Aide Traitement de texte")
@@ -776,3 +778,17 @@ class SixGUI :
 
         self.__arrTK.placeTopCenter(labelTitleHelp)
         self.__arrTK.placeCenter(aideView)
+
+    def __traitementTextHelpFileAndProjet(self, liste:list):
+        newText = ""
+        for i in range(0, len(liste)):
+            text = liste[i]
+            if text[0] == "-" :
+                text = text.replace("-", "").strip().lstrip()
+                newText += "\n"+text+"\n"
+            else :
+                if text[0]== "*":
+                    text = text.replace("*","").strip().lstrip()
+                    newText += "    "+text+"\n"
+
+        return newText.strip()

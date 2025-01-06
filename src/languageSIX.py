@@ -63,10 +63,10 @@ class CLanguageSIX :
         return self.__language.lectureJSON("phOpenAideWork")
 
     def getHelpTableur(self):
-        return self.__help.lectureJSON("tableur")
+        return self.__help.lectureJSONList("tableur")
 
     def getHelpWord(self):
-        return self.__help.lectureJSON("word")
+        return self.__help.lectureJSONList("word")
 
     def getHelpProjet(self):
-        return self.__help.lectureJSON("projet")
+        return self.__help.lectureJSONList("projet")
