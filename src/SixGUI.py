@@ -450,7 +450,7 @@ class SixGUI :
                             self.setButtonOpen()
                         case 9 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
-                            # Faire un fonction pour ouvrir une interface pour lire un document et tableur
+                            self.__windowsReadFile(listSortie,2)
                         case 10 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                             self.setButtonOpen()
@@ -461,7 +461,7 @@ class SixGUI :
                             self.__viewResumer(listSortie, 1)
                         case 13 :
                             self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
-                            # Faire un fonction pour ouvrir une interface pour lire un document et tableur
+                            self.__windowsReadFile(listSortie,1)
                         case 14 :
                             self.__sequenceParoleReponseNeuron(listSortie[0])
                             self.setButtonOpen()
@@ -806,3 +806,42 @@ class SixGUI :
                     newText += "    "+text+"\n"
 
         return newText.strip()
+
+    def __windowsReadFile(self, liste:list, mode:int):
+        """
+        :param mode:
+        1. Tableur
+        2. Word
+        :return:
+        """
+        winRead = self.__arrTK.aTopLevel(width=500, height=600,
+                                         resizable=False,
+                                         icon=self.__emplacementIcon)
+
+        labelTitleRead = self.__arrTK.createLabel(winRead, ppolice="Arial", ptaille=25, pstyle="bold")
+
+        content = self.__arrTK.createTextBox(winRead, width=475, height=500,
+                                             wrap="word", ppolice="Arial",
+                                             ptaille=20, pstyle="normal")
+        btnRead = self.__arrTK.createButton(winRead, text="Lire a voix haute", ppolice="Arial", ptaille=15)
+
+
+        match mode :
+            case 1 :
+                winRead.title("Arrera Six : Lecture Tableur")
+                labelTitleRead.configure(text="Lecture : Tableur")
+                textContent = ""
+                for i in range(0, len(liste)):
+                    textContent = textContent+str(liste[i]) + "\n"
+                self.__arrTK.insertTextOnTextBox(content, textContent)
+                btnRead.configure(command=lambda : self.__readActu(textContent))
+
+            case 2 :
+                winRead.title("Arrera Six : Lecture Traitement de texte")
+                labelTitleRead.configure(text="Lecture : Traitement de texte")
+                self.__arrTK.insertTextOnTextBox(content, liste[0])
+                btnRead.configure(command=lambda : self.__readActu(liste[0]))
+
+        self.__arrTK.placeCenter(content)
+        self.__arrTK.placeTopCenter(labelTitleRead)
+        self.__arrTK.placeBottomCenter(btnRead)
