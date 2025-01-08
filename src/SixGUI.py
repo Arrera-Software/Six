@@ -202,12 +202,21 @@ class SixGUI :
         self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
         self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
 
-        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,image=imageTableurOpen,command=lambda : self.__winHelpFileAndProjet(1))
-        self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35, image=imageProjetOpen)
-        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,image=imageWordOpen,command = lambda : self.__winHelpFileAndProjet(2))
+        # Bouton pour montrer qu'un projet/Tableur/Word est ouvert
+        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,
+                                                          image=imageTableurOpen,
+                                                          command=lambda : self.__winHelpFileAndProjet(1))
+        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,
+                                                       image=imageWordOpen,
+                                                       command = lambda : self.__winHelpFileAndProjet(2))
+        self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,
+                                                         image=imageProjetOpen,
+                                                         command=lambda: self.__winHelpFileAndProjet(3))
 
+        # Bouton pour activer le micro quand le trigger word est pas activer
         self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
                                                     image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
+        # Bouton pour activer les parametre
         self.__btnParametre = self.__arrTK.createButton(self.__screen,width=35,height=35,
                                                         image=imageParametre,command=self.__activeParametre)
         # Canvas Actu
