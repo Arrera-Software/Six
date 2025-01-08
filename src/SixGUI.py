@@ -786,7 +786,9 @@ class SixGUI :
             case 3:
                 winHelp.title("Arrera Six : Aide Arrera Projet")
                 labelTitleHelp.configure(text="Aide Arrera Projet")
-                self.__arrTK.insertTextOnTextBox(aideView, self.__language.getHelpProjet())
+                self.__arrTK.insertTextOnTextBox(aideView,
+                                                 self.__traitementTextHelpFileAndProjet(
+                                                     self.__language.getHelpProjet()))
 
         self.__arrTK.placeTopCenter(labelTitleHelp)
         self.__arrTK.placeCenter(aideView)
