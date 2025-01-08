@@ -32,7 +32,7 @@
     "* 'Supprime une valeur d'Excel'",
     "* 'Suppr une valeur d'Excel'"],
   "word":[
-    "- 0uvrir le traitement de texte sur le logiciel de l'ordinateur :",
+    "- Ouvrir le traitement de texte sur le logiciel de l'ordinateur :",
     "* 'Ouvre le fichier traitement de texte avec le logiciel de l'ordinateur'",
     "* 'Ouvre le fichier Word avec le logiciel de l'ordinateur'",
     "* 'Ouvre le fichier Word avec l'ordinateur'",
@@ -53,7 +53,7 @@
     "* 'Le type du projet est #type#'",
     "- Crée un fichier dans le projet :",
     "* 'Crée un fichier #Type file# nommé #Name file#'",
-    "Voir les type de fichier possible a crée :",
+    "- Voir les type de fichier possible a crée :",
     "* 'Types de fichiers'",
     "- Fermer le projet :",
     "* 'Ferme le projet'",
