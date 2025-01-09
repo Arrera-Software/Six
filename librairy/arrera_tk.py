@@ -256,7 +256,7 @@ class CArreraTK :
                 btn.configure(height=height)
         return btn
 
-    def createEntry(self, screen, bg : str = "", fg : str = "",placeholderText :str = "",police : str = "Arial", taille : int = 12,width : int = 20):
+    def createEntry(self, screen, bg : str = "", fg : str = "", placeholderText :str = "", ppolice : str = "Arial", ptaille : int = 12, width : int = 20):
         if (self.__mode == 0):
             entry = ctk.CTkEntry(screen)
             if (fg != ""):
@@ -265,8 +265,8 @@ class CArreraTK :
                 entry.configure(fg_color=bg)
             if (placeholderText != ""):
                 entry.configure(placeholder_text=placeholderText)
-            if (police != "Arial" or taille != 12):
-                entry.configure(font=(police, taille,"normal"))
+            if (ppolice != "Arial" or ptaille != 12):
+                entry.configure(font=(ppolice, ptaille, "normal"))
             if (width != 20):
                 entry.configure(width=width)
         else :
@@ -275,8 +275,8 @@ class CArreraTK :
                 entry.configure(bg=bg)
             if (fg != ""):
                 entry.configure(fg=fg)
-            if (police != "Arial" or taille != 12):
-                entry.configure(font=(police, taille))
+            if (ppolice != "Arial" or ptaille != 12):
+                entry.configure(font=(ppolice, ptaille))
         return entry
 
     def createText(self, screen, bg : str = "", fg : str = ""):
