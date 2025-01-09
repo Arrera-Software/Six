@@ -337,6 +337,7 @@ class SixGUI :
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
+            self.setButtonOpen()
     
     def __clearView(self):
         self.__labelTriggerMicro.place_forget()
