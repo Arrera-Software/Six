@@ -156,7 +156,7 @@ class CArreraGazelleUISix :
                                                        ptaille=taillePolice, pstyle="normal",
                                                        command=lambda:self.__viewUserAcceuil())
         # entry
-        self.__entryNameUser = self.__arrtk.createEntry(self.__userName, police="Arial", taille=taillePolice, width=200)
+        self.__entryNameUser = self.__arrtk.createEntry(self.__userName, ppolice="Arial", ptaille=taillePolice, width=200)
         # option menu
         menuUserGenre = self.__arrtk.createOptionMenu(self.__userGenre,value = listGenre,var = self.__varNameUser)
 
@@ -212,9 +212,9 @@ class CArreraGazelleUISix :
                                                         ppolice="Arial",ptaille=taillePolice,pstyle="normal",
                                                         command=lambda:self.__viewMeteoAcceuil())
         # entry
-        self.__entryMeteoDomicile = self.__arrtk.createEntry(self.__meteoDomicile,police="Arial",taille=taillePolice,width=300)
-        self.__entryMeteoTravail = self.__arrtk.createEntry(self.__meteoTravail,police="Arial",taille=taillePolice,width=300)
-        self.__entryMeteoVille = self.__arrtk.createEntry(self.__meteoVille,police="Arial",taille=taillePolice,width=300)
+        self.__entryMeteoDomicile = self.__arrtk.createEntry(self.__meteoDomicile, ppolice="Arial", ptaille=taillePolice, width=300)
+        self.__entryMeteoTravail = self.__arrtk.createEntry(self.__meteoTravail, ppolice="Arial", ptaille=taillePolice, width=300)
+        self.__entryMeteoVille = self.__arrtk.createEntry(self.__meteoVille, ppolice="Arial", ptaille=taillePolice, width=300)
         #option menu
         self.__menuMeteoSuppr = self.__arrtk.createOptionMenu(self.__meteoSuppr, value = ["", ""], var = self.__varSupprMeteo)
 
@@ -260,8 +260,8 @@ class CArreraGazelleUISix :
                                                       command=lambda:self.__viewGPSAcceuil())
 
         # entry
-        self.__entryGPSDomicile = self.__arrtk.createEntry(self.__gpsDomicile,police="Arial",taille=taillePolice,width=300)
-        self.__entryGPSTravail = self.__arrtk.createEntry(self.__gpsTravail,police="Arial",taille=taillePolice,width=300)
+        self.__entryGPSDomicile = self.__arrtk.createEntry(self.__gpsDomicile, ppolice="Arial", ptaille=taillePolice, width=300)
+        self.__entryGPSTravail = self.__arrtk.createEntry(self.__gpsTravail, ppolice="Arial", ptaille=taillePolice, width=300)
         #option menu
         self.__menuGPSSuppr = self.__arrtk.createOptionMenu(self.__gpsSuppr, value = ["", ""], var = self.__varSupprGPS)
 
@@ -341,7 +341,7 @@ class CArreraGazelleUISix :
                                                       ppolice="Arial",ptaille=taillePolice,pstyle="bold",
                                                       command=lambda:self.__viewSoftAcceuil())
         # Entry
-        self.__entryAddSoft = self.__arrtk.createEntry(self.__softAdd,police="Arial",taille=taillePolice,width=300)
+        self.__entryAddSoft = self.__arrtk.createEntry(self.__softAdd, ppolice="Arial", ptaille=taillePolice, width=300)
 
         # Option Menu
         self.__menuSoftSuppr = self.__arrtk.createOptionMenu(self.__softSuppr,value = ["",""],var = self.__varSupprSoft)
@@ -402,10 +402,10 @@ class CArreraGazelleUISix :
                                              wrap="word", state="normal", font=("Arial", 14))
 
         # Entry
-        self.__entryNameSiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb, police="Arial", taille=taillePolice,width=300)
-        self.__entrySiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb,police="Arial",taille=taillePolice,width=300)
+        self.__entryNameSiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb, ppolice="Arial", ptaille=taillePolice, width=300)
+        self.__entrySiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb, ppolice="Arial", ptaille=taillePolice, width=300)
 
-        self.__entryCloudLink = self.__arrtk.createEntry(self.__internetCloudLink,police="Arial",taille=taillePolice,width=300)
+        self.__entryCloudLink = self.__arrtk.createEntry(self.__internetCloudLink, ppolice="Arial", ptaille=taillePolice, width=300)
 
         # option menu
         self.__menuSiteWeb = self.__arrtk.createOptionMenu(self.__internetSupprSite,value = ["",""],var = self.__varSupprWeb)
