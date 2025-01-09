@@ -173,7 +173,7 @@ class SixGUI :
                                                                      imageDark=emplacementGUIDark+fileImage[5],
                                                                      width=500,height=350)]
         # widget 
-        self.__entryUser = self.__arrTK.createEntry(self.__screen,police="Arial",taille=25,width=400)
+        self.__entryUser = self.__arrTK.createEntry(self.__screen, ppolice="Arial", ptaille=25, width=400)
         self.__labelTextDuringSpeak = self.__arrTK.createLabel(self.__canvasParole2,ppolice="Arial",ptaille=20,pstyle="bold")
         self.__labelTextAfterSpeak = self.__arrTK.createLabel(self.__canvasParole3,ppolice="Arial",ptaille=20,pstyle="bold")
         # Label Micro
