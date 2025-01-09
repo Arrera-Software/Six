@@ -288,8 +288,12 @@ class SixGUI :
         self.__labelTextDuringSpeak.configure(corner_radius=0)
 
 
-    def active(self):
-        theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
+    def active(self,firstBoot:bool):
+        if (firstBoot == True):
+            theardSequenceBoot = th.Thread(target=self.__sequenceFistBoot)
+        else :
+            theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
+
         theardSequenceBoot.start()
         self.__screen.mainloop()
 
@@ -334,6 +338,32 @@ class SixGUI :
             self.__screen.update()
         else :
             self.__sequenceParole(self.__assistantSix.boot(2))
+            self.__arrTK.placeBottomCenter(self.__entryUser)
+            self.__arrTK.placeBottomLeft(self.__btnParametre)
+            self.__startingTriggerWord()
+            self.setButtonOpen()
+
+    def __sequenceFistBoot(self):
+        self.__canvasBoot0.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot0.place_forget()
+        self.__canvasBoot1.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot1.place_forget()
+        self.__canvasBoot2.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasBoot2.place_forget()
+        self.__canvasBoot3.place(x=0,y=0)
+        time.sleep(0.2)
+        self.__canvasAcceuil.place(x=0,y=0)
+        if (self.__etatConnexion==False):
+            self.__canvasAcceuil.place_forget()
+            self.__screen.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.__canvasNoConnect.place(x=0,y=0)
+            self.__screen.update()
+        else :
+            userData = self.__assistantSix.getUserData()
+            self.__sequenceParole(userData[0]+userData[1])
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()

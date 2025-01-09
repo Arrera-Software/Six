@@ -42,4 +42,4 @@ class SixBoot :
                                "FileJSON/configUser.json",
                                "FileJSON/configNeuron.json",
                                "FileJSON/configSetting.json")
-            assistant.active()
+            assistant.active(self.__firstStart)
