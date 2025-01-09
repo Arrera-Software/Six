@@ -2,6 +2,7 @@
     "color":"white",
     "textColor":"black",
     "nameSoft":"Six",
-    "iconSoft":"asset/logo.png",
+    "iconSoftWin":"asset/icon/icon.ico",
+    "iconSoftLinux":"asset/icon/icon.png",
     "listGenre":["monsieur","madame","maitre","maitresse"]
 }
