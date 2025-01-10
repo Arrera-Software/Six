@@ -24,7 +24,8 @@ class SixGUI :
         self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
         # Instantation de l'objet language
         self.__language = CLanguageSIX("FileJSON/phraseSix.json",
-                                       "FileJSON/aideSix.json")
+                                       "FileJSON/aideSix.json",
+                                       "FileJSON/firstBootSix.json")
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet
@@ -363,7 +364,13 @@ class SixGUI :
             self.__screen.update()
         else :
             userData = self.__assistantSix.getUserData()
-            self.__sequenceParole(userData[0]+userData[1])
+            self.__sequenceParole(self.__language.getPhraseFirstBoot(userData[1],userData[0],1))
+            time.sleep(3)
+            self.__sequenceParole(self.__language.getPhraseFirstBoot(userData[1],userData[0],2))
+            time.sleep(3)
+            self.__sequenceParole(self.__language.getPhraseFirstBoot(userData[1],userData[0],3))
+            time.sleep(3)
+            self.__sequenceParole(self.__language.getPhraseFirstBoot(userData[1],userData[0],4))
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()

@@ -1,9 +1,10 @@
 from librairy.travailJSON import *
 
 class CLanguageSIX :
-    def __init__(self, fileLanguage:str, fileHelp:str):
+    def __init__(self, fileLanguage:str, fileHelp:str,fileFirstBoot:str):
         self.__language = jsonWork(fileLanguage)
         self.__help = jsonWork(fileHelp)
+        self.__firstBoot = jsonWork(fileFirstBoot)
 
     def getPhQuitSetting(self):
         return self.__language.lectureJSON("phQuitSetting")
@@ -70,3 +71,6 @@ class CLanguageSIX :
 
     def getHelpProjet(self):
         return self.__help.lectureJSONList("projet")
+
+    def getPhraseFirstBoot(self,genre:str,user:str,nb:int):
+        return self.__firstBoot.lectureJSON(str(nb)).format(genre=genre,user=user)
