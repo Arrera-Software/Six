@@ -20,7 +20,6 @@ class SixBoot :
 
     def active(self):
         if (self.__firstStart):
-            showwarning("Arrera Six","Configurer votre assistant")
             lynx = ArreraLynx("FileJSON/configLynx.json",
                               "FileJSON/configUser.json",
                               "FileJSON/configNeuron.json")
@@ -34,7 +33,21 @@ class SixBoot :
 
     def __boot(self):
         if (self.__sortieLynx == False):
-            showerror("Six","L'assistant n'est pas configurer")
+            arrTk = CArreraTK()
+            screen = arrTk.aTK(title="Arrera Six",resizable=False,width=500,height=350)
+            imgCavas = arrTk.createArreraBackgroudImage(screen,
+                                                        imageDark="asset/IMGinterface/dark/NoConfig.png",
+                                                        imageLight="asset/IMGinterface/white/NoConfig.png",
+                                                        width=500,height=350)
+            labeltext = arrTk.createLabel(screen,
+                                          text="Désoler mais vous avez pas configuer l'assistant correctement",
+                                          ppolice="Arial",ptaille=20,
+                                          pstyle="bold",bg="#2b3ceb",
+                                          fg="white",pwraplength=300,
+                                          justify="left")
+            imgCavas.pack()
+            labeltext.place(x=190,y=40)
+            arrTk.view()
         else :
             assistant = SixGUI("asset/icon/",
                                "icon",
