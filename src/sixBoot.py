@@ -45,8 +45,11 @@ class SixBoot :
                                           pstyle="bold",bg="#2b3ceb",
                                           fg="white",pwraplength=300,
                                           justify="left")
+            btnConf = arrTk.createButton(screen,text="Configurer",ppolice="Arial",ptaille=20,
+                                          pstyle="bold",command=lambda:self.__restartConf(screen))
             imgCavas.pack()
             labeltext.place(x=190,y=40)
+            arrTk.placeBottomCenter(btnConf)
             arrTk.view()
         else :
             assistant = SixGUI("asset/icon/",
@@ -56,3 +59,7 @@ class SixBoot :
                                "FileJSON/configNeuron.json",
                                "FileJSON/configSetting.json")
             assistant.active(self.__firstStart)
+
+    def __restartConf(self,windows:ctk.CTk):
+        windows.destroy()
+        self.active()
