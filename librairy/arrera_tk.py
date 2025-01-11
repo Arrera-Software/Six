@@ -323,7 +323,7 @@ class CArreraTK :
             canvas.create_image(0, 0, image=photo, anchor="nw")
         return canvas
 
-    def createFrame(self, screen,width : int = 0 ,height : int = 0,  bg : str = "",wightBoder : int = 0):
+    def createFrame(self, screen,width : int = 0 ,height : int = 0,  bg : str = "",wightBoder : int = 0,corner_radius : int = 1024):
         if (self.__mode == 0):
             frame = ctk.CTkFrame(screen)
             if (width != 0):
@@ -336,6 +336,8 @@ class CArreraTK :
                 frame.configure(fg_color=self.__windowsColor)
             if (wightBoder != 0):
                 frame.configure(border_width=wightBoder)
+            if (corner_radius != 1024):
+                frame.configure(corner_radius=corner_radius)
             frame.update()
         else :
             frame = Frame(screen)
