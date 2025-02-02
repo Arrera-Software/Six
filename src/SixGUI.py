@@ -5,13 +5,12 @@ from librairy.arrera_voice import *
 from ObjetsNetwork.arreraNeuron import*
 from src.languageSIX import *
 
-VERSION = "I2025-1.00"
-
 class SixGUI :
-    def __init__(self,iconFolder:str,iconName:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str):
+    def __init__(self,iconFolder:str,iconName:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str,version:str):
         # var
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
+        self.__version = version
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -302,7 +301,7 @@ class SixGUI :
         self.__arrTK.aproposWindows(
             nameSoft=self.__nameSoft,
             iconFile=self.__emplacementIcon,
-            version=VERSION,
+            version=self.__version,
             copyright="Copyright Arrera Software by Baptiste P 2023-2025",
             linkSource="https://github.com/Arrera-Software/Six",
             linkWeb="https://arrera-software.fr/")
