@@ -13,9 +13,12 @@ openpyxl
 PyGithub
 language_tool_python
 pyperclip
-holidays
-pytube
 pygame
-speechrecognition
 unidecode
+customtkinter
 pillow
+
+gtts
+playsound3
+SpeechRecognition
+pyaudio

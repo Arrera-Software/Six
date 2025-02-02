@@ -1,5 +1,4 @@
-from librairy.dectectionOS import*
-from ArreraNeuron.ObjetsNetwork.gestion import*
+from ObjetsNetwork.gestion import*
 import subprocess
 import os
 
@@ -36,7 +35,6 @@ class OpenSoftware :
                 return True 
             else :
                 if self.__windowsOS == True and self.__linuxOS == False :
-                    print(self.__emplacement)
                     os.startfile(self.__emplacement)
                     return True
                 else :

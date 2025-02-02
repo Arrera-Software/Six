@@ -24,6 +24,10 @@
   "lienCloud": "",
   "nbSite": "0",
   "dictSite": {},
-  "moteurRecherche": "",
-  "emplacementEvenenement": "FileJSON/evenementUser.json"
+  "moteurRecherche":"",
+  "emplacementEvenenement" :"FileJSON/evenementUser.json",
+  "emplacementTache":"FileJSON/tache.json",
+  "tokenGithub":"",
+  "wordFolder":"",
+  "videoDownloadFolder":""
 }
