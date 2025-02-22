@@ -310,6 +310,11 @@ class SixGUI :
     
     def __onClose(self):
         if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
+            self.__screen.title(self.__nameSoft)
+            self.__gazelleUI.clearAllFrame()
+            self.__screen.update()
+            self.__arrTK.placeBottomCenter(self.__entryUser)
+            self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__quit()
     
     def __quit(self):
