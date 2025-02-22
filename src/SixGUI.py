@@ -287,6 +287,8 @@ class SixGUI :
         self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
         self.__labelTextDuringSpeak.configure(corner_radius=0)
 
+        self.__screen.after(1000,self.__setTheme)
+
 
     def active(self,firstBoot:bool):
         if (firstBoot == True):
