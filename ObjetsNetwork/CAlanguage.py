@@ -1,7 +1,9 @@
+import random
+
 from librairy.travailJSON import *
 
 class CAlanguage:
-    def __init__(self,emplacement:str,fileUser:jsonWork,listVar:list):
+    def __init__(self,emplacement:str,fileUser:jsonWork,listVar:list,listFonc:list):
         index = jsonWork(emplacement+"index.json")
         self.__formule = jsonWork(emplacement+index.lectureJSON("formule"))
         self.__chatbot = jsonWork(emplacement+index.lectureJSON("chatbot"))
@@ -13,6 +15,10 @@ class CAlanguage:
         self.__api = jsonWork(emplacement+index.lectureJSON("api"))
         self.__time = jsonWork(emplacement+index.lectureJSON("time"))
         self.__work = jsonWork(emplacement + index.lectureJSON("work"))
+        self.__socket = jsonWork(emplacement + index.lectureJSON("socket"))
+        # Variable
+        self.__listFonction = listFonc
+        self.__nbFonction = len(self.__listFonction)
         # Fichier JSON
         self.__fileUser = fileUser
         # Atribut
@@ -51,36 +57,35 @@ class CAlanguage:
         :param nb: Max 9
         :return:
         """
-        return self.__formule.lectureJSONList("blague")[nb]
+        return self.__chatbot.lectureJSONList("blague")[nb]
 
     def getReponseBlague(self,nb:int):
         """
         :param nb: Max 9
         :return:
         """
-        return self.__formule.lectureJSONList("reponse")[nb]
+        return self.__chatbot.lectureJSONList("reponse")[nb]
 
     def getPhraseChatBotNormal(self, index:str):
         phrases = self.__chatbot.lectureJSON(index)
         return phrases.format(genre=self.__genre, user=self.__user,bute = self.__bute,name=self.__nameAssistant,createur=self.__createur)
 
     def getPhraseChatBotList(self, index:str):
-        phrases = self.__formule.lectureJSONList(index)
+        phrases = self.__chatbot.lectureJSONList(index)
         return [phrase.format(genre=self.__genre, user=self.__user,bute = self.__bute,name=self.__nameAssistant,createur=self.__createur) for phrase in phrases]
 
     def getPhraseListeFonction(self):
-        listFonction = self.__gestionnaire.getListFonction()
-        nbFonction = self.__gestionnaire.getNbListFonction()
-        nb = nbFonction - 1
+        self.__nbFonction = 0
+        nb = self.__nbFonction - 1
         text = self.__chatbot.lectureJSON("phListFonc")
-        for i in range(0, nbFonction):
+        for i in range(0, self.__nbFonction):
             if i == nb:
-                text = text + " et " + listFonction[i]
+                text = text + " et " + self.__listFonction[i]
             else:
                 if i == 0:
-                    text = text + listFonction[i]
+                    text = text + self.__listFonction[i]
                 else:
-                    text = text + ", " + listFonction[i]
+                    text = text + ", " + self.__listFonction[i]
         return text + " ."
 
     def getPhraseCodehelp(self,nb:str):
@@ -92,7 +97,8 @@ class CAlanguage:
         return formule.format(genre=self.__genre,user=self.__user)
 
     def getPhraseOpenList(self,nb:str):
-        phrases = self.__open.lectureJSON("ph"+nb)
+        phrases = self.__open.lectureJSONList("ph"+nb)
+        nb = random.randint(0, len(phrases) - 1)
         return [phrase.format(genre=self.__genre, user=self.__user) for phrase in phrases]
 
     def getPhraseOpenError(self,nb:str):
@@ -243,3 +249,6 @@ class CAlanguage:
             else:
                 phraseOut = phraseOut + "\n\n- " + liste[i]
         return phraseOut
+
+    def getPhraseSocket(self,name:str):
+        return self.__socket.lectureJSON(name)

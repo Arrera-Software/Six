@@ -1,35 +1,26 @@
-from ObjetsNetwork.enabledNeuron import*
-from ObjetsNetwork.historique import*
+from neuron.CNeuronBase import *
 
-class neuroneSearch:
-    def __init__(self, fncArreraNetwork:fncArreraNetwork, gestionnaire:gestionNetwork, objHist:CHistorique) :
-        #Init objet
-        self.__gestionNeuron = gestionnaire
-        self.__gestNeuron = self.__gestionNeuron.getEtatNeuronObjet()
-        self.__fonctionArreraNetwork = fncArreraNetwork
-        self.__objHistorique = objHist
-        self.__listSortie = ["",""]
-
-    def getListSortie(self)->list:
-        return self.__listSortie
-    
-    def getValeurSortie(self)->int :
-        return self.__valeurOut
+class neuroneSearch(neuronBase) :
 
     def neurone(self,requette:str):
         #Initilisation des variable nbRand et text et valeur
-        self.__listSortie = ["",""]
-        self.__valeurOut = 0
-        if self.__gestNeuron.getSearch() == True :
+        self._listSortie = ["", ""]
+        self._valeurOut = 0
+        if self._gestNeuron.getSearch() == True :
             #reponse neuron search
             if (("bigsearch" in requette )or ("grand recherche" in requette)) :
-                text,recherche = self.__fonctionArreraNetwork.sortieGrandRecherche(requette)
-                self.__listSortie = [text,""]
-                self.__objHistorique.setAction("bigrecherche "+recherche)
-            else :
-                if (("search" in requette) or ("recherche" in requette)) :
-                    text,recherche = self.__fonctionArreraNetwork.sortieRechercheSimple(requette)
-                    self.__listSortie = [text,""] 
-                    self.__objHistorique.setAction("recherche "+recherche)   
-            #Mise a jour de la valeur                                                               
-            self.__valeurOut = self.__gestionNeuron.verrifSortie(self.__listSortie[0])
+                text,recherche = self._fonctionArreraNetwork.sortieGrandRecherche(requette)
+                self._listSortie = [text, ""]
+                self._objHistorique.setAction("bigrecherche " + recherche)
+                self._valeurOut = 1
+            elif (("search" in requette) or ("recherche" in requette)) :
+                if self._gestNeuron.getSocket() == True  and self._socket.getServeurOn() == True :
+                    recherche = requette.replace("recherche","").strip()
+                    self._socket.sendData("recherche " + recherche)
+                    self._listSortie = [self._language.getPhraseSearch("4"),""]
+                    self._valeurOut = 1
+                else :
+                    text,recherche = self._fonctionArreraNetwork.sortieRechercheSimple(requette)
+                    self._listSortie = [text, ""]
+                    self._objHistorique.setAction("recherche " + recherche)
+                    self._valeurOut = 1
