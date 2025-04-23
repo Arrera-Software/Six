@@ -16,7 +16,7 @@ pygame
 unidecode
 customtkinter
 pillow
-
+websocket-client
 gtts
 playsound3
 SpeechRecognition
