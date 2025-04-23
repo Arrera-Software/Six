@@ -51,9 +51,16 @@ class SixBoot :
 
     def active(self):
         if (self.__firstStart):
-            lynx = ArreraLynx("FileJSON/configLynx.json",
-                              "FileJSON/configUser.json",
-                              "FileJSON/configNeuron.json")
+            if (self.__os.osWindows() == True):
+                lynx = ArreraLynx("FileJSON/configLynx.json",
+                                  "FileJSON/configUser.json",
+                                  "FileJSON/configNeuron.json")
+            elif (self.__os.osLinux() == True):
+                lynx = ArreraLynx("FileJSON/configLynx.json",
+                                  self.__destUser,
+                                  "FileJSON/configNeuron.json")
+            else :
+                return
             lynx.active()
             self.__sortieLynx = lynx.confiCreate()
         else :
@@ -90,7 +97,8 @@ class SixBoot :
                                "FileJSON/configUser.json",
                                "FileJSON/configNeuron.json",
                                "FileJSON/configSetting.json"
-                               ,self.__demonTiger.getVersionSoft())
+                               ,self.__demonTiger.getVersionSoft(),
+                               "FileJSON/neuronHist.json")
 
             assistant.active(self.__firstStart)
         elif (self.__os.osLinux() == True):
@@ -100,7 +108,8 @@ class SixBoot :
                                self.__destUser,
                                "FileJSON/configNeuron.json",
                                "FileJSON/configSetting.json"
-                               ,self.__demonTiger.getVersionSoft())
+                               ,self.__demonTiger.getVersionSoft(),
+                               self.__destHist)
 
             assistant.active(self.__firstStart)
 

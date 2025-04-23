@@ -6,7 +6,10 @@ from ObjetsNetwork.arreraNeuron import*
 from src.languageSIX import *
 
 class SixGUI :
-    def __init__(self,iconFolder:str,iconName:str,jsonConfAssistant:str,jsonUser:str,jsonNeuronNetwork:str,jsonConfSetting:str,version:str):
+    def __init__(self,iconFolder:str,iconName:str,
+                 jsonConfAssistant:str,jsonUser:str,
+                 jsonNeuronNetwork:str,jsonConfSetting:str,
+                 version:str,jsonHistorique:str):
         # var
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
@@ -20,7 +23,7 @@ class SixGUI :
         # Demarage d'Arrera TK
         self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
-        self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
+        self.__assistantSix = ArreraNetwork(jsonNeuronNetwork,jsonHistorique)
         # Instantation de l'objet language
         self.__language = CLanguageSIX("FileJSON/phraseSix.json",
                                        "FileJSON/aideSix.json",
