@@ -2,10 +2,12 @@ from lynx.arreraLynx import*
 from src.SixGUI import*
 from src.CTigerDemon import *
 from ObjetsNetwork.userConf import userConf
+from src.sixConf import SixConf
 
 class SixBoot :
     def __init__(self):
         self.__userConf = userConf()
+        self.__sixConf = SixConf()
 
         # Declaration des var
         self.__sortieLynx = False
@@ -55,7 +57,7 @@ class SixBoot :
         else :
             assistant = SixGUI("asset/icon/",
                                "icon",
-                               "FileJSON/sixConfig.json",
+                               self.__sixConf.getSixSettingPath(),
                                "FileJSON/configUser.json",
                                "FileJSON/configNeuron.json",
                                "FileJSON/configSetting.json",self.__demonTiger.getVersionSoft())
