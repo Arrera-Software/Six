@@ -4,24 +4,37 @@ from librairy.dectectionOS import*
 from ObjetsNetwork.CAlanguage import *
 from ObjetsNetwork.network import*
 from ObjetsNetwork.enabledNeuron import*
+from ObjetsNetwork.userConf import *
+from librairy.asset_manage import resource_path
 
 
 class gestionNetwork:
-    def __init__(self,configFile:str):
+    def __init__(self,configFile:str,userConf:userConf):
         # Fichier JSON
         self.__configFile = jsonWork(configFile)
-        self.__fileUser = jsonWork(self.__configFile.lectureJSON("fileUser"))
+        self.__fileUser = jsonWork(userConf.getUserSettingPath())
         self.__fichierFete = jsonWork(self.__configFile.lectureJSON("fileFete"))
+        self.__userConf = userConf
         # Objet
         self.__detecteurOS = OS()
-        self.__mLanguage = CAlanguage(self.__configFile.lectureJSON("moduleLanguage"),
-                                      self.__fileUser,[self.__configFile.lectureJSON("name"),
-                                                       self.__configFile.lectureJSON("bute"),
-                                                       self.__configFile.lectureJSON("createur")],
-                                      self.getListFonction())
+        if OS().osMac():
+            self.__mLanguage = CAlanguage(resource_path(self.__configFile.lectureJSON("moduleLanguage")),
+                                          self.__fileUser,[self.__configFile.lectureJSON("name"),
+                                                           self.__configFile.lectureJSON("bute"),
+                                                           self.__configFile.lectureJSON("createur")],
+                                          self.getListFonction())
+        else:
+            self.__mLanguage = CAlanguage(self.__configFile.lectureJSON("moduleLanguage"),
+                                          self.__fileUser,[self.__configFile.lectureJSON("name"),
+                                                           self.__configFile.lectureJSON("bute"),
+                                                           self.__configFile.lectureJSON("createur")],
+                                          self.getListFonction())
         self.__etatNeuron = CArreraEnabledNeuron(self.__configFile)
         self.__network = network()
-        self.__serveurSocket = socketAssistant(self.__configFile.lectureJSON("name"))
+        if self.__etatNeuron.getSocket():
+            self.__serveurSocket = socketAssistant(self.__configFile.lectureJSON("name"))
+        else :
+            self.__serveurSocket = None
         # Varriable
         self.__oldRequette = ""
         self.__oldSorti = ""
@@ -81,29 +94,36 @@ class gestionNetwork:
         return str(self.__configFile.lectureJSON("moteurRechercheDefault"))
 
     def getEmplacementFileAgenda(self)->str :
-        return self.__fileUser.lectureJSON("emplacementEvenenement")
+        return self.__userConf.getEventPath()
 
     def getEmplacemntfileTache(self)->str:
-        return self.__fileUser.lectureJSON("emplacementTache")
+        return self.__userConf.getTaskPath()
+
+    def getEmplacementFileHist(self)->str:
+        return self.__userConf.getTaskPath()
     
     def getDictionnaireLogiciel(self):
         etatWindows = self.__detecteurOS.osWindows()
         etatLinux = self.__detecteurOS.osLinux()
+        etatMac = self.__detecteurOS.osMac()
         if etatWindows == True and etatLinux == False :
             return self.__fileUser.lectureJSONDict("dictSoftWindows")
+        elif etatWindows == False and etatLinux == True or etatMac == True:
+            return self.__fileUser.lectureJSONDict("dictSoftLinux")
         else :
-            if etatWindows == False and etatLinux == True :
-                return self.__fileUser.lectureJSONDict("dictSoftLinux")
-    
+            return None
+
     def getListLogiciel(self):
         etatWindows = self.__detecteurOS.osWindows()
         etatLinux = self.__detecteurOS.osLinux()
-        if etatWindows == True and etatLinux == False :
+        etatMac = self.__detecteurOS.osMac()
+        if etatWindows == True and etatLinux == False and etatMac == False:
             return list(self.__fileUser.lectureJSONDict("dictSoftWindows").keys())
+        elif etatWindows == False and etatLinux == True or etatMac == True :
+            return list(self.__fileUser.lectureJSONDict("dictSoftLinux").keys())
         else :
-            if etatWindows == False and etatLinux == True :
-                return list(self.__fileUser.lectureJSONDict("dictSoftLinux").keys())
-            
+            return None
+
     def getListWeb(self):
         return list(self.__fileUser.lectureJSONDict("dictSite").keys())
     
