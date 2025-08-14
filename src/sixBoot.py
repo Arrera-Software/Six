@@ -15,7 +15,6 @@ class SixBoot :
             self.__firstStart = True
         else :
             self.__firstStart = False
-        del json
         self.__demonTiger = CTigerDemon("six","https://arrera-software.fr/depots.json")
 
 
