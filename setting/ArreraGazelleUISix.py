@@ -1,4 +1,5 @@
 from librairy.arrera_tk import *
+from librairy.asset_manage import resource_path
 from setting.arreraGazelle import*
 from typing import Union
 
@@ -41,13 +42,11 @@ class CArreraGazelleUISix :
         self.__softAcceuil = self.__arrtk.createFrame(self.__softFrame,width=500,height=330)
         self.__softAdd = self.__arrtk.createFrame(self.__softFrame,width=500,height=330)
         self.__softSuppr = self.__arrtk.createFrame(self.__softFrame,width=500,height=330)
-        self.__softType = self.__arrtk.createFrame(self.__softFrame,width=500,height=330)
         self.__softListe = self.__arrtk.createFrame(self.__softFrame,width=500,height=330)
 
         self.__internetFrame = self.__arrtk.createFrame(self.__windows,width=500,height=330)
         self.__internetAcceuil = self.__arrtk.createFrame(self.__internetFrame,width=500,height=330)
         self.__internetSiteWeb = self.__arrtk.createFrame(self.__internetFrame,width=500,height=330)
-        self.__internetCloudLink = self.__arrtk.createFrame(self.__internetFrame,width=500,height=330)
         self.__internetSupprSite = self.__arrtk.createFrame(self.__internetFrame,width=500,height=330)
         self.__internetListeSite = self.__arrtk.createFrame(self.__internetFrame,width=500,height=330)
 
@@ -75,7 +74,7 @@ class CArreraGazelleUISix :
         listMoteurRecherche = jsonSetting.lectureJSONList("listMoteurRecherche")
         self.__listTheme = jsonSetting.lectureJSONList("listeTheme")
         # Icon Assistant
-        iconAssistant = self.__arrtk.createImage(jsonSetting.lectureJSON("iconSoft"),tailleX=95,tailleY=95)
+        iconAssistant = self.__arrtk.createImage(resource_path(jsonSetting.lectureJSON("iconSoft")),tailleX=95,tailleY=95)
         # String var
         self.__varNameUser = StringVar(self.__windows)
         self.__varSupprMeteo = StringVar(self.__windows)
@@ -284,9 +283,7 @@ class CArreraGazelleUISix :
                                                    ,ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
                           self.__arrtk.createLabel(self.__softSuppr,text="Suppression logiciel"
                                                    ,ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
-                          self.__arrtk.createLabel(self.__softType,text="Type du logicel a ajouter"
-                                                   ,ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
-                          self.__arrtk.createLabel(self.__softListe,text="Gestion des logiciels"
+                          self.__arrtk.createLabel(self.__softListe,text="Liste de logiciel enregistrée"
                                                    ,ppolice="Arial",ptaille=taillePolice,pstyle="bold")]
 
         self.__listSoftware = ctk.CTkTextbox(self.__softListe, width=450, height=250,
@@ -303,9 +300,9 @@ class CArreraGazelleUISix :
                                                        ,ppolice="Arial",ptaille=taillePolice,pstyle="bold"
                                                        ,command=lambda:self.__viewSoftList())
 
-        btnAddSoftValider = self.__arrtk.createButton(self.__softAdd,text="Valider",
-                                                      ppolice="Arial",ptaille=taillePolice,pstyle="bold"
-                                                      ,command=lambda : self.__addSoftNormal())
+        btnAddSoftValider = self.__arrtk.createButton(self.__softAdd, text="Valider",
+                                                      ppolice="Arial", ptaille=taillePolice, pstyle="bold"
+                                                      , command=lambda : self.__addSoft())
         btnAddSoftRetour = self.__arrtk.createButton(self.__softAdd,text="Retour",
                                                      ppolice="Arial",ptaille=taillePolice,pstyle="bold"
                                                      ,command=lambda:self.__viewSoftAcceuil())
@@ -316,30 +313,10 @@ class CArreraGazelleUISix :
         btnSupprSoftRetour = self.__arrtk.createButton(self.__softSuppr,text="Retour",
                                                        ppolice="Arial",ptaille=taillePolice,pstyle="bold",
                                                        command=lambda:self.__viewSoftAcceuil())
-
-
-        btnSoftTypeNormal = self.__arrtk.createButton(self.__softType, text="Normal",
-                                                      ppolice="Arial", ptaille=taillePolice, pstyle="bold",width=100,height=100
-                                                      ,command=lambda:self.__viewSoftNormal())
-        btnSoftTypePresentation = self.__arrtk.createButton(self.__softType,text="Presentation",
-                                                            ppolice="Arial",ptaille=taillePolice-6,pstyle="bold",width=100,height=100,
-                                                            command=lambda : self.__addSoftSpecial(1))
-        btnSoftTypeNavigateur = self.__arrtk.createButton(self.__softType,text="Navigateur",
-                                                          ppolice="Arial",ptaille=taillePolice-3,pstyle="bold",width=100,height=100,
-                                                          command=lambda : self.__addSoftSpecial(2))
-        btnSoftTypeMusique= self.__arrtk.createButton(self.__softType,text="Musique",
-                                                      ppolice="Arial",ptaille=taillePolice,pstyle="bold",width=100,height=100,
-                                                      command=lambda : self.__addSoftSpecial(3))
-        btnSoftTypeNote = self.__arrtk.createButton(self.__softType,text="Note",
-                                                    ppolice="Arial",ptaille=taillePolice,pstyle="bold",width=100,height=100,
-                                                    command=lambda : self.__addSoftSpecial(4))
-        btnTypeSoftRetour = self.__arrtk.createButton(self.__softType, text="Retour",
-                                                      ppolice="Arial",ptaille=taillePolice, pstyle="bold",width=100,height=100,
-                                                      command=lambda:self.__viewSoftAcceuil())
-
         btnSoftListRetour = self.__arrtk.createButton(self.__softListe,text="Retour",
                                                       ppolice="Arial",ptaille=taillePolice,pstyle="bold",
                                                       command=lambda:self.__viewSoftAcceuil())
+
         # Entry
         self.__entryAddSoft = self.__arrtk.createEntry(self.__softAdd, ppolice="Arial", ptaille=taillePolice, width=300)
 
@@ -351,8 +328,6 @@ class CArreraGazelleUISix :
         labelTitleInternet = [self.__arrtk.createLabel(self.__internetAcceuil,text="Gestion d'internet",
                                                         ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
                                 self.__arrtk.createLabel(self.__internetSiteWeb,text="Ajouter un site web",
-                                                        ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
-                                self.__arrtk.createLabel(self.__internetCloudLink,text="Lien de votre stokage cloud",
                                                         ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
                                 self.__arrtk.createLabel(self.__internetSupprSite,text="Supprimer un site",
                                                         ppolice="Arial",ptaille=taillePolice,pstyle="bold"),
@@ -380,13 +355,6 @@ class CArreraGazelleUISix :
                                                      ppolice="Arial", ptaille=taillePolice, pstyle="bold"
                                                      ,command=lambda:self.__viewInternetAcceuil())
 
-        btnValiderCloudLink = self.__arrtk.createButton(self.__internetCloudLink, text="Valider",
-                                                        ppolice="Arial", ptaille=taillePolice, pstyle="bold",
-                                                        command=lambda:self.__saveSiteWeb(2))
-        btnRetourCloudLink = self.__arrtk.createButton(self.__internetCloudLink,text="Retour",
-                                                        ppolice="Arial",ptaille=taillePolice,pstyle="bold"
-                                                       ,command=lambda:self.__viewInternetAcceuil())
-
         btnInternetValiderSuppr = self.__arrtk.createButton(self.__internetSupprSite,text="Valider",
                                                             ppolice="Arial",ptaille=taillePolice,pstyle="bold"
                                                             ,command=lambda:self.__supprSiteWeb())
@@ -405,7 +373,6 @@ class CArreraGazelleUISix :
         self.__entryNameSiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb, ppolice="Arial", ptaille=taillePolice, width=300)
         self.__entrySiteWeb = self.__arrtk.createEntry(self.__internetSiteWeb, ppolice="Arial", ptaille=taillePolice, width=300)
 
-        self.__entryCloudLink = self.__arrtk.createEntry(self.__internetCloudLink, ppolice="Arial", ptaille=taillePolice, width=300)
 
         # option menu
         self.__menuSiteWeb = self.__arrtk.createOptionMenu(self.__internetSupprSite,value = ["",""],var = self.__varSupprWeb)
@@ -601,35 +568,21 @@ class CArreraGazelleUISix :
 
         self.__arrtk.placeBottomLeft(btnSoftListRetour)
         self.__arrtk.placeCenter(self.__listSite)
-
-        btnSoftTypeNormal.place(x=20, y=50)
-        btnSoftTypePresentation.place(x=140, y=50)
-        btnSoftTypeNavigateur.place(x=260, y=50)
-        btnSoftTypeMusique.place(x=380, y=50)
-        btnSoftTypeNote.place(x=20, y=170)
-        btnTypeSoftRetour.place(x=140, y=170)
-
         self.__arrtk.placeCenter(self.__listSoftware)
 
         for i in range(0,len(labelTitleInternet)):
             self.__arrtk.placeTopCenter(labelTitleInternet[i])
 
         self.__arrtk.placeRightCenter(btnAcceuilInternetSiteWeb)
-        self.__arrtk.placeLeftCenter(btnAcceuilInternetCloudLink)
-        self.__arrtk.placeCenter(btnAcceuilInternetSupprSite)
+        self.__arrtk.placeLeftCenter(btnAcceuilInternetSupprSite)
         self.__arrtk.placeBottomCenter(btnAcceuilInternetListeSite)
 
         self.__arrtk.placeBottomLeft(btnRetourSiteWeb)
         self.__arrtk.placeBottomRight(btnValiderSiteWeb)
 
-        self.__arrtk.placeBottomLeft(btnRetourCloudLink)
-        self.__arrtk.placeBottomRight(btnValiderCloudLink)
-
         self.__arrtk.placeBottomLeft(btnInternetValiderSuppr)
         self.__arrtk.placeCenter(self.__menuSiteWeb)
         self.__arrtk.placeBottomRight(btnInternetRetourSuppr)
-
-        self.__arrtk.placeCenter(self.__entryCloudLink)
 
         self.__arrtk.placeCenterOnWidth(self.__entryNameSiteWeb,y=100)
         self.__arrtk.placeCenterOnWidth(self.__entrySiteWeb, y=150)
@@ -934,15 +887,13 @@ class CArreraGazelleUISix :
         self.__softAcceuil.pack()
         self.__softAdd.pack_forget()
         self.__softSuppr.pack_forget()
-        self.__softType.pack_forget()
         self.__softListe.pack_forget()
 
     def __viewSoftAdd(self):
         self.__softAcceuil.pack_forget()
         self.__softAdd.pack_forget()
         self.__softSuppr.pack_forget()
-        self.__softType.pack()
-        self.__softListe.pack_forget()
+        self.__softAdd.pack()
 
     def __viewSoftSuppr(self):
         listSoft = self.__gazelle.getListSoft()
@@ -952,82 +903,48 @@ class CArreraGazelleUISix :
         self.__softAcceuil.pack_forget()
         self.__softAdd.pack_forget()
         self.__softSuppr.pack()
-        self.__softType.pack_forget()
-        self.__softListe.pack_forget()
         del self.__menuSoftSuppr
         self.__menuSoftSuppr = self.__arrtk.createOptionMenu(self.__softSuppr,value = listSoft,var = self.__varSupprSoft)
         self.__arrtk.placeCenter(self.__menuSoftSuppr)
 
     def __viewSoftList(self):
+        self.__listSoftware.configure(state="normal")
         self.__listSoftware.delete(1.0, END)
         listSoft = self.__gazelle.getListSoft()
         if len(listSoft) == 0:
             messagebox.showerror("Erreur", "Aucun logiciel n'a été enregistré")
             return
-        self.__listSoftware.configure(state="normal")
         for i in range(0,len(listSoft)):
             self.__listSoftware.insert(END, listSoft[i] + "\n")
         self.__listSoftware.configure(state="disabled")
         self.__softAcceuil.pack_forget()
-        self.__softAdd.pack_forget()
         self.__softSuppr.pack_forget()
-        self.__softType.pack_forget()
+        self.__softAdd.pack_forget()
         self.__softListe.pack()
 
-    def __viewSoftNormal(self):
+    def __viewSoftSoft(self):
         self.__softAcceuil.pack_forget()
         self.__softAdd.pack()
         self.__softSuppr.pack_forget()
-        self.__softType.pack_forget()
-        self.__softListe.pack_forget()
         self.__entryAddSoft.delete(0,END)
 
-    def __addSoftNormal(self):
+    def __addSoft(self):
         soft = self.__entryAddSoft.get()
         if soft == "":
             messagebox.showerror("Erreur","Le nom du logiciel ne peut pas etre vide")
             return
         else :
-            self.__gazelle.addSoft(1,soft)
+            self.__gazelle.addSoft(soft)
             messagebox.showinfo("Parametre","Le logiciel a bien été ajouté")
             self.__entryAddSoft.delete(0,END)
             self.__viewSoftAcceuil()
 
-    def __addSoftSpecial(self,type:int):
-        """
-        :param type:
-        1 : Presentation
-        2 : Navigateur
-        3 : Musique
-        4 : Note
-        :return:
-        """
-        match type:
-            case 1:
-                self.__gazelle.addSoft(2,"presentation")
-            case 2:
-                self.__gazelle.addSoft(3,"navigateur")
-            case 3:
-                self.__gazelle.addSoft(4, "musique")
-            case 4:
-                self.__gazelle.addSoft(5, "note")
-
     def __supprSoft(self):
         soft = self.__varSupprSoft.get()
-        if soft == "Presentation":
-            self.__gazelle.supprSoft(2,soft)
+        if not self.__gazelle.supprSoft(soft):
+            messagebox.showinfo("Parametre", "Le logiciel n'a pas pu être supprimé.")
         else :
-            if soft == "Navigateur internet":
-                self.__gazelle.supprSoft(3,soft)
-            else :
-                if soft == "Musique":
-                    self.__gazelle.supprSoft(4,soft)
-                else :
-                    if soft == "Note":
-                        self.__gazelle.supprSoft(5,soft)
-                    else :
-                        self.__gazelle.supprSoft(1,soft)
-        messagebox.showinfo("Parametre", "Le logiciel a bien été supprimé")
+            messagebox.showinfo("Parametre", "Le logiciel a bien été supprimé")
         self.__viewSoftAcceuil()
 
     # Methode internet
@@ -1035,7 +952,6 @@ class CArreraGazelleUISix :
     def __viewInternetAcceuil(self):
         self.__clearAll()
         self.__internetSiteWeb.pack_forget()
-        self.__internetCloudLink.pack_forget()
         self.__internetSupprSite.pack_forget()
         self.__internetListeSite.pack_forget()
         self.__internetAcceuil.pack()
@@ -1046,15 +962,12 @@ class CArreraGazelleUISix :
         self.__entryNameSiteWeb.delete(0,END)
         self.__entrySiteWeb.delete(0,END)
         self.__internetSiteWeb.pack()
-        self.__internetCloudLink.pack_forget()
         self.__internetSupprSite.pack_forget()
         self.__internetAcceuil.pack_forget()
         self.__internetListeSite.pack_forget()
 
     def __viewInternetCloudLink(self):
-        self.__entryCloudLink.delete(0,END)
         self.__internetSiteWeb.pack_forget()
-        self.__internetCloudLink.pack()
         self.__internetSupprSite.pack_forget()
         self.__internetAcceuil.pack_forget()
         self.__internetListeSite.pack_forget()
@@ -1065,7 +978,6 @@ class CArreraGazelleUISix :
             messagebox.showerror("Erreur", "Aucun site web n'a été enregistré")
             return
         self.__internetSiteWeb.pack_forget()
-        self.__internetCloudLink.pack_forget()
         self.__internetSupprSite.pack()
         self.__internetAcceuil.pack_forget()
         del self.__menuSiteWeb
@@ -1078,7 +990,6 @@ class CArreraGazelleUISix :
             messagebox.showerror("Erreur", "Aucun site web n'a été enregistré")
             return
         self.__internetSiteWeb.pack_forget()
-        self.__internetCloudLink.pack_forget()
         self.__internetSupprSite.pack_forget()
         self.__internetAcceuil.pack_forget()
         self.__listSite.configure(state="normal")
@@ -1107,15 +1018,7 @@ class CArreraGazelleUISix :
                     self.__entrySiteWeb.delete(0,END)
                     self.__viewInternetAcceuil()
             case 2 :
-                link = self.__entryCloudLink.get()
-                if link == "":
-                    messagebox.showerror("Erreur","Le lien ne peut pas etre vide")
-                    return
-                else :
-                    self.__gazelle.addSite(2,"cloud",link)
-                    messagebox.showinfo("Parametre","Le lien a bien été ajouté")
-                    self.__entryCloudLink.delete(0,END)
-                    self.__viewInternetAcceuil()
+                return
 
     def __supprSiteWeb(self):
         site = self.__varSupprWeb.get()
@@ -1186,14 +1089,13 @@ class CArreraGazelleUISix :
 
         if nbTriger == 0:
             self.__arrtk.placeCenter(self.__btnTrigerWordVoicePrint1)
+        elif nbTriger == 1:
+            self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
+            self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint2)
         else :
-            if nbTriger == 1:
-                self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
-                self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint2)
-            else :
-                self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
-                self.__arrtk.placeCenter(self.__btnTrigerWordVoicePrint2)
-                self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint3)
+            self.__arrtk.placeCenterLeft(self.__btnTrigerWordVoicePrint1)
+            self.__arrtk.placeCenter(self.__btnTrigerWordVoicePrint2)
+            self.__arrtk.placeRightCenter(self.__btnTrigerWordVoicePrint3)
 
 
     def __viewVoicePrint(self,mode:int):
