@@ -4,7 +4,7 @@
    "nombreVilleMeteo":"0",
    "lieuDomicile":"0",
    "lieuTravail":"0",
-   "iconAssistant":"asset/icon/icon.png",
+   "iconAssistant":"asset/icon/linux/icon.png",
    "emplacementAssetHorloge":"asset/Sound/bip.mp3",
    "interfaceColor" : "white",
    "interfaceTextColor":"black",

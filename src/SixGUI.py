@@ -39,11 +39,11 @@ class SixGUI :
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # Recuperation de l'emplacement de l'icon
         if self.__objOS.osWindows():
-            self.__emplacementIcon = iconFolder + "/" + iconName + ".ico"
+            self.__emplacementIcon = iconFolder + "/win/" + iconName + ".ico"
         elif self.__objOS.osLinux():
-                self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
+                self.__emplacementIcon = iconFolder + "/linux/" + iconName + ".png"
         elif self.__objOS.osMac() :
-            self.__emplacementIcon = resource_path(iconFolder + "/icon-macos.png")
+            self.__emplacementIcon = resource_path(iconFolder+ "/macos/" + iconName+".png")
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",
                                          icon=self.__emplacementIcon)
