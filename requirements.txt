@@ -21,3 +21,4 @@ gtts
 playsound3
 SpeechRecognition
 pyaudio
+PyObjC

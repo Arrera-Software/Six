@@ -45,6 +45,8 @@ class SixGUI :
         else:
             if (self.__windowsOS == False) and (self.__linuxOS == True):
                 self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
+            else :
+                self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)

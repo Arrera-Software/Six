@@ -60,7 +60,8 @@ class SixBoot :
                                "FileJSON/sixConfig.json",
                                "FileJSON/configUser.json",
                                "FileJSON/configNeuron.json",
-                               "FileJSON/configSetting.json",self.__demonTiger.getVersionSoft())
+                               "FileJSON/configSetting.json",self.__demonTiger.getVersionSoft(),
+                               "FileJSON/neuronHist.json")
             assistant.active(self.__firstStart)
 
     def __restartConf(self,windows:ctk.CTk):
