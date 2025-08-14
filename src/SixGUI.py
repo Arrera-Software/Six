@@ -4,6 +4,7 @@ from librairy.arrera_tk import *
 from librairy.arrera_voice import *
 from ObjetsNetwork.arreraNeuron import*
 from src.languageSIX import *
+from librairy.asset_manage import resource_path
 
 class SixGUI :
     def __init__(self,iconFolder:str,iconName:str,
@@ -31,24 +32,21 @@ class SixGUI :
         # Instantation de l'objet arrera voice
         self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
         # Objet
-        objOS = OS()
-        self.__windowsOS = objOS.osWindows()
-        self.__linuxOS = objOS.osLinux()
-        del objOS
+        self.__objOS = OS()
         # Creation du theard Trigger word
         self.__TriggerWorkStop = th.Event()
         # Creation du theard Minuteur Actu 
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # Recuperation de l'emplacement de l'icon
-        if (self.__windowsOS == True) and (self.__linuxOS == False):
+        if self.__objOS.osWindows():
             self.__emplacementIcon = iconFolder + "/" + iconName + ".ico"
-        else:
-            if (self.__windowsOS == False) and (self.__linuxOS == True):
+        elif self.__objOS.osLinux():
                 self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
-            else :
-                self.__emplacementIcon = iconFolder + "/" + iconName + ".png"
+        elif self.__objOS.osMac() :
+            self.__emplacementIcon = resource_path(iconFolder + "/icon-macos.png")
         # initilisation fenetre
-        self.__screen = self.__arrTK.aTK(title="Arrera Six",icon=self.__emplacementIcon)
+        self.__screen = self.__arrTK.aTK(title="Arrera Six",
+                                         icon=self.__emplacementIcon)
         self.__screen.title(self.__nameSoft)
         self.__screen.geometry("500x400+5+30")
         self.__arrTK.setResizable(False)
@@ -245,11 +243,12 @@ class SixGUI :
         self.__btnStopMute[1].place(relx=0, rely=1, anchor='sw')
         self.__btnQuitMute[1].place(relx=1, rely=1, anchor='se')
         # Mise a place de la touche entree
-        if (self.__windowsOS==True) and (self.__linuxOS==False) :
+        if self.__objOS.osWindows() :
             self.__detectionTouche(self.__envoie,13)
-        else :
-            if (self.__windowsOS==False) and (self.__linuxOS==True) :
-                self.__detectionTouche(self.__envoie,36)
+        elif self.__objOS.osLinux() :
+            self.__detectionTouche(self.__envoie,36)
+        elif self.__objOS.osMac() :
+            self.__detectionTouche(self.__envoie,603979789)
     
     def __setTheme(self):
         self.__avoice.loadConfig()
@@ -324,11 +323,10 @@ class SixGUI :
     
     def __quit(self):
         self.__sequenceArret()
-        if (self.__windowsOS==True) and (self.__linuxOS==False) :
+        if self.__objOS.osWindows() :
             os.kill(os.getpid(), signal.SIGINT)
-        else :
-            if (self.__windowsOS==False) and (self.__linuxOS==True) :
-                os.kill(os.getpid(), signal.SIGKILL)
+        elif self.__objOS.osLinux() or self.__objOS.osMac() :
+            os.kill(os.getpid(), signal.SIGKILL)
     
     def __sequenceBoot(self):
         self.__canvasBoot0.place(x=0,y=0)

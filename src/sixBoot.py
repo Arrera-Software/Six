@@ -21,7 +21,7 @@ class SixBoot :
 
 
     def active(self):
-        if (self.__firstStart):
+        if self.__firstStart:
             lynx = ArreraLynx("FileJSON/configLynx.json",
                               "FileJSON/configUser.json",
                               "FileJSON/configNeuron.json")
@@ -36,7 +36,7 @@ class SixBoot :
     def __boot(self):
         arrTk = CArreraTK()
         self.__checkUpdate(arrTk)
-        if (self.__sortieLynx == False):
+        if not self.__sortieLynx:
             screen = arrTk.aTK(title="Arrera Six",resizable=False,width=500,height=350)
             imgCavas = arrTk.createArreraBackgroudImage(screen,
                                                         imageDark="asset/IMGinterface/dark/NoConfig.png",
@@ -69,7 +69,7 @@ class SixBoot :
         self.active()
 
     def __checkUpdate(self,arrTk:CArreraTK):
-        if (self.__demonTiger.checkUpdate()):
+        if self.__demonTiger.checkUpdate():
             screen = arrTk.aTK(title="Arrera Six",resizable=False,width=500,height=350)
             imgCavas = arrTk.createArreraBackgroudImage(screen,
                                                         imageDark="asset/IMGinterface/dark/MAJ.png",
