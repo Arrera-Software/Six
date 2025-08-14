@@ -1,18 +1,17 @@
 from lynx.arreraLynx import*
 from src.SixGUI import*
 from src.CTigerDemon import *
+from ObjetsNetwork.userConf import userConf
 
 class SixBoot :
     def __init__(self):
-        # Ouverture JSON
-        json = jsonWork("FileJSON/configUser.json")
+        self.__userConf = userConf()
 
         # Declaration des var
         self.__sortieLynx = False
 
         # Verification de la configuration de l'assistant
-        if ((json.lectureJSON("user") == "") and
-                (json.lectureJSON("genre") == "")):
+        if self.__userConf.getFirstRun():
             self.__firstStart = True
         else :
             self.__firstStart = False
@@ -23,7 +22,7 @@ class SixBoot :
     def active(self):
         if self.__firstStart:
             lynx = ArreraLynx("FileJSON/configLynx.json",
-                              "FileJSON/configUser.json",
+                              self.__userConf.getUserSettingPath(),
                               "FileJSON/configNeuron.json")
             lynx.active()
             self.__sortieLynx = lynx.confiCreate()
