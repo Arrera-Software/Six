@@ -43,7 +43,7 @@ class SixGUI :
         elif self.__objOS.osLinux():
                 self.__emplacementIcon = iconFolder + "/linux/" + iconName + ".png"
         elif self.__objOS.osMac() :
-            self.__emplacementIcon = resource_path(iconFolder+ "/macos/" + iconName+".png")
+            self.__emplacementIcon = resource_path(iconFolder+ "macos/" + iconName+".png")
         # initilisation fenetre
         self.__screen = self.__arrTK.aTK(title="Arrera Six",
                                          icon=self.__emplacementIcon)
