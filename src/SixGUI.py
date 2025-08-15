@@ -253,6 +253,7 @@ class SixGUI :
         self.__thSpeakNeuron = th.Thread()
         self.__thSpeakActu = th.Thread()
         self.__thMinuteurActu = th.Thread()
+        self.__thBoot = th.Thread()
     
     def __setTheme(self):
         self.__avoice.loadConfig()
@@ -268,30 +269,30 @@ class SixGUI :
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
+        elif theme == "dark" :
+            self.__screen.configure(fg_color="#000000")
+            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
+            self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
         else :
-            if theme == "dark" :
-                self.__screen.configure(fg_color="#000000")
-                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
-                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
-                self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
-                self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
-                self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
-                self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
-                self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
-                self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
-                self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
-            else :
-                self.__screen.configure(fg_color="#ffffff")
-                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
-                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-                self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
-                self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
-                self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-                self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
-                self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
-                self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
-                self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
-                self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
+            self.__screen.configure(fg_color="#ffffff")
+            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
+            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
+            self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
+            self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
+
         self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
         self.__labelTextDuringSpeak.configure(corner_radius=0)
 
@@ -300,11 +301,10 @@ class SixGUI :
 
     def active(self,firstBoot:bool):
         if (firstBoot == True):
-            theardSequenceBoot = th.Thread(target=self.__sequenceFistBoot)
+            self.__sequenceFistBoot()
         else :
-            theardSequenceBoot = th.Thread(target=self.__sequenceBoot)
-
-        theardSequenceBoot.start()
+            print("c")
+            self.__sequenceBoot()
         self.__screen.mainloop()
 
     def __apropos(self):
@@ -345,17 +345,38 @@ class SixGUI :
         self.__canvasBoot3.place(x=0,y=0)
         time.sleep(0.2)
         self.__canvasAcceuil.place(x=0,y=0)
-        if (self.__etatConnexion==False):
+        if not self.__etatConnexion:
             self.__canvasAcceuil.place_forget()
             self.__screen.protocol("WM_DELETE_WINDOW",self.__quit)
             self.__canvasNoConnect.place(x=0,y=0)
             self.__screen.update()
         else :
-            self.__sequenceParole(self.__assistantSix.boot(2))
+            self.__speakBoot()
+
+
+    def __speakBoot(self):
+        texte = self.__assistantSix.boot(1)
+        self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
+        self.__thBoot.start()
+        self.__canvasParole1.place_forget()
+        self.__canvasParole2.place(x=0, y=0)
+        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
+        self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
+        self.__screen.after(100,self.__duringSpeakBoot)
+
+    def __duringSpeakBoot(self):
+        if self.__thBoot.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSpeakBoot)
+        else :
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
             self.setButtonOpen()
+            self.__canvasParole2.place_forget()
+            self.__canvasParole3.place(x=0, y=0)
+            self.__sixSpeaking = False
+            self.__screen.update()
 
     def __sequenceFistBoot(self):
         self.__canvasBoot0.place(x=0,y=0)
