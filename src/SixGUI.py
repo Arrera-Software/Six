@@ -35,8 +35,6 @@ class SixGUI :
         self.__objOS = OS()
         # Creation du theard Trigger word
         self.__TriggerWorkStop = th.Event()
-        # Creation du theard Minuteur Actu 
-        self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
         # Recuperation de l'emplacement de l'icon
         if self.__objOS.osWindows():
             self.__emplacementIcon = iconFolder + "/win/" + iconName + ".ico"
@@ -249,6 +247,12 @@ class SixGUI :
             self.__detectionTouche(self.__envoie,36)
         elif self.__objOS.osMac() :
             self.__detectionTouche(self.__envoie,603979789)
+
+        # Declaration de la variable pour contenir les theard
+        self.__thSpeak = th.Thread()
+        self.__thSpeakNeuron = th.Thread()
+        self.__thSpeakActu = th.Thread()
+        self.__thMinuteurActu = th.Thread()
     
     def __setTheme(self):
         self.__avoice.loadConfig()
@@ -407,20 +411,24 @@ class SixGUI :
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
-        thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
+        self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__clearView()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=440,justify="left")
+        self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
         self.__screen.update()
-        thSpeak.start()
-        thSpeak.join()
-        self.__canvasParole2.place_forget()
-        self.__canvasParole3.place(x=0,y=0)
-        self.__labelTextAfterSpeak.configure(text=texte,wraplength=475,justify="left")
-        del thSpeak
-        self.__sixSpeaking = False
-        
+        self.__duringSpeak()
+
+    def __duringSpeak(self):
+        if self.__thSpeak.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSpeak)
+        else :
+            self.__canvasParole2.place_forget()
+            self.__canvasParole3.place(x=0, y=0)
+            self.__sixSpeaking = False
+            self.__screen.update()
         
     def __sequenceArret(self):
         texte = self.__assistantSix.shutdown()
@@ -458,79 +466,78 @@ class SixGUI :
         self.__screen.bind("<Key>", anychar)  
     
     def __envoie(self): 
-        if (self.__sixSpeaking==False):
+        if not self.__sixSpeaking:
             texte = self.__entryUser.get().lower()
             self.__entryUser.delete(0, END)
-            if ("parametre" in texte ) :
+            if "parametre" in texte :
                 self.__activeParametre()
-            else :
-                if (("mute" in texte)or("silence" in texte)or("ta gueule" in texte)):
+            elif "mute" in texte or "silence" in texte or "ta gueule" in texte:
                     self.__viewMute()
-                else :
-                    self.__assistantSix.neuron(texte)
-                    self.__clearView()
-                    self.__canvasParole1.place(x=0,y=0)
-                    self.__screen.update()
-                    nbSortie = self.__assistantSix.getValeurSortie()
-                    listSortie = self.__assistantSix.getListSortie()
-                    match nbSortie:
-                        case 0 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                        case 1 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                        case 2 :
-                            pass
-                        case 3 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
-                            self.__viewResumer(listSortie, 2)
-                        case 4 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                        case 5 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                        case 6 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhErreurActu())
-                        case 7 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonOpen()
-                        case 8 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonOpen()
-                        case 9 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
-                            self.__windowsReadFile(listSortie,2)
-                        case 10 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonOpen()
-                        case 11 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
-                        case 12 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
-                            self.__viewResumer(listSortie, 1)
-                        case 13 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
-                            self.__windowsReadFile(listSortie,1)
-                        case 14 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonOpen()
-                        case 15 :
-                            self.__quit()
-                        case 16 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                        case 17 :
-                            self.__windowsHelp(listSortie)
-                        case 18 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
-                            self.__viewResumer(listSortie,3)
-                        case 19 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAll())
-                            self.__viewResumer(listSortie,4)
-                        case 20 :
-                            self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
-                        case 21 :
-                            self.__sequenceParoleReponseNeuron(listSortie[0])
-                            self.setButtonOpen()
-                        case other :
-                            pass
+            else :
+                self.__assistantSix.neuron(texte)
+                self.__clearView()
+                self.__canvasParole1.place(x=0,y=0)
+                self.__screen.update()
+                nbSortie = self.__assistantSix.getValeurSortie()
+                listSortie = self.__assistantSix.getListSortie()
+                match nbSortie:
+                    case 0 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                    case 1 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                    case 2 :
+                        pass
+                    case 3 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
+                        self.__viewResumer(listSortie, 2)
+                    case 4 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                    case 5 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                    case 6 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhErreurActu())
+                    case 7 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        self.setButtonOpen()
+                    case 8 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        self.setButtonOpen()
+                    case 9 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
+                        self.__windowsReadFile(listSortie,2)
+                    case 10 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        self.setButtonOpen()
+                    case 11 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
+                    case 12 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
+                        self.__viewResumer(listSortie, 1)
+                    case 13 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
+                        self.__windowsReadFile(listSortie,1)
+                    case 14 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        self.setButtonOpen()
+                    case 15 :
+                        self.__quit()
+                    case 16 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                    case 17 :
+                        self.__windowsHelp(listSortie)
+                    case 18 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
+                        self.__viewResumer(listSortie,3)
+                    case 19 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAll())
+                        self.__viewResumer(listSortie,4)
+                    case 20 :
+                        self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
+                    case 21 :
+                        self.__sequenceParoleReponseNeuron(listSortie[0])
+                        self.setButtonOpen()
+                    case other :
+                        pass
 
 
     def __sequenceParoleReponseNeuron(self,text:str):
@@ -540,18 +547,25 @@ class SixGUI :
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
+        self.__labelTextAfterSpeak.configure(text=text, wraplength=475, justify="left")
         self.__screen.update()
-        thSpeak = th.Thread(target=self.__avoice.say,args=(text,))
-        thSpeak.start()
-        thSpeak.join()
-        self.__canvasParole2.place_forget()
-        self.__arrTK.placeBottomCenter(self.__entryUser)
-        if self.__gazelleUI.gettigerWordSet() == False:
-            self.__arrTK.placeBottomRight(self.__btnMicro)
-        self.__arrTK.placeBottomLeft(self.__btnParametre)
-        self.__canvasParole3.place(x=0,y=0)
-        self.__labelTextAfterSpeak.configure(text=text,wraplength=475,justify="left")
-        del thSpeak
+        self.__thSpeakNeuron = th.Thread(target=self.__avoice.say,args=(text,))
+        self.__thSpeakNeuron.start()
+        self.__screen.after(100,self.__duringSpeakReponseNeuron)
+        self.__screen.update()
+
+    def __duringSpeakReponseNeuron(self):
+        if self.__thSpeakNeuron.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSpeakReponseNeuron)
+        else :
+            self.__canvasParole2.place_forget()
+            self.__arrTK.placeBottomCenter(self.__entryUser)
+            if not self.__gazelleUI.gettigerWordSet():
+                self.__arrTK.placeBottomRight(self.__btnMicro)
+            self.__arrTK.placeBottomLeft(self.__btnParametre)
+            self.__canvasParole3.place(x=0, y=0)
+            self.__screen.update()
 
     def __loadSetting(self):
         self.__setTheme()
@@ -564,6 +578,7 @@ class SixGUI :
         self.__clearView()
         self.__entryUser.place_forget()
         self.__gazelleUI.active()
+        self.__screen.update()
     
     def __quitParametre(self):
         self.__screen.title(self.__nameSoft)
@@ -580,13 +595,13 @@ class SixGUI :
             self.__microTriggerEnable()
             sortieTriger = self.__avoice.trigerWord()
             self.__microTriggerDisable()
-            if (sortieTriger == 1 ):
+            if sortieTriger == 1:
                 self.__microRequetteEnable()
                 microOK = self.__avoice.listen()
-                if (microOK == 0):
+                if microOK == 0:
                     sortieMicro = self.__avoice.getTextMicro()
                     self.__entryUser.delete(0,END)
-                    if (sortieMicro!="nothing"):
+                    if sortieMicro!= "nothing":
                         self.__entryUser.insert(0,sortieMicro)
                 self.__microRequetteDisable()
                 time.sleep(0.2)
@@ -668,6 +683,7 @@ class SixGUI :
                                                                              + listSortie[8]))
         self.__stopingTriggerWord()
         self.__thMinuteurActu.start()
+        self.__screen.after(10,self.__duringMinuteurActu)
     
     def __quitActu(self):
         self.__clearView()
@@ -679,18 +695,28 @@ class SixGUI :
         self.__screen.update()
         self.__sequenceParole(self.__language.getPhQuitActu())
         self.__startingTriggerWord()
-        del self.__thMinuteurActu
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
+
     
     def __readActu(self,texte:str):
-        thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
-        thSpeak.start()
-        thSpeak.join()
-        del thSpeak
+        self.__thSpeakActu = th.Thread(target=self.__avoice.say,args=(texte,))
+        self.__thSpeakActu.start()
+        self.__screen.after(100,self.__duringSpeakActu)
+
+    def __duringSpeakActu(self):
+        if self.__thSpeakActu.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSpeakActu)
     
     def __minuteurActu(self):
         time.sleep(60)
-        self.__quitActu()
+
+    def __duringMinuteurActu(self):
+        if self.__thMinuteurActu.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringMinuteurActu)
+        else :
+            self.__quitActu()
     
     def __viewMute(self):
         self.__sequenceParole(self.__language.getPhActiveMute())
@@ -847,10 +873,9 @@ class SixGUI :
             if text[0] == "-" :
                 text = text.replace("-", "").strip().lstrip()
                 newText += "\n"+text+"\n"
-            else :
-                if text[0]== "*":
-                    text = text.replace("*","").strip().lstrip()
-                    newText += "    "+text+"\n"
+            elif text[0]== "*":
+                text = text.replace("*","").strip().lstrip()
+                newText += "    "+text+"\n"
 
         return newText.strip()
 
