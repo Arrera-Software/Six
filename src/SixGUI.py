@@ -17,6 +17,7 @@ class SixGUI :
         self.__version = version
         # Variable des theard
         self.__thSixListen = th.Thread()
+        self.__thTrigger = th.Thread()
         self.__TriggerWorkStop = th.Event()
         # Teste de la connextion internet
         try:
@@ -672,6 +673,15 @@ class SixGUI :
     def __sixMicroEnable(self):
         self.__thSixListen = th.Thread(target=self.__sixLinstenTheard)
         self.__thSixListen.start()
+        self.__duringSixListen()
+
+    def __duringTigerWord(self):
+        if self.__thTrigger.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSixListen)
+        else :
+            self.__microTriggerDisable()
+
 
     def __sixLinstenTheard(self):
         self.__microRequetteEnable()
@@ -833,6 +843,7 @@ class SixGUI :
             self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
             self.__TriggerWorkStop.clear()
             self.__thTrigger.start()
+            self.__screen.after(100, self.__duringTigerWord)
         else :
             self.__arrTK.placeRightBottom(self.__btnMicro)
 
