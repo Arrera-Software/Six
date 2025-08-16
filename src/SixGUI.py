@@ -8,7 +8,7 @@ from librairy.asset_manage import resource_path
 
 class SixGUI :
     def __init__(self,iconFolder:str,iconName:str,
-                 jsonConfAssistant:str,jsonUser:str,
+                 jsonConfAssistant:str,
                  jsonNeuronNetwork:str,jsonConfSetting:str,
                  version:str):
         # var
@@ -25,12 +25,14 @@ class SixGUI :
         self.__arrTK = CArreraTK()
         # Instantation de l'objet Six
         self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
+        self.__userConf = userConf()
         # Instantation de l'objet language
-        self.__language = CLanguageSIX("FileJSON/phraseSix.json",
-                                       "FileJSON/aideSix.json",
-                                       "FileJSON/firstBootSix.json")
+        self.__language = CLanguageSIX(resource_path("FileJSON/phraseSix.json"),
+                                       resource_path("FileJSON/aideSix.json"),
+                                       resource_path("FileJSON/firstBootSix.json"))
         # Instantation de l'objet arrera voice
-        self.__avoice = CArreraVoice(jsonWork(jsonConfAssistant))
+        self.__avoice = CArreraVoice(jsonConfAssistant,
+                                     "asset/Sound/bootMicro.mp3")
         # Objet
         self.__objOS = OS()
         # Creation du theard Trigger word
@@ -52,11 +54,11 @@ class SixGUI :
         # Declaration de l'objet Arrera Gazelle 
         self.__gazelleUI = CArreraGazelleUISix(self.__arrTK,
                                                self.__screen,
-                                               jsonUser,
+                                               self.__userConf.getUserSettingPath(),
                                                jsonNeuronNetwork,
                                                jsonConfAssistant,
                                                jsonConfSetting,
-                                               "asset/Sound/ecoute.mp3")
+                                               resource_path("asset/Sound/ecoute.mp3"))
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
         # widget et canvas

@@ -4,7 +4,6 @@ from librairy.dectectionOS import *
 
 BASECONF = {"theme": "white",
             "soundMicro": "1",
-            "fileMicro": "asset/Sound/bootMicro.mp3",
             "listWord": []}
 
 class SixConf:

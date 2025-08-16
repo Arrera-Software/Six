@@ -58,9 +58,9 @@ class SixBoot :
             assistant = SixGUI("asset/icon/",
                                "icon",
                                self.__sixConf.getSixSettingPath(),
-                               "FileJSON/configUser.json",
-                               "FileJSON/configNeuron.json",
-                               "FileJSON/configSetting.json",self.__demonTiger.getVersionSoft())
+                               resource_path("FileJSON/configNeuron.json"),
+                               resource_path("FileJSON/configSetting.json"),
+                               self.__demonTiger.getVersionSoft())
             assistant.active(self.__firstStart)
 
     def __restartConf(self,windows:ctk.CTk):
