@@ -169,8 +169,8 @@ class CArreraTK :
         if (self.__mode == 0):
             if (pathDark != "none"):
                 image = ctk.CTkImage(
-                    light_image=Image.open(pathLight),
-                    dark_image=Image.open(pathDark),
+                    light_image=Image.open(self.__resource_path(pathLight)),
+                    dark_image=Image.open(self.__resource_path(pathDark)),
                     size=(tailleX, tailleY))
                 return image
             else :
@@ -181,10 +181,10 @@ class CArreraTK :
         else :
             if (pathDark != "none"):
                 imageLight = PhotoImage(file=self.__resource_path(pathLight))
-                imageDark = PhotoImage(file=pathDark)
+                imageDark = PhotoImage(file=self.__resource_path(pathDark))
                 return [imageLight, imageDark]
             else :
-                imageLight = PhotoImage(file=pathLight)
+                imageLight = PhotoImage(file=self.__resource_path(pathLight))
                 return imageLight
 
     # Methode pour creer les widgets
