@@ -4,7 +4,7 @@ datetime
 geocoder
 requests
 playsound
-gTTS
+pyttslib
 translate
 python-docx
 odfpy
@@ -17,7 +17,6 @@ unidecode
 customtkinter
 pillow
 websocket-client
-gtts
 playsound3
 SpeechRecognition
 pyaudio
