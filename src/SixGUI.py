@@ -15,6 +15,9 @@ class SixGUI :
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
         self.__version = version
+        # Variable des theard
+        self.__thSixListen = th.Thread()
+        self.__TriggerWorkStop = th.Event()
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -35,8 +38,6 @@ class SixGUI :
                                      "asset/Sound/bootMicro.mp3")
         # Objet
         self.__objOS = OS()
-        # Creation du theard Trigger word
-        self.__TriggerWorkStop = th.Event()
         # Recuperation de l'emplacement de l'icon
         if self.__objOS.osWindows():
             self.__emplacementIcon = iconFolder + "/win/" + iconName + ".ico"
@@ -669,18 +670,25 @@ class SixGUI :
                 self.__envoie()
 
     def __sixMicroEnable(self):
+        self.__thSixListen = th.Thread(target=self.__sixLinstenTheard)
+        self.__thSixListen.start()
+
+    def __sixLinstenTheard(self):
         self.__microRequetteEnable()
         microOK = self.__avoice.listen()
+        self.__microRequetteDisable()
         if (microOK == 0):
             sortieMicro = self.__avoice.getTextMicro()
             self.__entryUser.delete(0, END)
             if (sortieMicro != "nothing"):
                 self.__entryUser.insert(0, sortieMicro)
-                self.__microRequetteDisable()
                 time.sleep(0.5)
                 self.__envoie()
-            else :
-                self.__microRequetteDisable()
+
+    def __duringSixListen(self):
+        if self.__thSixListen.is_alive():
+            self.__screen.update()
+            self.__screen.after(100,self.__duringSixListen)
 
     
     def __viewResumer(self, listSortie:list, mode:int):
