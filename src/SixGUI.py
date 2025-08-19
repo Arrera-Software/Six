@@ -307,7 +307,6 @@ class SixGUI :
         if (firstBoot == True):
             self.__sequenceFistBoot()
         else :
-            print("c")
             self.__sequenceBoot()
         self.__screen.mainloop()
 
