@@ -24,7 +24,7 @@
    "etatApi":"1",
    "etatCodehelp":"0",
    "etatWork":"1",
-   "etatSocket": "0",
+   "etatSocket": "1",
    "lienDoc":"https://github.com/Arrera-Software/Six/blob/main/readme.md",
    "emplacementFileRoutine":"FileJSON/routineFile.json",
    "fileUser": "FileJSON/configUser.json",
