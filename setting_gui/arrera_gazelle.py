@@ -10,7 +10,6 @@ from gestionnaire.gestion import gestionnaire
 class arrera_gazelle :
     def __init__(self,windows:Union[aTk,aTopLevel],gest:gestionnaire,file_setting:str):
         # Ouverture de l'objet
-        self.__gazelle = None
         self.__gestUser = gest.getUserConf()
         self.__arrVoice = gest.getArrVoice()
         self.__jsonSetting = jsonWork(file_setting)
@@ -1293,7 +1292,8 @@ class arrera_gazelle :
 
         word = self.__gestUser.getListWord()[mode-1]
 
-        self.__gazelle.supprTrigerWord(word)
+        if not self.__gestUser.removeWord(word):
+            messagebox.showinfo("Paramètres", "Le mot déclencheur n'a pas pu être supprimé.")
 
     def __changeMicroSound(self):
         microEnable = self.__gestUser.getSoundMicro()
@@ -1304,7 +1304,7 @@ class arrera_gazelle :
         self.__viewMicroAcceuil()
 
     def gettigerWordSet(self):
-        nb = self.__gazelle.getNbTrigerWord()
+        nb = len(self.__gestUser.getListWord())
         if (nb == 0):
             return False
         else :
