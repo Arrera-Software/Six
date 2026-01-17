@@ -1,6 +1,6 @@
 from brain.brain import ABrain,confNeuron
 from lynx_gui.arrera_lynx import arrera_lynx
-#from src.SixGUI import SixGUI
+from src.SixGUI import six_gui
 from src.version_demon import demon,soft_config
 from lib.arrera_tk import *
 
@@ -82,16 +82,12 @@ class six_assistant :
             btn_conf.placeBottomCenter()
             w.mainloop()
         else :
-            print("BOOT")
-            """
-            assistant = SixGUI("asset/icon/",
-                               "icon",
-                               self.__sixConf.getSixSettingPath(),
-                               resource_path("FileJSON/configNeuron.json"),
-                               resource_path("FileJSON/configSetting.json"),
-                               self.__demon.getVersionSoft())
-            assistant.active(self.__firstStart)
-            """
+            assistant = six_gui("asset/icon/",
+                                "icon",
+                                self.__assistant,
+                                THEME_FILE,
+                                self.__demon.getVersionSoft())
+            assistant.active(self.__firt_boot)
 
     def __restartConf(self,windows:aTk):
         windows.destroy()

@@ -1,20 +1,49 @@
 import signal
-from setting.ArreraGazelleUISix import*
+import requests
+from setting_gui.arrera_gazelle import arrera_gazelle
 from librairy.arrera_tk import *
-from librairy.arrera_voice import *
-from ObjetsNetwork.arreraNeuron import*
+import time
+from tkinter.messagebox import *
 from src.languageSIX import *
-from librairy.asset_manage import resource_path
+from lib.arrera_tk import *
+import threading as th
+from brain.brain import ABrain
+import random
 
-class SixGUI :
+class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
-                 jsonConfAssistant:str,
-                 jsonNeuronNetwork:str,jsonConfSetting:str,
+                 brain:ABrain,theme_file:str,
                  version:str):
+
         # var
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
         self.__version = version
+
+        # Objet
+        self.__assistant_six = brain
+        self.__gestionnaire = self.__assistant_six.getGestionnaire()
+        self.__objOS = self.__gestionnaire.getOSObjet()
+        self.__avoice = self.__gestionnaire.getArrVoice()
+        self.__gest_user = self.__gestionnaire.getUserConf()
+
+        super().__init__(title=self.__nameSoft,resizable=False,theme_file=theme_file)
+        # initilisation fenetre
+        self.geometry("500x400+5+30")
+        self.protocol("WM_DELETE_WINDOW",self.__onClose)
+
+        # Partie Icone
+
+        if self.__objOS.osWindows():
+            self.__emplacementIcon = iconFolder + "win/" + iconName + ".ico"
+            self.iconbitmap(self.__emplacementIcon)
+        elif self.__objOS.osLinux():
+            self.__emplacementIcon = iconFolder + "linux/" + iconName + ".png"
+            self.iconphoto(False,PhotoImage(file=self.__emplacementIcon))
+        elif self.__objOS.osMac() :
+            self.__emplacementIcon = resource_path(iconFolder+ "macos/" + iconName+".png")
+            self.iconphoto(False,PhotoImage(file=self.__emplacementIcon))
+
         # Variable des theard
         self.__thSixListen = th.Thread()
         self.__thTrigger = th.Thread()
@@ -27,40 +56,15 @@ class SixGUI :
             self.__etatConnexion = False
         # Demarage d'Arrera TK
         self.__arrTK = CArreraTK()
-        # Instantation de l'objet Six
-        self.__assistantSix = ArreraNetwork(jsonNeuronNetwork)
-        self.__userConf = userConf()
+
         # Instantation de l'objet language
         self.__language = CLanguageSIX(resource_path("FileJSON/phraseSix.json"),
                                        resource_path("FileJSON/aideSix.json"),
                                        resource_path("FileJSON/firstBootSix.json"))
-        # Instantation de l'objet arrera voice
-        self.__avoice = CArreraVoice(jsonConfAssistant,
-                                     "asset/Sound/bootMicro.mp3")
-        # Objet
-        self.__objOS = OS()
-        # Recuperation de l'emplacement de l'icon
-        if self.__objOS.osWindows():
-            self.__emplacementIcon = iconFolder + "/win/" + iconName + ".ico"
-        elif self.__objOS.osLinux():
-                self.__emplacementIcon = iconFolder + "/linux/" + iconName + ".png"
-        elif self.__objOS.osMac() :
-            self.__emplacementIcon = resource_path(iconFolder+ "macos/" + iconName+".png")
-        # initilisation fenetre
-        self.__screen = self.__arrTK.aTK(title="Arrera Six",
-                                         icon=self.__emplacementIcon)
-        self.__screen.title(self.__nameSoft)
-        self.__screen.geometry("500x400+5+30")
-        self.__arrTK.setResizable(False)
-        self.__screen.protocol("WM_DELETE_WINDOW",self.__onClose)
-        # Declaration de l'objet Arrera Gazelle 
-        self.__gazelleUI = CArreraGazelleUISix(self.__arrTK,
-                                               self.__screen,
-                                               self.__userConf.getUserSettingPath(),
-                                               jsonNeuronNetwork,
-                                               jsonConfAssistant,
-                                               jsonConfSetting,
-                                               resource_path("asset/Sound/ecoute.mp3"))
+
+        # Declaration de l'objet Arrera Gazelle
+        self.__gazelleUI = arrera_gazelle(self,self.__gestionnaire,
+                                          "json_conf/conf-setting.json")
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
         # widget et canvas
@@ -97,88 +101,88 @@ class SixGUI :
         emplacementGUILight = "asset/IMGinterface/white/"
 
         # Canvas Acceuil
-        self.__canvasAcceuil = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasAcceuil = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[0],
                                                                        imageDark=emplacementGUIDark+fileImage[0],
                                                                        width=500,height=350)
         # Canvas Boot
-        self.__canvasBoot0 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasBoot0 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[10],
                                                                        imageDark=emplacementGUIDark+fileImage[10],
                                                                        width=500,height=350)
-        self.__canvasBoot1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasBoot1 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[11],
                                                                        imageDark=emplacementGUIDark+fileImage[11],
                                                                        width=500,height=350)
-        self.__canvasBoot2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasBoot2 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[12],
                                                                        imageDark=emplacementGUIDark+fileImage[12],
                                                                        width=500,height=350)
-        self.__canvasBoot3 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasBoot3 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[13],
                                                                        imageDark=emplacementGUIDark+fileImage[13],
                                                                        width=500,height=350)
         # Canvas Parole
-        self.__canvasParole1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasParole1 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[7],
                                                                        imageDark=emplacementGUIDark+fileImage[7],
                                                                        width=500,height=350)
-        self.__canvasParole2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasParole2 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[8],
                                                                        imageDark=emplacementGUIDark+fileImage[8],
                                                                        width=500,height=350)
-        self.__canvasParole3 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasParole3 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[9],
                                                                        imageDark=emplacementGUIDark+fileImage[9],
                                                                        width=500,height=350)
         # Canvas NoConnect
-        self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[6],
                                                                        imageDark=emplacementGUIDark+fileImage[6],
                                                                        width=500,height=350)
         # Canvas Emotion
-        self.__canvasContent = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasContent = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[15],
                                                                        imageDark=emplacementGUIDark+fileImage[15],
                                                                        width=500,height=350)
-        self.__canvasColere = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasColere = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[14],
                                                                        imageDark=emplacementGUIDark+fileImage[14],
                                                                        width=500,height=350)
-        self.__canvasSurprit = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasSurprit = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[3],
                                                                        imageDark=emplacementGUIDark+fileImage[3],
                                                                        width=500,height=350)
         # Canvas Triste
-        self.__canvasTriste1 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasTriste1 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[1],
                                                                        imageDark=emplacementGUIDark+fileImage[1],
                                                                        width=500,height=350)
-        self.__canvasTriste2 = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasTriste2 = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[2],
                                                                        imageDark=emplacementGUIDark+fileImage[2],
                                                                        width=500,height=350)
         # Canvas Parametre
-        self.__canvasParaOpen = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasParaOpen = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[19],
                                                                        imageDark=emplacementGUIDark+fileImage[19],
                                                                        width=500,height=350)
         # Canvas Actu
-        self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=emplacementGUILight+fileImage[16],
                                                                        imageDark=emplacementGUIDark+fileImage[16],
                                                                        width=500,height=600)
         # Canvas Mute
-        self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self.__screen,
+        self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self,
                                                                      imageLight=emplacementGUILight+fileImage[4],
                                                                      imageDark=emplacementGUIDark+fileImage[4],
                                                                      width=500,height=350),
-                             self.__arrTK.createArreraBackgroudImage(self.__screen,
+                             self.__arrTK.createArreraBackgroudImage(self,
                                                                      imageLight=emplacementGUILight+fileImage[5],
                                                                      imageDark=emplacementGUIDark+fileImage[5],
                                                                      width=500,height=350)]
         # widget 
-        self.__entryUser = self.__arrTK.createEntry(self.__screen, ppolice="Arial", ptaille=25, width=400)
+        self.__entryUser = self.__arrTK.createEntry(self, ppolice="Arial", ptaille=25, width=400)
         self.__labelTextDuringSpeak = self.__arrTK.createLabel(self.__canvasParole2,ppolice="Arial",ptaille=20,pstyle="bold")
         self.__labelTextAfterSpeak = self.__arrTK.createLabel(self.__canvasParole3,ppolice="Arial",ptaille=20,pstyle="bold")
         # Label Micro
@@ -204,8 +208,8 @@ class SixGUI :
                                                     pathDark=emplacementGUIDark + fileImage[24],
                                                     tailleX=35, tailleY=35)
 
-        self.__labelTriggerMicro = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroTriger)
-        self.__labelMicroRequette = self.__arrTK.createLabel(self.__screen,width=50,height=50,image=imageMicroRequette)
+        self.__labelTriggerMicro = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroTriger)
+        self.__labelMicroRequette = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroRequette)
 
         # Bouton pour montrer qu'un projet/Tableur/Word est ouvert
         self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,
@@ -219,10 +223,10 @@ class SixGUI :
                                                          command=lambda: self.__winHelpFileAndProjet(3))
 
         # Bouton pour activer le micro quand le trigger word est pas activer
-        self.__btnMicro = self.__arrTK.createButton(self.__screen,width=35,height=35,
+        self.__btnMicro = self.__arrTK.createButton(self,width=35,height=35,
                                                     image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
         # Bouton pour activer les parametre
-        self.__btnParametre = self.__arrTK.createButton(self.__screen,width=35,height=35,
+        self.__btnParametre = self.__arrTK.createButton(self,width=35,height=35,
                                                         image=imageParametre,command=self.__activeParametre)
         # Canvas Actu
         self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
@@ -268,13 +272,13 @@ class SixGUI :
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.__screen.configure(fg_color="#ffffff")
+            self.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
         elif theme == "dark" :
-            self.__screen.configure(fg_color="#000000")
+            self.configure(fg_color="#000000")
             self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
@@ -285,7 +289,7 @@ class SixGUI :
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
         else :
-            self.__screen.configure(fg_color="#ffffff")
+            self.configure(fg_color="#ffffff")
             self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
@@ -300,7 +304,7 @@ class SixGUI :
         self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
         self.__labelTextDuringSpeak.configure(corner_radius=0)
 
-        self.__screen.after(1000,self.__setTheme)
+        self.after(1000,self.__setTheme)
 
 
     def active(self,firstBoot:bool):
@@ -308,7 +312,7 @@ class SixGUI :
             self.__sequenceFistBoot()
         else :
             self.__sequenceBoot()
-        self.__screen.mainloop()
+        self.mainloop()
 
     def __apropos(self):
         self.__arrTK.aproposWindows(
@@ -321,9 +325,9 @@ class SixGUI :
     
     def __onClose(self):
         if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
-            self.__screen.title(self.__nameSoft)
+            self.title(self.__nameSoft)
             self.__gazelleUI.clearAllFrame()
-            self.__screen.update()
+            self.update()
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__quit()
@@ -350,27 +354,27 @@ class SixGUI :
         self.__canvasAcceuil.place(x=0,y=0)
         if not self.__etatConnexion:
             self.__canvasAcceuil.place_forget()
-            self.__screen.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.protocol("WM_DELETE_WINDOW",self.__quit)
             self.__canvasNoConnect.place(x=0,y=0)
-            self.__screen.update()
+            self.update()
         else :
             self.__speakBoot()
 
 
     def __speakBoot(self):
-        texte = self.__assistantSix.boot(1)
+        texte = self.__assistant_six.boot()
         self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__thBoot.start()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0, y=0)
         self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
         self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
-        self.__screen.after(100,self.__duringSpeakBoot)
+        self.after(100,self.__duringSpeakBoot)
 
     def __duringSpeakBoot(self):
         if self.__thBoot.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSpeakBoot)
+            self.update()
+            self.after(100,self.__duringSpeakBoot)
         else :
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
@@ -379,7 +383,7 @@ class SixGUI :
             self.__canvasParole2.place_forget()
             self.__canvasParole3.place(x=0, y=0)
             self.__sixSpeaking = False
-            self.__screen.update()
+            self.update()
 
     def __sequenceFistBoot(self):
         self.__canvasBoot0.place(x=0,y=0)
@@ -396,50 +400,50 @@ class SixGUI :
         self.__canvasAcceuil.place(x=0,y=0)
         if (self.__etatConnexion==False):
             self.__canvasAcceuil.place_forget()
-            self.__screen.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.protocol("WM_DELETE_WINDOW",self.__quit)
             self.__canvasNoConnect.place(x=0,y=0)
-            self.__screen.update()
+            self.update()
         else :
             self.__thBoot = th.Thread(target=self.__firstBootSpeak)
             self.__thBoot.start()
-            self.__screen.after(100, self.__duringFirstBootSpeak)
+            self.after(100, self.__duringFirstBootSpeak)
 
     def __firstBootSpeak(self):
-        userData = self.__assistantSix.getUserData()
+        userData = self.__assistant_six.getUserData()
         texte = self.__language.getPhraseFirstBoot(userData[1],userData[0],1)
         self.__avoice.say(texte)
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0, y=0)
         self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
-        self.__screen.update()
+        self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(userData[1], userData[0], 2))
         self.__avoice.say(texte)
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0, y=0)
         self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
-        self.__screen.update()
+        self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(userData[1], userData[0], 3))
         self.__avoice.say(texte)
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0, y=0)
         self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
-        self.__screen.update()
+        self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(userData[1], userData[0], 4))
         self.__avoice.say(texte)
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place(x=0, y=0)
         self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
-        self.__screen.update()
+        self.update()
 
     def __duringFirstBootSpeak(self):
         if self.__thBoot.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringFirstBootSpeak)
+            self.update()
+            self.after(100,self.__duringFirstBootSpeak)
         else :
-            userData = self.__assistantSix.getUserData()
+            userData = self.__assistant_six.getUserData()
             self.__arrTK.placeBottomCenter(self.__entryUser)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
@@ -449,7 +453,7 @@ class SixGUI :
             self.__sixSpeaking = False
             self.__labelTextAfterSpeak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 4)
                                                  ,wraplength=440,justify="left")
-            self.__screen.update()
+            self.update()
     
     def __clearView(self):
         self.__labelTriggerMicro.place_forget()
@@ -479,53 +483,53 @@ class SixGUI :
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=440,justify="left")
         self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
-        self.__screen.update()
+        self.update()
         self.__duringSpeak()
 
     def __duringSpeak(self):
         if self.__thSpeak.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSpeak)
+            self.update()
+            self.after(100,self.__duringSpeak)
         else :
             self.__canvasParole2.place_forget()
             self.__canvasParole3.place(x=0, y=0)
             self.__sixSpeaking = False
-            self.__screen.update()
+            self.update()
         
     def __sequenceArret(self):
-        texte = self.__assistantSix.shutdown()
+        texte = self.__assistant_six.shutdown()
         self.__clearView()
         thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
         thSpeak.start()
         self.__labelTextDuringSpeak.configure(text=texte,wraplength=320)
         self.__canvasParole2.place(x=0,y=0)
-        self.__screen.update()
+        self.update()
         thSpeak.join()
         self.__canvasParole2.place_forget()
         self.__canvasBoot3.place(x=0,y=0)
-        self.__screen.update()
+        self.update()
         time.sleep(0.2)
         self.__canvasBoot3.place_forget()
         self.__canvasBoot2.place(x=0,y=0)
-        self.__screen.update()
+        self.update()
         time.sleep(0.2)
         self.__canvasBoot2.place_forget()
         self.__canvasBoot3.place(x=0,y=0)
-        self.__screen.update()
+        self.update()
         time.sleep(0.2)
         self.__canvasBoot3.place_forget()
         self.__canvasBoot0.place(x=0,y=0)
-        self.__screen.update()
+        self.update()
         time.sleep(0.2)
         self.__canvasBoot0.place_forget()
-        self.__screen.update()
+        self.update()
         del thSpeak
 
     def __detectionTouche(self,fonc,touche):
         def anychar(event):
             if event.keycode == touche:
                 fonc()               
-        self.__screen.bind("<Key>", anychar)  
+        self.bind("<Key>", anychar)
     
     def __envoie(self): 
         if not self.__sixSpeaking:
@@ -536,12 +540,12 @@ class SixGUI :
             elif "mute" in texte or "silence" in texte or "ta gueule" in texte:
                     self.__viewMute()
             else :
-                self.__assistantSix.neuron(texte)
+                self.__assistant_six.neuron(texte)
                 self.__clearView()
                 self.__canvasParole1.place(x=0,y=0)
-                self.__screen.update()
-                nbSortie = self.__assistantSix.getValeurSortie()
-                listSortie = self.__assistantSix.getListSortie()
+                self.update()
+                nbSortie = self.__assistant_six.getValeurSortie()
+                listSortie = self.__assistant_six.getListSortie()
                 match nbSortie:
                     case 0 :
                         self.__sequenceParoleReponseNeuron(listSortie[0])
@@ -610,16 +614,16 @@ class SixGUI :
         self.__canvasParole2.place(x=0,y=0)
         self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
         self.__labelTextAfterSpeak.configure(text=text, wraplength=475, justify="left")
-        self.__screen.update()
+        self.update()
         self.__thSpeakNeuron = th.Thread(target=self.__avoice.say,args=(text,))
         self.__thSpeakNeuron.start()
-        self.__screen.after(100,self.__duringSpeakReponseNeuron)
-        self.__screen.update()
+        self.after(100,self.__duringSpeakReponseNeuron)
+        self.update()
 
     def __duringSpeakReponseNeuron(self):
         if self.__thSpeakNeuron.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSpeakReponseNeuron)
+            self.update()
+            self.after(100,self.__duringSpeakReponseNeuron)
         else :
             self.__canvasParole2.place_forget()
             self.__arrTK.placeBottomCenter(self.__entryUser)
@@ -627,25 +631,25 @@ class SixGUI :
                 self.__arrTK.placeBottomRight(self.__btnMicro)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__canvasParole3.place(x=0, y=0)
-            self.__screen.update()
+            self.update()
 
     def __loadSetting(self):
         self.__setTheme()
-        self.__screen.update()
+        self.update()
     
     def __activeParametre(self):
         self.__stopingTriggerWord()
-        self.__screen.title(self.__nameSoft+" : Parametre")
-        self.__screen.update()
+        self.title(self.__nameSoft+" : Parametre")
+        self.update()
         self.__clearView()
         self.__entryUser.place_forget()
         self.__gazelleUI.active()
-        self.__screen.update()
+        self.update()
     
     def __quitParametre(self):
-        self.__screen.title(self.__nameSoft)
+        self.title(self.__nameSoft)
         self.__gazelleUI.clearAllFrame()
-        self.__screen.update()
+        self.update()
         self.__sequenceParole(self.__language.getPhQuitSetting())
         self.__arrTK.placeBottomCenter(self.__entryUser)
         self.__arrTK.placeBottomLeft(self.__btnParametre)
@@ -676,8 +680,8 @@ class SixGUI :
 
     def __duringTigerWord(self):
         if self.__thTrigger.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSixListen)
+            self.update()
+            self.after(100,self.__duringSixListen)
         else :
             self.__microTriggerDisable()
 
@@ -696,8 +700,8 @@ class SixGUI :
 
     def __duringSixListen(self):
         if self.__thSixListen.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSixListen)
+            self.update()
+            self.after(100,self.__duringSixListen)
 
     
     def __viewResumer(self, listSortie:list, mode:int):
@@ -709,9 +713,9 @@ class SixGUI :
         """
         self.__clearView()
         self.__entryUser.place_forget()
-        self.__screen.maxsize(500,600)
-        self.__screen.minsize(500,600)
-        self.__screen.update()
+        self.maxsize(500,600)
+        self.minsize(500,600)
+        self.update()
         self.__canvasActu.place(x=0,y=0)
         match mode :
             case 1 : 
@@ -761,16 +765,16 @@ class SixGUI :
                                                                              + listSortie[8]))
         self.__stopingTriggerWord()
         self.__thMinuteurActu.start()
-        self.__screen.after(10,self.__duringMinuteurActu)
+        self.after(10,self.__duringMinuteurActu)
     
     def __quitActu(self):
         self.__clearView()
         self.__canvasActu.place_forget()
-        self.__screen.maxsize(500,400)
-        self.__screen.minsize(500,400)
-        self.__screen.update()
+        self.maxsize(500,400)
+        self.minsize(500,400)
+        self.update()
         self.__arrTK.placeBottomCenter(self.__entryUser)
-        self.__screen.update()
+        self.update()
         self.__sequenceParole(self.__language.getPhQuitActu())
         self.__startingTriggerWord()
         self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
@@ -779,20 +783,20 @@ class SixGUI :
     def __readActu(self,texte:str):
         self.__thSpeakActu = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__thSpeakActu.start()
-        self.__screen.after(100,self.__duringSpeakActu)
+        self.after(100,self.__duringSpeakActu)
 
     def __duringSpeakActu(self):
         if self.__thSpeakActu.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringSpeakActu)
+            self.update()
+            self.after(100,self.__duringSpeakActu)
     
     def __minuteurActu(self):
         time.sleep(60)
 
     def __duringMinuteurActu(self):
         if self.__thMinuteurActu.is_alive():
-            self.__screen.update()
-            self.__screen.after(100,self.__duringMinuteurActu)
+            self.update()
+            self.after(100,self.__duringMinuteurActu)
         else :
             self.__quitActu()
     
@@ -801,39 +805,39 @@ class SixGUI :
         self.__clearView()
         self.__stopingTriggerWord()
         self.__entryUser.place_forget()
-        self.__screen.maxsize(500,350)
-        self.__screen.minsize(500,350)
-        self.__screen.update()
+        self.maxsize(500,350)
+        self.minsize(500,350)
+        self.update()
         nb = random.randint(0,1)
         self.__canvasMute[nb].place(x=0,y=0)
     
     def __quitMute(self):        
         self.__clearView()
-        self.__screen.maxsize(500,400)
-        self.__screen.minsize(500,400)
-        self.__screen.update()
+        self.maxsize(500,400)
+        self.minsize(500,400)
+        self.update()
         self.__canvasMute[0].place_forget()
         self.__canvasMute[1].place_forget()
         self.__arrTK.placeBottomCenter(self.__entryUser)
-        self.__screen.update()
+        self.update()
         self.__sequenceParole(self.__language.getPhQuitMute())
         self.__startingTriggerWord()
     
     def __microTriggerEnable(self):
         self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')
-        self.__screen.update()
+        self.update()
     
     def __microTriggerDisable(self):
         self.__labelTriggerMicro.place_forget()
-        self.__screen.update()
+        self.update()
     
     def __microRequetteEnable(self):
         self.__labelMicroRequette.place(relx=1.0, rely=0.0, anchor='ne')
-        self.__screen.update()
+        self.update()
     
     def __microRequetteDisable(self):
         self.__labelMicroRequette.place_forget()
-        self.__screen.update()
+        self.update()
     
     def __startingTriggerWord(self):
         # Création du thread Trigger word
@@ -842,7 +846,7 @@ class SixGUI :
             self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
             self.__TriggerWorkStop.clear()
             self.__thTrigger.start()
-            self.__screen.after(100, self.__duringTigerWord)
+            self.after(100, self.__duringTigerWord)
         else :
             self.__arrTK.placeRightBottom(self.__btnMicro)
 
@@ -890,17 +894,17 @@ class SixGUI :
         self.__sequenceParoleReponseNeuron(textSpeak)
 
     def setButtonOpen(self):
-        if self.__assistantSix.getTableur() :
+        if self.__assistant_six.getTableur() :
             self.__arrTK.placeBottomRight(self.__btnTableurOpen)
         else :
             self.__btnTableurOpen.place_forget()
 
-        if self.__assistantSix.getWord():
+        if self.__assistant_six.getWord():
             self.__arrTK.placeBottomLeft(self.__btnWordOpen)
         else :
             self.__btnWordOpen.place_forget()
 
-        if self.__assistantSix.getProject():
+        if self.__assistant_six.getProject():
             self.__arrTK.placeBottomCenter(self.__btnProjetOpen)
         else :
             self.__btnProjetOpen.place_forget()
