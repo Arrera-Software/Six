@@ -2,6 +2,8 @@ from brain.brain import ABrain,confNeuron
 from lynx_gui.arrera_lynx import arrera_lynx
 from src.SixGUI import*
 
+THEME_FILE = "asset/theme/theme_gris.json"
+
 class SixBoot :
     def __init__(self):
         # Init de la conf
@@ -30,15 +32,20 @@ class SixBoot :
             fichierKeyword="keyword/",            # Path to keyword files
             voiceAssistant=True
         )
-        # Declaration des var
-        self.__sortieLynx = False
+
         # Demarage du reseau de neuron
         self.__assistant = ABrain(self.__assistant_conf)
+        self.__gestionnaire = self.__assistant.getGestionnaire()
 
-
+        # Var
+        self.__firt_boot = self.__gestionnaire.getUserConf().getFirstRun()
 
     def active(self):
-
+        if self.__firt_boot:
+            arrera_lynx(self.__gestionnaire,
+                        "json_conf/configLynx.json",
+                        THEME_FILE)
+        self.__boot()
 
 
     def __boot(self):

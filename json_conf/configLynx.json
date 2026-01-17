@@ -1,6 +1,6 @@
 {
-    "icon_unix": "asset/Ryley.png",
-    "icon_win": "asset/Ryley.ico",
+    "icon_unix": "asset/linux/icon.png",
+    "icon_win": "asset/win/icon.ico",
     "text_presentation": "Bienvenu sur Arrera Ryley, l'assistant d'Arrera qui permetera de vous aidez dans vos taches de tout les jour. Et dans vos projet de developpement informatique grace Codehelp",
     "list_genre": ["Monsieur","Madame","Maitre"],
     "list_engine_search": ["Google","Bing","Duckduckgo"],
