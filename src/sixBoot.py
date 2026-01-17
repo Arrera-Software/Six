@@ -1,36 +1,44 @@
-from lynx.arreraLynx import*
+from brain.brain import ABrain,confNeuron
+from lynx_gui.arrera_lynx import arrera_lynx
 from src.SixGUI import*
-from src.CTigerDemon import *
-from ObjetsNetwork.userConf import userConf
-from src.sixConf import SixConf
 
 class SixBoot :
     def __init__(self):
-        self.__userConf = userConf()
-        self.__sixConf = SixConf()
-
+        # Init de la conf
+        self.__assistant_conf = confNeuron(
+            name="Arrera SIX",
+            lang="fr",
+            asset="asset/",
+            icon="asset/linux/icon.png",
+            assistant_color="white",
+            assistant_texte_color="black",
+            bute="",
+            createur="Baptiste P",
+            listFonction=[],
+            moteurderecherche="google",
+            etatService=1,
+            etatTime=1,
+            etatOpen=1,
+            etatSearch=1,
+            etatChatbot=1,
+            etatApi=1,
+            etatCodehelp=0,
+            etatWork=1,
+            etatSocket=0,
+            lienDoc="www.google.com", # TODO : A changer plus tart
+            fichierLangue="language/", # Path to language files
+            fichierKeyword="keyword/",            # Path to keyword files
+            voiceAssistant=True
+        )
         # Declaration des var
         self.__sortieLynx = False
+        # Demarage du reseau de neuron
+        self.__assistant = ABrain(self.__assistant_conf)
 
-        # Verification de la configuration de l'assistant
-        if self.__userConf.getFirstRun():
-            self.__firstStart = True
-        else :
-            self.__firstStart = False
-        self.__demonTiger = CTigerDemon("six","https://arrera-software.fr/depots.json")
 
 
     def active(self):
-        if self.__firstStart:
-            lynx = ArreraLynx("FileJSON/configLynx.json",
-                              self.__userConf.getUserSettingPath(),
-                              "FileJSON/configNeuron.json")
-            lynx.active()
-            self.__sortieLynx = lynx.confiCreate()
-        else :
-            self.__sortieLynx = True
 
-        self.__boot()
 
 
     def __boot(self):
