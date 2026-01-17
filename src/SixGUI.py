@@ -71,7 +71,7 @@ class six_gui(aTk) :
         # canvas
 
         # Image de fond
-        fileImage = ["acceuil.png",#0
+        self.__file_img_gui = ["acceuil.png",#0
                      "triste1.png",#1
                      "triste2.png",#2
                      "sureprit.png",#3
@@ -97,115 +97,103 @@ class six_gui(aTk) :
                      "tableur.png",#23
                      "word.png",#24
                      ]
-        emplacementGUIDark = "asset/IMGinterface/dark/"
-        emplacementGUILight = "asset/IMGinterface/white/"
+        self.__dir_GUI_dark = "asset/IMGinterface/dark/"
+        self.__dir_GUIl_light = "asset/IMGinterface/white/"
 
         # Canvas Acceuil
-        self.__canvasAcceuil = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[0],
-                                                                       imageDark=emplacementGUIDark+fileImage[0],
-                                                                       width=500,height=350)
+        self.__c_welcome = self.__canvas_welcome()
         # Canvas Boot
-        self.__canvasBoot0 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[10],
-                                                                       imageDark=emplacementGUIDark+fileImage[10],
-                                                                       width=500,height=350)
-        self.__canvasBoot1 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[11],
-                                                                       imageDark=emplacementGUIDark+fileImage[11],
-                                                                       width=500,height=350)
-        self.__canvasBoot2 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[12],
-                                                                       imageDark=emplacementGUIDark+fileImage[12],
-                                                                       width=500,height=350)
-        self.__canvasBoot3 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[13],
-                                                                       imageDark=emplacementGUIDark+fileImage[13],
-                                                                       width=500,height=350)
+        self.__c_boot_one = self.__canvas_boot_one()
+
+        self.__c_boot_two = self.__canvas_boot_two()
+
+        self.__c_boot_three = self.__canvas_boot_three()
+
+        self.__c_boot_four = self.__canvas_boot_four()
         # Canvas Parole
         self.__canvasParole1 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[7],
-                                                                       imageDark=emplacementGUIDark+fileImage[7],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[7],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[7],
                                                                        width=500,height=350)
         self.__canvasParole2 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[8],
-                                                                       imageDark=emplacementGUIDark+fileImage[8],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[8],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[8],
                                                                        width=500,height=350)
         self.__canvasParole3 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[9],
-                                                                       imageDark=emplacementGUIDark+fileImage[9],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[9],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[9],
                                                                        width=500,height=350)
         # Canvas NoConnect
         self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[6],
-                                                                       imageDark=emplacementGUIDark+fileImage[6],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[6],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[6],
                                                                        width=500,height=350)
         # Canvas Emotion
         self.__canvasContent = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[15],
-                                                                       imageDark=emplacementGUIDark+fileImage[15],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[15],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[15],
                                                                        width=500,height=350)
         self.__canvasColere = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[14],
-                                                                       imageDark=emplacementGUIDark+fileImage[14],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[14],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[14],
                                                                        width=500,height=350)
         self.__canvasSurprit = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[3],
-                                                                       imageDark=emplacementGUIDark+fileImage[3],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[3],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[3],
                                                                        width=500,height=350)
         # Canvas Triste
         self.__canvasTriste1 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[1],
-                                                                       imageDark=emplacementGUIDark+fileImage[1],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[1],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[1],
                                                                        width=500,height=350)
         self.__canvasTriste2 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[2],
-                                                                       imageDark=emplacementGUIDark+fileImage[2],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[2],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[2],
                                                                        width=500,height=350)
         # Canvas Parametre
         self.__canvasParaOpen = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[19],
-                                                                       imageDark=emplacementGUIDark+fileImage[19],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[19],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[19],
                                                                        width=500,height=350)
         # Canvas Actu
         self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=emplacementGUILight+fileImage[16],
-                                                                       imageDark=emplacementGUIDark+fileImage[16],
+                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[16],
+                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[16],
                                                                        width=500,height=600)
         # Canvas Mute
         self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self,
-                                                                     imageLight=emplacementGUILight+fileImage[4],
-                                                                     imageDark=emplacementGUIDark+fileImage[4],
+                                                                     imageLight=self.__dir_GUIl_light+self.__file_img_gui[4],
+                                                                     imageDark=self.__dir_GUI_dark+self.__file_img_gui[4],
                                                                      width=500,height=350),
                              self.__arrTK.createArreraBackgroudImage(self,
-                                                                     imageLight=emplacementGUILight+fileImage[5],
-                                                                     imageDark=emplacementGUIDark+fileImage[5],
+                                                                     imageLight=self.__dir_GUIl_light+self.__file_img_gui[5],
+                                                                     imageDark=self.__dir_GUI_dark+self.__file_img_gui[5],
                                                                      width=500,height=350)]
         # widget 
         self.__entryUser = self.__arrTK.createEntry(self, ppolice="Arial", ptaille=25, width=400)
         self.__labelTextDuringSpeak = self.__arrTK.createLabel(self.__canvasParole2,ppolice="Arial",ptaille=20,pstyle="bold")
         self.__labelTextAfterSpeak = self.__arrTK.createLabel(self.__canvasParole3,ppolice="Arial",ptaille=20,pstyle="bold")
         # Label Micro
-        imageMicroTriger=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[17],
-                                                  pathDark=emplacementGUIDark+fileImage[17],
+        imageMicroTriger=self.__arrTK.createImage(pathLight=self.__dir_GUIl_light+self.__file_img_gui[17],
+                                                  pathDark=self.__dir_GUI_dark+self.__file_img_gui[17],
                                                   tailleX=50,tailleY=50)
-        imageMicroRequette=self.__arrTK.createImage(pathLight=emplacementGUILight+fileImage[18],
-                                                  pathDark=emplacementGUIDark+fileImage[18],
+        imageMicroRequette=self.__arrTK.createImage(pathLight=self.__dir_GUIl_light+self.__file_img_gui[18],
+                                                  pathDark=self.__dir_GUI_dark+self.__file_img_gui[18],
                                                     tailleX=50,tailleY=50)
-        imageMicroSimple = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[20],
-                                                    pathDark=emplacementGUIDark + fileImage[20],
+        imageMicroSimple = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[20],
+                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[20],
                                                     tailleX=35, tailleY=35)
-        imageParametre = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[21],
-                                                  pathDark=emplacementGUIDark + fileImage[21],
+        imageParametre = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[21],
+                                                  pathDark=self.__dir_GUI_dark + self.__file_img_gui[21],
                                                   tailleX=35, tailleY=35)
-        imageTableurOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[23],
-                                                  pathDark=emplacementGUIDark + fileImage[23],
+        imageTableurOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[23],
+                                                  pathDark=self.__dir_GUI_dark + self.__file_img_gui[23],
                                                   tailleX=35, tailleY=35)
-        imageProjetOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[22],
-                                                    pathDark=emplacementGUIDark + fileImage[22],
+        imageProjetOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[22],
+                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[22],
                                                     tailleX=35, tailleY=35)
-        imageWordOpen = self.__arrTK.createImage(pathLight=emplacementGUILight + fileImage[24],
-                                                    pathDark=emplacementGUIDark + fileImage[24],
+        imageWordOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[24],
+                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[24],
                                                     tailleX=35, tailleY=35)
 
         self.__labelTriggerMicro = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroTriger)
@@ -237,7 +225,7 @@ class six_gui(aTk) :
         self.__btnQuitMute = [self.__arrTK.createButton(self.__canvasMute[0],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit),
                              self.__arrTK.createButton(self.__canvasMute[1],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit)]
         # appelle de la methode pour initiliser le gui
-        self.__setTheme()
+        # self.__setTheme()
         #Affichage label parole
         self.__labelTextDuringSpeak.place(x=30,y=110)
         self.__labelTextAfterSpeak.place(x=10,y=80)
@@ -304,7 +292,7 @@ class six_gui(aTk) :
         self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
         self.__labelTextDuringSpeak.configure(corner_radius=0)
 
-        self.after(1000,self.__setTheme)
+        # self.after(1000,self.__setTheme)
 
 
     def active(self,firstBoot:bool):
@@ -314,14 +302,47 @@ class six_gui(aTk) :
             self.__sequenceBoot()
         self.mainloop()
 
+    # Declaration des diferente page de l'inteface
+
+    def __canvas_welcome(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[0],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[0],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_one(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[10],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[10],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_two(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[11],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[11],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_three(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[12],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[12],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_four(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[13],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[13],
+                             width=500,height=350)
+        return c
+
+    # About
+
     def __apropos(self):
-        self.__arrTK.aproposWindows(
-            nameSoft=self.__nameSoft,
-            iconFile=self.__emplacementIcon,
-            version=self.__version,
-            copyright="Copyright Arrera Software by Baptiste P 2023-2025",
-            linkSource="https://github.com/Arrera-Software/Six",
-            linkWeb="https://arrera-software.fr/")
+        windows_about(nameSoft=self.__nameSoft,
+                      iconFile=self.__emplacementIcon,
+                      version=self.__version,
+                      copyright="Copyright Arrera Software by Baptiste P 2023-2026",
+                      linkSource="https://github.com/Arrera-Software/Six",
+                      linkWeb="https://arrera-software.fr/")
     
     def __onClose(self):
         if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
@@ -340,20 +361,20 @@ class six_gui(aTk) :
             os.kill(os.getpid(), signal.SIGKILL)
     
     def __sequenceBoot(self):
-        self.__canvasBoot0.place(x=0,y=0)
+        self.__c_boot_one.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot0.place_forget()
-        self.__canvasBoot1.place(x=0,y=0)
+        self.__c_boot_one.place_forget()
+        self.__c_boot_two.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot1.place_forget()
-        self.__canvasBoot2.place(x=0,y=0)
+        self.__c_boot_two.place_forget()
+        self.__c_boot_three.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot2.place_forget()
-        self.__canvasBoot3.place(x=0,y=0)
+        self.__c_boot_three.place_forget()
+        self.__c_boot_four.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasAcceuil.place(x=0,y=0)
+        self.__c_welcome.place(x=0, y=0)
         if not self.__etatConnexion:
-            self.__canvasAcceuil.place_forget()
+            self.__c_welcome.place_forget()
             self.protocol("WM_DELETE_WINDOW",self.__quit)
             self.__canvasNoConnect.place(x=0,y=0)
             self.update()
@@ -386,20 +407,20 @@ class six_gui(aTk) :
             self.update()
 
     def __sequenceFistBoot(self):
-        self.__canvasBoot0.place(x=0,y=0)
+        self.__c_boot_one.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot0.place_forget()
-        self.__canvasBoot1.place(x=0,y=0)
+        self.__c_boot_one.place_forget()
+        self.__c_boot_two.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot1.place_forget()
-        self.__canvasBoot2.place(x=0,y=0)
+        self.__c_boot_two.place_forget()
+        self.__c_boot_three.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasBoot2.place_forget()
-        self.__canvasBoot3.place(x=0,y=0)
+        self.__c_boot_three.place_forget()
+        self.__c_boot_four.place(x=0, y=0)
         time.sleep(0.2)
-        self.__canvasAcceuil.place(x=0,y=0)
+        self.__c_welcome.place(x=0, y=0)
         if (self.__etatConnexion==False):
-            self.__canvasAcceuil.place_forget()
+            self.__c_welcome.place_forget()
             self.protocol("WM_DELETE_WINDOW",self.__quit)
             self.__canvasNoConnect.place(x=0,y=0)
             self.update()
@@ -458,11 +479,11 @@ class six_gui(aTk) :
     
     def __clearView(self):
         self.__labelTriggerMicro.place_forget()
-        self.__canvasAcceuil.place_forget()
-        self.__canvasBoot0.place_forget()
-        self.__canvasBoot1.place_forget()
-        self.__canvasBoot2.place_forget()
-        self.__canvasBoot3.place_forget()
+        self.__c_welcome.place_forget()
+        self.__c_boot_one.place_forget()
+        self.__c_boot_two.place_forget()
+        self.__c_boot_three.place_forget()
+        self.__c_boot_four.place_forget()
         self.__canvasParole1.place_forget()
         self.__canvasParole2.place_forget()
         self.__canvasParole3.place_forget()
@@ -507,22 +528,22 @@ class six_gui(aTk) :
         self.update()
         thSpeak.join()
         self.__canvasParole2.place_forget()
-        self.__canvasBoot3.place(x=0,y=0)
+        self.__c_boot_four.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
-        self.__canvasBoot3.place_forget()
-        self.__canvasBoot2.place(x=0,y=0)
+        self.__c_boot_four.place_forget()
+        self.__c_boot_three.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
-        self.__canvasBoot2.place_forget()
-        self.__canvasBoot3.place(x=0,y=0)
+        self.__c_boot_three.place_forget()
+        self.__c_boot_four.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
-        self.__canvasBoot3.place_forget()
-        self.__canvasBoot0.place(x=0,y=0)
+        self.__c_boot_four.place_forget()
+        self.__c_boot_one.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
-        self.__canvasBoot0.place_forget()
+        self.__c_boot_one.place_forget()
         self.update()
         del thSpeak
 
