@@ -30,6 +30,9 @@ class ABrain :
             self.__threadSocket.daemon = True
             self.__threadSocket.start()
 
+    def getGestionnaire(self):
+        return self.__gestionnaire
+
     def getNeuronRunning(self):
         return self.__networkRunning
 
