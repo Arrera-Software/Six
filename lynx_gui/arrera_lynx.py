@@ -30,6 +30,7 @@ class arrera_lynx(aTk):
         self.__thTrigerWord = th.Thread()
         self.__thDownloadIA = th.Thread()
         self.__state_github = self.__json_file.getContentJsonFlag("github_integration")
+        self.__state_lynx = False
 
         # Frame
         self.__welcome = self.__welcome_frame()
@@ -504,6 +505,7 @@ class arrera_lynx(aTk):
         if r:
             self.__ia.place_forget()
             self.__end.placeCenter()
+            self.__state_lynx = True
         else :
             self.__ia.placeCenter()
 
@@ -750,3 +752,8 @@ class arrera_lynx(aTk):
             else :
                 showerror("Configurateur","L'enregistrement s'est mal déroulé")
                 w.destroy()
+
+    # Return
+
+    def return_state_lynx(self):
+        return self.__state_lynx
