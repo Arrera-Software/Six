@@ -1,10 +1,10 @@
 {
-    "icon_unix": "asset/linux/icon.png",
-    "icon_win": "asset/win/icon.ico",
+    "icon_unix": "asset/icon/linux/icon.png",
+    "icon_win": "asset/icon/win/icon.ico",
     "text_presentation": "Bienvenu sur Arrera Ryley, l'assistant d'Arrera qui permetera de vous aidez dans vos taches de tout les jour. Et dans vos projet de developpement informatique grace Codehelp",
-    "list_genre": ["Monsieur","Madame","Maitre"],
-    "list_engine_search": ["Google","Bing","Duckduckgo"],
+    "list_genre": ["Monsieur","Madame","Mademoiselle","Maitre"],
+    "list_engine_search": ["google","brave","duckduckgo","qwant","ecosia","bing","perplexity"],
     "text_end": "Votre assistant a bien etais configurer. Vous pouvais modifier les parametres de l'assistant en ouvrant les parametres",
-    "github_integration": "1",
+    "github_integration": "0",
     "micro_use": "1"
 }
