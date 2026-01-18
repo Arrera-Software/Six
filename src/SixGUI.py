@@ -27,7 +27,8 @@ class six_gui(aTk) :
         self.__avoice = self.__gestionnaire.getArrVoice()
         self.__gest_user = self.__gestionnaire.getUserConf()
 
-        super().__init__(title=self.__nameSoft,resizable=False,theme_file=theme_file)
+        super().__init__(title=self.__nameSoft,resizable=False,theme_file=theme_file,
+                         fg_color=("#ffffff","#000000"))
         # initilisation fenetre
         self.geometry("500x400+5+30")
         self.protocol("WM_DELETE_WINDOW",self.__onClose)
@@ -111,18 +112,12 @@ class six_gui(aTk) :
 
         self.__c_boot_four = self.__canvas_boot_four()
         # Canvas Parole
-        self.__canvasParole1 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[7],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[7],
-                                                                       width=500,height=350)
-        self.__canvasParole2 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[8],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[8],
-                                                                       width=500,height=350)
-        self.__canvasParole3 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[9],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[9],
-                                                                       width=500,height=350)
+        self.__c_speak_one = self.__canvas_speak_one()
+
+        self.__c_speak_two = self.__canvas_speak_two()
+
+        self.__c_speak_three = self.__canvas_speak_three()
+
         # Canvas NoConnect
         self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self,
                                                                        imageLight=self.__dir_GUIl_light+self.__file_img_gui[6],
@@ -169,10 +164,9 @@ class six_gui(aTk) :
                                                                      imageLight=self.__dir_GUIl_light+self.__file_img_gui[5],
                                                                      imageDark=self.__dir_GUI_dark+self.__file_img_gui[5],
                                                                      width=500,height=350)]
-        # widget 
-        self.__entryUser = self.__arrTK.createEntry(self, ppolice="Arial", ptaille=25, width=400)
-        self.__labelTextDuringSpeak = self.__arrTK.createLabel(self.__canvasParole2,ppolice="Arial",ptaille=20,pstyle="bold")
-        self.__labelTextAfterSpeak = self.__arrTK.createLabel(self.__canvasParole3,ppolice="Arial",ptaille=20,pstyle="bold")
+        # widget
+        self.__entryUser = aEntry(self,police_size=20,width=360)
+
         # Label Micro
         imageMicroTriger=self.__arrTK.createImage(pathLight=self.__dir_GUIl_light+self.__file_img_gui[17],
                                                   pathDark=self.__dir_GUI_dark+self.__file_img_gui[17],
@@ -182,10 +176,10 @@ class six_gui(aTk) :
                                                     tailleX=50,tailleY=50)
         imageMicroSimple = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[20],
                                                     pathDark=self.__dir_GUI_dark + self.__file_img_gui[20],
-                                                    tailleX=35, tailleY=35)
+                                                    tailleX=30, tailleY=30)
         imageParametre = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[21],
                                                   pathDark=self.__dir_GUI_dark + self.__file_img_gui[21],
-                                                  tailleX=35, tailleY=35)
+                                                  tailleX=30, tailleY=30)
         imageTableurOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[23],
                                                   pathDark=self.__dir_GUI_dark + self.__file_img_gui[23],
                                                   tailleX=35, tailleY=35)
@@ -200,22 +194,25 @@ class six_gui(aTk) :
         self.__labelMicroRequette = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroRequette)
 
         # Bouton pour montrer qu'un projet/Tableur/Word est ouvert
-        self.__btnTableurOpen = self.__arrTK.createButton(self.__canvasParole3,width=35,height=35,
+        self.__btnTableurOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
                                                           image=imageTableurOpen,
                                                           command=lambda : self.__winHelpFileAndProjet(1))
-        self.__btnWordOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,
+        self.__btnWordOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
                                                        image=imageWordOpen,
                                                        command = lambda : self.__winHelpFileAndProjet(2))
-        self.__btnProjetOpen = self.__arrTK.createButton(self.__canvasParole3, width=35, height=35,
+        self.__btnProjetOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
                                                          image=imageProjetOpen,
                                                          command=lambda: self.__winHelpFileAndProjet(3))
 
         # Bouton pour activer le micro quand le trigger word est pas activer
-        self.__btnMicro = self.__arrTK.createButton(self,width=35,height=35,
-                                                    image=imageMicroSimple,command=lambda  : self.__sixMicroEnable())
+        self.__btn_microphone = aButton(self, width=30, height=30,text="",
+                                        dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                        image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
         # Bouton pour activer les parametre
-        self.__btnParametre = self.__arrTK.createButton(self,width=35,height=35,
-                                                        image=imageParametre,command=self.__activeParametre)
+        self.__btnParametre = aButton(self,width=30, height=30,text="",
+                                      dark_color="#1f1f1f", light_color="#e0e0e0",
+                                      hover_color=("#949494","#505050"),
+                                      image=imageParametre,command=self.__activeParametre)
         # Canvas Actu
         self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
         self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
@@ -227,8 +224,8 @@ class six_gui(aTk) :
         # appelle de la methode pour initiliser le gui
         # self.__setTheme()
         #Affichage label parole
-        self.__labelTextDuringSpeak.place(x=30,y=110)
-        self.__labelTextAfterSpeak.place(x=10,y=80)
+
+
         self.__labelActu.place(x=70,y=0)
         self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
         self.__btnQuitActu.place(relx=1, rely=1, anchor='se')
@@ -255,42 +252,42 @@ class six_gui(aTk) :
         self.__avoice.loadConfig()
         theme = self.__arrTK.getTheme().lower()
         if theme == "light" :
-            self.__arrTK.boutonChangeColor(self.__btnMicro,bg="#e0e0e0",hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#e0e0e0", hoverbg="#949494")
             self.configure(fg_color="#ffffff")
-            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak,bg="#ffffff",fg="#000000")
+            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
         elif theme == "dark" :
             self.configure(fg_color="#000000")
-            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#1f1f1f", hoverbg="#505050")
+            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#000000",fg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#000000", fg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
         else :
             self.configure(fg_color="#ffffff")
-            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#e0e0e0", hoverbg="#949494")
+            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnMicro, bg="#ffffff", hoverbg="#949494")
-            self.__arrTK.labelChangeColor(self.__labelTextAfterSpeak, bg="#ffffff", fg="#000000")
+            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#ffffff", hoverbg="#949494")
+            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
 
-        self.__arrTK.labelChangeColor(self.__labelTextDuringSpeak,bg="#2b3ceb",fg="white")
-        self.__labelTextDuringSpeak.configure(corner_radius=0)
+        self.__arrTK.labelChangeColor(self.__l_during_assistant_speak, bg="#2b3ceb", fg="white")
+        self.__l_during_assistant_speak.configure(corner_radius=0)
 
         # self.after(1000,self.__setTheme)
 
@@ -332,6 +329,34 @@ class six_gui(aTk) :
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[13],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[13],
                              width=500,height=350)
+        return c
+
+    def __canvas_speak_one(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[7],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[7],
+                             width=500,height=350)
+        return c
+
+    def __canvas_speak_two(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[8],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[8],
+                             width=500,height=350)
+        self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white")
+
+        self.__l_during_assistant_speak.place(x=30, y=110)
+        return c
+
+    def __canvas_speak_three(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[9],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[9],
+                             width=500,height=350)
+
+        self.__l_text_after_speak = aLabel(c, police_size=20,
+                                           light_color="#ffffff", dark_color="#000000",
+                                           dark_text_color="#ffffff", light_text_color="#000000")
+
+        self.__l_text_after_speak.place(x=10, y=80)
+
         return c
 
     # About
@@ -386,10 +411,10 @@ class six_gui(aTk) :
         texte = self.__assistant_six.boot()
         self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__thBoot.start()
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0, y=0)
-        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
-        self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
+        self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.after(100,self.__duringSpeakBoot)
 
     def __duringSpeakBoot(self):
@@ -401,8 +426,8 @@ class six_gui(aTk) :
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
             self.setButtonOpen()
-            self.__canvasParole2.place_forget()
-            self.__canvasParole3.place(x=0, y=0)
+            self.__c_speak_two.place_forget()
+            self.__c_speak_three.place(x=0, y=0)
             self.__sixSpeaking = False
             self.update()
 
@@ -434,30 +459,30 @@ class six_gui(aTk) :
         genre = self.__gest_user.getGenre()
         texte = self.__language.getPhraseFirstBoot(genre,name,1)
         self.__avoice.say(texte)
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0, y=0)
-        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 2))
         self.__avoice.say(texte)
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0, y=0)
-        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 3))
         self.__avoice.say(texte)
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0, y=0)
-        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 4))
         self.__avoice.say(texte)
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0, y=0)
-        self.__labelTextDuringSpeak.configure(text=texte, wraplength=440, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
 
     def __duringFirstBootSpeak(self):
@@ -470,11 +495,11 @@ class six_gui(aTk) :
             self.__arrTK.placeBottomLeft(self.__btnParametre)
             self.__startingTriggerWord()
             self.setButtonOpen()
-            self.__canvasParole2.place_forget()
-            self.__canvasParole3.place(x=0, y=0)
+            self.__c_speak_two.place_forget()
+            self.__c_speak_three.place(x=0, y=0)
             self.__sixSpeaking = False
-            self.__labelTextAfterSpeak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 4)
-                                                 ,wraplength=440,justify="left")
+            self.__l_text_after_speak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 4)
+                                                , wraplength=440, justify="left")
             self.update()
     
     def __clearView(self):
@@ -484,9 +509,9 @@ class six_gui(aTk) :
         self.__c_boot_two.place_forget()
         self.__c_boot_three.place_forget()
         self.__c_boot_four.place_forget()
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place_forget()
-        self.__canvasParole3.place_forget()
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place_forget()
+        self.__c_speak_three.place_forget()
         self.__canvasNoConnect.place_forget()
         self.__canvasContent.place_forget()
         self.__canvasColere.place_forget()
@@ -494,17 +519,17 @@ class six_gui(aTk) :
         self.__canvasTriste1.place_forget()
         self.__canvasTriste2.place_forget()
         self.__canvasParaOpen.place_forget()
-        self.__btnMicro.place_forget()
+        self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
         self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__clearView()
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0,y=0)
-        self.__labelTextDuringSpeak.configure(text=texte,wraplength=440,justify="left")
-        self.__labelTextAfterSpeak.configure(text=texte, wraplength=475, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
+        self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.update()
         self.__duringSpeak()
 
@@ -513,8 +538,8 @@ class six_gui(aTk) :
             self.update()
             self.after(100,self.__duringSpeak)
         else :
-            self.__canvasParole2.place_forget()
-            self.__canvasParole3.place(x=0, y=0)
+            self.__c_speak_two.place_forget()
+            self.__c_speak_three.place(x=0, y=0)
             self.__sixSpeaking = False
             self.update()
         
@@ -523,11 +548,11 @@ class six_gui(aTk) :
         self.__clearView()
         thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
         thSpeak.start()
-        self.__labelTextDuringSpeak.configure(text=texte,wraplength=320)
-        self.__canvasParole2.place(x=0,y=0)
+        self.__l_during_assistant_speak.configure(text=texte, wraplength=320)
+        self.__c_speak_two.place(x=0, y=0)
         self.update()
         thSpeak.join()
-        self.__canvasParole2.place_forget()
+        self.__c_speak_two.place_forget()
         self.__c_boot_four.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
@@ -564,7 +589,7 @@ class six_gui(aTk) :
             else :
                 self.__assistant_six.neuron(texte)
                 self.__clearView()
-                self.__canvasParole1.place(x=0,y=0)
+                self.__c_speak_one.place(x=0, y=0)
                 self.update()
                 nbSortie = self.__assistant_six.getValeurSortie()
                 listSortie = self.__assistant_six.getListSortie()
@@ -630,12 +655,12 @@ class six_gui(aTk) :
 
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
-        self.__btnMicro.place_forget()
+        self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
-        self.__canvasParole1.place_forget()
-        self.__canvasParole2.place(x=0,y=0)
-        self.__labelTextDuringSpeak.configure(text=text,wraplength=440,justify="left")
-        self.__labelTextAfterSpeak.configure(text=text, wraplength=475, justify="left")
+        self.__c_speak_one.place_forget()
+        self.__c_speak_two.place(x=0, y=0)
+        self.__l_during_assistant_speak.configure(text=text, wraplength=440, justify="left")
+        self.__l_text_after_speak.configure(text=text, wraplength=475, justify="left")
         self.update()
         self.__thSpeakNeuron = th.Thread(target=self.__avoice.say,args=(text,))
         self.__thSpeakNeuron.start()
@@ -647,12 +672,12 @@ class six_gui(aTk) :
             self.update()
             self.after(100,self.__duringSpeakReponseNeuron)
         else :
-            self.__canvasParole2.place_forget()
+            self.__c_speak_two.place_forget()
             self.__arrTK.placeBottomCenter(self.__entryUser)
             if not self.__gazelleUI.gettigerWordSet():
-                self.__arrTK.placeBottomRight(self.__btnMicro)
+                self.__arrTK.placeBottomRight(self.__btn_microphone)
             self.__arrTK.placeBottomLeft(self.__btnParametre)
-            self.__canvasParole3.place(x=0, y=0)
+            self.__c_speak_three.place(x=0, y=0)
             self.update()
 
     def __loadSetting(self):
@@ -863,14 +888,14 @@ class six_gui(aTk) :
     
     def __startingTriggerWord(self):
         # Création du thread Trigger word
-        self.__btnMicro.place_forget()
+        self.__btn_microphone.place_forget()
         if self.__gazelleUI.gettigerWordSet():
             self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
             self.__TriggerWorkStop.clear()
             self.__thTrigger.start()
             self.after(100, self.__duringTigerWord)
         else :
-            self.__arrTK.placeRightBottom(self.__btnMicro)
+            self.__arrTK.placeRightBottom(self.__btn_microphone)
 
     def __stopingTriggerWord(self):
         self.__TriggerWorkStop.set()
