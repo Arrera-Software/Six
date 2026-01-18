@@ -119,120 +119,25 @@ class six_gui(aTk) :
         self.__c_speak_three = self.__canvas_speak_three()
 
         # Canvas NoConnect
-        self.__canvasNoConnect = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[6],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[6],
-                                                                       width=500,height=350)
+        self.__c_no_connect = self.__canvas_no_connect()
         # Canvas Emotion
-        self.__canvasContent = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[15],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[15],
-                                                                       width=500,height=350)
-        self.__canvasColere = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[14],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[14],
-                                                                       width=500,height=350)
-        self.__canvasSurprit = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[3],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[3],
-                                                                       width=500,height=350)
+        self.__c_happy = self.__canvas_happy()
+
+        self.__c_not_happy = self.__canvas_not_happy()
+
+        self.__c_surprised = self.__canvas_surprised()
         # Canvas Triste
-        self.__canvasTriste1 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[1],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[1],
-                                                                       width=500,height=350)
-        self.__canvasTriste2 = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[2],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[2],
-                                                                       width=500,height=350)
+        self.__c_sad_one = self.__canvas_sad_one()
+        self.__c_sad_two = self.__canvas_sad_two()
         # Canvas Parametre
-        self.__canvasParaOpen = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[19],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[19],
-                                                                       width=500,height=350)
+        self.__c_setting_open = self.__canvas_setting()
         # Canvas Actu
-        self.__canvasActu = self.__arrTK.createArreraBackgroudImage(self,
-                                                                       imageLight=self.__dir_GUIl_light+self.__file_img_gui[16],
-                                                                       imageDark=self.__dir_GUI_dark+self.__file_img_gui[16],
-                                                                       width=500,height=600)
+        self.__c_actualites = self.__canvas_actu()
         # Canvas Mute
-        self.__canvasMute = [self.__arrTK.createArreraBackgroudImage(self,
-                                                                     imageLight=self.__dir_GUIl_light+self.__file_img_gui[4],
-                                                                     imageDark=self.__dir_GUI_dark+self.__file_img_gui[4],
-                                                                     width=500,height=350),
-                             self.__arrTK.createArreraBackgroudImage(self,
-                                                                     imageLight=self.__dir_GUIl_light+self.__file_img_gui[5],
-                                                                     imageDark=self.__dir_GUI_dark+self.__file_img_gui[5],
-                                                                     width=500,height=350)]
-        # widget
-        self.__entryUser = aEntry(self,police_size=20,width=360)
+        self.__L_c_mute = self.__canvas_mute()
 
-        # Label Micro
-        imageMicroTriger=self.__arrTK.createImage(pathLight=self.__dir_GUIl_light+self.__file_img_gui[17],
-                                                  pathDark=self.__dir_GUI_dark+self.__file_img_gui[17],
-                                                  tailleX=50,tailleY=50)
-        imageMicroRequette=self.__arrTK.createImage(pathLight=self.__dir_GUIl_light+self.__file_img_gui[18],
-                                                  pathDark=self.__dir_GUI_dark+self.__file_img_gui[18],
-                                                    tailleX=50,tailleY=50)
-        imageMicroSimple = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[20],
-                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[20],
-                                                    tailleX=30, tailleY=30)
-        imageParametre = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[21],
-                                                  pathDark=self.__dir_GUI_dark + self.__file_img_gui[21],
-                                                  tailleX=30, tailleY=30)
-        imageTableurOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[23],
-                                                  pathDark=self.__dir_GUI_dark + self.__file_img_gui[23],
-                                                  tailleX=35, tailleY=35)
-        imageProjetOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[22],
-                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[22],
-                                                    tailleX=35, tailleY=35)
-        imageWordOpen = self.__arrTK.createImage(pathLight=self.__dir_GUIl_light + self.__file_img_gui[24],
-                                                    pathDark=self.__dir_GUI_dark + self.__file_img_gui[24],
-                                                    tailleX=35, tailleY=35)
+        self.__widget_main_windows()
 
-        self.__labelTriggerMicro = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroTriger)
-        self.__labelMicroRequette = self.__arrTK.createLabel(self,width=50,height=50,image=imageMicroRequette)
-
-        # Bouton pour montrer qu'un projet/Tableur/Word est ouvert
-        self.__btnTableurOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
-                                                          image=imageTableurOpen,
-                                                          command=lambda : self.__winHelpFileAndProjet(1))
-        self.__btnWordOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
-                                                       image=imageWordOpen,
-                                                       command = lambda : self.__winHelpFileAndProjet(2))
-        self.__btnProjetOpen = self.__arrTK.createButton(self.__c_speak_three, width=35, height=35,
-                                                         image=imageProjetOpen,
-                                                         command=lambda: self.__winHelpFileAndProjet(3))
-
-        # Bouton pour activer le micro quand le trigger word est pas activer
-        self.__btn_microphone = aButton(self, width=30, height=30,text="",
-                                        dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
-                                        image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
-        # Bouton pour activer les parametre
-        self.__btnParametre = aButton(self,width=30, height=30,text="",
-                                      dark_color="#1f1f1f", light_color="#e0e0e0",
-                                      hover_color=("#949494","#505050"),
-                                      image=imageParametre,command=self.__activeParametre)
-        # Canvas Actu
-        self.__labelActu = self.__arrTK.createLabel(self.__canvasActu,ppolice="arial",ptaille=15,bg="red",)
-        self.__btnQuitActu = self.__arrTK.createButton(self.__canvasActu,text="Quitter",ppolice="arial",ptaille=15,command=self.__quitActu)
-        self.__btnReadActu =  self.__arrTK.createButton(self.__canvasActu,text="Lire a voix haute",ppolice="arial",ptaille=15)
-        self.__btnStopMute = [self.__arrTK.createButton(self.__canvasMute[0],text="Demute",ppolice="arial",ptaille=15,command=self.__quitMute),
-                             self.__arrTK.createButton(self.__canvasMute[1],text="Demute",ppolice="arial",ptaille=15,command=self.__quitMute)]
-        self.__btnQuitMute = [self.__arrTK.createButton(self.__canvasMute[0],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit),
-                             self.__arrTK.createButton(self.__canvasMute[1],text="Quitter",ppolice="arial",ptaille=15,command=self.__quit)]
-        # appelle de la methode pour initiliser le gui
-        # self.__setTheme()
-        #Affichage label parole
-
-
-        self.__labelActu.place(x=70,y=0)
-        self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
-        self.__btnQuitActu.place(relx=1, rely=1, anchor='se')
-        self.__btnStopMute[0].place(relx=0, rely=1, anchor='sw')
-        self.__btnQuitMute[0].place(relx=1, rely=1, anchor='se')
-        self.__btnStopMute[1].place(relx=0, rely=1, anchor='sw')
-        self.__btnQuitMute[1].place(relx=1, rely=1, anchor='se')
         # Mise a place de la touche entree
         if self.__objOS.osWindows() :
             self.__detectionTouche(self.__envoie,13)
@@ -259,7 +164,7 @@ class six_gui(aTk) :
             self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#e0e0e0", hoverbg="#949494")
             self.configure(fg_color="#ffffff")
             self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__labelActu,bg="#ffffff",fg="#000000")
+            self.__arrTK.labelChangeColor(self.__l_actu, bg="#ffffff", fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
         elif theme == "dark" :
@@ -270,7 +175,7 @@ class six_gui(aTk) :
             self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
             self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#000000", fg="#ffffff")
-            self.__arrTK.labelChangeColor(self.__labelActu, bg="#000000",fg="#ffffff")
+            self.__arrTK.labelChangeColor(self.__l_actu, bg="#000000", fg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
         else :
@@ -282,7 +187,7 @@ class six_gui(aTk) :
             self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
             self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#ffffff", hoverbg="#949494")
             self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__labelActu, bg="#ffffff", fg="#000000")
+            self.__arrTK.labelChangeColor(self.__l_actu, bg="#ffffff", fg="#000000")
             self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
             self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
 
@@ -347,6 +252,20 @@ class six_gui(aTk) :
         return c
 
     def __canvas_speak_three(self):
+
+        # Image
+
+        imageTableurOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[23],
+                                  path_dark=self.__dir_GUI_dark + self.__file_img_gui[23],
+                                  width=30, height=30)
+
+        imageProjetOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[22],
+                                 path_dark=self.__dir_GUI_dark + self.__file_img_gui[22],
+                                width=30, height=30)
+        imageWordOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[24],
+                               path_dark=self.__dir_GUI_dark + self.__file_img_gui[24],
+                                width=30, height=30)
+
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[9],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[9],
                              width=500,height=350)
@@ -355,9 +274,132 @@ class six_gui(aTk) :
                                            light_color="#ffffff", dark_color="#000000",
                                            dark_text_color="#ffffff", light_text_color="#000000")
 
+        self.__btnTableurOpen = aButton(c, width=30, height=30, text="",image=imageTableurOpen,
+                                        command=lambda : self.__winHelpFileAndProjet(1))
+        self.__btnWordOpen = aButton(c, width=30, height=30, text="",image=imageWordOpen,
+                                     command = lambda : self.__winHelpFileAndProjet(2))
+        self.__btnProjetOpen = aButton(c, width=30, height=30, text="",image=imageProjetOpen,
+                                       command=lambda: self.__winHelpFileAndProjet(3))
+
         self.__l_text_after_speak.place(x=10, y=80)
 
         return c
+
+    def __canvas_no_connect(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[6],
+                    background_dark=self.__dir_GUI_dark+self.__file_img_gui[6],
+                    width=500,height=350)
+
+        return c
+
+    def __canvas_happy(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[15],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[15],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_not_happy(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[14],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[14],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_surprised(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[3],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[3],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_sad_one(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[1],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[1],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_sad_two(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[2],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[2],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_setting(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[19],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[19],
+                             width=500,height=350)
+
+        return c
+
+    def __canvas_actu(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[16],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[16],
+                             width=500,height=350)
+
+        self.__l_actu = aLabel(c, dark_text_color="#ffffff", light_text_color="#000000", dark_color="#000000", light_color="#ffffff", police_size=15)
+        self.__btn_quit_actu = aButton(c, text="Quitter", size=15, command=self.__quitActu)
+        self.__btnReadActu =  self.__arrTK.createButton(c, text="Lire a voix haute", ppolice="arial", ptaille=15)
+
+        self.__l_actu.place(x=70, y=0)
+        self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
+        self.__btn_quit_actu.place(relx=1, rely=1, anchor='se')
+
+        return c
+
+    def __canvas_mute(self):
+        c1 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[4],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[4],
+                             width=500,height=350)
+
+        c2 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[5],
+                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[5],
+                              width=500,height=350)
+
+        self.__btn_stop_mute = [aButton(c1, text="Demute", size=15, command=self.__quitMute),
+                                aButton(c2, text="Demute",size=15, command=self.__quitMute)]
+        self.__btn_quit_mute = [aButton(c1, text="Quitter", size=15, command=self.__quit),
+                                aButton(c2, text="Quitter",size=15, command=self.__quit)]
+
+        for i in self.__btn_stop_mute:
+            i.place(relx=0, rely=1, anchor='sw')
+
+        for i in self.__btn_quit_mute:
+            i.place(relx=1, rely=1, anchor='se')
+
+        return [c1,c2]
+
+    def __widget_main_windows(self):
+
+        self.__entryUser = aEntry(self,police_size=20,width=360)
+
+        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[17],
+                                 path_dark=self.__dir_GUI_dark+self.__file_img_gui[17],
+                                 width=50,height=50)
+        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[18],
+                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[18],
+                                  width=50,height=50)
+        imageMicroSimple = aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[20],
+                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[20],
+                                  width=30,height=30)
+        imageParametre = aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[21],
+                                path_dark=self.__dir_GUI_dark+self.__file_img_gui[21],
+                                width=30,height=30)
+
+        self.__labelTriggerMicro = aLabel(self,text="",width=50,height=50,image=imageMicroTriger)
+        self.__labelMicroRequette = aLabel(self,text="",width=50,height=50,image=imageMicroRequette)
+
+        # Bouton pour activer le micro quand le trigger word est pas activer
+        self.__btn_microphone = aButton(self, width=30, height=30,text="",
+                                        dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                        image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
+        # Bouton pour activer les parametre
+        self.__btnParametre = aButton(self,width=30, height=30,text="",
+                                      dark_color="#1f1f1f", light_color="#e0e0e0",
+                                      hover_color=("#949494","#505050"),
+                                      image=imageParametre,command=self.__activeParametre)
 
     # About
 
@@ -401,7 +443,7 @@ class six_gui(aTk) :
         if not self.__etatConnexion:
             self.__c_welcome.place_forget()
             self.protocol("WM_DELETE_WINDOW",self.__quit)
-            self.__canvasNoConnect.place(x=0,y=0)
+            self.__c_no_connect.place(x=0, y=0)
             self.update()
         else :
             self.__speakBoot()
@@ -447,7 +489,7 @@ class six_gui(aTk) :
         if (self.__etatConnexion==False):
             self.__c_welcome.place_forget()
             self.protocol("WM_DELETE_WINDOW",self.__quit)
-            self.__canvasNoConnect.place(x=0,y=0)
+            self.__c_no_connect.place(x=0, y=0)
             self.update()
         else :
             self.__thBoot = th.Thread(target=self.__firstBootSpeak)
@@ -512,13 +554,13 @@ class six_gui(aTk) :
         self.__c_speak_one.place_forget()
         self.__c_speak_two.place_forget()
         self.__c_speak_three.place_forget()
-        self.__canvasNoConnect.place_forget()
-        self.__canvasContent.place_forget()
-        self.__canvasColere.place_forget()
-        self.__canvasSurprit.place_forget()
-        self.__canvasTriste1.place_forget()
-        self.__canvasTriste2.place_forget()
-        self.__canvasParaOpen.place_forget()
+        self.__c_no_connect.place_forget()
+        self.__c_happy.place_forget()
+        self.__c_not_happy.place_forget()
+        self.__c_surprised.place_forget()
+        self.__c_sad_one.place_forget()
+        self.__c_sad_two.place_forget()
+        self.__c_setting_open.place_forget()
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
     
@@ -763,15 +805,15 @@ class six_gui(aTk) :
         self.maxsize(500,600)
         self.minsize(500,600)
         self.update()
-        self.__canvasActu.place(x=0,y=0)
+        self.__c_actualites.place(x=0, y=0)
         match mode :
             case 1 : 
-                self.__labelActu.configure(text=listSortie[0]+
-                                        "\n"+listSortie[1]+
-                                        "\n"+listSortie[2]+
-                                        "\n"+listSortie[3]+
-                                        "\n"+listSortie[4]+
-                                        "\n"+listSortie[5],
+                self.__l_actu.configure(text=listSortie[0] +
+                                        "\n" + listSortie[1] +
+                                        "\n" + listSortie[2] +
+                                        "\n" + listSortie[3] +
+                                        "\n" + listSortie[4] +
+                                        "\n" + listSortie[5],
                                         justify="left",
                                         wraplength=400)
                 self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
@@ -781,27 +823,27 @@ class six_gui(aTk) :
                                         "."+listSortie[4]+
                                         "."+listSortie[5]))
             case 2 : 
-                self.__labelActu.configure(text=listSortie[0]+
-                                        "\n"+listSortie[1]+
-                                        "\n"+listSortie[2],
+                self.__l_actu.configure(text=listSortie[0] +
+                                        "\n" + listSortie[1] +
+                                        "\n" + listSortie[2],
                                         justify="left",
                                         wraplength=400)
                 self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
                                         "."+listSortie[1]+
                                         "."+listSortie[2]))
             case 3 :
-                self.__labelActu.configure(text=listSortie[0]+"\n"+listSortie[1],
+                self.__l_actu.configure(text=listSortie[0] + "\n" + listSortie[1],
                                         justify="left",
                                         wraplength=400)
                 self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0]
                                                                              +"."+listSortie[1] ))
             case 4 :
-                self.__labelActu.configure(text=listSortie[0] + "\n" + listSortie[1]+"\n"
-                                                +listSortie[2] + "\n" + listSortie[3]+"\n"
-                                                +listSortie[4] + "\n" + listSortie[5]+"\n"
-                                                +listSortie[7] + "\n" + listSortie[8],
-                                           justify="left",
-                                           wraplength=400)
+                self.__l_actu.configure(text=listSortie[0] + "\n" + listSortie[1] + "\n"
+                                             + listSortie[2] + "\n" + listSortie[3] +"\n"
+                                             + listSortie[4] + "\n" + listSortie[5] +"\n"
+                                             + listSortie[7] + "\n" + listSortie[8],
+                                        justify="left",
+                                        wraplength=400)
                 self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0] + "."
                                                                              + listSortie[1]+"."
                                                                              +listSortie[2] + "."
@@ -816,7 +858,7 @@ class six_gui(aTk) :
     
     def __quitActu(self):
         self.__clearView()
-        self.__canvasActu.place_forget()
+        self.__c_actualites.place_forget()
         self.maxsize(500,400)
         self.minsize(500,400)
         self.update()
@@ -856,15 +898,15 @@ class six_gui(aTk) :
         self.minsize(500,350)
         self.update()
         nb = random.randint(0,1)
-        self.__canvasMute[nb].place(x=0,y=0)
+        self.__L_c_mute[nb].place(x=0, y=0)
     
     def __quitMute(self):        
         self.__clearView()
         self.maxsize(500,400)
         self.minsize(500,400)
         self.update()
-        self.__canvasMute[0].place_forget()
-        self.__canvasMute[1].place_forget()
+        self.__L_c_mute[0].place_forget()
+        self.__L_c_mute[1].place_forget()
         self.__arrTK.placeBottomCenter(self.__entryUser)
         self.update()
         self.__sequenceParole(self.__language.getPhQuitMute())
@@ -942,17 +984,17 @@ class six_gui(aTk) :
 
     def setButtonOpen(self):
         if self.__assistant_six.getTableur() :
-            self.__arrTK.placeBottomRight(self.__btnTableurOpen)
+            self.__btnTableurOpen.placeBottomRight()
         else :
             self.__btnTableurOpen.place_forget()
 
         if self.__assistant_six.getWord():
-            self.__arrTK.placeBottomLeft(self.__btnWordOpen)
+            self.__btnWordOpen.placeBottomLeft()
         else :
             self.__btnWordOpen.place_forget()
 
         if self.__assistant_six.getProject():
-            self.__arrTK.placeBottomCenter(self.__btnProjetOpen)
+            self.__btnProjetOpen.placeBottomCenter()
         else :
             self.__btnProjetOpen.place_forget()
 
