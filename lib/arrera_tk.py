@@ -139,16 +139,29 @@ class aImage(ctk.CTkImage):
 # Widget
 
 class aLabel(ctk.CTkLabel, placement_Tool_Kit_internet):
-    def __init__(self, master, text: str = "Arrera Label",police_size:int=0, **kwargs):
+    def __init__(self, master, text: str = "Arrera Label",police_size:int=0,dark_color:str="",light_color:str="",light_text_color:str="",dark_text_color:str="", **kwargs):
         super().__init__(master, text=text, **kwargs)
         if police_size != 0:
             self.configure(font=("Roboto",police_size,"bold"))
 
+        if dark_color != "" and light_color != "":
+            self.configure(fg_color=(light_color,dark_color))
+
+        if dark_text_color != "" and  light_text_color != "":
+            self.configure(text_color=(light_text_color,dark_text_color))
+
 class aButton(ctk.CTkButton, placement_Tool_Kit_internet):
-    def __init__(self, master, text: str = "Arrera Button", width: int = 140, height: int = 40, command=None,size:int=0, **kwargs):
+    def __init__(self, master, text: str = "Arrera Button", width: int = 140, height: int = 40, command=None,size:int=0,dark_color:str="",light_color:str="",light_text_color:str="",dark_text_color:str="", **kwargs):
         super().__init__(master, text=text, width=width, height=height, command=command, **kwargs)
         if size != 0:
             self.configure(font=("Roboto",size,"bold"))
+
+        if dark_color != "" and light_color != "":
+            self.configure(fg_color=(light_color,dark_color))
+
+        if dark_text_color != "" and  light_text_color != "":
+            self.configure(text_color=(light_text_color,dark_text_color))
+
 
 class aCheckBox(ctk.CTkCheckBox, placement_Tool_Kit_internet):
     def __init__(self,master,boolean_value:bool, **kwargs):
