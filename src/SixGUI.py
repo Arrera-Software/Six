@@ -828,16 +828,3 @@ class six_gui(aTk) :
         aideView.insert_text(texte)
         labelTitleHelp.placeTopCenter()
         aideView.placeCenter()
-
-    def __traitementTextHelpFileAndProjet(self, liste:list):
-        newText = ""
-        for i in range(0, len(liste)):
-            text = liste[i]
-            if text[0] == "-" :
-                text = text.replace("-", "").strip().lstrip()
-                newText += "\n"+text+"\n"
-            elif text[0]== "*":
-                text = text.replace("*","").strip().lstrip()
-                newText += "    "+text+"\n"
-
-        return newText.strip()
