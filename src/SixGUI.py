@@ -225,18 +225,21 @@ class six_gui(aTk) :
 
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[9],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[9],
-                             width=500,height=350)
+                             width=500,height=350,fg_color=("#ffffff","#000000"))
 
         self.__l_text_after_speak = aLabel(c, police_size=20,
                                            light_color="#ffffff", dark_color="#000000",
                                            dark_text_color="#ffffff", light_text_color="#000000")
 
-        self.__btnTableurOpen = aButton(c, width=30, height=30, text="",image=imageTableurOpen,
-                                        command=lambda : self.__winHelpFileAndProjet(1))
-        self.__btnWordOpen = aButton(c, width=30, height=30, text="",image=imageWordOpen,
-                                     command = lambda : self.__winHelpFileAndProjet(2))
-        self.__btnProjetOpen = aButton(c, width=30, height=30, text="",image=imageProjetOpen,
-                                       command=lambda: self.__winHelpFileAndProjet(3))
+        self.__btn_tableur_is_open = aButton(c, width=30, height=30, text="", image=imageTableurOpen,
+                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                             command=lambda : self.__set_requette_with_btn("aide tableur"))
+        self.__btn_word_is_open = aButton(c, width=30, height=30, text="", image=imageWordOpen,
+                                          dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                          command = lambda : self.__set_requette_with_btn("aide word"))
+        self.__btn_project_is_open = aButton(c, width=30, height=30, text="", image=imageProjetOpen,
+                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                             command=lambda: self.__set_requette_with_btn("aide projet"))
 
         self.__l_text_after_speak.place(x=10, y=80)
 
@@ -576,7 +579,11 @@ class six_gui(aTk) :
             if event.keycode == touche:
                 fonc()               
         self.bind("<Key>", anychar)
-    
+
+    def __set_requette_with_btn(self,requette:str):
+        self.__entryUser.delete(0,END)
+        self.__entryUser.insert(0,requette)
+        self.__send_assistant()
 
     def __send_assistant(self):
         content = self.__entryUser.get().lower()
@@ -605,6 +612,8 @@ class six_gui(aTk) :
             listSortie = self.__assistant_six.getListSortie()
             if nbSortie == 15:
                 self.__quit()
+            elif nbSortie == 17:
+                self.__windows_help_assistant(listSortie[0])
             else :
                 self.__sequenceParoleReponseNeuron(listSortie[0])
 
@@ -794,50 +803,29 @@ class six_gui(aTk) :
 
     def __manage_btn_open_fnc(self):
         if self.__assistant_six.getTableur() :
-            self.__btnTableurOpen.placeBottomRight()
+            self.__btn_tableur_is_open.placeBottomRight()
         else :
-            self.__btnTableurOpen.place_forget()
+            self.__btn_tableur_is_open.place_forget()
 
         if self.__assistant_six.getWord():
-            self.__btnWordOpen.placeBottomLeft()
+            self.__btn_word_is_open.placeBottomLeft()
         else :
-            self.__btnWordOpen.place_forget()
+            self.__btn_word_is_open.place_forget()
 
         if self.__assistant_six.getProject():
-            self.__btnProjetOpen.placeBottomCenter()
+            self.__btn_project_is_open.placeBottomCenter()
         else :
-            self.__btnProjetOpen.place_forget()
+            self.__btn_project_is_open.place_forget()
 
-    def __winHelpFileAndProjet(self,mode:int):
-        """
-        :param mode:
-            1. Tableur
-            2. Word
-            3. Projet
-        :return:
-        """
-        winHelp = aTopLevel(width=500, height=600,icon=self.__emplacementIcon)
-
-        labelTitleHelp = aLabel(winHelp, police_size=25)
+    def __windows_help_assistant(self,texte:str):
+        winHelp = aTopLevel(width=500, height=600,title="Arrera Six : Aide Assistant",
+                            icon=self.__emplacementIcon)
+        labelTitleHelp = aLabel(winHelp, police_size=25,text="Six - Aide")
         aideView = aText(winHelp, width=475, height=500,wrap="word",police_size=20)
 
-        match mode:
-            case 1:
-                winHelp.title("Arrera Six : Aide Tableur")
-                labelTitleHelp.configure(text="Aide Tableur")
-                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
-                    self.__language.getHelpTableur()))
-            case 2:
-                winHelp.title("Arrera Six : Aide Traitement de texte")
-                labelTitleHelp.configure(text="Aide Traitement de texte")
-                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
-                    self.__language.getHelpWord()))
-            case 3:
-                winHelp.title("Arrera Six : Aide Arrera Projet")
-                labelTitleHelp.configure(text="Aide Arrera Projet")
-                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
-                    self.__language.getHelpProjet()))
+        self.__sequenceParoleReponseNeuron("Open INTERFACE") # TODO : Texte a revoir
 
+        aideView.insert_text(texte)
         labelTitleHelp.placeTopCenter()
         aideView.placeCenter()
 
