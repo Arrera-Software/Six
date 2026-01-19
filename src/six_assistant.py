@@ -64,7 +64,6 @@ class six_assistant :
 
 
     def __boot(self):
-        self.__checkUpdate()
         if not self.__state_conf:
             w = aTk(title="Arrera Six",resizable=False,width=500,height=350,
                          theme_file=THEME_FILE)
@@ -87,32 +86,8 @@ class six_assistant :
                                 self.__assistant,
                                 THEME_FILE,
                                 self.__demon.getVersionSoft())
-            assistant.active(self.__firt_boot)
+            assistant.active(self.__firt_boot,self.__demon.checkUpdate())
 
     def __restartConf(self,windows:aTk):
         windows.destroy()
         self.active()
-
-    def __checkUpdate(self):
-        if self.__demon.checkUpdate():
-            w = aTk(title="Arrera Six",resizable=False,width=500,
-                         height=350,theme_file=THEME_FILE)
-            img_canvas = aBackgroundImage(w,
-                                        background_dark="asset/IMGinterface/dark/MAJ.png",
-                                        background_light="asset/IMGinterface/white/MAJ.png",
-                                        width=500,height=350)
-
-            label_text = aLabel(w,text="Une mise à jour d'ARRERA SIX est disponible. Installez-la pour bénéficier des dernières fonctionnalités.",
-                               police_size=20,fg_color="#2b3ceb",
-                               text_color="white",wraplength=250,justify="left")
-
-            btn_update = aButton(w,text="Mettre a jour",size=20,
-                                command=lambda :wb.open("https://www.github.com/Arrera-Software/Six/releases"))
-
-            btn_continuer = aButton(w,text="Me rappeler plus tart",size=20,command=lambda : w.destroy())
-
-            img_canvas.pack()
-            label_text.place(x=190,y=40)
-            btn_update.placeBottomLeft()
-            btn_continuer.placeBottomRight()
-            w.mainloop()

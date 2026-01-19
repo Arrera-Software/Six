@@ -18,6 +18,7 @@ class six_gui(aTk) :
         self.__sixSpeaking = bool
         self.__version = version
         self.__mute_is_enable = False
+        self.__first_boot = False
 
         # Objet
         self.__assistant_six = brain
@@ -97,6 +98,7 @@ class six_gui(aTk) :
                      "projet.png",#22
                      "tableur.png",#23
                      "word.png",#24
+                     "MAJ.png"#25
                      ]
         self.__dir_GUI_dark = "asset/IMGinterface/dark/"
         self.__dir_GUIl_light = "asset/IMGinterface/white/"
@@ -120,6 +122,8 @@ class six_gui(aTk) :
 
         # Canvas NoConnect
         self.__c_no_connect = self.__canvas_no_connect()
+
+        self.__c_maj = self.__canvas_maj()
         # Canvas Emotion
         self.__c_happy = self.__canvas_happy()
 
@@ -151,14 +155,24 @@ class six_gui(aTk) :
         self.__thBoot = th.Thread()
 
 
-    def active(self,firstBoot:bool):
-        if firstBoot:
+    def active(self,firstBoot:bool,update_available:bool):
+
+        self.__first_boot = firstBoot
+
+        if update_available:
+            self.__c_maj.place(x=0,y=0)
+        else :
+            self.__boot()
+
+        self.mainloop()
+
+    def __boot(self):
+        if self.__first_boot:
             self.__sequenceFistBoot()
         else :
             self.__sequenceBoot()
 
         self.__update__assistant()
-        self.mainloop()
 
     # Declaration des diferente page de l'inteface
 
@@ -202,7 +216,7 @@ class six_gui(aTk) :
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[8],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[8],
                              width=500,height=350)
-        self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white")
+        self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white",justify="left")
 
         self.__l_during_assistant_speak.place(x=30, y=110)
         return c
@@ -226,7 +240,7 @@ class six_gui(aTk) :
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[9],
                              width=500,height=350,fg_color=("#ffffff","#000000"))
 
-        self.__l_text_after_speak = aLabel(c, police_size=20,
+        self.__l_text_after_speak = aLabel(c, police_size=20,justify="left",
                                            light_color="#ffffff", dark_color="#000000",
                                            dark_text_color="#ffffff", light_text_color="#000000")
 
@@ -248,6 +262,26 @@ class six_gui(aTk) :
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[6],
                     background_dark=self.__dir_GUI_dark+self.__file_img_gui[6],
                     width=500,height=350)
+
+        return c
+
+    def __canvas_maj(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[25],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[25],
+                             width=500,height=350,fg_color=("#ffffff","#000000"))
+
+        label_text = aLabel(c,text="Une mise à jour d'ARRERA SIX est disponible. Installez-la pour bénéficier des dernières fonctionnalités.",
+                            police_size=20,fg_color="#2b3ceb",
+                            text_color="white",wraplength=250,justify="left")
+
+        btn_update = aButton(c,text="Mettre a jour",size=20,
+                             command=lambda :wb.open("https://www.github.com/Arrera-Software/Six/releases"))
+
+        btn_continuer = aButton(c,text="Me rappeler plus tart",size=20,command=self.__boot)
+
+        label_text.place(x=190,y=40)
+        btn_update.placeBottomLeft()
+        btn_continuer.placeBottomRight()
 
         return c
 
@@ -381,6 +415,7 @@ class six_gui(aTk) :
     # SEQUENCE
 
     def __sequenceBoot(self):
+        self.__clearView()
         self.__c_boot_one.place(x=0, y=0)
         time.sleep(0.2)
         self.__c_boot_one.place_forget()
@@ -427,6 +462,7 @@ class six_gui(aTk) :
             self.update()
 
     def __sequenceFistBoot(self):
+        self.__clearView()
         self.__c_boot_one.place(x=0, y=0)
         time.sleep(0.2)
         self.__c_boot_one.place_forget()
@@ -515,6 +551,7 @@ class six_gui(aTk) :
         self.__c_sad_two.place_forget()
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
+        self.__c_maj.place_forget()
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
