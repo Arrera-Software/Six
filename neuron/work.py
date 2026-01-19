@@ -28,7 +28,7 @@ class neuroneWork(neuronBase):
 
     def __neuronHelp(self,requette:str):
         if self._keyword.checkWork(requette,"help-work"):
-            self._listSortie = [self._language.getPhraseHelpArreraWork("5"),"work"]
+            self._listSortie = [self._language.getPhraseHelpArreraWork("5"),""]
             return 17
         elif self._keyword.checkWork(requette,"question-open") and self._keyword.checkOpen(requette,"open") and self._keyword.checkWork(requette,"open-file"):
             word = self.__fonctionWork.getEtatWord()
@@ -48,7 +48,7 @@ class neuroneWork(neuronBase):
             return 0
 
     def __neuronTableur(self,requette:str):
-        if not self.__fonctionWork.getEtatTableur():
+        if not self.__fonctionWork.getEtatTableur() :
             if (self._keyword.checkOpen(requette,"open") and
                     self._keyword.checkWork(requette,"tableur-file") and
                     not self._keyword.checkWork(requette,"gui-work")):
@@ -66,9 +66,13 @@ class neuroneWork(neuronBase):
             else :
                 return 0
         else:
-            if (self._keyword.checkOpen(requette,"open") and
-                    self._keyword.checkWork(requette,"tableur-file") and
-                    self._keyword.checkOpen(requette,"computer")):
+            if self._keyword.checkWork(requette,"help-tableur"):
+                self._listSortie = [self._language.getPhraseHelpArreraWork("1")
+                    ,"tableur"]
+                return 17
+            elif (self._keyword.checkOpen(requette,"open") and
+                  self._keyword.checkWork(requette,"tableur-file") and
+                  self._keyword.checkOpen(requette,"computer")):
 
                 if self.__fonctionWork.openTableurOs():
                     self._listSortie = [self._language.getPhraseArreraWorkTableur("3"), ""]
@@ -119,7 +123,7 @@ class neuroneWork(neuronBase):
         if not self.__fonctionWork.getEtatProject():
             if (self._keyword.checkWork(requette,"open-project")and
                     not self._keyword.checkWork(requette,"gui-work")):
-                listKeyword = self._keyword.getListKeyword("work","open-project")
+                listKeyword = self._keyword.getListKeyword("work","list-word-open-project")
                 for mot in listKeyword:
                     requette = requette.replace(mot,"")
                 project = requette.strip()
@@ -183,8 +187,12 @@ class neuroneWork(neuronBase):
                                     "project"]
                 return 17
         else :
-            if (self._keyword.checkWork(requette,"project-file") and
-                    self._keyword.checkWork(requette,"close")):
+            if self._keyword.checkWork(requette,"help-project"):
+                self._listSortie = [self._language.getPhraseHelpArreraWork("3"),
+                                    "project"]
+                return 17
+            elif (self._keyword.checkWork(requette,"project-file") and
+                  self._keyword.checkWork(requette,"close")):
                 project = self.__fonctionWork.getNameProjet()
                 if self.__fonctionWork.closeProjet():
                     self._listSortie = [self._language.getPhraseArreraWorkProjet("8"),""]
@@ -317,9 +325,12 @@ class neuroneWork(neuronBase):
             else :
                 return 0
         else :
-            if (self._keyword.checkOpen(requette,"open") and
-                    self._keyword.checkWork(requette,"word-file") and
-                    self._keyword.checkOpen(requette,"computer")):
+            if self._keyword.checkWork(requette,"help-word"):
+                self._listSortie = [self._language.getPhraseHelpArreraWork("2"),"word"]
+                return 17
+            elif (self._keyword.checkOpen(requette,"open") and
+                  self._keyword.checkWork(requette,"word-file") and
+                  self._keyword.checkOpen(requette,"computer")):
 
                 if self.__fonctionWork.openWordOs():
                     self._listSortie = [self._language.getPhraseArreraWorkWord("3"), ""]
