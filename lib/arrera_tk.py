@@ -409,42 +409,43 @@ class aCanvas(ctk.CTkCanvas):
     def __init__(self,master):
         super().__init__(master)
 
-class aBackgroundImage(ctk.CTkFrame, placement_Tool_Kit_internet):
-    def __init__(self,master,background_light:str,background_dark:str="",height:int = 600,width:int = 800, **kwargs):
-        if background_dark != "":
-            background = ctk.CTkImage(light_image=Image.open(resource_path(background_light)),
-                                      dark_image=Image.open(resource_path(background_light)),
-                                      size=(width, height))
-        else :
-            background = ctk.CTkImage(light_image=Image.open(resource_path(background_light)),
-                                      dark_image=Image.open(resource_path(background_dark)),
-                                      size=(width, height))
-        self.__size = (width,height)
+class aBackgroundImage(ctk.CTkFrame):
+    def __init__(self, master, background_light: str, background_dark: str = "", height: int = 600, width: int = 800, **kwargs):
         super().__init__(master, **kwargs)
-        self.configure(width=width,height=height)
-        self.configure(border_width=0)
 
-        self.__label = aLabel(self,text="",image=background)
+        self.__size = (width, height)
+        self.configure(width=width, height=height, border_width=0)
+
+        # Création de l'image initiale
+        background = self._create_ctk_image(background_light, background_dark)
+
+        # Utilisation d'un CTkLabel pour afficher l'image
+        # Note: Assure-toi que aLabel accepte l'argument 'image' ou utilise ctk.CTkLabel
+        self.__label = ctk.CTkLabel(self, text="", image=background)
         self.__label.place(relx=0.5, rely=0.5, anchor='center')
 
-    def change_background(self,background_light:str,background_dark:str=""):
-        if background_dark != "":
-            background = ctk.CTkImage(light_image=Image.open(resource_path(background_light)),
-                                      dark_image=Image.open(resource_path(background_light)),
-                                      size=self.__size)
-        else :
-            background = ctk.CTkImage(light_image=Image.open(resource_path(background_light)),
-                                      dark_image=Image.open(resource_path(background_dark)),
-                                      size=self.__size)
+    def _create_ctk_image(self, light_path: str, dark_path: str):
+        """Méthode interne pour générer l'objet CTkImage correctement"""
+        # Si dark_path est vide, on utilise l'image light pour les deux modes
+        path_for_dark = dark_path if dark_path != "" else light_path
 
-        self.__label.configure(image=background)
-        self.update()
+        return ctk.CTkImage(
+            light_image=Image.open(resource_path(light_path)),
+            dark_image=Image.open(resource_path(path_for_dark)),
+            size=self.__size
+        )
+
+    def change_background(self, background_light: str, background_dark: str = ""):
+        """Permet de changer dynamiquement les images de fond"""
+        new_background = self._create_ctk_image(background_light, background_dark)
+        self.__label.configure(image=new_background)
 
 # Fenetre
 
 class aTk(ctk.CTk):
     def __init__(self, title: str = "ArreraTK", width: int = 800, height: int = 600, resizable: bool = False, icon: str = "",theme_file:str="theme/theme_default.json", **kwargs):
         super().__init__(**kwargs)
+        ctk.set_appearance_mode("System")
         try :
             ctk.set_default_color_theme(resource_path(theme_file))
         except Exception as e:
