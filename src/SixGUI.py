@@ -31,7 +31,7 @@ class six_gui(aTk) :
                          fg_color=("#ffffff","#000000"))
         # initilisation fenetre
         self.geometry("500x400+5+30")
-        self.protocol("WM_DELETE_WINDOW",self.__onClose)
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
 
         # Partie Icone
 
@@ -68,7 +68,7 @@ class six_gui(aTk) :
         self.__gazelleUI = arrera_gazelle(self,self.__gestionnaire,
                                           "json_conf/conf-setting.json")
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
-        self.__gazelleUI.passFNCBTNIcon(lambda : self.__apropos())
+        self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
         # widget et canvas
         # canvas
 
@@ -327,13 +327,13 @@ class six_gui(aTk) :
                                         hover_color=("#949494","#505050"), size=20,
                                         light_text_color="#000000", dark_text_color="#ffffff",
                                         command=self.__stopping_mode_mute)]
-        self.__btn_quit_mute = [aButton(c1, text="Quitter",dark_color="#1f1f1f", light_color="#e0e0e0",
+        self.__btn_quit_mute = [aButton(c1, text="Quitter", dark_color="#1f1f1f", light_color="#e0e0e0",
                                         hover_color=("#949494","#505050"), size=20,
-                                        light_text_color="#000000",dark_text_color="#ffffff",
-                                        command=self.__quit),
-                                aButton(c2, text="Quitter",dark_color="#1f1f1f", light_color="#e0e0e0",
-                                        light_text_color="#000000",dark_text_color="#ffffff",
-                                        hover_color=("#949494","#505050"),size=20, command=self.__quit)]
+                                        light_text_color="#000000", dark_text_color="#ffffff",
+                                        command=self.__stop_assistant),
+                                aButton(c2, text="Quitter", dark_color="#1f1f1f", light_color="#e0e0e0",
+                                        light_text_color="#000000", dark_text_color="#ffffff",
+                                        hover_color=("#949494","#505050"), size=20, command=self.__stop_assistant)]
 
         for i in self.__btn_stop_mute:
             i.place(relx=0, rely=1, anchor='sw')
@@ -375,7 +375,7 @@ class six_gui(aTk) :
 
     # About
 
-    def __apropos(self):
+    def __about(self):
         windows_about(nameSoft=self.__nameSoft,
                       iconFile=self.__emplacementIcon,
                       version=self.__version,
@@ -383,16 +383,16 @@ class six_gui(aTk) :
                       linkSource="https://github.com/Arrera-Software/Six",
                       linkWeb="https://arrera-software.fr/")
     
-    def __onClose(self):
+    def __on_close(self):
         if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
             self.title(self.__nameSoft)
             self.__gazelleUI.clearAllFrame()
             self.update()
             self.__entryUser.placeBottomCenter()
             self.__btnParametre.placeBottomLeft()
-            self.__quit()
+            self.__stop_assistant()
     
-    def __quit(self):
+    def __stop_assistant(self):
         if self.__mute_is_enable :
             self.__stopping_mode_mute()
         self.__sequenceArret()
@@ -416,7 +416,7 @@ class six_gui(aTk) :
         self.__c_welcome.place(x=0, y=0)
         if not self.__etatConnexion:
             self.__c_welcome.place_forget()
-            self.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.protocol("WM_DELETE_WINDOW", self.__stop_assistant)
             self.__c_no_connect.place(x=0, y=0)
             self.update()
         else :
@@ -460,9 +460,9 @@ class six_gui(aTk) :
         self.__c_boot_four.place(x=0, y=0)
         time.sleep(0.2)
         self.__c_welcome.place(x=0, y=0)
-        if (self.__etatConnexion==False):
+        if not self.__etatConnexion:
             self.__c_welcome.place_forget()
-            self.protocol("WM_DELETE_WINDOW",self.__quit)
+            self.protocol("WM_DELETE_WINDOW", self.__stop_assistant)
             self.__c_no_connect.place(x=0, y=0)
             self.update()
         else :
@@ -625,7 +625,7 @@ class six_gui(aTk) :
             nbSortie = self.__assistant_six.getValeurSortie()
             listSortie = self.__assistant_six.getListSortie()
             if nbSortie == 15:
-                self.__quit()
+                self.__stop_assistant()
             elif nbSortie == 17:
                 self.__windows_help_assistant(listSortie[0])
             else :
