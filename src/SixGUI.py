@@ -48,6 +48,9 @@ class six_gui(aTk) :
         self.__thSixListen = th.Thread()
         self.__thTrigger = th.Thread()
         self.__TriggerWorkStop = th.Event()
+
+        self.__th_reflect = th.Thread()
+
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -137,11 +140,11 @@ class six_gui(aTk) :
 
         # Mise a place de la touche entree
         if self.__objOS.osWindows() :
-            self.__detectionTouche(self.__envoie,13)
+            self.__detectionTouche(self.__send_assistant,13)
         elif self.__objOS.osLinux() :
-            self.__detectionTouche(self.__envoie,36)
+            self.__detectionTouche(self.__send_assistant,36)
         elif self.__objOS.osMac() :
-            self.__detectionTouche(self.__envoie,603979789)
+            self.__detectionTouche(self.__send_assistant,603979789)
 
         # Declaration de la variable pour contenir les theard
         self.__thSpeak = th.Thread()
@@ -421,7 +424,7 @@ class six_gui(aTk) :
             self.__entryUser.placeBottomCenter()
             self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
-            self.setButtonOpen()
+            self.__manage_btn_open_fnc()
             self.__c_speak_two.place_forget()
             self.__c_speak_three.place(x=0, y=0)
             self.__sixSpeaking = False
@@ -490,7 +493,7 @@ class six_gui(aTk) :
             self.__entryUser.placeBottomCenter()
             self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
-            self.setButtonOpen()
+            self.__manage_btn_open_fnc()
             self.__c_speak_two.place_forget()
             self.__c_speak_three.place(x=0, y=0)
             self.__sixSpeaking = False
@@ -574,80 +577,38 @@ class six_gui(aTk) :
                 fonc()               
         self.bind("<Key>", anychar)
     
-    def __envoie(self): 
-        if not self.__sixSpeaking:
-            texte = self.__entryUser.get().lower()
-            self.__entryUser.delete(0, END)
-            if "parametre" in texte :
+
+    def __send_assistant(self):
+        content = self.__entryUser.get().lower()
+        self.__entryUser.delete(0, END)
+        if content :
+            if "parametre" in content or "settings" in content:
                 self.__activeParametre()
-            elif "mute" in texte or "silence" in texte or "ta gueule" in texte:
-                    self.__viewMute()
+                return
+            elif "mute" in content or "silence" in content:
+                self.__viewMute()
+                return
             else :
-                self.__assistant_six.neuron(texte)
+                self.__th_reflect = th.Thread(target=self.__assistant_six.neuron, args=(content,))
+                self.__th_reflect.start()
+                self.after(100, self.__update_during_assistant_reflect,True)
+
+    def __update_during_assistant_reflect(self,firstCall:bool=False):
+        if self.__th_reflect.is_alive():
+            if firstCall:
                 self.__clearView()
                 self.__c_speak_one.place(x=0, y=0)
-                self.update()
-                nbSortie = self.__assistant_six.getValeurSortie()
-                listSortie = self.__assistant_six.getListSortie()
-                match nbSortie:
-                    case 0 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                    case 1 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                    case 2 :
-                        pass
-                    case 3 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenActu())
-                        self.__viewResumer(listSortie, 2)
-                    case 4 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                    case 5 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                    case 6 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhErreurActu())
-                    case 7 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                        self.setButtonOpen()
-                    case 8 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                        self.setButtonOpen()
-                    case 9 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhReadDocument())
-                        self.__windowsReadFile(listSortie,2)
-                    case 10 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                        self.setButtonOpen()
-                    case 11 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getphErreurResumer())
-                    case 12 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerActu())
-                        self.__viewResumer(listSortie, 1)
-                    case 13 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhReadTableur())
-                        self.__windowsReadFile(listSortie,1)
-                    case 14 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                        self.setButtonOpen()
-                    case 15 :
-                        self.__quit()
-                    case 16 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                    case 17 :
-                        self.__windowsHelp(listSortie)
-                    case 18 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAgendaTache())
-                        self.__viewResumer(listSortie,3)
-                    case 19 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhOpenResumerAll())
-                        self.__viewResumer(listSortie,4)
-                    case 20 :
-                        self.__sequenceParoleReponseNeuron(self.__language.getPhErreurResumerAll())
-                    case 21 :
-                        self.__sequenceParoleReponseNeuron(listSortie[0])
-                        self.setButtonOpen()
-                    case other :
-                        pass
+            self.update()
+            self.after(100, self.__update_during_assistant_reflect)
+        else:
+            nbSortie = self.__assistant_six.getValeurSortie()
+            listSortie = self.__assistant_six.getListSortie()
+            if nbSortie == 15:
+                self.__quit()
+            else :
+                self.__sequenceParoleReponseNeuron(listSortie[0])
 
+            self.__manage_btn_open_fnc()
 
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
@@ -709,7 +670,7 @@ class six_gui(aTk) :
                         self.__entryUser.insert(0,sortieMicro)
                 self.__microRequetteDisable()
                 time.sleep(0.2)
-                self.__envoie()
+                self.__send_assistant()
 
     def __sixMicroEnable(self):
         self.__thSixListen = th.Thread(target=self.__sixLinstenTheard)
@@ -734,76 +695,13 @@ class six_gui(aTk) :
             if (sortieMicro != "nothing"):
                 self.__entryUser.insert(0, sortieMicro)
                 time.sleep(0.5)
-                self.__envoie()
+                self.__send_assistant()
 
     def __duringSixListen(self):
         if self.__thSixListen.is_alive():
             self.update()
             self.after(100,self.__duringSixListen)
 
-    
-    def __viewResumer(self, listSortie:list, mode:int):
-        """
-        1 : Resumer actualités
-        2 : actuliés
-        3 : Resumer agenda
-        4 : Resumer totale
-        """
-        self.__clearView()
-        self.__entryUser.place_forget()
-        self.maxsize(500,600)
-        self.minsize(500,600)
-        self.update()
-        self.__c_actualites.place(x=0, y=0)
-        match mode :
-            case 1 : 
-                self.__l_actu.configure(text=listSortie[0] +
-                                        "\n" + listSortie[1] +
-                                        "\n" + listSortie[2] +
-                                        "\n" + listSortie[3] +
-                                        "\n" + listSortie[4] +
-                                        "\n" + listSortie[5],
-                                        justify="left",
-                                        wraplength=400)
-                self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
-                                        "."+listSortie[1]+
-                                        "."+listSortie[2]+
-                                        "."+listSortie[3]+
-                                        "."+listSortie[4]+
-                                        "."+listSortie[5]))
-            case 2 : 
-                self.__l_actu.configure(text=listSortie[0] +
-                                        "\n" + listSortie[1] +
-                                        "\n" + listSortie[2],
-                                        justify="left",
-                                        wraplength=400)
-                self.__btnReadActu.configure(command=lambda:self.__readActu(listSortie[0]+
-                                        "."+listSortie[1]+
-                                        "."+listSortie[2]))
-            case 3 :
-                self.__l_actu.configure(text=listSortie[0] + "\n" + listSortie[1],
-                                        justify="left",
-                                        wraplength=400)
-                self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0]
-                                                                             +"."+listSortie[1] ))
-            case 4 :
-                self.__l_actu.configure(text=listSortie[0] + "\n" + listSortie[1] + "\n"
-                                             + listSortie[2] + "\n" + listSortie[3] +"\n"
-                                             + listSortie[4] + "\n" + listSortie[5] +"\n"
-                                             + listSortie[7] + "\n" + listSortie[8],
-                                        justify="left",
-                                        wraplength=400)
-                self.__btnReadActu.configure(command=lambda: self.__readActu(listSortie[0] + "."
-                                                                             + listSortie[1]+"."
-                                                                             +listSortie[2] + "."
-                                                                             + listSortie[3]+"."
-                                                                             +listSortie[4] + "."
-                                                                             + listSortie[5]+"."
-                                                                             +listSortie[7] + "."
-                                                                             + listSortie[8]))
-        self.__stopingTriggerWord()
-        self.__thMinuteurActu.start()
-        self.after(10,self.__duringMinuteurActu)
     
     def __quitActu(self):
         self.__clearView()
@@ -894,41 +792,7 @@ class six_gui(aTk) :
     def __checkTrigerWord(self):
         self.__startingTriggerWord()
 
-    def __windowsHelp(self, list: list):
-        winHelp = aTopLevel(width=500, height=600,resizable=False,
-                            icon=self.__emplacementIcon)
-
-        labelTitleHelp = aLabel(winHelp, police_size=25)
-        aideView = aText(winHelp, width=450, height=500,wrap="word",police_size=15)
-        aideView.insert_text(list[0])
-
-        textSpeak = ""
-
-        match list[1]:
-            case "tableur":
-                textSpeak = self.__language.getPhOpenAideTableur()
-                labelTitleHelp.configure(text="Aide Tableur")
-            case "word":
-                textSpeak = self.__language.getPhOpenAideWord()
-                labelTitleHelp.configure(text="Aide Traitement de texte")
-            case "fichier":
-                textSpeak = self.__language.getPhOpenAideFichier()
-                labelTitleHelp.configure(text="Types créables par Arrera SIX")
-            case "radio":
-                textSpeak = self.__language.getPhOpenAideRadio()
-                labelTitleHelp.configure(text="Radio disponible avec Arrera SIX")
-            case "projet" :
-                textSpeak = self.__language.getPhOpenAideProjet()
-                labelTitleHelp.configure(text="Aide Arrera Projet")
-            case "work" :
-                textSpeak = self.__language.getPhOpenAideWork()
-                labelTitleHelp.configure(text="Aide fonction Arrera Work")
-
-        labelTitleHelp.placeTopCenter()
-        aideView.placeCenter()
-        self.__sequenceParoleReponseNeuron(textSpeak)
-
-    def setButtonOpen(self):
+    def __manage_btn_open_fnc(self):
         if self.__assistant_six.getTableur() :
             self.__btnTableurOpen.placeBottomRight()
         else :
@@ -989,38 +853,3 @@ class six_gui(aTk) :
                 newText += "    "+text+"\n"
 
         return newText.strip()
-
-    def __windowsReadFile(self, liste:list, mode:int):
-        """
-        :param mode:
-        1. Tableur
-        2. Word
-        :return:
-        """
-        winRead = aTopLevel(width=500, height=600,icon=self.__emplacementIcon)
-
-        labelTitleRead = aLabel(winRead, police_size=25)
-
-        content = aText(winRead, width=475, height=500,wrap="word",police_size=20)
-
-        btnRead = aButton(winRead, text="Lire a voix haute", police_size=15)
-
-        match mode :
-            case 1 :
-                winRead.title("Arrera Six : Lecture Tableur")
-                labelTitleRead.configure(text="Lecture : Tableur")
-                textContent = ""
-                for i in range(0, len(liste)):
-                    textContent = textContent+str(liste[i]) + "\n"
-                content.insert_text(textContent)
-                btnRead.configure(command=lambda : self.__readActu(textContent))
-
-            case 2 :
-                winRead.title("Arrera Six : Lecture Traitement de texte")
-                labelTitleRead.configure(text="Lecture : Traitement de texte")
-                content.insert_text(liste[0])
-                btnRead.configure(command=lambda : self.__readActu(liste[0]))
-
-        content.placeCenter()
-        labelTitleRead.placeTopCenter()
-        labelTitleRead.placeBottomCenter(btnRead)
