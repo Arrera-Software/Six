@@ -18,6 +18,7 @@ class six_gui(aTk) :
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
         self.__version = version
+        self.__mute_is_enable = False
 
         # Objet
         self.__assistant_six = brain
@@ -59,7 +60,7 @@ class six_gui(aTk) :
             self.__etatConnexion = False
 
         # Instantation de l'objet language
-        self.__language = CLanguageSIX(resource_path("FileJSON/phraseSix.json"),
+        self.__language = language_six(resource_path("FileJSON/phraseSix.json"),
                                        resource_path("FileJSON/aideSix.json"),
                                        resource_path("FileJSON/firstBootSix.json"))
 
@@ -312,16 +313,27 @@ class six_gui(aTk) :
     def __canvas_mute(self):
         c1 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[4],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[4],
-                             width=500,height=350)
+                             width=500,height=400,fg_color=("#ffffff","#000000"))
 
         c2 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[5],
                               background_dark=self.__dir_GUI_dark+self.__file_img_gui[5],
-                              width=500,height=350)
+                              width=500,height=400,fg_color=("#ffffff","#000000"))
 
-        self.__btn_stop_mute = [aButton(c1, text="Demute", size=15, command=self.__quitMute),
-                                aButton(c2, text="Demute",size=15, command=self.__quitMute)]
-        self.__btn_quit_mute = [aButton(c1, text="Quitter", size=15, command=self.__quit),
-                                aButton(c2, text="Quitter",size=15, command=self.__quit)]
+        self.__btn_stop_mute = [aButton(c1, text="Demute", dark_color="#1f1f1f", light_color="#e0e0e0",
+                                        hover_color=("#949494","#505050"), size=20,
+                                        light_text_color="#000000", dark_text_color="#ffffff",
+                                        command=self.__stopping_mode_mute),
+                                aButton(c2, text="Demute", dark_color="#1f1f1f", light_color="#e0e0e0",
+                                        hover_color=("#949494","#505050"), size=20,
+                                        light_text_color="#000000", dark_text_color="#ffffff",
+                                        command=self.__stopping_mode_mute)]
+        self.__btn_quit_mute = [aButton(c1, text="Quitter",dark_color="#1f1f1f", light_color="#e0e0e0",
+                                        hover_color=("#949494","#505050"), size=20,
+                                        light_text_color="#000000",dark_text_color="#ffffff",
+                                        command=self.__quit),
+                                aButton(c2, text="Quitter",dark_color="#1f1f1f", light_color="#e0e0e0",
+                                        light_text_color="#000000",dark_text_color="#ffffff",
+                                        hover_color=("#949494","#505050"),size=20, command=self.__quit)]
 
         for i in self.__btn_stop_mute:
             i.place(relx=0, rely=1, anchor='sw')
@@ -381,6 +393,8 @@ class six_gui(aTk) :
             self.__quit()
     
     def __quit(self):
+        if self.__mute_is_enable :
+            self.__stopping_mode_mute()
         self.__sequenceArret()
         if self.__objOS.osWindows() :
             os.kill(os.getpid(), signal.SIGINT)
@@ -593,7 +607,7 @@ class six_gui(aTk) :
                 self.__activeParametre()
                 return
             elif "mute" in content or "silence" in content:
-                self.__viewMute()
+                self.__active_mode_mute()
                 return
             else :
                 self.__th_reflect = th.Thread(target=self.__assistant_six.neuron, args=(content,))
@@ -745,28 +759,27 @@ class six_gui(aTk) :
         else :
             self.__quitActu()
     
-    def __viewMute(self):
+    def __active_mode_mute(self):
         self.__sequenceParole(self.__language.getPhActiveMute())
         self.__clearView()
         self.__stopingTriggerWord()
         self.__entryUser.place_forget()
-        self.maxsize(500,350)
-        self.minsize(500,350)
         self.update()
         nb = random.randint(0,1)
         self.__L_c_mute[nb].place(x=0, y=0)
+        self.__mute_is_enable = True
     
-    def __quitMute(self):        
+    def __stopping_mode_mute(self):
         self.__clearView()
-        self.maxsize(500,400)
-        self.minsize(500,400)
         self.update()
         self.__L_c_mute[0].place_forget()
         self.__L_c_mute[1].place_forget()
-        self.__entryUser.placeBottomCenter()
         self.update()
         self.__sequenceParole(self.__language.getPhQuitMute())
+        self.__entryUser.placeBottomCenter()
+        self.__btnParametre.placeBottomLeft()
         self.__startingTriggerWord()
+        self.__mute_is_enable = False
     
     def __microTriggerEnable(self):
         self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')

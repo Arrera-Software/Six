@@ -1,6 +1,6 @@
 from librairy.travailJSON import *
 
-class CLanguageSIX :
+class language_six :
     def __init__(self, fileLanguage:str, fileHelp:str,fileFirstBoot:str):
         self.__language = jsonWork(fileLanguage)
         self.__help = jsonWork(fileHelp)
