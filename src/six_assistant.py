@@ -34,7 +34,7 @@ class six_assistant :
             etatApi=1,
             etatCodehelp=0,
             etatWork=1,
-            etatSocket=0,
+            etatSocket=1,
             lienDoc="www.google.com", # TODO : A changer plus tart
             fichierLangue="language/", # Path to language files
             fichierKeyword="keyword/",            # Path to keyword files
