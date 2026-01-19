@@ -1,7 +1,6 @@
 import signal
 import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
-from librairy.arrera_tk import *
 import time
 from tkinter.messagebox import *
 from src.languageSIX import *
@@ -55,8 +54,6 @@ class six_gui(aTk) :
             self.__etatConnexion = True
         except requests.ConnectionError :
             self.__etatConnexion = False
-        # Demarage d'Arrera TK
-        self.__arrTK = CArreraTK()
 
         # Instantation de l'objet language
         self.__language = CLanguageSIX(resource_path("FileJSON/phraseSix.json"),
@@ -152,53 +149,10 @@ class six_gui(aTk) :
         self.__thSpeakActu = th.Thread()
         self.__thMinuteurActu = th.Thread()
         self.__thBoot = th.Thread()
-    
-    def __setTheme(self):
-        self.__avoice.loadConfig()
-        theme = self.__arrTK.getTheme().lower()
-        if theme == "light" :
-            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.configure(fg_color="#ffffff")
-            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__l_actu, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__labelTriggerMicro,bg="#ffffff")
-            self.__arrTK.labelChangeColor(self.__labelMicroRequette,bg="#ffffff")
-        elif theme == "dark" :
-            self.configure(fg_color="#000000")
-            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.boutonChangeColor(self.__btnWordOpen, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#1f1f1f", hoverbg="#505050")
-            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#000000", fg="#ffffff")
-            self.__arrTK.labelChangeColor(self.__l_actu, bg="#000000", fg="#ffffff")
-            self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#000000")
-            self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#000000")
-        else :
-            self.configure(fg_color="#ffffff")
-            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnTableurOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnProjetOpen, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btnParametre, bg="#e0e0e0", hoverbg="#949494")
-            self.__arrTK.boutonChangeColor(self.__btn_microphone, bg="#ffffff", hoverbg="#949494")
-            self.__arrTK.labelChangeColor(self.__l_text_after_speak, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__l_actu, bg="#ffffff", fg="#000000")
-            self.__arrTK.labelChangeColor(self.__labelTriggerMicro, bg="#ffffff")
-            self.__arrTK.labelChangeColor(self.__labelMicroRequette, bg="#ffffff")
-
-        self.__arrTK.labelChangeColor(self.__l_during_assistant_speak, bg="#2b3ceb", fg="white")
-        self.__l_during_assistant_speak.configure(corner_radius=0)
-
-        # self.after(1000,self.__setTheme)
 
 
     def active(self,firstBoot:bool):
-        if (firstBoot == True):
+        if firstBoot:
             self.__sequenceFistBoot()
         else :
             self.__sequenceBoot()
@@ -341,7 +295,7 @@ class six_gui(aTk) :
 
         self.__l_actu = aLabel(c, dark_text_color="#ffffff", light_text_color="#000000", dark_color="#000000", light_color="#ffffff", police_size=15)
         self.__btn_quit_actu = aButton(c, text="Quitter", size=15, command=self.__quitActu)
-        self.__btnReadActu =  self.__arrTK.createButton(c, text="Lire a voix haute", ppolice="arial", ptaille=15)
+        self.__btnReadActu =  aButton(c, text="Lire a voix haute",size=15)
 
         self.__l_actu.place(x=70, y=0)
         self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
@@ -412,12 +366,12 @@ class six_gui(aTk) :
                       linkWeb="https://arrera-software.fr/")
     
     def __onClose(self):
-        if (askyesno("Atention","Voulez-vous vraiment fermer Six")):
+        if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
             self.title(self.__nameSoft)
             self.__gazelleUI.clearAllFrame()
             self.update()
-            self.__arrTK.placeBottomCenter(self.__entryUser)
-            self.__arrTK.placeBottomLeft(self.__btnParametre)
+            self.__entryUser.placeBottomCenter()
+            self.__btnParametre.placeBottomLeft()
             self.__quit()
     
     def __quit(self):
@@ -464,8 +418,8 @@ class six_gui(aTk) :
             self.update()
             self.after(100,self.__duringSpeakBoot)
         else :
-            self.__arrTK.placeBottomCenter(self.__entryUser)
-            self.__arrTK.placeBottomLeft(self.__btnParametre)
+            self.__entryUser.placeBottomCenter()
+            self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
             self.setButtonOpen()
             self.__c_speak_two.place_forget()
@@ -533,8 +487,8 @@ class six_gui(aTk) :
             self.after(100,self.__duringFirstBootSpeak)
         else :
             userData = self.__assistant_six.getUserData()
-            self.__arrTK.placeBottomCenter(self.__entryUser)
-            self.__arrTK.placeBottomLeft(self.__btnParametre)
+            self.__entryUser.placeBottomCenter()
+            self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
             self.setButtonOpen()
             self.__c_speak_two.place_forget()
@@ -715,16 +669,12 @@ class six_gui(aTk) :
             self.after(100,self.__duringSpeakReponseNeuron)
         else :
             self.__c_speak_two.place_forget()
-            self.__arrTK.placeBottomCenter(self.__entryUser)
+            self.__entryUser.placeBottomCenter()
             if not self.__gazelleUI.gettigerWordSet():
-                self.__arrTK.placeBottomRight(self.__btn_microphone)
-            self.__arrTK.placeBottomLeft(self.__btnParametre)
+                self.__btn_microphone.placeBottomRight()
+            self.__btnParametre.placeBottomLeft()
             self.__c_speak_three.place(x=0, y=0)
             self.update()
-
-    def __loadSetting(self):
-        self.__setTheme()
-        self.update()
     
     def __activeParametre(self):
         self.__stopingTriggerWord()
@@ -740,9 +690,8 @@ class six_gui(aTk) :
         self.__gazelleUI.clearAllFrame()
         self.update()
         self.__sequenceParole(self.__language.getPhQuitSetting())
-        self.__arrTK.placeBottomCenter(self.__entryUser)
-        self.__arrTK.placeBottomLeft(self.__btnParametre)
-        self.__loadSetting()
+        self.__entryUser.placeBottomCenter()
+        self.__btnParametre.placeBottomLeft()
         self.__startingTriggerWord()
     
     def __sixTrigerWord(self):
@@ -862,7 +811,7 @@ class six_gui(aTk) :
         self.maxsize(500,400)
         self.minsize(500,400)
         self.update()
-        self.__arrTK.placeBottomCenter(self.__entryUser)
+        self.__entryUser.placeBottomCenter()
         self.update()
         self.__sequenceParole(self.__language.getPhQuitActu())
         self.__startingTriggerWord()
@@ -907,7 +856,7 @@ class six_gui(aTk) :
         self.update()
         self.__L_c_mute[0].place_forget()
         self.__L_c_mute[1].place_forget()
-        self.__arrTK.placeBottomCenter(self.__entryUser)
+        self.__entryUser.placeBottomCenter()
         self.update()
         self.__sequenceParole(self.__language.getPhQuitMute())
         self.__startingTriggerWord()
@@ -937,7 +886,7 @@ class six_gui(aTk) :
             self.__thTrigger.start()
             self.after(100, self.__duringTigerWord)
         else :
-            self.__arrTK.placeRightBottom(self.__btn_microphone)
+            self.__btn_microphone.placeBottomRight()
 
     def __stopingTriggerWord(self):
         self.__TriggerWorkStop.set()
@@ -946,15 +895,12 @@ class six_gui(aTk) :
         self.__startingTriggerWord()
 
     def __windowsHelp(self, list: list):
-        winHelp = self.__arrTK.aTopLevel(width=500, height=600,
-                                         title="Arrera Six : Aide",
-                                         resizable=False,
-                                         icon=self.__emplacementIcon)
-        labelTitleHelp = self.__arrTK.createLabel(winHelp, ppolice="Arial", ptaille=25, pstyle="bold")
-        aideView = self.__arrTK.createTextBox(winHelp, width=450, height=500,
-                                              wrap="word", ppolice="Arial",
-                                              ptaille=20, pstyle="normal")
-        self.__arrTK.insertTextOnTextBox(aideView, list[0])
+        winHelp = aTopLevel(width=500, height=600,resizable=False,
+                            icon=self.__emplacementIcon)
+
+        labelTitleHelp = aLabel(winHelp, police_size=25)
+        aideView = aText(winHelp, width=450, height=500,wrap="word",police_size=15)
+        aideView.insert_text(list[0])
 
         textSpeak = ""
 
@@ -978,8 +924,8 @@ class six_gui(aTk) :
                 textSpeak = self.__language.getPhOpenAideWork()
                 labelTitleHelp.configure(text="Aide fonction Arrera Work")
 
-        self.__arrTK.placeTopCenter(labelTitleHelp)
-        self.__arrTK.placeCenter(aideView)
+        labelTitleHelp.placeTopCenter()
+        aideView.placeCenter()
         self.__sequenceParoleReponseNeuron(textSpeak)
 
     def setButtonOpen(self):
@@ -1006,37 +952,30 @@ class six_gui(aTk) :
             3. Projet
         :return:
         """
-        winHelp = self.__arrTK.aTopLevel(width=500, height=600,
-                                         resizable=False,
-                                         icon=self.__emplacementIcon)
+        winHelp = aTopLevel(width=500, height=600,icon=self.__emplacementIcon)
 
-        labelTitleHelp = self.__arrTK.createLabel(winHelp, ppolice="Arial", ptaille=25, pstyle="bold")
-        aideView = self.__arrTK.createTextBox(winHelp, width=475, height=500,
-                                              wrap="word", ppolice="Arial",
-                                              ptaille=20, pstyle="normal")
+        labelTitleHelp = aLabel(winHelp, police_size=25)
+        aideView = aText(winHelp, width=475, height=500,wrap="word",police_size=20)
 
         match mode:
             case 1:
                 winHelp.title("Arrera Six : Aide Tableur")
                 labelTitleHelp.configure(text="Aide Tableur")
-                self.__arrTK.insertTextOnTextBox(aideView,
-                                                 self.__traitementTextHelpFileAndProjet(
-                                                     self.__language.getHelpTableur()))
+                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
+                    self.__language.getHelpTableur()))
             case 2:
                 winHelp.title("Arrera Six : Aide Traitement de texte")
                 labelTitleHelp.configure(text="Aide Traitement de texte")
-                self.__arrTK.insertTextOnTextBox(aideView,
-                                                 self.__traitementTextHelpFileAndProjet(
-                                                     self.__language.getHelpWord()))
+                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
+                    self.__language.getHelpWord()))
             case 3:
                 winHelp.title("Arrera Six : Aide Arrera Projet")
                 labelTitleHelp.configure(text="Aide Arrera Projet")
-                self.__arrTK.insertTextOnTextBox(aideView,
-                                                 self.__traitementTextHelpFileAndProjet(
-                                                     self.__language.getHelpProjet()))
+                aideView.insert_text(self.__traitementTextHelpFileAndProjet(
+                    self.__language.getHelpProjet()))
 
-        self.__arrTK.placeTopCenter(labelTitleHelp)
-        self.__arrTK.placeCenter(aideView)
+        labelTitleHelp.placeTopCenter()
+        aideView.placeCenter()
 
     def __traitementTextHelpFileAndProjet(self, liste:list):
         newText = ""
@@ -1058,17 +997,13 @@ class six_gui(aTk) :
         2. Word
         :return:
         """
-        winRead = self.__arrTK.aTopLevel(width=500, height=600,
-                                         resizable=False,
-                                         icon=self.__emplacementIcon)
+        winRead = aTopLevel(width=500, height=600,icon=self.__emplacementIcon)
 
-        labelTitleRead = self.__arrTK.createLabel(winRead, ppolice="Arial", ptaille=25, pstyle="bold")
+        labelTitleRead = aLabel(winRead, police_size=25)
 
-        content = self.__arrTK.createTextBox(winRead, width=475, height=500,
-                                             wrap="word", ppolice="Arial",
-                                             ptaille=20, pstyle="normal")
-        btnRead = self.__arrTK.createButton(winRead, text="Lire a voix haute", ppolice="Arial", ptaille=15)
+        content = aText(winRead, width=475, height=500,wrap="word",police_size=20)
 
+        btnRead = aButton(winRead, text="Lire a voix haute", police_size=15)
 
         match mode :
             case 1 :
@@ -1077,15 +1012,15 @@ class six_gui(aTk) :
                 textContent = ""
                 for i in range(0, len(liste)):
                     textContent = textContent+str(liste[i]) + "\n"
-                self.__arrTK.insertTextOnTextBox(content, textContent)
+                content.insert_text(textContent)
                 btnRead.configure(command=lambda : self.__readActu(textContent))
 
             case 2 :
                 winRead.title("Arrera Six : Lecture Traitement de texte")
                 labelTitleRead.configure(text="Lecture : Traitement de texte")
-                self.__arrTK.insertTextOnTextBox(content, liste[0])
+                content.insert_text(liste[0])
                 btnRead.configure(command=lambda : self.__readActu(liste[0]))
 
-        self.__arrTK.placeCenter(content)
-        self.__arrTK.placeTopCenter(labelTitleRead)
-        self.__arrTK.placeBottomCenter(btnRead)
+        content.placeCenter()
+        labelTitleRead.placeTopCenter()
+        labelTitleRead.placeBottomCenter(btnRead)
