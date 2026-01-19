@@ -156,6 +156,8 @@ class six_gui(aTk) :
             self.__sequenceFistBoot()
         else :
             self.__sequenceBoot()
+
+        self.__update__assistant()
         self.mainloop()
 
     # Declaration des diferente page de l'inteface
@@ -356,7 +358,8 @@ class six_gui(aTk) :
                       copyright="Copyright Arrera Software by Baptiste P 2023-2026",
                       linkSource="https://github.com/Arrera-Software/Six",
                       linkWeb="https://arrera-software.fr/")
-    
+
+    # STOP ASSISTANT
     def __on_close(self):
         if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
             self.title(self.__nameSoft)
@@ -374,7 +377,9 @@ class six_gui(aTk) :
             os.kill(os.getpid(), signal.SIGINT)
         elif self.__objOS.osLinux() or self.__objOS.osMac() :
             os.kill(os.getpid(), signal.SIGKILL)
-    
+
+    # SEQUENCE
+
     def __sequenceBoot(self):
         self.__c_boot_one.place(x=0, y=0)
         time.sleep(0.2)
@@ -597,14 +602,26 @@ class six_gui(aTk) :
         else:
             nbSortie = self.__assistant_six.getValeurSortie()
             listSortie = self.__assistant_six.getListSortie()
-            if nbSortie == 15:
-                self.__stop_assistant()
-            elif nbSortie == 17:
-                self.__windows_help_assistant(listSortie[0])
-            else :
-                self.__sequenceParoleReponseNeuron(listSortie[0])
 
-            self.__manage_btn_open_fnc()
+            self.__treatment_out_assistant(nbSortie,listSortie)
+
+    def __treatment_out_assistant(self,var:int,out:list):
+        if var == 15:
+            self.__stop_assistant()
+        elif var == 17:
+            self.__windows_help_assistant(out[0])
+        else :
+            self.__sequenceParoleReponseNeuron(out[0])
+
+        self.__manage_btn_open_fnc()
+
+    def __update__assistant(self):
+        if self.__assistant_six.updateAssistant():
+            varOut = self.__assistant_six.getValeurSortie()
+            listOut = self.__assistant_six.getListSortie()
+            self.__treatment_out_assistant(varOut,listOut)
+
+        self.after(500,self.__update__assistant)
 
     def __sequenceParoleReponseNeuron(self,text:str):
         self.__entryUser.place_forget()
