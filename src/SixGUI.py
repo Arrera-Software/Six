@@ -128,11 +128,8 @@ class six_gui(aTk) :
         self.__c_surprised = self.__canvas_surprised()
         # Canvas Triste
         self.__c_sad_one = self.__canvas_sad_one()
+
         self.__c_sad_two = self.__canvas_sad_two()
-        # Canvas Parametre
-        self.__c_setting_open = self.__canvas_setting()
-        # Canvas Actu
-        self.__c_actualites = self.__canvas_actu()
         # Canvas Mute
         self.__L_c_mute = self.__canvas_mute()
 
@@ -284,28 +281,6 @@ class six_gui(aTk) :
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[2],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[2],
                              width=500,height=350)
-
-        return c
-
-    def __canvas_setting(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[19],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[19],
-                             width=500,height=350)
-
-        return c
-
-    def __canvas_actu(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[16],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[16],
-                             width=500,height=350)
-
-        self.__l_actu = aLabel(c, dark_text_color="#ffffff", light_text_color="#000000", dark_color="#000000", light_color="#ffffff", police_size=15)
-        self.__btn_quit_actu = aButton(c, text="Quitter", size=15, command=self.__quitActu)
-        self.__btnReadActu =  aButton(c, text="Lire a voix haute",size=15)
-
-        self.__l_actu.place(x=70, y=0)
-        self.__btnReadActu.place(relx=0, rely=1, anchor='sw')
-        self.__btn_quit_actu.place(relx=1, rely=1, anchor='se')
 
         return c
 
@@ -533,7 +508,6 @@ class six_gui(aTk) :
         self.__c_surprised.place_forget()
         self.__c_sad_one.place_forget()
         self.__c_sad_two.place_forget()
-        self.__c_setting_open.place_forget()
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
     
@@ -723,40 +697,6 @@ class six_gui(aTk) :
         if self.__thSixListen.is_alive():
             self.update()
             self.after(100,self.__duringSixListen)
-
-    
-    def __quitActu(self):
-        self.__clearView()
-        self.__c_actualites.place_forget()
-        self.maxsize(500,400)
-        self.minsize(500,400)
-        self.update()
-        self.__entryUser.placeBottomCenter()
-        self.update()
-        self.__sequenceParole(self.__language.getPhQuitActu())
-        self.__startingTriggerWord()
-        self.__thMinuteurActu = th.Thread(target=self.__minuteurActu)
-
-    
-    def __readActu(self,texte:str):
-        self.__thSpeakActu = th.Thread(target=self.__avoice.say,args=(texte,))
-        self.__thSpeakActu.start()
-        self.after(100,self.__duringSpeakActu)
-
-    def __duringSpeakActu(self):
-        if self.__thSpeakActu.is_alive():
-            self.update()
-            self.after(100,self.__duringSpeakActu)
-    
-    def __minuteurActu(self):
-        time.sleep(60)
-
-    def __duringMinuteurActu(self):
-        if self.__thMinuteurActu.is_alive():
-            self.update()
-            self.after(100,self.__duringMinuteurActu)
-        else :
-            self.__quitActu()
     
     def __active_mode_mute(self):
         self.__sequenceParole(self.__language.getPhActiveMute())
