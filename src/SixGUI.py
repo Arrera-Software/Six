@@ -13,7 +13,6 @@ class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
                  brain:ABrain,theme_file:str,
                  version:str):
-
         # var
         self.__nameSoft = "Arrera Six"
         self.__sixSpeaking = bool
