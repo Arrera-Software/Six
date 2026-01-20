@@ -80,19 +80,19 @@ class six_gui(aTk) :
                      "mute1.png",#4
                      "mute2.png",#5
                      "noConnect.png",#6
-                     "parole1.png",#7
-                     "parole2.png",#8
-                     "parole3.png",#9
-                     "boot0.png",#10
-                     "boot1.png",#11
-                     "boot2.png",#12
-                     "boot3.png",#13
-                     "colere.png",#14
-                     "content.png",#15
-                     "",#16
-                     "micro.png",#17
-                     "microIcon.png",#18
-                     "",#19
+                     "load0.png",#7
+                     "",#8
+                     "",#9
+                     "parole0.png",#10
+                     "parole1.png",#11
+                     "boot0.png",#12
+                     "boot1.png",#13
+                     "boot2.png",#14
+                     "boot3.png",#15
+                     "colere.png",#16
+                     "content.png",#17
+                     "micro.png",#18
+                     "microIcon.png",#19
                      "microsimple.png",#20
                      "settings.png",#21
                      "projet.png",#22
@@ -183,26 +183,26 @@ class six_gui(aTk) :
         return c
 
     def __canvas_boot_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[10],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[10],
-                             width=500,height=350)
-        return c
-
-    def __canvas_boot_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[11],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[11],
-                             width=500,height=350)
-        return c
-
-    def __canvas_boot_three(self):
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[12],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[12],
                              width=500,height=350)
         return c
 
-    def __canvas_boot_four(self):
+    def __canvas_boot_two(self):
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[13],
                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[13],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_three(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[14],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[14],
+                             width=500,height=350)
+        return c
+
+    def __canvas_boot_four(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[15],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[15],
                              width=500,height=350)
         return c
 
@@ -213,8 +213,8 @@ class six_gui(aTk) :
         return c
 
     def __canvas_speak_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[8],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[8],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[10],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[10],
                              width=500,height=350)
         self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white",justify="left")
 
@@ -236,8 +236,8 @@ class six_gui(aTk) :
                                path_dark=self.__dir_GUI_dark + self.__file_img_gui[24],
                                 width=30, height=30)
 
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[9],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[9],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[11],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[11],
                              width=500,height=350,fg_color=("#ffffff","#000000"))
 
         self.__l_text_after_speak = aLabel(c, police_size=20,justify="left",
@@ -286,15 +286,15 @@ class six_gui(aTk) :
         return c
 
     def __canvas_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[15],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[15],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[17],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[17],
                              width=500,height=350)
 
         return c
 
     def __canvas_not_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[14],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[14],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[16],
+                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[16],
                              width=500,height=350)
 
         return c
@@ -357,11 +357,11 @@ class six_gui(aTk) :
 
         self.__entryUser = aEntry(self,police_size=20,width=360)
 
-        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[17],
-                                 path_dark=self.__dir_GUI_dark+self.__file_img_gui[17],
+        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[18],
+                                 path_dark=self.__dir_GUI_dark+self.__file_img_gui[18],
                                  width=50,height=50)
-        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[18],
-                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[18],
+        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[19],
+                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[19],
                                   width=50,height=50)
         imageMicroSimple = aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[20],
                                   path_dark=self.__dir_GUI_dark+self.__file_img_gui[20],
