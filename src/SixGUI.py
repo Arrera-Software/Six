@@ -89,10 +89,10 @@ class six_gui(aTk) :
                      "boot3.png",#13
                      "colere.png",#14
                      "content.png",#15
-                     "actu.png",#16
+                     "",#16
                      "micro.png",#17
                      "microIcon.png",#18
-                     "parametreOpen.png",#19
+                     "",#19
                      "microsimple.png",#20
                      "settings.png",#21
                      "projet.png",#22
