@@ -20,6 +20,7 @@ class six_gui(aTk) :
         self.__mute_is_enable = False
         self.__first_boot = False
         self.__index_load = 0
+        self.__L_img_gui_load = []
 
         # Objet
         self.__assistant_six = brain
@@ -109,15 +110,8 @@ class six_gui(aTk) :
         self.__L_c_mute = self.__canvas_mute()
         
         # Canvas Load
-        self.__c_load = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load0.png",
-                                          background_dark=self.__dir_GUI_dark+"load0.png",
-                                          width=500,height=400,fg_color=("#ffffff","#000000"))
-        self.__load_images = [
-            (self.__dir_GUIl_light+"load0.png", self.__dir_GUI_dark+"load0.png"),
-            (self.__dir_GUIl_light+"load1.png", self.__dir_GUI_dark+"load1.png"),
-            (self.__dir_GUIl_light+"load2.png", self.__dir_GUI_dark+"load2.png")
-        ]
-        self.__load_index = 0
+        self.__c_load = self.__canvas_load()
+
 
         self.__widget_main_windows()
 
@@ -329,6 +323,16 @@ class six_gui(aTk) :
 
         return [c1,c2]
 
+    def __canvas_load(self):
+        self.__L_img_gui_load.append((self.__dir_GUIl_light+"load0.png", self.__dir_GUI_dark+"load0.png"))
+        self.__L_img_gui_load.append((self.__dir_GUIl_light+"load1.png", self.__dir_GUI_dark+"load1.png"))
+        self.__L_img_gui_load.append((self.__dir_GUIl_light+"load2.png", self.__dir_GUI_dark+"load2.png"))
+
+        c = aBackgroundImage(self,background_light=self.__L_img_gui_load[0][0],
+                         background_dark=self.__L_img_gui_load[0][1],
+                         width=500,height=400,fg_color=("#ffffff","#000000"))
+        return c
+
     def __widget_main_windows(self):
 
         self.__entryUser = aEntry(self,police_size=20,width=360)
@@ -438,7 +442,7 @@ class six_gui(aTk) :
             self.update()
 
     def sequence_load(self):
-        match self.__load_index:
+        match self.__index_load:
             case 0 :
                 index = 0
             case 1 :
@@ -448,7 +452,7 @@ class six_gui(aTk) :
             case 3 :
                 index = 1
 
-        light_path, dark_path = self.__load_images[index]
+        light_path, dark_path = self.__L_img_gui_load[index]
         self.__c_load.change_background(background_light=light_path, background_dark=dark_path)
 
     def __sequenceFistBoot(self):
@@ -607,6 +611,7 @@ class six_gui(aTk) :
         content = self.__entryUser.get().lower()
         self.__entryUser.delete(0, END)
         if content :
+            self.__entryUser.place_forget()
             if "parametre" in content or "settings" in content:
                 self.__activeParametre()
                 return
@@ -629,15 +634,15 @@ class six_gui(aTk) :
 
                 self.__c_load.place(x=0, y=0)
 
-                self.__load_index += 1
+                self.__index_load += 1
 
             self.update()
 
             self.sequence_load()
-            self.__load_index += 1
+            self.__index_load += 1
 
-            if self.__load_index == 3 :
-                self.__load_index = 0
+            if self.__index_load == 3 :
+                self.__index_load = 0
 
             self.after(100, self.__update_during_assistant_reflect)
         else:
@@ -645,7 +650,7 @@ class six_gui(aTk) :
             nbSortie = self.__assistant_six.getValeurSortie()
             listSortie = self.__assistant_six.getListSortie()
 
-            self.__load_index = 0
+            self.__index_load = 0
             self.__clearView()
 
             self.__treatment_out_assistant(nbSortie,listSortie)
@@ -669,7 +674,6 @@ class six_gui(aTk) :
         self.after(500,self.__update__assistant)
 
     def __sequenceParoleReponseNeuron(self,text:str):
-        self.__entryUser.place_forget()
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__c_speak_one.place_forget()
