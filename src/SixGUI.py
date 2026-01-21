@@ -80,9 +80,9 @@ class six_gui(aTk) :
                      "mute1.png",#4
                      "mute2.png",#5
                      "noConnect.png",#6
-                     "load0.png",#7
-                     "load1.png",#8
-                     "load2.png",#10
+                     "parole0.png",#7
+                     "load0.png",#8
+                     "load1.png",#10
                      "parole1.png",#11
                      "boot0.png",#12
                      "boot1.png",#13
@@ -97,7 +97,8 @@ class six_gui(aTk) :
                      "projet.png",#22
                      "tableur.png",#23
                      "word.png",#24
-                     "MAJ.png"#25
+                     "MAJ.png",#25
+                     "load2.png"
                      ]
         self.__dir_GUI_dark = "asset/IMGinterface/dark/"
         self.__dir_GUIl_light = "asset/IMGinterface/white/"
