@@ -81,9 +81,8 @@ class six_gui(aTk) :
                      "mute2.png",#5
                      "noConnect.png",#6
                      "load0.png",#7
-                     "",#8
-                     "",#9
-                     "parole0.png",#10
+                     "load1.png",#8
+                     "load2.png",#10
                      "parole1.png",#11
                      "boot0.png",#12
                      "boot1.png",#13
