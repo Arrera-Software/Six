@@ -19,6 +19,7 @@ class six_gui(aTk) :
         self.__version = version
         self.__mute_is_enable = False
         self.__first_boot = False
+        self.__index_load = 0
 
         # Objet
         self.__assistant_six = brain
@@ -106,6 +107,17 @@ class six_gui(aTk) :
         self.__c_sad_two = self.__canvas_sad_two()
         # Canvas Mute
         self.__L_c_mute = self.__canvas_mute()
+        
+        # Canvas Load
+        self.__c_load = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load0.png",
+                                          background_dark=self.__dir_GUI_dark+"load0.png",
+                                          width=500,height=400,fg_color=("#ffffff","#000000"))
+        self.__load_images = [
+            (self.__dir_GUIl_light+"load0.png", self.__dir_GUI_dark+"load0.png"),
+            (self.__dir_GUIl_light+"load1.png", self.__dir_GUI_dark+"load1.png"),
+            (self.__dir_GUIl_light+"load2.png", self.__dir_GUI_dark+"load2.png")
+        ]
+        self.__load_index = 0
 
         self.__widget_main_windows()
 
@@ -317,28 +329,6 @@ class six_gui(aTk) :
 
         return [c1,c2]
 
-    def __canvas_load_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load0.png",
-                              background_dark=self.__dir_GUI_dark+"load0.png",
-                              width=500,height=400,fg_color=("#ffffff","#000000"))
-
-        return c
-
-    def __canvas_load_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load1.png",
-                             background_dark=self.__dir_GUI_dark+"load1.png",
-                             width=500,height=400,fg_color=("#ffffff","#000000"))
-
-        return c
-
-    def __canvas_load_three(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load2.png",
-                             background_dark=self.__dir_GUI_dark+"load2.png",
-                             width=500,height=400,fg_color=("#ffffff","#000000"))
-
-        return c
-
-
     def __widget_main_windows(self):
 
         self.__entryUser = aEntry(self,police_size=20,width=360)
@@ -447,6 +437,20 @@ class six_gui(aTk) :
             self.__sixSpeaking = False
             self.update()
 
+    def sequence_load(self):
+        match self.__load_index:
+            case 0 :
+                index = 0
+            case 1 :
+                index = 1
+            case 2 :
+                index = 2
+            case 3 :
+                index = 1
+
+        light_path, dark_path = self.__load_images[index]
+        self.__c_load.change_background(background_light=light_path, background_dark=dark_path)
+
     def __sequenceFistBoot(self):
         self.__clearView()
         self.__c_boot_one.place(x=0, y=0)
@@ -537,6 +541,7 @@ class six_gui(aTk) :
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__c_maj.place_forget()
+        self.__c_load.place_forget()
     
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
@@ -617,12 +622,31 @@ class six_gui(aTk) :
         if self.__th_reflect.is_alive():
             if firstCall:
                 self.__clearView()
-                # self.__c_speak_one.place(x=0, y=0)
+                self.__assistant_load  = True
+                self.__c_load.place(x=0, y=0)
+
+                self.sequence_load()
+
+                self.__c_load.place(x=0, y=0)
+
+                self.__load_index += 1
+
             self.update()
+
+            self.sequence_load()
+            self.__load_index += 1
+
+            if self.__load_index == 3 :
+                self.__load_index = 0
+
             self.after(100, self.__update_during_assistant_reflect)
         else:
+            self.__assistant_load = False
             nbSortie = self.__assistant_six.getValeurSortie()
             listSortie = self.__assistant_six.getListSortie()
+
+            self.__load_index = 0
+            self.__clearView()
 
             self.__treatment_out_assistant(nbSortie,listSortie)
 
