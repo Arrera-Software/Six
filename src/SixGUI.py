@@ -70,36 +70,7 @@ class six_gui(aTk) :
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
         # widget et canvas
-        # canvas
 
-        # Image de fond
-        self.__file_img_gui = ["acceuil.png",#0
-                     "triste1.png",#1
-                     "triste2.png",#2
-                     "sureprit.png",#3
-                     "mute1.png",#4
-                     "mute2.png",#5
-                     "noConnect.png",#6
-                     "parole0.png",#7
-                     "load0.png",#8
-                     "load1.png",#10
-                     "parole1.png",#11
-                     "boot0.png",#12
-                     "boot1.png",#13
-                     "boot2.png",#14
-                     "boot3.png",#15
-                     "colere.png",#16
-                     "content.png",#17
-                     "micro.png",#18
-                     "microIcon.png",#19
-                     "microsimple.png",#20
-                     "settings.png",#21
-                     "projet.png",#22
-                     "tableur.png",#23
-                     "word.png",#24
-                     "MAJ.png",#25
-                     "load2.png"
-                     ]
         self.__dir_GUI_dark = "asset/IMGinterface/dark/"
         self.__dir_GUIl_light = "asset/IMGinterface/white/"
 
@@ -114,11 +85,10 @@ class six_gui(aTk) :
 
         self.__c_boot_four = self.__canvas_boot_four()
         # Canvas Parole
+
         self.__c_speak_one = self.__canvas_speak_one()
 
         self.__c_speak_two = self.__canvas_speak_two()
-
-        self.__c_speak_three = self.__canvas_speak_three()
 
         # Canvas NoConnect
         self.__c_no_connect = self.__canvas_no_connect()
@@ -177,67 +147,61 @@ class six_gui(aTk) :
     # Declaration des diferente page de l'inteface
 
     def __canvas_welcome(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[0],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[0],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"acceuil.png",
+                             background_dark=self.__dir_GUI_dark+"acceuil.png",
                              width=500,height=350)
         return c
 
     def __canvas_boot_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[12],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[12],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot0.png",
+                             background_dark=self.__dir_GUI_dark+"boot0.png",
                              width=500,height=350)
         return c
 
     def __canvas_boot_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[13],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[13],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot1.png",
+                             background_dark=self.__dir_GUI_dark+"boot1.png",
                              width=500,height=350)
         return c
 
     def __canvas_boot_three(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[14],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[14],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot2.png",
+                             background_dark=self.__dir_GUI_dark+"boot2.png",
                              width=500,height=350)
         return c
 
     def __canvas_boot_four(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[15],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[15],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot3.png",
+                             background_dark=self.__dir_GUI_dark+"boot3.png",
                              width=500,height=350)
         return c
 
     def __canvas_speak_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[7],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[7],
-                             width=500,height=350)
-        return c
-
-    def __canvas_speak_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[10],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[10],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"parole0.png",
+                             background_dark=self.__dir_GUI_dark+"parole0.png",
                              width=500,height=350)
         self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white",justify="left")
 
         self.__l_during_assistant_speak.place(x=30, y=110)
         return c
 
-    def __canvas_speak_three(self):
+    def __canvas_speak_two(self):
 
         # Image
 
-        imageTableurOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[23],
-                                  path_dark=self.__dir_GUI_dark + self.__file_img_gui[23],
+        imageTableurOpen = aImage(path_light=self.__dir_GUIl_light + "tableur.png",
+                                  path_dark=self.__dir_GUI_dark + "tableur.png",
                                   width=30, height=30)
 
-        imageProjetOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[22],
-                                 path_dark=self.__dir_GUI_dark + self.__file_img_gui[22],
+        imageProjetOpen = aImage(path_light=self.__dir_GUIl_light + "projet.png",
+                                 path_dark=self.__dir_GUI_dark + "projet.png",
                                 width=30, height=30)
-        imageWordOpen = aImage(path_light=self.__dir_GUIl_light + self.__file_img_gui[24],
-                               path_dark=self.__dir_GUI_dark + self.__file_img_gui[24],
+        imageWordOpen = aImage(path_light=self.__dir_GUIl_light + "word.png",
+                               path_dark=self.__dir_GUI_dark + "word.png",
                                 width=30, height=30)
 
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[11],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[11],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"parole1.png",
+                             background_dark=self.__dir_GUI_dark+"parole1.png",
                              width=500,height=350,fg_color=("#ffffff","#000000"))
 
         self.__l_text_after_speak = aLabel(c, police_size=20,justify="left",
@@ -259,15 +223,15 @@ class six_gui(aTk) :
         return c
 
     def __canvas_no_connect(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[6],
-                    background_dark=self.__dir_GUI_dark+self.__file_img_gui[6],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"noConnect.png",
+                    background_dark=self.__dir_GUI_dark+"noConnect.png",
                     width=500,height=350)
 
         return c
 
     def __canvas_maj(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[25],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[25],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"MAJ.png",
+                             background_dark=self.__dir_GUI_dark+"MAJ.png",
                              width=500,height=350,fg_color=("#ffffff","#000000"))
 
         label_text = aLabel(c,text="Une mise à jour d'ARRERA SIX est disponible. Installez-la pour bénéficier des dernières fonctionnalités.",
@@ -286,47 +250,47 @@ class six_gui(aTk) :
         return c
 
     def __canvas_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[17],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[17],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"content.png",
+                             background_dark=self.__dir_GUI_dark+"content.png",
                              width=500,height=350)
 
         return c
 
     def __canvas_not_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[16],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[16],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"colere.png",
+                             background_dark=self.__dir_GUI_dark+"colere.png",
                              width=500,height=350)
 
         return c
 
     def __canvas_surprised(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[3],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[3],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"sureprit.png",
+                             background_dark=self.__dir_GUI_dark+"sureprit.png",
                              width=500,height=350)
 
         return c
 
     def __canvas_sad_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[1],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[1],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"triste1.png",
+                             background_dark=self.__dir_GUI_dark+"triste1.png",
                              width=500,height=350)
 
         return c
 
     def __canvas_sad_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[2],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[2],
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"triste2.png",
+                             background_dark=self.__dir_GUI_dark+"triste2.png",
                              width=500,height=350)
 
         return c
 
     def __canvas_mute(self):
-        c1 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[4],
-                             background_dark=self.__dir_GUI_dark+self.__file_img_gui[4],
+        c1 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"mute1.png",
+                             background_dark=self.__dir_GUI_dark+"mute1.png",
                              width=500,height=400,fg_color=("#ffffff","#000000"))
 
-        c2 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+self.__file_img_gui[5],
-                              background_dark=self.__dir_GUI_dark+self.__file_img_gui[5],
+        c2 = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"mute2.png",
+                              background_dark=self.__dir_GUI_dark+"mute2.png",
                               width=500,height=400,fg_color=("#ffffff","#000000"))
 
         self.__btn_stop_mute = [aButton(c1, text="Demute", dark_color="#1f1f1f", light_color="#e0e0e0",
@@ -353,21 +317,43 @@ class six_gui(aTk) :
 
         return [c1,c2]
 
+    def __canvas_load_one(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load0.png",
+                              background_dark=self.__dir_GUI_dark+"load0.png",
+                              width=500,height=400,fg_color=("#ffffff","#000000"))
+
+        return c
+
+    def __canvas_load_two(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load1.png",
+                             background_dark=self.__dir_GUI_dark+"load1.png",
+                             width=500,height=400,fg_color=("#ffffff","#000000"))
+
+        return c
+
+    def __canvas_load_three(self):
+        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"load2.png",
+                             background_dark=self.__dir_GUI_dark+"load2.png",
+                             width=500,height=400,fg_color=("#ffffff","#000000"))
+
+        return c
+
+
     def __widget_main_windows(self):
 
         self.__entryUser = aEntry(self,police_size=20,width=360)
 
-        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[18],
-                                 path_dark=self.__dir_GUI_dark+self.__file_img_gui[18],
+        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+"micro.png",
+                                 path_dark=self.__dir_GUI_dark+"micro.png",
                                  width=50,height=50)
-        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[19],
-                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[19],
+        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+"microIcon.png",
+                                  path_dark=self.__dir_GUI_dark+"microIcon.png",
                                   width=50,height=50)
-        imageMicroSimple = aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[20],
-                                  path_dark=self.__dir_GUI_dark+self.__file_img_gui[20],
+        imageMicroSimple = aImage(path_light=self.__dir_GUIl_light+"microsimple.png",
+                                  path_dark=self.__dir_GUI_dark+"microsimple.png",
                                   width=30,height=30)
-        imageParametre = aImage(path_light=self.__dir_GUIl_light+self.__file_img_gui[21],
-                                path_dark=self.__dir_GUI_dark+self.__file_img_gui[21],
+        imageParametre = aImage(path_light=self.__dir_GUIl_light+"settings.png",
+                                path_dark=self.__dir_GUI_dark+"settings.png",
                                 width=30,height=30)
 
         self.__labelTriggerMicro = aLabel(self,text="",width=50,height=50,image=imageMicroTriger)
@@ -442,7 +428,7 @@ class six_gui(aTk) :
         self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__thBoot.start()
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.after(100,self.__duringSpeakBoot)
@@ -456,8 +442,8 @@ class six_gui(aTk) :
             self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
             self.__manage_btn_open_fnc()
-            self.__c_speak_two.place_forget()
-            self.__c_speak_three.place(x=0, y=0)
+            self.__c_speak_one.place_forget()
+            self.__c_speak_two.place(x=0, y=0)
             self.__sixSpeaking = False
             self.update()
 
@@ -491,28 +477,28 @@ class six_gui(aTk) :
         texte = self.__language.getPhraseFirstBoot(genre,name,1)
         self.__avoice.say(texte)
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 2))
         self.__avoice.say(texte)
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 3))
         self.__avoice.say(texte)
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 4))
         self.__avoice.say(texte)
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
 
@@ -526,8 +512,8 @@ class six_gui(aTk) :
             self.__btnParametre.placeBottomLeft()
             self.__startingTriggerWord()
             self.__manage_btn_open_fnc()
-            self.__c_speak_two.place_forget()
-            self.__c_speak_three.place(x=0, y=0)
+            self.__c_speak_one.place_forget()
+            self.__c_speak_two.place(x=0, y=0)
             self.__sixSpeaking = False
             self.__l_text_after_speak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 4)
                                                 , wraplength=440, justify="left")
@@ -542,7 +528,6 @@ class six_gui(aTk) :
         self.__c_boot_four.place_forget()
         self.__c_speak_one.place_forget()
         self.__c_speak_two.place_forget()
-        self.__c_speak_three.place_forget()
         self.__c_no_connect.place_forget()
         self.__c_happy.place_forget()
         self.__c_not_happy.place_forget()
@@ -557,8 +542,7 @@ class six_gui(aTk) :
         self.__sixSpeaking = True 
         self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__clearView()
-        self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.update()
@@ -569,8 +553,8 @@ class six_gui(aTk) :
             self.update()
             self.after(100,self.__duringSpeak)
         else :
-            self.__c_speak_two.place_forget()
-            self.__c_speak_three.place(x=0, y=0)
+            self.__c_speak_one.place_forget()
+            self.__c_speak_two.place(x=0, y=0)
             self.__sixSpeaking = False
             self.update()
         
@@ -580,10 +564,10 @@ class six_gui(aTk) :
         thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
         thSpeak.start()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=320)
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.update()
         thSpeak.join()
-        self.__c_speak_two.place_forget()
+        self.__c_speak_one.place_forget()
         self.__c_boot_four.place(x=0, y=0)
         self.update()
         time.sleep(0.2)
@@ -633,7 +617,7 @@ class six_gui(aTk) :
         if self.__th_reflect.is_alive():
             if firstCall:
                 self.__clearView()
-                self.__c_speak_one.place(x=0, y=0)
+                # self.__c_speak_one.place(x=0, y=0)
             self.update()
             self.after(100, self.__update_during_assistant_reflect)
         else:
@@ -665,7 +649,7 @@ class six_gui(aTk) :
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__c_speak_one.place_forget()
-        self.__c_speak_two.place(x=0, y=0)
+        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=text, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=text, wraplength=475, justify="left")
         self.update()
@@ -679,12 +663,12 @@ class six_gui(aTk) :
             self.update()
             self.after(100,self.__duringSpeakReponseNeuron)
         else :
-            self.__c_speak_two.place_forget()
+            self.__c_speak_one.place_forget()
             self.__entryUser.placeBottomCenter()
             if not self.__gazelleUI.gettigerWordSet():
                 self.__btn_microphone.placeBottomRight()
             self.__btnParametre.placeBottomLeft()
-            self.__c_speak_three.place(x=0, y=0)
+            self.__c_speak_two.place(x=0, y=0)
             self.update()
     
     def __activeParametre(self):
