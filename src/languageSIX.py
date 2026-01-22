@@ -73,4 +73,4 @@ class language_six :
         return self.__help.getContentJsonFlagList("projet")
 
     def getPhraseFirstBoot(self, genre:str, name:str, nb:int):
-        return self.__firstBoot.getContentJsonFlag(str(nb)).format(genre=genre, user=name)
+        return self.__firstBoot.getContentJsonFlag(str(nb)).format(genre=genre, lastname=name)
