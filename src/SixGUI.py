@@ -21,6 +21,7 @@ class six_gui(aTk) :
         self.__first_boot = False
         self.__index_load = 0
         self.__L_img_gui_load = []
+        self.__L_img_gui_boot = []
 
         # Objet
         self.__assistant_six = brain
@@ -54,6 +55,8 @@ class six_gui(aTk) :
 
         self.__th_reflect = th.Thread()
 
+        self.__th_speak_stop = th.Thread()
+
         # Teste de la connextion internet
         try:
             requests.get("https://duckduckgo.com",timeout=5)
@@ -79,6 +82,9 @@ class six_gui(aTk) :
         # Canvas Acceuil
         self.__c_welcome = self.__canvas_welcome()
         # Canvas Boot
+
+        self.__c_boot = self.__canvas_boot()
+
         self.__c_boot_one = self.__canvas_boot_one()
 
         self.__c_boot_two = self.__canvas_boot_two()
@@ -144,9 +150,9 @@ class six_gui(aTk) :
 
     def __boot(self):
         if self.__first_boot:
-            self.__sequenceFistBoot()
+            self.__sequence_first_boot()
         else :
-            self.__sequenceBoot()
+            self.__sequence_boot()
 
         self.__update__assistant()
 
@@ -156,6 +162,18 @@ class six_gui(aTk) :
         c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"acceuil.png",
                              background_dark=self.__dir_GUI_dark+"acceuil.png",
                              width=500,height=350)
+        return c
+
+    def __canvas_boot(self):
+        self.__L_img_gui_boot.append((self.__dir_GUIl_light+"boot0.png", self.__dir_GUI_dark+"boot0.png"))
+        self.__L_img_gui_boot.append((self.__dir_GUIl_light+"boot1.png", self.__dir_GUI_dark+"boot1.png"))
+        self.__L_img_gui_boot.append((self.__dir_GUIl_light+"boot2.png", self.__dir_GUI_dark+"boot2.png"))
+        self.__L_img_gui_boot.append((self.__dir_GUIl_light+"boot3.png", self.__dir_GUI_dark+"boot3.png"))
+
+        c = aBackgroundImage(self, background_light=self.__L_img_gui_boot[0][0],
+                             background_dark=self.__L_img_gui_boot[0][1],
+                             width=500, height=350)
+
         return c
 
     def __canvas_boot_one(self):
@@ -363,6 +381,18 @@ class six_gui(aTk) :
                                       hover_color=("#949494","#505050"),
                                       image=imageParametre,command=self.__activeParametre)
 
+    # Methode qui modifie les image des canvas
+
+    def __change_img_canvas_boot(self,index:int):
+       if not (0 <= index <= 3):
+           index = 0
+
+       light_path, dark_path = self.__L_img_gui_boot[index]
+
+       self.__c_boot.change_background(background_light=light_path, background_dark=dark_path)
+
+       self.update()
+
     # About
 
     def __about(self):
@@ -386,27 +416,22 @@ class six_gui(aTk) :
     def __stop_assistant(self):
         if self.__mute_is_enable :
             self.__stopping_mode_mute()
-        self.__sequenceArret()
-        if self.__objOS.osWindows() :
-            os.kill(os.getpid(), signal.SIGINT)
-        elif self.__objOS.osLinux() or self.__objOS.osMac() :
-            os.kill(os.getpid(), signal.SIGKILL)
+        self.__beginning_sequence_stop()
 
     # SEQUENCE
 
-    def __sequenceBoot(self):
-        self.__clearView()
-        self.__c_boot_one.place(x=0, y=0)
+    def __sequence_boot(self):
+        self.__clear_view()
+        self.__change_img_canvas_boot(0)
+        self.__c_boot.place(x=0, y=0)
         time.sleep(0.2)
-        self.__c_boot_one.place_forget()
-        self.__c_boot_two.place(x=0, y=0)
+        self.__change_img_canvas_boot(1)
         time.sleep(0.2)
-        self.__c_boot_two.place_forget()
-        self.__c_boot_three.place(x=0, y=0)
+        self.__change_img_canvas_boot(2)
         time.sleep(0.2)
-        self.__c_boot_three.place_forget()
-        self.__c_boot_four.place(x=0, y=0)
+        self.__change_img_canvas_boot(3)
         time.sleep(0.2)
+        self.__c_boot.place_forget()
         self.__c_welcome.place(x=0, y=0)
         if not self.__etatConnexion:
             self.__c_welcome.place_forget()
@@ -423,6 +448,7 @@ class six_gui(aTk) :
         self.__thBoot.start()
         self.__c_speak_one.place_forget()
         self.__c_speak_one.place(x=0, y=0)
+        self.update()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.after(100,self.__duringSpeakBoot)
@@ -442,6 +468,7 @@ class six_gui(aTk) :
             self.update()
 
     def sequence_load(self):
+        index = 0
         match self.__index_load:
             case 0 :
                 index = 0
@@ -451,69 +478,50 @@ class six_gui(aTk) :
                 index = 2
             case 3 :
                 index = 1
+            case _ :
+                index = 0
 
         light_path, dark_path = self.__L_img_gui_load[index]
         self.__c_load.change_background(background_light=light_path, background_dark=dark_path)
 
-    def __sequenceFistBoot(self):
-        self.__clearView()
-        self.__c_boot_one.place(x=0, y=0)
+    def __sequence_first_boot(self):
+        self.__clear_view()
+        self.__change_img_canvas_boot(0)
+        self.__c_boot.place(x=0, y=0)
         time.sleep(0.2)
-        self.__c_boot_one.place_forget()
-        self.__c_boot_two.place(x=0, y=0)
+        self.__change_img_canvas_boot(1)
+        self.update()
         time.sleep(0.2)
-        self.__c_boot_two.place_forget()
-        self.__c_boot_three.place(x=0, y=0)
+        self.__change_img_canvas_boot(2)
+        self.update()
         time.sleep(0.2)
-        self.__c_boot_three.place_forget()
-        self.__c_boot_four.place(x=0, y=0)
+        self.__change_img_canvas_boot(3)
+        self.update()
         time.sleep(0.2)
-        self.__c_welcome.place(x=0, y=0)
-        if not self.__etatConnexion:
-            self.__c_welcome.place_forget()
-            self.protocol("WM_DELETE_WINDOW", self.__stop_assistant)
-            self.__c_no_connect.place(x=0, y=0)
-            self.update()
-        else :
-            self.__thBoot = th.Thread(target=self.__firstBootSpeak)
-            self.__thBoot.start()
-            self.after(100, self.__duringFirstBootSpeak)
-
-    def __firstBootSpeak(self):
-        name = self.__gest_user.getFirstnameUser()
+        self.__thBoot = th.Thread(target=self.__speak_first_boot)
+        self.__thBoot.start()
+        self.__update_first_boot_speak()
+        self.__c_boot.place_forget()
+        
+    def __speak_first_boot(self):
+        name = self.__gest_user.getLastnameUser()
         genre = self.__gest_user.getGenre()
         texte = self.__language.getPhraseFirstBoot(genre,name,1)
-        self.__avoice.say(texte)
-        self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
+        self.__c_speak_one.place(x=0, y=0)
         self.update()
+        self.__avoice.say(texte)
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 2))
-        self.__avoice.say(texte)
-        self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.update()
-        time.sleep(3)
-        texte = (self.__language.getPhraseFirstBoot(genre,name, 3))
         self.__avoice.say(texte)
         self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
-        self.update()
-        time.sleep(3)
-        texte = (self.__language.getPhraseFirstBoot(genre,name, 4))
-        self.__avoice.say(texte)
-        self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
-        self.update()
 
-    def __duringFirstBootSpeak(self):
+    def __update_first_boot_speak(self):
         if self.__thBoot.is_alive():
             self.update()
-            self.after(100,self.__duringFirstBootSpeak)
+            self.after(100,self.__update_first_boot_speak)
         else :
             userData = self.__assistant_six.getUserData()
             self.__entryUser.placeBottomCenter()
@@ -523,17 +531,15 @@ class six_gui(aTk) :
             self.__c_speak_one.place_forget()
             self.__c_speak_two.place(x=0, y=0)
             self.__sixSpeaking = False
-            self.__l_text_after_speak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 4)
+            self.__l_text_after_speak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 2)
                                                 , wraplength=440, justify="left")
+            self.__c_speak_two.place(x=0, y=0)
             self.update()
     
-    def __clearView(self):
+    def __clear_view(self):
         self.__labelTriggerMicro.place_forget()
         self.__c_welcome.place_forget()
-        self.__c_boot_one.place_forget()
-        self.__c_boot_two.place_forget()
-        self.__c_boot_three.place_forget()
-        self.__c_boot_four.place_forget()
+        self.__c_boot.place_forget()
         self.__c_speak_one.place_forget()
         self.__c_speak_two.place_forget()
         self.__c_no_connect.place_forget()
@@ -550,8 +556,9 @@ class six_gui(aTk) :
     def __sequenceParole(self,texte:str):
         self.__sixSpeaking = True 
         self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
-        self.__clearView()
+        self.__clear_view()
         self.__c_speak_one.place(x=0, y=0)
+        self.update()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.update()
@@ -567,34 +574,48 @@ class six_gui(aTk) :
             self.__sixSpeaking = False
             self.update()
         
-    def __sequenceArret(self):
+    def __beginning_sequence_stop(self):
         texte = self.__assistant_six.shutdown()
-        self.__clearView()
-        thSpeak = th.Thread(target=self.__avoice.say, args=(texte,))
-        thSpeak.start()
+
+        self.__clear_view()
+
+        self.__th_speak_stop = th.Thread(target=self.__avoice.say, args=(texte,))
+
         self.__l_during_assistant_speak.configure(text=texte, wraplength=320)
         self.__c_speak_one.place(x=0, y=0)
         self.update()
-        thSpeak.join()
-        self.__c_speak_one.place_forget()
-        self.__c_boot_four.place(x=0, y=0)
-        self.update()
-        time.sleep(0.2)
-        self.__c_boot_four.place_forget()
-        self.__c_boot_three.place(x=0, y=0)
-        self.update()
-        time.sleep(0.2)
-        self.__c_boot_three.place_forget()
-        self.__c_boot_four.place(x=0, y=0)
-        self.update()
-        time.sleep(0.2)
-        self.__c_boot_four.place_forget()
-        self.__c_boot_one.place(x=0, y=0)
-        self.update()
-        time.sleep(0.2)
-        self.__c_boot_one.place_forget()
-        self.update()
-        del thSpeak
+
+        self.__th_speak_stop.start()
+
+        self.__update_durring_stopping_speak()
+
+    def __update_durring_stopping_speak(self):
+        if self.__th_speak_stop.is_alive():
+            self.update()
+            self.after(100,self.__update_durring_stopping_speak)
+        else :
+            self.__clear_view()
+
+            self.__change_img_canvas_boot(3)
+            self.__c_boot.place(x=0, y=0)
+            self.update()
+
+            time.sleep(0.2)
+            self.__change_img_canvas_boot(2)
+            self.update()
+
+            time.sleep(0.2)
+            self.__change_img_canvas_boot(1)
+            self.update()
+
+            time.sleep(0.2)
+            self.__change_img_canvas_boot(0)
+            self.update()
+
+            if self.__objOS.osWindows():
+                os.kill(os.getpid(), signal.SIGINT)
+            elif self.__objOS.osLinux() or self.__objOS.osMac():
+                os.kill(os.getpid(), signal.SIGKILL)
 
     def __detectionTouche(self,fonc,touche):
         def anychar(event):
@@ -626,7 +647,7 @@ class six_gui(aTk) :
     def __update_during_assistant_reflect(self,firstCall:bool=False):
         if self.__th_reflect.is_alive():
             if firstCall:
-                self.__clearView()
+                self.__clear_view()
                 self.__assistant_load  = True
                 self.__c_load.place(x=0, y=0)
 
@@ -651,7 +672,7 @@ class six_gui(aTk) :
             listSortie = self.__assistant_six.getListSortie()
 
             self.__index_load = 0
-            self.__clearView()
+            self.__clear_view()
 
             self.__treatment_out_assistant(nbSortie,listSortie)
 
@@ -703,7 +724,7 @@ class six_gui(aTk) :
         self.__stopingTriggerWord()
         self.title(self.__nameSoft+" : Parametre")
         self.update()
-        self.__clearView()
+        self.__clear_view()
         self.__entryUser.place_forget()
         self.__gazelleUI.active()
         self.update()
@@ -766,7 +787,7 @@ class six_gui(aTk) :
     
     def __active_mode_mute(self):
         self.__sequenceParole(self.__language.getPhActiveMute())
-        self.__clearView()
+        self.__clear_view()
         self.__stopingTriggerWord()
         self.__entryUser.place_forget()
         self.update()
@@ -775,7 +796,7 @@ class six_gui(aTk) :
         self.__mute_is_enable = True
     
     def __stopping_mode_mute(self):
-        self.__clearView()
+        self.__clear_view()
         self.update()
         self.__L_c_mute[0].place_forget()
         self.__L_c_mute[1].place_forget()
