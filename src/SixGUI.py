@@ -423,6 +423,7 @@ class six_gui(aTk) :
         self.__thBoot.start()
         self.__c_speak_one.place_forget()
         self.__c_speak_one.place(x=0, y=0)
+        self.update()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.after(100,self.__duringSpeakBoot)
@@ -442,6 +443,7 @@ class six_gui(aTk) :
             self.update()
 
     def sequence_load(self):
+        index = 0
         match self.__index_load:
             case 0 :
                 index = 0
@@ -451,6 +453,8 @@ class six_gui(aTk) :
                 index = 2
             case 3 :
                 index = 1
+            case _ :
+                index = 0
 
         light_path, dark_path = self.__L_img_gui_load[index]
         self.__c_load.change_background(background_light=light_path, background_dark=dark_path)
@@ -552,6 +556,7 @@ class six_gui(aTk) :
         self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__clearView()
         self.__c_speak_one.place(x=0, y=0)
+        self.update()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
         self.update()
