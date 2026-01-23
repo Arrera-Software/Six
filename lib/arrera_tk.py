@@ -418,6 +418,9 @@ class aBackgroundImage(ctk.CTkFrame):
 
         # Création de l'image initiale
         background = self._create_ctk_image(background_light, background_dark)
+        
+        # Sauvegarde de l'image pour éviter le garbage collection
+        self.__current_image = background
 
         # Utilisation d'un CTkLabel pour afficher l'image
         # Note: Assure-toi que aLabel accepte l'argument 'image' ou utilise ctk.CTkLabel
@@ -438,6 +441,10 @@ class aBackgroundImage(ctk.CTkFrame):
     def change_background(self, background_light: str, background_dark: str = ""):
         """Permet de changer dynamiquement les images de fond"""
         new_background = self._create_ctk_image(background_light, background_dark)
+        
+        # Sauvegarde de la nouvelle image pour éviter le garbage collection
+        self.__current_image = new_background
+
         self.__label.configure(image=new_background)
 
 # Fenetre
