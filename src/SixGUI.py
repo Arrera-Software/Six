@@ -85,13 +85,6 @@ class six_gui(aTk) :
 
         self.__c_boot = self.__canvas_boot()
 
-        self.__c_boot_one = self.__canvas_boot_one()
-
-        self.__c_boot_two = self.__canvas_boot_two()
-
-        self.__c_boot_three = self.__canvas_boot_three()
-
-        self.__c_boot_four = self.__canvas_boot_four()
         # Canvas Parole
 
         self.__c_speak_one = self.__canvas_speak_one()
@@ -174,30 +167,6 @@ class six_gui(aTk) :
                              background_dark=self.__L_img_gui_boot[0][1],
                              width=500, height=350)
 
-        return c
-
-    def __canvas_boot_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot0.png",
-                             background_dark=self.__dir_GUI_dark+"boot0.png",
-                             width=500,height=350)
-        return c
-
-    def __canvas_boot_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot1.png",
-                             background_dark=self.__dir_GUI_dark+"boot1.png",
-                             width=500,height=350)
-        return c
-
-    def __canvas_boot_three(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot2.png",
-                             background_dark=self.__dir_GUI_dark+"boot2.png",
-                             width=500,height=350)
-        return c
-
-    def __canvas_boot_four(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"boot3.png",
-                             background_dark=self.__dir_GUI_dark+"boot3.png",
-                             width=500,height=350)
         return c
 
     def __canvas_speak_one(self):
@@ -439,10 +408,10 @@ class six_gui(aTk) :
             self.__c_no_connect.place(x=0, y=0)
             self.update()
         else :
-            self.__speakBoot()
+            self.__speak_boot()
 
 
-    def __speakBoot(self):
+    def __speak_boot(self):
         texte = self.__assistant_six.boot()
         self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__thBoot.start()
@@ -451,12 +420,12 @@ class six_gui(aTk) :
         self.update()
         self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
         self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
-        self.after(100,self.__duringSpeakBoot)
+        self.__update_speak_boot()
 
-    def __duringSpeakBoot(self):
+    def __update_speak_boot(self):
         if self.__thBoot.is_alive():
             self.update()
-            self.after(100,self.__duringSpeakBoot)
+            self.after(100, self.__update_speak_boot)
         else :
             self.__entryUser.placeBottomCenter()
             self.__btnParametre.placeBottomLeft()
