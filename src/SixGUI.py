@@ -601,10 +601,11 @@ class six_gui(aTk) :
         self.after(500,self.__update__assistant)
 
     def __view_beggin_speak(self,text:str):
-        self.__clear_view()
         self.__change_img_canvas_speak(0)
         self.__label_six_speak.set_text(text)
         self.__label_six_speak.view_during_speak()
+        self.__btn_microphone.place_forget()
+        self.__btnParametre.place_forget()
         self.__c_speak.place(x=0, y=0)
         self.update()
 
