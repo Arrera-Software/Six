@@ -651,7 +651,7 @@ class six_gui(aTk) :
         elif var == 17:
             self.__windows_help_assistant(out[0])
         else :
-            self.__sequenceParoleReponseNeuron(out[0])
+            self.__sequence_speak(out[0])
 
         self.__manage_btn_open_fnc()
 
@@ -663,9 +663,10 @@ class six_gui(aTk) :
 
         self.after(500,self.__update__assistant)
 
-    def __sequenceParoleReponseNeuron(self,text:str):
+    def __sequence_speak(self, text:str):
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
+        self.__entryUser.place_forget()
         self.__c_speak_one.place_forget()
         self.__c_speak_one.place(x=0, y=0)
         self.__l_during_assistant_speak.configure(text=text, wraplength=440, justify="left")
@@ -831,7 +832,7 @@ class six_gui(aTk) :
         labelTitleHelp = aLabel(winHelp, police_size=25,text="Six - Aide")
         aideView = aText(winHelp, width=475, height=500,wrap="word",police_size=20)
 
-        self.__sequenceParoleReponseNeuron("Open INTERFACE") # TODO : Texte a revoir
+        self.__sequence_speak("Open INTERFACE") # TODO : Texte a revoir
 
         aideView.insert_text(texte)
         labelTitleHelp.placeTopCenter()
