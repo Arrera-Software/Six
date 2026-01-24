@@ -8,6 +8,7 @@ from lib.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
+from src.six_widget import six_speak
 
 class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
@@ -22,6 +23,7 @@ class six_gui(aTk) :
         self.__index_load = 0
         self.__L_img_gui_load = []
         self.__L_img_gui_boot = []
+        self.__L_img_gui_speak = []
 
         # Objet
         self.__assistant_six = brain
@@ -87,9 +89,7 @@ class six_gui(aTk) :
 
         # Canvas Parole
 
-        self.__c_speak_one = self.__canvas_speak_one()
-
-        self.__c_speak_two = self.__canvas_speak_two()
+        self.__c_speak = self.__canvas_speak()
 
         # Canvas NoConnect
         self.__c_no_connect = self.__canvas_no_connect()
@@ -124,7 +124,7 @@ class six_gui(aTk) :
 
         # Declaration de la variable pour contenir les theard
         self.__thSpeak = th.Thread()
-        self.__thSpeakNeuron = th.Thread()
+        self.__th_speak = th.Thread()
         self.__thSpeakActu = th.Thread()
         self.__thMinuteurActu = th.Thread()
         self.__thBoot = th.Thread()
@@ -169,18 +169,10 @@ class six_gui(aTk) :
 
         return c
 
-    def __canvas_speak_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"parole0.png",
-                             background_dark=self.__dir_GUI_dark+"parole0.png",
-                             width=500,height=350)
-        self.__l_during_assistant_speak = aLabel(c, police_size=20, fg_color="#2b3ceb", text_color="white",justify="left")
-
-        self.__l_during_assistant_speak.place(x=30, y=110)
-        return c
-
-    def __canvas_speak_two(self):
-
+    def __canvas_speak(self):
         # Image
+        self.__L_img_gui_speak.append((self.__dir_GUIl_light+"parole0.png", self.__dir_GUI_dark+"parole0.png"))
+        self.__L_img_gui_speak.append((self.__dir_GUIl_light+"parole1.png", self.__dir_GUI_dark+"parole1.png"))
 
         imageTableurOpen = aImage(path_light=self.__dir_GUIl_light + "tableur.png",
                                   path_dark=self.__dir_GUI_dark + "tableur.png",
@@ -188,18 +180,16 @@ class six_gui(aTk) :
 
         imageProjetOpen = aImage(path_light=self.__dir_GUIl_light + "projet.png",
                                  path_dark=self.__dir_GUI_dark + "projet.png",
-                                width=30, height=30)
+                                 width=30, height=30)
         imageWordOpen = aImage(path_light=self.__dir_GUIl_light + "word.png",
                                path_dark=self.__dir_GUI_dark + "word.png",
-                                width=30, height=30)
+                               width=30, height=30)
 
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"parole1.png",
-                             background_dark=self.__dir_GUI_dark+"parole1.png",
-                             width=500,height=350,fg_color=("#ffffff","#000000"))
+        # Widget
 
-        self.__l_text_after_speak = aLabel(c, police_size=20,justify="left",
-                                           light_color="#ffffff", dark_color="#000000",
-                                           dark_text_color="#ffffff", light_text_color="#000000")
+        c = aBackgroundImage(self,background_light=self.__L_img_gui_speak[0][0],
+                             background_dark=self.__L_img_gui_speak[0][1],
+                             width=500,height=350)
 
         self.__btn_tableur_is_open = aButton(c, width=30, height=30, text="", image=imageTableurOpen,
                                              dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
@@ -211,7 +201,7 @@ class six_gui(aTk) :
                                              dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                              command=lambda: self.__set_requette_with_btn("aide projet"))
 
-        self.__l_text_after_speak.place(x=10, y=80)
+        self.__label_six_speak = six_speak(c)
 
         return c
 
@@ -362,6 +352,16 @@ class six_gui(aTk) :
 
        self.update()
 
+    def __change_img_canvas_speak(self,index:int):
+        if not (0 <= index <= 1):
+            index = 0
+
+        light_path, dark_path = self.__L_img_gui_speak[index]
+
+        self.__c_speak.change_background(background_light=light_path, background_dark=dark_path)
+
+        self.update()
+
     # About
 
     def __about(self):
@@ -413,28 +413,10 @@ class six_gui(aTk) :
 
     def __speak_boot(self):
         texte = self.__assistant_six.boot()
-        self.__thBoot = th.Thread(target=self.__avoice.say,args=(texte,))
-        self.__thBoot.start()
-        self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
-        self.update()
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
-        self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
-        self.__update_speak_boot()
-
-    def __update_speak_boot(self):
-        if self.__thBoot.is_alive():
-            self.update()
-            self.after(100, self.__update_speak_boot)
-        else :
-            self.__entryUser.placeBottomCenter()
-            self.__btnParametre.placeBottomLeft()
-            self.__startingTriggerWord()
-            self.__manage_btn_open_fnc()
-            self.__c_speak_one.place_forget()
-            self.__c_speak_two.place(x=0, y=0)
-            self.__sixSpeaking = False
-            self.update()
+        self.__th_speak = th.Thread(target=self.__avoice.say,args=(texte,))
+        self.__th_speak.start()
+        self.__view_beggin_speak(texte)
+        self.__update_speak()
 
     def sequence_load(self):
         index = 0
@@ -467,50 +449,30 @@ class six_gui(aTk) :
         self.__change_img_canvas_boot(3)
         self.update()
         time.sleep(0.2)
-        self.__thBoot = th.Thread(target=self.__speak_first_boot)
-        self.__thBoot.start()
-        self.__update_first_boot_speak()
+        self.__th_speak = th.Thread(target=self.__speak_first_boot)
+        self.__th_speak.start()
+        self.__update_speak()
         self.__c_boot.place_forget()
         
     def __speak_first_boot(self):
         name = self.__gest_user.getLastnameUser()
         genre = self.__gest_user.getGenre()
         texte = self.__language.getPhraseFirstBoot(genre,name,1)
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
-        self.__c_speak_one.place(x=0, y=0)
+        self.__view_beggin_speak(texte)
         self.update()
         self.__avoice.say(texte)
+        self.__view_after_speak()
         time.sleep(3)
         texte = (self.__language.getPhraseFirstBoot(genre,name, 2))
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
+        self.__view_beggin_speak(texte)
         self.update()
         self.__avoice.say(texte)
-        self.__c_speak_one.place_forget()
-
-    def __update_first_boot_speak(self):
-        if self.__thBoot.is_alive():
-            self.update()
-            self.after(100,self.__update_first_boot_speak)
-        else :
-            userData = self.__assistant_six.getUserData()
-            self.__entryUser.placeBottomCenter()
-            self.__btnParametre.placeBottomLeft()
-            self.__startingTriggerWord()
-            self.__manage_btn_open_fnc()
-            self.__c_speak_one.place_forget()
-            self.__c_speak_two.place(x=0, y=0)
-            self.__sixSpeaking = False
-            self.__l_text_after_speak.configure(text=self.__language.getPhraseFirstBoot(userData[1], userData[0], 2)
-                                                , wraplength=440, justify="left")
-            self.__c_speak_two.place(x=0, y=0)
-            self.update()
     
     def __clear_view(self):
         self.__labelTriggerMicro.place_forget()
         self.__c_welcome.place_forget()
         self.__c_boot.place_forget()
-        self.__c_speak_one.place_forget()
-        self.__c_speak_two.place_forget()
+        self.__c_speak.place_forget()
         self.__c_no_connect.place_forget()
         self.__c_happy.place_forget()
         self.__c_not_happy.place_forget()
@@ -521,38 +483,13 @@ class six_gui(aTk) :
         self.__btnParametre.place_forget()
         self.__c_maj.place_forget()
         self.__c_load.place_forget()
-    
-    def __sequenceParole(self,texte:str):
-        self.__sixSpeaking = True 
-        self.__thSpeak = th.Thread(target=self.__avoice.say,args=(texte,))
-        self.__clear_view()
-        self.__c_speak_one.place(x=0, y=0)
-        self.update()
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=440, justify="left")
-        self.__l_text_after_speak.configure(text=texte, wraplength=475, justify="left")
-        self.update()
-        self.__duringSpeak()
-
-    def __duringSpeak(self):
-        if self.__thSpeak.is_alive():
-            self.update()
-            self.after(100,self.__duringSpeak)
-        else :
-            self.__c_speak_one.place_forget()
-            self.__c_speak_two.place(x=0, y=0)
-            self.__sixSpeaking = False
-            self.update()
         
     def __beginning_sequence_stop(self):
         texte = self.__assistant_six.shutdown()
 
-        self.__clear_view()
-
         self.__th_speak_stop = th.Thread(target=self.__avoice.say, args=(texte,))
 
-        self.__l_during_assistant_speak.configure(text=texte, wraplength=320)
-        self.__c_speak_one.place(x=0, y=0)
-        self.update()
+        self.__view_beggin_speak(texte)
 
         self.__th_speak_stop.start()
 
@@ -663,31 +600,44 @@ class six_gui(aTk) :
 
         self.after(500,self.__update__assistant)
 
+    def __view_beggin_speak(self,text:str):
+        self.__clear_view()
+        self.__change_img_canvas_speak(0)
+        self.__label_six_speak.set_text(text)
+        self.__label_six_speak.view_during_speak()
+        self.__c_speak.place(x=0, y=0)
+        self.update()
+
+    def __view_after_speak(self):
+        self.__change_img_canvas_speak(1)
+        self.__label_six_speak.view_after_speak()
+        self.update()
+
+
     def __sequence_speak(self, text:str):
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__entryUser.place_forget()
-        self.__c_speak_one.place_forget()
-        self.__c_speak_one.place(x=0, y=0)
-        self.__l_during_assistant_speak.configure(text=text, wraplength=440, justify="left")
-        self.__l_text_after_speak.configure(text=text, wraplength=475, justify="left")
+
+        self.__view_beggin_speak(text)
+
         self.update()
-        self.__thSpeakNeuron = th.Thread(target=self.__avoice.say,args=(text,))
-        self.__thSpeakNeuron.start()
-        self.after(100,self.__duringSpeakReponseNeuron)
+        self.__th_speak = th.Thread(target=self.__avoice.say, args=(text,))
+        self.__th_speak.start()
+        self.after(100, self.__update_speak)
         self.update()
 
-    def __duringSpeakReponseNeuron(self):
-        if self.__thSpeakNeuron.is_alive():
+    def __update_speak(self):
+        if self.__th_speak.is_alive():
             self.update()
-            self.after(100,self.__duringSpeakReponseNeuron)
+            self.after(100, self.__update_speak)
         else :
-            self.__c_speak_one.place_forget()
             self.__entryUser.placeBottomCenter()
             if not self.__gazelleUI.gettigerWordSet():
                 self.__btn_microphone.placeBottomRight()
             self.__btnParametre.placeBottomLeft()
-            self.__c_speak_two.place(x=0, y=0)
+            self.__change_img_canvas_speak(1)
+            self.__label_six_speak.view_after_speak()
             self.update()
     
     def __activeParametre(self):
@@ -703,10 +653,11 @@ class six_gui(aTk) :
         self.title(self.__nameSoft)
         self.__gazelleUI.clearAllFrame()
         self.update()
-        self.__sequenceParole(self.__language.getPhQuitSetting())
-        self.__entryUser.placeBottomCenter()
-        self.__btnParametre.placeBottomLeft()
-        self.__startingTriggerWord()
+        texte = self.__language.getPhQuitSetting()
+        self.__th_speak = th.Thread(target=self.__avoice.say, args=(texte,))
+        self.__view_beggin_speak(texte)
+        self.__th_speak.start()
+        self.__update_speak()
     
     def __sixTrigerWord(self):
         while not self.__TriggerWorkStop.is_set():
@@ -756,14 +707,25 @@ class six_gui(aTk) :
             self.after(100,self.__duringSixListen)
     
     def __active_mode_mute(self):
-        self.__sequenceParole(self.__language.getPhActiveMute())
-        self.__clear_view()
-        self.__stopingTriggerWord()
-        self.__entryUser.place_forget()
-        self.update()
-        nb = random.randint(0,1)
-        self.__L_c_mute[nb].place(x=0, y=0)
-        self.__mute_is_enable = True
+        texte = (self.__language.getPhActiveMute())
+        self.__view_beggin_speak(texte)
+        self.__th_speak = th.Thread(target=self.__avoice.say, args=(texte,))
+        self.__th_speak.start()
+        self.__update_active_mute()
+
+    def __update_active_mute(self):
+        if self.__th_speak.is_alive():
+            self.update()
+            self.after(100,self.__update_active_mute)
+        else :
+            self.__clear_view()
+            self.__stopingTriggerWord()
+            self.__entryUser.place_forget()
+            self.update()
+            nb = random.randint(0,1)
+            self.__L_c_mute[nb].place(x=0, y=0)
+            self.__mute_is_enable = True
+
     
     def __stopping_mode_mute(self):
         self.__clear_view()
@@ -771,11 +733,13 @@ class six_gui(aTk) :
         self.__L_c_mute[0].place_forget()
         self.__L_c_mute[1].place_forget()
         self.update()
-        self.__sequenceParole(self.__language.getPhQuitMute())
-        self.__entryUser.placeBottomCenter()
-        self.__btnParametre.placeBottomLeft()
-        self.__startingTriggerWord()
+        texte = self.__language.getPhQuitMute()
+        self.__th_speak = th.Thread(target=self.__avoice.say, args=(texte,))
         self.__mute_is_enable = False
+        self.__view_beggin_speak(texte)
+        self.__th_speak.start()
+        self.__startingTriggerWord()
+        self.__update_speak()
     
     def __microTriggerEnable(self):
         self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')
