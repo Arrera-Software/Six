@@ -16,14 +16,40 @@ class six_gui(aTk) :
                  version:str):
         # var
         self.__nameSoft = "Arrera Six"
-        self.__sixSpeaking = bool
+        self.__six_speaking = False
         self.__version = version
         self.__mute_is_enable = False
+        self.__setting_is_open = False
         self.__first_boot = False
         self.__index_load = 0
+
+        self.__timer = 0
+
+        self.__dir_GUI_dark = "asset/IMGinterface/dark/"
+        self.__dir_GUIl_light = "asset/IMGinterface/white/"
+
         self.__L_img_gui_load = []
         self.__L_img_gui_boot = []
         self.__L_img_gui_speak = []
+
+        self.__D_img_gui_emotion = {
+            "not_emotion":(self.__dir_GUIl_light+"boot3.png", self.__dir_GUI_dark+"boot3.png"),
+            "happy":(self.__dir_GUIl_light+"content.png",self.__dir_GUI_dark+"content.png"),
+            "not_happy":(self.__dir_GUIl_light+"colere.png",self.__dir_GUI_dark+"colere.png"),
+            "surprised":(self.__dir_GUIl_light+"sureprit.png",self.__dir_GUI_dark+"sureprit.png"),
+            "sad_1":(self.__dir_GUIl_light+"triste1.png",self.__dir_GUI_dark+"triste1.png"),
+            "sad_2":(self.__dir_GUIl_light+"triste2.png",self.__dir_GUI_dark+"triste2.png")
+        }
+
+        self.__L_aImage_gui_open = [aImage(path_light=self.__dir_GUIl_light + "tableur.png",
+                                           path_dark=self.__dir_GUI_dark + "tableur.png",
+                                           width=30, height=30),
+                                    aImage(path_light=self.__dir_GUIl_light + "projet.png",
+                                           path_dark=self.__dir_GUI_dark + "projet.png",
+                                           width=30, height=30),
+                                    aImage(path_light=self.__dir_GUIl_light + "word.png",
+                                           path_dark=self.__dir_GUI_dark + "word.png",
+                                           width=30, height=30)]
 
         # Objet
         self.__assistant_six = brain
@@ -78,9 +104,6 @@ class six_gui(aTk) :
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
         # widget et canvas
 
-        self.__dir_GUI_dark = "asset/IMGinterface/dark/"
-        self.__dir_GUIl_light = "asset/IMGinterface/white/"
-
         # Canvas Acceuil
         self.__c_welcome = self.__canvas_welcome()
         # Canvas Boot
@@ -95,16 +118,10 @@ class six_gui(aTk) :
         self.__c_no_connect = self.__canvas_no_connect()
 
         self.__c_maj = self.__canvas_maj()
-        # Canvas Emotion
-        self.__c_happy = self.__canvas_happy()
 
-        self.__c_not_happy = self.__canvas_not_happy()
+        # Canvas emotion
+        self.__c_emotion = self.__canvas_emotion()
 
-        self.__c_surprised = self.__canvas_surprised()
-        # Canvas Triste
-        self.__c_sad_one = self.__canvas_sad_one()
-
-        self.__c_sad_two = self.__canvas_sad_two()
         # Canvas Mute
         self.__L_c_mute = self.__canvas_mute()
         
@@ -174,32 +191,21 @@ class six_gui(aTk) :
         self.__L_img_gui_speak.append((self.__dir_GUIl_light+"parole0.png", self.__dir_GUI_dark+"parole0.png"))
         self.__L_img_gui_speak.append((self.__dir_GUIl_light+"parole1.png", self.__dir_GUI_dark+"parole1.png"))
 
-        imageTableurOpen = aImage(path_light=self.__dir_GUIl_light + "tableur.png",
-                                  path_dark=self.__dir_GUI_dark + "tableur.png",
-                                  width=30, height=30)
-
-        imageProjetOpen = aImage(path_light=self.__dir_GUIl_light + "projet.png",
-                                 path_dark=self.__dir_GUI_dark + "projet.png",
-                                 width=30, height=30)
-        imageWordOpen = aImage(path_light=self.__dir_GUIl_light + "word.png",
-                               path_dark=self.__dir_GUI_dark + "word.png",
-                               width=30, height=30)
-
         # Widget
 
         c = aBackgroundImage(self,background_light=self.__L_img_gui_speak[0][0],
                              background_dark=self.__L_img_gui_speak[0][1],
                              width=500,height=350)
 
-        self.__btn_tableur_is_open = aButton(c, width=30, height=30, text="", image=imageTableurOpen,
-                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
-                                             command=lambda : self.__set_requette_with_btn("aide tableur"))
-        self.__btn_word_is_open = aButton(c, width=30, height=30, text="", image=imageWordOpen,
-                                          dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
-                                          command = lambda : self.__set_requette_with_btn("aide word"))
-        self.__btn_project_is_open = aButton(c, width=30, height=30, text="", image=imageProjetOpen,
-                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
-                                             command=lambda: self.__set_requette_with_btn("aide projet"))
+        self.__btn_tableur_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[0],
+                                                   dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                                   command=lambda : self.__set_requette_with_btn("aide tableur"))
+        self.__btn_word_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
+                                                dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                                command = lambda : self.__set_requette_with_btn("aide word"))
+        self.__btn_project_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
+                                                   dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                                   command=lambda: self.__set_requette_with_btn("aide projet"))
 
         self.__label_six_speak = six_speak(c)
 
@@ -232,38 +238,22 @@ class six_gui(aTk) :
 
         return c
 
-    def __canvas_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"content.png",
-                             background_dark=self.__dir_GUI_dark+"content.png",
+    def __canvas_emotion(self):
+        imgLight,imgDark = self.__D_img_gui_emotion["not_emotion"][0],self.__D_img_gui_emotion["not_emotion"][1]
+
+        c = aBackgroundImage(self,background_light=imgLight,
+                             background_dark=imgDark,
                              width=500,height=350)
 
-        return c
-
-    def __canvas_not_happy(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"colere.png",
-                             background_dark=self.__dir_GUI_dark+"colere.png",
-                             width=500,height=350)
-
-        return c
-
-    def __canvas_surprised(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"sureprit.png",
-                             background_dark=self.__dir_GUI_dark+"sureprit.png",
-                             width=500,height=350)
-
-        return c
-
-    def __canvas_sad_one(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"triste1.png",
-                             background_dark=self.__dir_GUI_dark+"triste1.png",
-                             width=500,height=350)
-
-        return c
-
-    def __canvas_sad_two(self):
-        c = aBackgroundImage(self,background_light=self.__dir_GUIl_light+"triste2.png",
-                             background_dark=self.__dir_GUI_dark+"triste2.png",
-                             width=500,height=350)
+        self.__btn_tableur_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[0],
+                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                             command=lambda : self.__set_requette_with_btn("aide tableur"))
+        self.__btn_word_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
+                                          dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                          command = lambda : self.__set_requette_with_btn("aide word"))
+        self.__btn_project_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
+                                             dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
+                                             command=lambda: self.__set_requette_with_btn("aide projet"))
 
         return c
 
@@ -362,6 +352,16 @@ class six_gui(aTk) :
 
         self.update()
 
+    def __change_img_canvas_emotion(self,emotion:str):
+        if emotion not in self.__D_img_gui_emotion.keys():
+            emotion = "not_emotion"
+
+        light_path, dark_path = self.__D_img_gui_emotion[emotion]
+
+        self.__c_emotion.change_background(background_light=light_path, background_dark=dark_path)
+
+        self.update()
+
     # About
 
     def __about(self):
@@ -383,11 +383,29 @@ class six_gui(aTk) :
             self.__stop_assistant()
     
     def __stop_assistant(self):
+        self.__six_speaking = True
         if self.__mute_is_enable :
             self.__stopping_mode_mute()
         self.__beginning_sequence_stop()
 
     # SEQUENCE
+
+    def __sequence_emotion(self):
+        if 10 >= self.__timer >=40:
+            self.__change_img_canvas_emotion("not_emotion")
+        elif 41 <= self.__timer >=80:
+            if random.randint(1,2) == 1 :
+                self.__change_img_canvas_emotion("happy")
+            else :
+                self.__change_img_canvas_emotion("surprised")
+        elif 81 <= self.__timer >=180:
+            var = random.randint(1,2)
+            if var == 1 :
+                self.__change_img_canvas_emotion("sad_1")
+            else :
+                self.__change_img_canvas_emotion("sad_2")
+        elif self.__timer >= 181 and self.__timer != 0 :
+            self.__change_img_canvas_emotion("not_happy")
 
     def __sequence_boot(self):
         self.__clear_view()
@@ -474,17 +492,14 @@ class six_gui(aTk) :
         self.__c_boot.place_forget()
         self.__c_speak.place_forget()
         self.__c_no_connect.place_forget()
-        self.__c_happy.place_forget()
-        self.__c_not_happy.place_forget()
-        self.__c_surprised.place_forget()
-        self.__c_sad_one.place_forget()
-        self.__c_sad_two.place_forget()
+        self.__c_emotion.place_forget()
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__c_maj.place_forget()
         self.__c_load.place_forget()
         
     def __beginning_sequence_stop(self):
+        self.__six_speaking = True
         texte = self.__assistant_six.shutdown()
 
         self.__th_speak_stop = th.Thread(target=self.__avoice.say, args=(texte,))
@@ -593,12 +608,19 @@ class six_gui(aTk) :
         self.__manage_btn_open_fnc()
 
     def __update__assistant(self):
-        if self.__assistant_six.updateAssistant():
-            varOut = self.__assistant_six.getValeurSortie()
-            listOut = self.__assistant_six.getListSortie()
-            self.__treatment_out_assistant(varOut,listOut)
+        if not self.__setting_is_open and not self.__mute_is_enable and not self.__six_speaking:
+            self.__timer += 1
+            if self.__assistant_six.updateAssistant():
+                varOut = self.__assistant_six.getValeurSortie()
+                listOut = self.__assistant_six.getListSortie()
+                self.__treatment_out_assistant(varOut,listOut)
+            elif self.__timer >= 10:
+                if self.__timer == 10:
+                    self.__c_speak.place_forget()
+                    self.__c_emotion.place(x=0, y=0)
+                self.__sequence_emotion()
 
-        self.after(500,self.__update__assistant)
+        self.after(1000,self.__update__assistant)
 
     def __view_beggin_speak(self,text:str):
         self.__change_img_canvas_speak(0)
@@ -616,6 +638,8 @@ class six_gui(aTk) :
 
 
     def __sequence_speak(self, text:str):
+        self.__six_speaking = True
+        self.__timer = 0
         self.__btn_microphone.place_forget()
         self.__btnParametre.place_forget()
         self.__entryUser.place_forget()
@@ -640,8 +664,11 @@ class six_gui(aTk) :
             self.__change_img_canvas_speak(1)
             self.__label_six_speak.view_after_speak()
             self.update()
+            self.__six_speaking = False
     
     def __activeParametre(self):
+        self.__setting_is_open = True
+        self.__timer = 0
         self.__stopingTriggerWord()
         self.title(self.__nameSoft+" : Parametre")
         self.update()
@@ -659,6 +686,7 @@ class six_gui(aTk) :
         self.__view_beggin_speak(texte)
         self.__th_speak.start()
         self.__update_speak()
+        self.__setting_is_open = False
     
     def __sixTrigerWord(self):
         while not self.__TriggerWorkStop.is_set():
@@ -726,6 +754,7 @@ class six_gui(aTk) :
             nb = random.randint(0,1)
             self.__L_c_mute[nb].place(x=0, y=0)
             self.__mute_is_enable = True
+            self.__timer = 0
 
     
     def __stopping_mode_mute(self):
@@ -777,19 +806,22 @@ class six_gui(aTk) :
 
     def __manage_btn_open_fnc(self):
         if self.__assistant_six.getTableur() :
-            self.__btn_tableur_is_open.placeBottomRight()
+            self.__btn_tableur_is_open_speak.placeBottomRight()
+            self.__btn_tableur_is_open_emotion.placeBottomRight()
         else :
-            self.__btn_tableur_is_open.place_forget()
+            self.__btn_tableur_is_open_speak.place_forget()
 
         if self.__assistant_six.getWord():
-            self.__btn_word_is_open.placeBottomLeft()
+            self.__btn_word_is_open_speak.placeBottomLeft()
+            self.__btn_word_is_open_emotion.placeBottomLeft()
         else :
-            self.__btn_word_is_open.place_forget()
+            self.__btn_word_is_open_speak.place_forget()
 
         if self.__assistant_six.getProject():
-            self.__btn_project_is_open.placeBottomCenter()
+            self.__btn_project_is_open_speak.placeBottomCenter()
+            self.__btn_project_is_open_emotion.placeBottomCenter()
         else :
-            self.__btn_project_is_open.place_forget()
+            self.__btn_project_is_open_speak.place_forget()
 
     def __windows_help_assistant(self,texte:str):
         winHelp = aTopLevel(width=500, height=600,title="Arrera Six : Aide Assistant",
