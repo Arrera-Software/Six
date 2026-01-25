@@ -2,9 +2,8 @@ import random
 from librairy.travailJSON import *
 
 class language_six :
-    def __init__(self, fileLanguage:str, fileHelp:str,fileFirstBoot:str):
+    def __init__(self, fileLanguage:str,fileFirstBoot:str):
         self.__language = jsonWork(fileLanguage)
-        self.__help = jsonWork(fileHelp)
         self.__firstBoot = jsonWork(fileFirstBoot)
 
     def getPhQuitSetting(self):

@@ -1,6 +1,0 @@
-{
-    "listeTheme":["Dark","Light"],
-    "listGenre":["monsieur","madame","maitre"],
-    "iconSoft": "asset/icon/linux/icon.png",
-    "listMoteurRecherche": ["google","brave","duckduckgo","qwant","ecosia","bing","perplexity"]
-}

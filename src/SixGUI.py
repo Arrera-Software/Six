@@ -94,9 +94,8 @@ class six_gui(aTk) :
             self.__etatConnexion = False
 
         # Instantation de l'objet language
-        self.__language = language_six(resource_path("FileJSON/phraseSix.json"),
-                                       resource_path("FileJSON/aideSix.json"),
-                                       resource_path("FileJSON/firstBootSix.json"))
+        self.__language = language_six(resource_path("language/six/phraseSix.json"),
+                                       resource_path("language/six/firstBootSix.json"))
 
         # Declaration de l'objet Arrera Gazelle
         self.__gazelleUI = arrera_gazelle(self,self.__gestionnaire,
