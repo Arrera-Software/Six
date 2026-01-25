@@ -21,6 +21,7 @@ class six_gui(aTk) :
         self.__mute_is_enable = False
         self.__setting_is_open = False
         self.__first_boot = False
+        self.__assistant_load = False
         self.__index_load = 0
 
         self.__timer = 0
@@ -608,7 +609,7 @@ class six_gui(aTk) :
         self.__manage_btn_open_fnc()
 
     def __update__assistant(self):
-        if not self.__setting_is_open and not self.__mute_is_enable and not self.__six_speaking:
+        if not self.__setting_is_open and not self.__mute_is_enable and not self.__six_speaking and not self.__assistant_load:
             self.__timer += 1
             if self.__assistant_six.updateAssistant():
                 varOut = self.__assistant_six.getValeurSortie()
@@ -736,6 +737,7 @@ class six_gui(aTk) :
             self.after(100,self.__duringSixListen)
     
     def __active_mode_mute(self):
+        self.__mute_is_enable = True
         texte = (self.__language.getPhActiveMute())
         self.__view_beggin_speak(texte)
         self.__th_speak = th.Thread(target=self.__avoice.say, args=(texte,))
