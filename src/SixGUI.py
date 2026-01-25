@@ -723,10 +723,10 @@ class six_gui(aTk) :
         self.__microRequetteEnable()
         microOK = self.__avoice.listen()
         self.__microRequetteDisable()
-        if (microOK == 0):
+        if microOK == 0:
             sortieMicro = self.__avoice.getTextMicro()
             self.__entryUser.delete(0, END)
-            if (sortieMicro != "nothing"):
+            if sortieMicro != "nothing":
                 self.__entryUser.insert(0, sortieMicro)
                 time.sleep(0.5)
                 self.__send_assistant()
@@ -831,7 +831,9 @@ class six_gui(aTk) :
         labelTitleHelp = aLabel(winHelp, police_size=25,text="Six - Aide")
         aideView = aText(winHelp, width=475, height=500,wrap="word",police_size=20)
 
-        self.__sequence_speak("Open INTERFACE") # TODO : Texte a revoir
+        self.__sequence_speak(self.__language.phOpenInterface(
+            genre=self.__gest_user.getGenre(),
+            name=self.__gest_user.getLastnameUser()))
 
         aideView.insert_text(texte)
         labelTitleHelp.placeTopCenter()
