@@ -164,8 +164,6 @@ class six_gui(aTk) :
         else :
             self.__sequence_boot()
 
-        self.__update__assistant()
-
     # Declaration des diferente page de l'inteface
 
     def __canvas_welcome(self):
@@ -434,9 +432,9 @@ class six_gui(aTk) :
         self.__th_speak = th.Thread(target=self.__avoice.say,args=(texte,))
         self.__th_speak.start()
         self.__view_beggin_speak(texte)
-        self.__update_speak()
+        self.__update_speak(True)
 
-    def sequence_load(self):
+    def __sequence_load(self):
         index = 0
         match self.__index_load:
             case 0 :
@@ -469,7 +467,7 @@ class six_gui(aTk) :
         time.sleep(0.2)
         self.__th_speak = th.Thread(target=self.__speak_first_boot)
         self.__th_speak.start()
-        self.__update_speak()
+        self.__update_speak(True)
         self.__c_boot.place_forget()
         
     def __speak_first_boot(self):
@@ -572,7 +570,7 @@ class six_gui(aTk) :
                 self.__assistant_load  = True
                 self.__c_load.place(x=0, y=0)
 
-                self.sequence_load()
+                self.__sequence_load()
 
                 self.__c_load.place(x=0, y=0)
 
@@ -580,7 +578,7 @@ class six_gui(aTk) :
 
             self.update()
 
-            self.sequence_load()
+            self.__sequence_load()
             self.__index_load += 1
 
             if self.__index_load == 3 :
@@ -649,13 +647,16 @@ class six_gui(aTk) :
         self.update()
         self.__th_speak = th.Thread(target=self.__avoice.say, args=(text,))
         self.__th_speak.start()
-        self.after(100, self.__update_speak)
+        self.__update_speak()
         self.update()
 
-    def __update_speak(self):
+    def __update_speak(self,boot:bool=False):
         if self.__th_speak.is_alive():
             self.update()
-            self.after(100, self.__update_speak)
+            if boot :
+                self.after(100, self.__update_speak,True)
+            else :
+                self.after(100, self.__update_speak)
         else :
             self.__entryUser.placeBottomCenter()
             if not self.__gazelleUI.gettigerWordSet():
@@ -665,6 +666,8 @@ class six_gui(aTk) :
             self.__label_six_speak.view_after_speak()
             self.update()
             self.__six_speaking = False
+            if boot:
+                self.__update__assistant()
     
     def __activeParametre(self):
         self.__setting_is_open = True
