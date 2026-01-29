@@ -65,6 +65,9 @@ class six_gui(aTk) :
         self.geometry("500x400+5+30")
         self.protocol("WM_DELETE_WINDOW", self.__on_close)
 
+        # Initilisation du keymanager
+        self.__key_gest = keyboad_manager(self)
+
         # Partie Icone
 
         if self.__objOS.osWindows():
@@ -133,11 +136,11 @@ class six_gui(aTk) :
 
         # Mise a place de la touche entree
         if self.__objOS.osWindows() :
-            self.__detectionTouche(self.__send_assistant,13)
+            self.__key_gest.add_key(13,self.__send_assistant)
         elif self.__objOS.osLinux() :
-            self.__detectionTouche(self.__send_assistant,36)
+            self.__key_gest.add_key(36,self.__send_assistant)
         elif self.__objOS.osMac() :
-            self.__detectionTouche(self.__send_assistant,603979789)
+            self.__key_gest.add_key(603979789,self.__send_assistant)
 
         # Declaration de la variable pour contenir les theard
         self.__thSpeak = th.Thread()
@@ -535,12 +538,6 @@ class six_gui(aTk) :
                 os.kill(os.getpid(), signal.SIGINT)
             elif self.__objOS.osLinux() or self.__objOS.osMac():
                 os.kill(os.getpid(), signal.SIGKILL)
-
-    def __detectionTouche(self,fonc,touche):
-        def anychar(event):
-            if event.keycode == touche:
-                fonc()               
-        self.bind("<Key>", anychar)
 
     def __set_requette_with_btn(self,requette:str):
         self.__entryUser.delete(0,END)
