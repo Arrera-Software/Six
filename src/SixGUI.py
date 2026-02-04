@@ -201,10 +201,10 @@ class six_gui(aTk) :
         self.__btn_tableur_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[0],
                                                    dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                                    command=lambda : self.__set_requette_with_btn("aide tableur"))
-        self.__btn_word_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
+        self.__btn_word_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
                                                 dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                                 command = lambda : self.__set_requette_with_btn("aide word"))
-        self.__btn_project_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
+        self.__btn_project_is_open_speak = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
                                                    dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                                    command=lambda: self.__set_requette_with_btn("aide projet"))
 
@@ -249,10 +249,10 @@ class six_gui(aTk) :
         self.__btn_tableur_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[0],
                                              dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                              command=lambda : self.__set_requette_with_btn("aide tableur"))
-        self.__btn_word_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
+        self.__btn_word_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
                                           dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                           command = lambda : self.__set_requette_with_btn("aide word"))
-        self.__btn_project_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[2],
+        self.__btn_project_is_open_emotion = aButton(c, width=30, height=30, text="", image=self.__L_aImage_gui_open[1],
                                              dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
                                              command=lambda: self.__set_requette_with_btn("aide projet"))
 
