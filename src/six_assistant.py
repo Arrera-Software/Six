@@ -20,11 +20,19 @@ class six_assistant :
             lang="fr",
             asset="asset/",
             icon="asset/icon/linux/icon.png",
-            assistant_color="#e0e0e0",
+            assistant_color="#0b31f4",
             assistant_texte_color="black",
-            bute="",
+            bute="Assistant personnel dédié à la productivité, la recherche et l'automatisation des tâches.",
             createur="Baptiste P",
-            listFonction=[],
+            listFonction=["Ouvrir une application",
+                          "Aider aux recherches sur Internet",
+                          "Donner la météo",
+                          "Faire un résumé des actualités",
+                          "Aider à organiser son travail",
+                          "Donner l'heure",
+                          "Créer des projets",
+                          "Éditer des fichiers Word",
+                          "Éditer des tableurs"],
             moteurderecherche="google",
             etatService=1,
             etatTime=1,
@@ -35,7 +43,7 @@ class six_assistant :
             etatCodehelp=0,
             etatWork=1,
             etatSocket=1,
-            lienDoc="www.google.com", # TODO : A changer plus tart
+            lienDoc="www.google.com", # TODO : A changer plus tard
             fichierLangue="language/", # Path to language files
             fichierKeyword="keyword/",            # Path to keyword files
             voiceAssistant=True
@@ -49,11 +57,11 @@ class six_assistant :
         self.__gestionnaire = self.__assistant.getGestionnaire()
 
         # Var
-        self.__firt_boot = self.__gestionnaire.getUserConf().getFirstRun()
+        self.__first_boot = self.__gestionnaire.getUserConf().getFirstRun()
         self.__state_conf = False
 
     def active(self):
-        if self.__firt_boot:
+        if self.__first_boot:
             l = arrera_lynx(self.__gestionnaire,
                         "json_conf/configLynx.json",
                         THEME_FILE)
@@ -71,7 +79,7 @@ class six_assistant :
                                         background_dark="asset/IMGinterface/dark/NoConfig.png",
                                         background_light="asset/IMGinterface/white/NoConfig.png",
                                         width=500,height=350)
-            label_text = aLabel(w,text="Désoler mais vous avez pas configuer l'assistant correctement",
+            label_text = aLabel(w,text="Désolé, mais vous n'avez pas configuré l'assistant correctement",
                                police_size=20,fg_color="#2b3ceb",
                                text_color="white",wraplength=300,justify="left")
             btn_conf = aButton(w,text="Configurer",
@@ -86,7 +94,7 @@ class six_assistant :
                                 self.__assistant,
                                 THEME_FILE,
                                 self.__demon.getVersionSoft())
-            assistant.active(self.__firt_boot,self.__demon.checkUpdate())
+            assistant.active(self.__first_boot,self.__demon.checkUpdate())
 
     def __restartConf(self,windows:aTk):
         windows.destroy()
