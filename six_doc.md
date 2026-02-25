@@ -14,7 +14,7 @@ Le Trigger Word (ou mot de réveil) est la fonctionnalité clé permettant une u
 
 ## Explication des paramètres
 
-![setting.png](img_doc/setting.png)
+![setting.png](img_doc/setting_six.png)
 
 - *Paramètres généraux* : Paramètre qui permet d'ajouter ou supprimer les dossiers d'Arrera Work et Arrera Download
 - *Paramètres utilisateur* : Paramètre pour modifier le nom, le prénom et le genre avec lesquels vous souhaitez que votre assistant vous appelle
