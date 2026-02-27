@@ -8,28 +8,36 @@ ENTRY_SCRIPT = "main.py"
 ICON_FILE = "asset/icon/linux/icon.png"
 UPX_ENABLED = False
 DEBUG_BUILD = False
-
-# AJOUT : Force l'inclusion du finder de Pillow pour Tkinter
-HIDDENIMPORTS = ['PIL._tkinter_finder']
+HIDDENIMPORTS = [
+    'PIL._tkinter_finder',
+    'pyttsx3.drivers',
+    'pyttsx3.drivers.espeak', # Driver standard sous Linux
+    'pyttsx3.drivers.nsss',   # Au cas où tu compiles sur Mac plus tard
+    'pyttsx3.drivers.sapi5',  # Au cas où tu compiles sur Windows
+    'gtts',
+    'speech_recognition'
+]
 EXCLUDES = []
 # ========= FIN CONFIG =========
 
 block_cipher = None
 PROJECT_ROOT = os.path.abspath(".")
 
-# --- Récupération de llama_cpp ET customtkinter ---
-# On combine les collectes pour s'assurer que les thèmes JSON et binaires sont là
-tmp_llama = collect_all('llama_cpp')
-tmp_ctk = collect_all('customtkinter')
+# --- Récupération massive des dépendances ---
+libs = ['llama_cpp', 'customtkinter', 'pyttsx3', 'speech_recognition', 'playsound3']
+combined_datas = []
+combined_binaries = []
+combined_hidden = []
 
-# Fusion des données, binaires et imports cachés
-combined_datas = tmp_llama[0] + tmp_ctk[0]
-combined_binaries = tmp_llama[1] + tmp_ctk[1]
-combined_hidden = tmp_llama[2] + tmp_ctk[2]
+for lib in libs:
+    tmp = collect_all(lib)
+    combined_datas += tmp[0]
+    combined_binaries += tmp[1]
+    combined_hidden += tmp[2]
 
 final_hiddenimports = list(set(HIDDENIMPORTS + combined_hidden))
 
-# --- Ajout des dossiers asset, config, keyword, language ---
+# --- Ajout des dossiers locaux ---
 extra_datas = []
 for folder in ['asset', 'config', 'keyword', 'language']:
     source_path = os.path.join(PROJECT_ROOT, folder)
@@ -70,7 +78,7 @@ exe = EXE(
     upx=UPX_ENABLED,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True, # Garde la console pour voir si l'erreur audio persiste
+    console=False, # LAISSE SUR TRUE POUR VOIR LES ERREURS AUDIO DANS LE TERMINAL
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
