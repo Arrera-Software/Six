@@ -687,6 +687,7 @@ class six_gui(aTk) :
         self.__th_speak.start()
         self.__update_speak()
         self.__setting_is_open = False
+        self.__gestionnaire.getLanguageObjet().setVarUser()
     
     def __sixTrigerWord(self):
         while not self.__TriggerWorkStop.is_set():
