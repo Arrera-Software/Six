@@ -1,0 +1,7 @@
+{
+    "listGenre":["Monsieur","Madame","Mademoiselle","Maitre"],
+    "iconSoft": "asset/icon/linux/icon.png",
+    "listMoteurRecherche": ["google","brave","duckduckgo","qwant","ecosia","bing","perplexity"],
+    "github_integration": "0",
+    "micro_use": "1"
+}

@@ -1,8 +1,7 @@
-from src.sixBoot import*
-import PIL._tkinter_finder # NO SUPPR
+from src.six_assistant import six_assistant
 
 def main():
-    six = SixBoot()
+    six = six_assistant()
     six.active()
 
 if __name__ == "__main__":

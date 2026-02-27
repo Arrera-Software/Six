@@ -1,0 +1,10 @@
+{
+    "icon_unix": "asset/icon/linux/icon.png",
+    "icon_win": "asset/icon/win/icon.ico",
+    "text_presentation": "Bienvenue sur Arrera SIX. Le premier assistant créé par Arrera qui a pour but de vous aider dans toutes vos tâches quotidiennes et de vous rendre plus efficace dans votre travail.",
+    "list_genre": ["Monsieur","Madame","Mademoiselle","Maitre"],
+    "list_engine_search": ["google","brave","duckduckgo","qwant","ecosia","bing","perplexity"],
+    "text_end": "Arrera SIX est prêt à vous assister. Si vous avez oublié des paramètres durant la configuration, vous pourrez toujours les modifier en ouvrant les paramètres.",
+    "github_integration": "0",
+    "micro_use": "1"
+}

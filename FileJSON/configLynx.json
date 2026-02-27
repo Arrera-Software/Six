@@ -1,8 +1,0 @@
-{
-    "color":"white",
-    "textColor":"black",
-    "nameSoft":"Six",
-    "iconSoftWin":"asset/icon/win/icon.ico",
-    "iconSoftLinux":"asset/icon/linux/icon.png",
-    "listGenre":["monsieur","madame","maitre","maitresse"]
-}

@@ -1,0 +1,9 @@
+{
+  "phQuitSetting": "Les paramètres ont été mis à jour.",
+  "phActiveMute": "Okay, je vous laisse tranquille.",
+  "phQuitMute" : "Content d'être de retour pour vous assister au mieux.",
+  "phOpenInterface": [
+    "Voici une fenêtre pour mieux lire l’aide {genre}.",
+    "Je vous ai ouvert une interface pour simplifier la lecture."
+  ]
+}
