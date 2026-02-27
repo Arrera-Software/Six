@@ -9,7 +9,7 @@ THEME_FILE = "asset/theme/theme_bleu.json"
 
 SOFT_CONF = soft_config(
     name_soft="six",
-    version="I2026-0.00"
+    version="I2026-1.00"
 )
 
 class six_assistant :
@@ -63,7 +63,7 @@ class six_assistant :
     def active(self):
         if self.__first_boot:
             l = arrera_lynx(self.__gestionnaire,
-                        "json_conf/configLynx.json",
+                        resource_path("json_conf/configLynx.json"),
                         THEME_FILE)
             self.__state_conf = l.return_state_lynx()
         else :
