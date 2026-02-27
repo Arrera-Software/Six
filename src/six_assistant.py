@@ -9,7 +9,7 @@ THEME_FILE = "asset/theme/theme_bleu.json"
 
 SOFT_CONF = soft_config(
     name_soft="six",
-    version="I2026-0.00"
+    version="I2026-1.00"
 )
 
 class six_assistant :
