@@ -6,23 +6,28 @@ import os
 APP_NAME = "Arrera Six"
 ENTRY_SCRIPT = "main.py"
 ICON_FILE = "asset/icon/linux/icon.png"
-# IMPORTANT : Toujours False pour éviter l'erreur "ELF load command" sur Red Hat/Fedora
 UPX_ENABLED = False
 DEBUG_BUILD = False
-HIDDENIMPORTS = []
+
+# AJOUT : Force l'inclusion du finder de Pillow pour Tkinter
+HIDDENIMPORTS = ['PIL._tkinter_finder']
 EXCLUDES = []
 # ========= FIN CONFIG =========
 
 block_cipher = None
 PROJECT_ROOT = os.path.abspath(".")
 
-# --- Récupération de llama_cpp ---
-tmp_ret = collect_all('llama_cpp')
-llama_datas = tmp_ret[0]
-llama_binaries = tmp_ret[1]
-llama_hiddenimports = tmp_ret[2]
+# --- Récupération de llama_cpp ET customtkinter ---
+# On combine les collectes pour s'assurer que les thèmes JSON et binaires sont là
+tmp_llama = collect_all('llama_cpp')
+tmp_ctk = collect_all('customtkinter')
 
-final_hiddenimports = HIDDENIMPORTS + llama_hiddenimports
+# Fusion des données, binaires et imports cachés
+combined_datas = tmp_llama[0] + tmp_ctk[0]
+combined_binaries = tmp_llama[1] + tmp_ctk[1]
+combined_hidden = tmp_llama[2] + tmp_ctk[2]
+
+final_hiddenimports = list(set(HIDDENIMPORTS + combined_hidden))
 
 # --- Ajout des dossiers asset, config, keyword, language ---
 extra_datas = []
@@ -31,12 +36,12 @@ for folder in ['asset', 'config', 'keyword', 'language']:
     if os.path.exists(source_path):
         extra_datas.append((source_path, folder))
 
-final_datas = llama_datas + extra_datas
+final_datas = combined_datas + extra_datas
 
 a = Analysis(
     [ENTRY_SCRIPT],
     pathex=[PROJECT_ROOT],
-    binaries=llama_binaries,
+    binaries=combined_binaries,
     datas=final_datas,
     hiddenimports=final_hiddenimports,
     hookspath=[],
@@ -45,29 +50,27 @@ a = Analysis(
     excludes=EXCLUDES,
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
+    cipher=block_cipher,
     noarchive=False,
 )
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
-# --- MODE ONE-FILE (Fichier unique) ---
-# Tout est compacté dans l'EXE. Il n'y a plus de section COLLECT.
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,   # <-- AJOUTÉ ICI
-    a.zipfiles,   # <-- AJOUTÉ ICI
-    a.datas,      # <-- AJOUTÉ ICI
+    a.binaries,
+    a.zipfiles,
+    a.datas,
     [],
     name=APP_NAME,
     debug=DEBUG_BUILD,
     bootloader_ignore_signals=False,
-    # IMPORTANT : Strip désactivé pour compatibilité Linux (Red Hat/Fedora)
     strip=False,
     upx=UPX_ENABLED,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=True, # Garde la console pour voir si l'erreur audio persiste
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
