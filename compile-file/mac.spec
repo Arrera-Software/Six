@@ -58,7 +58,7 @@ binaries = []
 
 # 2.1 Collecte des dossiers demandés
 # Cela inclura récursivement tous les fichiers (json, png, txt, etc.) sauf les .py
-target_folders = ['asset', 'config', 'keyword', 'language']
+target_folders = ['asset', 'config', 'keyword', 'language', 'json_conf', 'img_doc']
 datas += collect_data_recursive(target_folders)
 
 # 2.2 Fichier VERSION (s'il existe à la racine)
