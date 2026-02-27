@@ -102,7 +102,7 @@ class six_gui(aTk) :
 
         # Declaration de l'objet Arrera Gazelle
         self.__gazelleUI = arrera_gazelle(self,self.__gestionnaire,
-                                          "json_conf/conf-setting.json")
+                                          resource_path("json_conf/conf-setting.json"))
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
         # widget et canvas
