@@ -5,7 +5,7 @@ from config.tiger_demon import tiger_demon
 from librairy.arrera_tk import *
 
 
-THEME_FILE = "asset/theme/theme_bleu.json"
+THEME_FILE = "asset/theme/theme_blanc_gris.json"
 
 VERSION = "dev"
 
