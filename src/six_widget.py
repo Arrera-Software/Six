@@ -1,4 +1,4 @@
-from lib.arrera_tk import aLabel
+from librairy.arrera_tk import aLabel
 
 class six_speak(aLabel):
     def __init__(self,master):
