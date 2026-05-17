@@ -23,3 +23,4 @@ pyspellchecker
 llama_cpp_python
 pyttsx3
 pyinstaller
+pyaudio
