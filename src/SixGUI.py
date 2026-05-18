@@ -657,6 +657,7 @@ class six_gui(aTk) :
                 self.__back_widget.disable_btn_micro()
             self.update()
             self.__six_speaking = False
+            self.__startingTriggerWord() # Relance l'écoute du trigger word après que l'assistant ait fini de parler
             if boot:
                 self.__update__assistant()
     
@@ -785,10 +786,11 @@ class six_gui(aTk) :
         # Création du thread Trigger word
         if self.__gazelleUI.gettigerWordSet():
             self.__back_widget.disable_btn_micro()
-            self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
-            self.__TriggerWorkStop.clear()
-            self.__thTrigger.start()
-            self.after(100, self.__duringTigerWord)
+            if not self.__thTrigger.is_alive():
+                self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+                self.__TriggerWorkStop.clear()
+                self.__thTrigger.start()
+                self.after(100, self.__duringTigerWord)
         else :
             self.__back_widget.enable_btn_micro()
 
