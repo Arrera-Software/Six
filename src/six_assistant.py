@@ -7,7 +7,7 @@ from librairy.arrera_tk import *
 
 THEME_FILE = "asset/theme/theme_blanc_gris.json"
 
-VERSION = "dev"
+VERSION = "I2026-2.00"
 
 class six_assistant :
     def __init__(self):
