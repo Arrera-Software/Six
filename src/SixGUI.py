@@ -4,11 +4,11 @@ from setting_gui.arrera_gazelle import arrera_gazelle
 import time
 from tkinter.messagebox import *
 from src.languageSIX import *
-from lib.arrera_tk import *
+from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
-from src.six_widget import six_speak
+from src.six_widget import six_speak,back_widget
 
 class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
@@ -73,12 +73,18 @@ class six_gui(aTk) :
         if self.__objOS.osWindows():
             self.__emplacementIcon = iconFolder + "win/" + iconName + ".ico"
             self.iconbitmap(self.__emplacementIcon)
+            self.__key_gest.add_key(13, self.__send_assistant)
+            self.__key_gest.add_key(27, lambda: self.focus())
         elif self.__objOS.osLinux():
             self.__emplacementIcon = iconFolder + "linux/" + iconName + ".png"
             self.iconphoto(False,PhotoImage(file=self.__emplacementIcon))
+            self.__key_gest.add_key(36, self.__send_assistant)
+            self.__key_gest.add_key(9, lambda: self.focus())
         elif self.__objOS.osMac() :
             self.__emplacementIcon = resource_path(iconFolder+ "macos/" + iconName+".png")
             self.iconphoto(False,PhotoImage(file=self.__emplacementIcon))
+            self.__key_gest.add_key(603979789, self.__send_assistant)
+            self.__key_gest.add_key(889192475, lambda: self.focus())
 
         # Variable des theard
         self.__thSixListen = th.Thread()
@@ -131,16 +137,13 @@ class six_gui(aTk) :
         # Canvas Load
         self.__c_load = self.__canvas_load()
 
+        # Back Widget
+        self.__back_widget = back_widget(self,dir_gui_light=self.__dir_GUIl_light,
+                                         dir_gui_dark=self.__dir_GUI_dark,
+                                         micro_fnc=lambda : self.__sixMicroEnable(),
+                                         parametre_fnc= lambda : self.__activeParametre())
 
         self.__widget_main_windows()
-
-        # Mise a place de la touche entree
-        if self.__objOS.osWindows() :
-            self.__key_gest.add_key(13,self.__send_assistant)
-        elif self.__objOS.osLinux() :
-            self.__key_gest.add_key(36,self.__send_assistant)
-        elif self.__objOS.osMac() :
-            self.__key_gest.add_key(603979789,self.__send_assistant)
 
         # Declaration de la variable pour contenir les theard
         self.__thSpeak = th.Thread()
@@ -303,7 +306,7 @@ class six_gui(aTk) :
 
     def __widget_main_windows(self):
 
-        self.__entryUser = aEntry(self,police_size=20,width=360)
+        #self.__entryUser = aEntry(self,police_size=20,width=360)
 
         imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+"micro.png",
                                  path_dark=self.__dir_GUI_dark+"micro.png",
@@ -322,14 +325,9 @@ class six_gui(aTk) :
         self.__labelMicroRequette = aLabel(self,text="",width=50,height=50,image=imageMicroRequette)
 
         # Bouton pour activer le micro quand le trigger word est pas activer
-        self.__btn_microphone = aButton(self, width=30, height=30,text="",
-                                        dark_color="#1f1f1f", light_color="#e0e0e0", hover_color=("#949494","#505050"),
-                                        image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
+        #self.__btn_microphone = aButton(self, width=30, height=30,text="",image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
         # Bouton pour activer les parametre
-        self.__btnParametre = aButton(self,width=30, height=30,text="",
-                                      dark_color="#1f1f1f", light_color="#e0e0e0",
-                                      hover_color=("#949494","#505050"),
-                                      image=imageParametre,command=self.__activeParametre)
+        #self.__btnParametre = aButton(self,width=30, height=30,text="",image=imageParametre,command=self.__activeParametre)
 
     # Methode qui modifie les image des canvas
 
@@ -379,8 +377,8 @@ class six_gui(aTk) :
             self.title(self.__nameSoft)
             self.__gazelleUI.clearAllFrame()
             self.update()
-            self.__entryUser.placeBottomCenter()
-            self.__btnParametre.placeBottomLeft()
+            #self.__entryUser.placeBottomCenter()
+            #self.__btnParametre.placeBottomLeft()
             self.__stop_assistant()
     
     def __stop_assistant(self):
@@ -494,8 +492,7 @@ class six_gui(aTk) :
         self.__c_speak.place_forget()
         self.__c_no_connect.place_forget()
         self.__c_emotion.place_forget()
-        self.__btn_microphone.place_forget()
-        self.__btnParametre.place_forget()
+        self.__back_widget.place_forget()
         self.__c_maj.place_forget()
         self.__c_load.place_forget()
         
@@ -540,15 +537,14 @@ class six_gui(aTk) :
                 os.kill(os.getpid(), signal.SIGKILL)
 
     def __set_requette_with_btn(self,requette:str):
-        self.__entryUser.delete(0,END)
-        self.__entryUser.insert(0,requette)
+        self.__back_widget.set_text_entry(requette)
         self.__send_assistant()
 
     def __send_assistant(self):
-        content = self.__entryUser.get().lower()
-        self.__entryUser.delete(0, END)
+        self.focus()
+        content = self.__back_widget.get_text_entry().lower()
         if content :
-            self.__entryUser.place_forget()
+            self.__back_widget.place_forget()
             if "parametre" in content or "settings" in content:
                 self.__activeParametre()
                 return
@@ -621,8 +617,7 @@ class six_gui(aTk) :
         self.__change_img_canvas_speak(0)
         self.__label_six_speak.set_text(text)
         self.__label_six_speak.view_during_speak()
-        self.__btn_microphone.place_forget()
-        self.__btnParametre.place_forget()
+        self.__back_widget.place_forget()
         self.__c_speak.place(x=0, y=0)
         self.update()
 
@@ -635,9 +630,7 @@ class six_gui(aTk) :
     def __sequence_speak(self, text:str):
         self.__six_speaking = True
         self.__timer = 0
-        self.__btn_microphone.place_forget()
-        self.__btnParametre.place_forget()
-        self.__entryUser.place_forget()
+        self.__back_widget.place_forget()
 
         self.__view_beggin_speak(text)
 
@@ -655,14 +648,16 @@ class six_gui(aTk) :
             else :
                 self.after(100, self.__update_speak)
         else :
-            self.__entryUser.placeBottomCenter()
-            if not self.__gazelleUI.gettigerWordSet():
-                self.__btn_microphone.placeBottomRight()
-            self.__btnParametre.placeBottomLeft()
+            self.__back_widget.placeBottomCenter()
             self.__change_img_canvas_speak(1)
             self.__label_six_speak.view_after_speak()
+            if not self.__gazelleUI.gettigerWordSet():
+                self.__back_widget.enable_btn_micro()
+            else :
+                self.__back_widget.disable_btn_micro()
             self.update()
             self.__six_speaking = False
+            self.__startingTriggerWord() # Relance l'écoute du trigger word après que l'assistant ait fini de parler
             if boot:
                 self.__update__assistant()
     
@@ -673,7 +668,7 @@ class six_gui(aTk) :
         self.title(self.__nameSoft+" : Parametre")
         self.update()
         self.__clear_view()
-        self.__entryUser.place_forget()
+        self.__back_widget.place_forget()
         self.__gazelleUI.active()
         self.update()
     
@@ -699,9 +694,8 @@ class six_gui(aTk) :
                 microOK = self.__avoice.listen()
                 if microOK == 0:
                     sortieMicro = self.__avoice.getTextMicro()
-                    self.__entryUser.delete(0,END)
                     if sortieMicro!= "nothing":
-                        self.__entryUser.insert(0,sortieMicro)
+                        self.__back_widget.set_text_entry(sortieMicro)
                 self.__microRequetteDisable()
                 time.sleep(0.2)
                 self.__send_assistant()
@@ -725,9 +719,8 @@ class six_gui(aTk) :
         self.__microRequetteDisable()
         if microOK == 0:
             sortieMicro = self.__avoice.getTextMicro()
-            self.__entryUser.delete(0, END)
             if sortieMicro != "nothing":
-                self.__entryUser.insert(0, sortieMicro)
+                self.__back_widget.set_text_entry(sortieMicro)
                 time.sleep(0.5)
                 self.__send_assistant()
 
@@ -751,7 +744,7 @@ class six_gui(aTk) :
         else :
             self.__clear_view()
             self.__stopingTriggerWord()
-            self.__entryUser.place_forget()
+            self.__back_widget.place_forget()
             self.update()
             nb = random.randint(0,1)
             self.__L_c_mute[nb].place(x=0, y=0)
@@ -791,14 +784,16 @@ class six_gui(aTk) :
     
     def __startingTriggerWord(self):
         # Création du thread Trigger word
-        self.__btn_microphone.place_forget()
         if self.__gazelleUI.gettigerWordSet():
-            self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
-            self.__TriggerWorkStop.clear()
-            self.__thTrigger.start()
-            self.after(100, self.__duringTigerWord)
+            self.__back_widget.disable_btn_micro()
+            if not self.__thTrigger.is_alive():
+                self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
+                self.__TriggerWorkStop.clear()
+                self.__thTrigger.start()
+                self.after(100, self.__duringTigerWord)
         else :
-            self.__btn_microphone.placeBottomRight()
+            self.__back_widget.enable_btn_micro()
+
 
     def __stopingTriggerWord(self):
         self.__TriggerWorkStop.set()
