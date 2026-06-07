@@ -8,7 +8,7 @@ from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
-from src.six_widget import six_speak,back_widget
+from src.six_chat_widget import back_widget #,six_speak
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -30,7 +30,7 @@ class six_gui_chat(aTk):
         super().__init__(title=self.__nameSoft,resizable=True, theme_file=theme_file,
                          fg_color=("#ffffff", "#000000"))
 
-        self.geometry("500x700+5+30")
+        self.geometry("550x700+5+30")
 
         self.__key_gest = keyboad_manager(self)
 
@@ -52,12 +52,29 @@ class six_gui_chat(aTk):
             self.__key_gest.add_key(603979789, self.__send_assistant)
             self.__key_gest.add_key(889192475, lambda: self.focus())
 
-        self.__back_widget = back_widget(self, dir_gui_light=self.__dir_GUIl_light,
-                                         dir_gui_dark=self.__dir_GUI_dark,
-                                         micro_fnc=lambda: print("micro"),
-                                         parametre_fnc=lambda: print("parametre"))
+        # Configuration de la fenêtre principale
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
 
-        self.__back_widget.placeBottomCenter()
+        # Widgets
+        main_frame = aFrame(self)
+        main_frame.grid_rowconfigure(0, weight=0)  # top_frame
+        main_frame.grid_rowconfigure(1, weight=2)  # assistant_frame
+        main_frame.grid_rowconfigure(2, weight=0)  # back_widget
+        main_frame.grid_columnconfigure(0, weight=1)
+
+
+        top_frame = aFrame(main_frame,height=75)
+        assistant_frame = aFrame(main_frame)
+        self.__back_widget = back_widget(main_frame, dir_gui_light=self.__dir_GUIl_light,
+                                         dir_gui_dark=self.__dir_GUI_dark,
+                                         send_fnc=lambda: print("send"))
+
+        # Placement des widgets
+        main_frame.grid(row=0, column=0, sticky="nsew")
+        top_frame.grid(row=0, column=0, sticky="ew")
+        assistant_frame.grid(row=1, column=0, sticky="nsew")
+        self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
 
     def active(self,firstBoot:bool,update_available:bool):
         self.mainloop()
