@@ -63,14 +63,30 @@ class six_gui_chat(aTk):
         main_frame.grid_rowconfigure(2, weight=0)  # back_widget
         main_frame.grid_columnconfigure(0, weight=1)
 
-
+        # Image
+        img_six = aImage(width=50,height=50,
+                         path_light="asset/icon/linux/icon.png",
+                         path_dark="asset/icon/linux/icon.png")
+        # Frame
         top_frame = aFrame(main_frame,height=75)
         assistant_frame = aFrame(main_frame)
         self.__back_widget = back_widget(main_frame, dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
                                          send_fnc=lambda: print("send"))
 
-        # Placement des widgets
+        # Config Frame
+
+        top_frame.grid_columnconfigure(0, weight=0)
+        top_frame.grid_columnconfigure(1, weight=1)
+        top_frame.grid_columnconfigure(2, weight=0)
+
+        # Widget
+        btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
+                          corner_radius=25,width=15,height=15)
+
+        # Placement des widget
+        btn_six.grid(row=0, column=0, padx=10, pady=10)
+        # Placement des Frame
         main_frame.grid(row=0, column=0, sticky="nsew")
         top_frame.grid(row=0, column=0, sticky="ew")
         assistant_frame.grid(row=1, column=0, sticky="nsew")
