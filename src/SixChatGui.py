@@ -8,7 +8,7 @@ from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
-from src.six_chat_widget import back_widget #,six_speak
+from src.six_chat_widget import back_widget,six_information_widget #,six_speak
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -84,8 +84,16 @@ class six_gui_chat(aTk):
         btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
                           corner_radius=25,width=15,height=15)
 
+        information_widget = six_information_widget(top_frame,
+                                                    dir_gui_light=self.__dir_GUIl_light,
+                                                    dir_gui_dark=self.__dir_GUI_dark,
+                                                    fnc_doc=lambda: print("doc"),
+                                                    fnc_tableur=lambda: print("tableur"),
+                                                    fnc_projet=lambda: print("projet"))
+
         # Placement des widget
         btn_six.grid(row=0, column=0, padx=10, pady=10)
+        information_widget.grid(row=0, column=2, padx=10, pady=10)
         # Placement des Frame
         main_frame.grid(row=0, column=0, sticky="nsew")
         top_frame.grid(row=0, column=0, sticky="ew")

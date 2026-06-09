@@ -1,5 +1,75 @@
 from librairy.arrera_tk import *
 
+class six_information_widget(aFrame):
+    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
+                 fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable):
+        super().__init__(master)
+
+        self.__img_tableur = [
+            aImage(path_light=dir_gui_light+"tableur_noopen.png",
+                   path_dark=dir_gui_dark+"tableur_noopen.png",
+                   width=32,height=32),
+            aImage(path_light=dir_gui_light+"tableur.png"
+                   ,path_dark=dir_gui_dark+"tableur.png",
+                   width=32, height=32),
+        ]
+
+        self.__img_doc = [
+            aImage(path_light=dir_gui_light+"word_noopen.png",
+                   path_dark=dir_gui_dark+"word_noopen.png",
+                   width=32,height=32),
+            aImage(path_light=dir_gui_light+"word.png",
+                   path_dark=dir_gui_dark+"word.png",
+                   width=32, height=32),
+        ]
+
+        self.__img_projet = [
+            aImage(path_light=dir_gui_light+"projet_noopen.png",
+                   path_dark=dir_gui_dark+"projet_noopen.png",
+                   width=32,height=32),
+            aImage(path_light=dir_gui_light+"projet.png",
+                   path_dark=dir_gui_dark+"projet.png",
+                   width=32, height=32),
+        ]
+
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        self.__b_tableur = aButton(self, image=self.__img_tableur[0], text="",
+                                   width=32, height=32, fg_color="transparent",
+                                   command=fnc_tableur)
+        self.__b_doc = aButton(self, image=self.__img_doc[0], text="",
+                               width=32, height=32, fg_color="transparent",
+                               command=fnc_doc)
+        self.__b_projet = aButton(self, image=self.__img_projet[0], text="",
+                                  width=32, height=32, fg_color="transparent",
+                                  command=fnc_projet)
+
+        self.__b_tableur.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
+        self.__b_doc.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        self.__b_projet.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+
+    def update_state(self,tableur:bool,doc:bool,projet:bool):
+        if tableur:
+            self.__b_tableur.configure(image=self.__img_tableur[1], text="")
+        else :
+            self.__b_tableur.configure(image=self.__img_tableur[0], text="")
+        
+        if doc:
+            self.__b_doc.configure(image=self.__img_doc[1], text="")
+        else :
+            self.__b_doc.configure(image=self.__img_doc[0], text="")
+        
+        if projet:
+            self.__b_projet.configure(image=self.__img_projet[1], text="")
+        else :
+            self.__b_projet.configure(image=self.__img_projet[0], text="")
+
+
+
+
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  send_fnc:Callable):
