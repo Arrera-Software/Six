@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from librairy.arrera_tk import *
 
 class six_information_widget(aFrame):
@@ -128,3 +129,27 @@ class frame_conf(aFrame):
         self.__m_voice.grid(row=1, column=0, sticky="n", pady=5)
         btn_voice_validate.grid(row=2, column=0, sticky="n", pady=5)
         setting_btn.grid(row=4, column=0, sticky="s", pady=10)
+
+class label_parole(aLabel):
+    def __init__(self,master,fg_color:str,text_color:str,justify:str,text:str):
+        super().__init__(master,wraplength=250,police_size=16,text=text,
+                         justify=justify,fg_color=fg_color,text_color=text_color,corner_radius=15)
+
+    @abstractmethod
+    def view(self):
+        pass
+
+
+class label_assistant(label_parole):
+    def __init__(self,master,text:str):
+        super().__init__(master,fg_color="#0024f3",text_color="#ffffff",text=text,justify="left")
+
+    def view(self):
+        self.pack(anchor="w",pady=6)
+
+class label_user(label_parole):
+    def __init__(self, master, text: str):
+        super().__init__(master, fg_color="#4c6fff", text_color="#ffffff", text=text,justify="right")
+
+    def view(self):
+        self.pack(anchor="e",pady=6)

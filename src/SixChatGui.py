@@ -8,7 +8,7 @@ from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
-from src.six_chat_widget import back_widget,six_information_widget,frame_conf #,six_speak
+from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -26,6 +26,9 @@ class six_gui_chat(aTk):
 
         self.__dir_GUI_dark = "asset/IMGinterface/dark/"
         self.__dir_GUIl_light = "asset/IMGinterface/white/"
+
+        # Theard
+        self.__th_thinking_assistant = th.Thread()
 
         super().__init__(title=self.__nameSoft,resizable=True, theme_file=theme_file,
                          fg_color=("#ffffff", "#000000"))
@@ -130,7 +133,29 @@ class six_gui_chat(aTk):
         self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
 
     def active(self,firstBoot:bool,update_available:bool):
+        text_boot = self.__assistant_six.boot()
+
+        label_assistant(self.__assistant_out,text_boot).view()
+
         self.mainloop()
 
     def __send_assistant(self):
-        print("send")
+        text = self.__back_widget.get_text_entry()
+        if text != "":
+            label_user(self.__assistant_out,text).view()
+            self.__th_thinking_assistant = th.Thread(target=self.__thinking_assistant,args=(text,))
+            self.__th_thinking_assistant.start()
+            self.__update_during_thinking()
+
+    def __thinking_assistant(self,text:str):
+        self.__back_widget.grid_forget()
+        self.__assistant_six.neuron(text)
+
+    def __update_during_thinking(self):
+        if self.__th_thinking_assistant.is_alive():
+            self.after(100, self.__update_during_thinking)
+        else:
+            self.__th_thinking_assistant = th.Thread()
+            text = self.__assistant_six.getListSortie()[0]
+            label_assistant(self.__assistant_out,text).view()
+            self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
