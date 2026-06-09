@@ -69,7 +69,7 @@ class six_gui_chat(aTk):
                          path_dark="asset/icon/linux/icon.png")
         # Frame
         top_frame = aFrame(main_frame,height=75)
-        assistant_frame = aFrame(main_frame)
+        self.__assistant_frame = aFrame(main_frame)
         self.__back_widget = back_widget(main_frame, dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
                                          send_fnc=lambda: print("send"))
@@ -80,9 +80,13 @@ class six_gui_chat(aTk):
         top_frame.grid_columnconfigure(1, weight=1)
         top_frame.grid_columnconfigure(2, weight=0)
 
+        self.__assistant_frame.grid_columnconfigure(0, weight=1)
+        self.__assistant_frame.grid_rowconfigure(0, weight=1)
+        self.__assistant_frame.grid_columnconfigure(1, weight=0)
+
         # Widget
-        btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
-                          corner_radius=25,width=15,height=15)
+        self.__btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
+                          corner_radius=25,width=15,height=15,command=self.__view_frame_conf)
 
         self.__information_widget = six_information_widget(top_frame,
                                                     dir_gui_light=self.__dir_GUIl_light,
@@ -90,15 +94,37 @@ class six_gui_chat(aTk):
                                                     fnc_doc=lambda: print("doc"),
                                                     fnc_tableur=lambda: print("tableur"),
                                                     fnc_projet=lambda: print("projet"))
+        self.__assistant_out = aScrollableFrame(self.__assistant_frame)
+        self.__conf_frame = aFrame(self.__assistant_frame)
 
         # Placement des widget
-        btn_six.grid(row=0, column=0, padx=10, pady=10)
+        self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
         self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
         # Placement des Frame
         main_frame.grid(row=0, column=0, sticky="nsew")
         top_frame.grid(row=0, column=0, sticky="ew")
-        assistant_frame.grid(row=1, column=0, sticky="nsew")
+        self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
         self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+
+        self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+
+    def __view_frame_conf(self):
+        self.__assistant_frame.grid_columnconfigure(0, weight=1)
+        self.__assistant_frame.grid_columnconfigure(1, weight=3)
+
+        self.__btn_six.configure(command=self.__unview_frame_conf)
+
+        self.__conf_frame.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+        self.__assistant_out.grid(row=0, column=1, sticky="nsew",padx=5,pady=5)
+
+    def __unview_frame_conf(self):
+        self.__assistant_frame.grid_columnconfigure(0, weight=1)
+        self.__assistant_frame.grid_columnconfigure(1, weight=0)
+
+        self.__btn_six.configure(command=self.__view_frame_conf)
+
+        self.__conf_frame.grid_forget()
+        self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
 
     def active(self,firstBoot:bool,update_available:bool):
         self.mainloop()
