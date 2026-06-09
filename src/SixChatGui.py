@@ -113,7 +113,7 @@ class six_gui_chat(aTk):
 
     def __view_frame_conf(self):
         self.__assistant_frame.grid_columnconfigure(0, weight=1)
-        self.__assistant_frame.grid_columnconfigure(1, weight=4)
+        self.__assistant_frame.grid_columnconfigure(1, weight=5)
 
         self.__btn_six.configure(command=self.__unview_frame_conf)
 
