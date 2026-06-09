@@ -84,7 +84,7 @@ class six_gui_chat(aTk):
         btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
                           corner_radius=25,width=15,height=15)
 
-        information_widget = six_information_widget(top_frame,
+        self.__information_widget = six_information_widget(top_frame,
                                                     dir_gui_light=self.__dir_GUIl_light,
                                                     dir_gui_dark=self.__dir_GUI_dark,
                                                     fnc_doc=lambda: print("doc"),
@@ -93,7 +93,7 @@ class six_gui_chat(aTk):
 
         # Placement des widget
         btn_six.grid(row=0, column=0, padx=10, pady=10)
-        information_widget.grid(row=0, column=2, padx=10, pady=10)
+        self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
         # Placement des Frame
         main_frame.grid(row=0, column=0, sticky="nsew")
         top_frame.grid(row=0, column=0, sticky="ew")
