@@ -8,7 +8,7 @@ from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
 import random
-from src.six_chat_widget import back_widget,six_information_widget #,six_speak
+from src.six_chat_widget import back_widget,six_information_widget,frame_conf #,six_speak
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -95,7 +95,10 @@ class six_gui_chat(aTk):
                                                     fnc_tableur=lambda: print("tableur"),
                                                     fnc_projet=lambda: print("projet"))
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
-        self.__conf_frame = aFrame(self.__assistant_frame)
+        self.__conf_frame = frame_conf(self.__assistant_frame,
+                                       dir_gui_light=self.__dir_GUIl_light,
+                                       dir_gui_dark=self.__dir_GUI_dark,
+                                       fnc_setting=lambda : print("setting"))
 
         # Placement des widget
         self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
@@ -110,7 +113,7 @@ class six_gui_chat(aTk):
 
     def __view_frame_conf(self):
         self.__assistant_frame.grid_columnconfigure(0, weight=1)
-        self.__assistant_frame.grid_columnconfigure(1, weight=3)
+        self.__assistant_frame.grid_columnconfigure(1, weight=4)
 
         self.__btn_six.configure(command=self.__unview_frame_conf)
 

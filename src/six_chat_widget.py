@@ -67,9 +67,6 @@ class six_information_widget(aFrame):
         else :
             self.__b_projet.configure(image=self.__img_projet[0], text="")
 
-
-
-
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  send_fnc:Callable):
@@ -101,3 +98,33 @@ class back_widget(aFrame):
     def set_text_entry(self,text:str):
         self.__entry.delete(0,END)
         self.__entry.insert(0,text)
+
+class frame_conf(aFrame):
+    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,fnc_setting:Callable):
+        super().__init__(master)
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=5)
+        self.grid_rowconfigure(4, weight=1)
+
+        img_setting = aImage(path_light=dir_gui_light + "settings.png",
+                             path_dark=dir_gui_dark + "settings.png",
+                             height=30,width=30)
+
+        self.grid_columnconfigure(0, weight=1)
+
+        l = aLabel(self,text="Arrera Six",police_size=25)
+
+        self.__m_voice = aOptionMenu(self,value=["voix1","voix2"])
+
+        btn_voice_validate = aButton(self,text="Valider")
+
+        setting_btn = aButton(self,text="",image=img_setting,command=fnc_setting)
+
+
+        l.grid(row=0, column=0, sticky="n", pady=10)
+        self.__m_voice.grid(row=1, column=0, sticky="n", pady=5)
+        btn_voice_validate.grid(row=2, column=0, sticky="n", pady=5)
+        setting_btn.grid(row=4, column=0, sticky="s", pady=10)
