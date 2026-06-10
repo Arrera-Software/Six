@@ -170,13 +170,17 @@ class six_gui_chat(aTk):
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
 
     def __open_setting(self):
+        self.__unview_frame_conf()
         self.__main_frame.grid_forget()
         self.__gazelleUI.active()
+        self.update_idletasks()
+        self.update()
 
 
     def __quit_setting(self):
         self.__gazelleUI.clearAllFrame()
         self.__main_frame.grid(row=0, column=0, sticky="nsew")
+        self.update_idletasks()
         self.update()
 
     def __about(self):
