@@ -1,4 +1,4 @@
-import signal
+#import signal
 import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
 import time
