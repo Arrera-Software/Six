@@ -24,6 +24,8 @@ class six_gui_chat(aTk):
         self.__avoice = self.__gestionnaire.getArrVoice()
         self.__gest_user = self.__gestionnaire.getUserConf()
 
+        self.__version = version
+
         self.__dir_GUI_dark = "asset/IMGinterface/dark/"
         self.__dir_GUIl_light = "asset/IMGinterface/white/"
 
@@ -36,6 +38,12 @@ class six_gui_chat(aTk):
         self.geometry("550x700+5+30")
 
         self.__key_gest = keyboad_manager(self)
+
+        # Parametre
+        self.__gazelleUI = arrera_gazelle(self, self.__gestionnaire,
+                                          resource_path("json_conf/conf-setting.json"))
+        self.__gazelleUI.passFNCQuit(self.__quit_setting)
+        self.__gazelleUI.passFNCBTNIcon(lambda: self.__about())
 
         # Partie Icone
 
@@ -60,39 +68,39 @@ class six_gui_chat(aTk):
         self.columnconfigure(0, weight=1)
 
         # Widgets
-        main_frame = aFrame(self)
-        main_frame.grid_rowconfigure(0, weight=0)  # top_frame
-        main_frame.grid_rowconfigure(1, weight=2)  # assistant_frame
-        main_frame.grid_rowconfigure(2, weight=0)  # back_widget
-        main_frame.grid_columnconfigure(0, weight=1)
+        self.__main_frame = aFrame(self)
+        self.__main_frame.grid_rowconfigure(0, weight=0)  # top_frame
+        self.__main_frame.grid_rowconfigure(1, weight=2)  # assistant_frame
+        self.__main_frame.grid_rowconfigure(2, weight=0)  # back_widget
+        self.__main_frame.grid_columnconfigure(0, weight=1)
 
         # Image
         img_six = aImage(width=50,height=50,
                          path_light="asset/icon/linux/icon.png",
                          path_dark="asset/icon/linux/icon.png")
         # Frame
-        top_frame = aFrame(main_frame,height=75)
-        self.__assistant_frame = aFrame(main_frame)
-        self.__back_widget = back_widget(main_frame, dir_gui_light=self.__dir_GUIl_light,
+        self.__top_frame = aFrame(self.__main_frame,height=75)
+        self.__assistant_frame = aFrame(self.__main_frame)
+        self.__back_widget = back_widget(self.__main_frame, dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
                                          send_fnc=lambda: print("send"),
                                          micro_fnc=lambda: print("micro"))
 
         # Config Frame
 
-        top_frame.grid_columnconfigure(0, weight=0)
-        top_frame.grid_columnconfigure(1, weight=1)
-        top_frame.grid_columnconfigure(2, weight=0)
+        self.__top_frame.grid_columnconfigure(0, weight=0)
+        self.__top_frame.grid_columnconfigure(1, weight=1)
+        self.__top_frame.grid_columnconfigure(2, weight=0)
 
         self.__assistant_frame.grid_columnconfigure(0, weight=1)
         self.__assistant_frame.grid_rowconfigure(0, weight=1)
         self.__assistant_frame.grid_columnconfigure(1, weight=0)
 
         # Widget
-        self.__btn_six = aButton(top_frame,text="",image=img_six,fg_color="transparent",
+        self.__btn_six = aButton(self.__top_frame,text="",image=img_six,fg_color="transparent",
                           corner_radius=25,width=15,height=15,command=self.__view_frame_conf)
 
-        self.__information_widget = six_information_widget(top_frame,
+        self.__information_widget = six_information_widget(self.__top_frame,
                                                     dir_gui_light=self.__dir_GUIl_light,
                                                     dir_gui_dark=self.__dir_GUI_dark,
                                                     fnc_doc=lambda: print("doc"),
@@ -102,14 +110,14 @@ class six_gui_chat(aTk):
         self.__conf_frame = frame_conf(self.__assistant_frame,
                                        dir_gui_light=self.__dir_GUIl_light,
                                        dir_gui_dark=self.__dir_GUI_dark,
-                                       fnc_setting=lambda : print("setting"))
+                                       fnc_setting=self.__open_setting)
 
         # Placement des widget
         self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
         self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
         # Placement des Frame
-        main_frame.grid(row=0, column=0, sticky="nsew")
-        top_frame.grid(row=0, column=0, sticky="ew")
+        self.__main_frame.grid(row=0, column=0, sticky="nsew")
+        self.__top_frame.grid(row=0, column=0, sticky="ew")
         self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
         self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
 
@@ -160,3 +168,21 @@ class six_gui_chat(aTk):
             text = self.__assistant_six.getListSortie()[0]
             label_assistant(self.__assistant_out,text).view()
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+
+    def __open_setting(self):
+        self.__main_frame.grid_forget()
+        self.__gazelleUI.active()
+
+
+    def __quit_setting(self):
+        self.__gazelleUI.clearAllFrame()
+        self.__main_frame.grid(row=0, column=0, sticky="nsew")
+        self.update()
+
+    def __about(self):
+        windows_about(nameSoft=self.__nameSoft,
+                      iconFile=self.__emplacementIcon,
+                      version=self.__version,
+                      copyright="Copyright Arrera Software by Baptiste P 2023-2026",
+                      linkSource="https://github.com/Arrera-Software/Six",
+                      linkWeb="https://arrera-software.fr/")
