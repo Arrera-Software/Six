@@ -126,9 +126,12 @@ class SixVoice:
         if texte != "":
             try:
                 audio_bytes = b"".join(chunk.audio_int16_bytes for chunk in self.__voice_synthesizer.synthesize(texte))
+                if len(audio_bytes) == 0:
+                    return False
                 audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+                audio_data_float = audio_data.astype(np.float32) / 32768.0
                 frequence = self.__voice_synthesizer.config.sample_rate
-                sd.play(audio_data, samplerate=frequence)
+                sd.play(audio_data_float, samplerate=frequence)
                 sd.wait()
                 return True
             except Exception as e :
