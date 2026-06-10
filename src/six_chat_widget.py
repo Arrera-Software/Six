@@ -70,25 +70,51 @@ class six_information_widget(aFrame):
 
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
-                 send_fnc:Callable):
+                 send_fnc:Callable,micro_fnc:Callable):
         super().__init__(master)
 
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=0)
+        self.columnconfigure(0, weight=0)
+        self.columnconfigure(1, weight=1)
+        self.columnconfigure(2, weight=0)
 
-        self.__entry = aEntry(self,police_size=25,width=360)
+        self.__entry = aEntry(self,police_size=25,width=400)
 
         image_send = aImage(path_light=dir_gui_light + "sendsimple.png",
                                   path_dark=dir_gui_dark + "sendsimple.png",
                                   width=30, height=30)
+
+        image_micro = aImage(path_light=dir_gui_light + "microsimple.png",
+                             path_dark=dir_gui_dark + "microsimple.png",
+                             width=30, height=30)
 
 
         self.__btn_send = aButton(self, width=30, height=30, text="",
                                   image=image_send,
                                   command=send_fnc)
 
-        self.__entry.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
-        self.__btn_send.grid(row=0, column=1, padx=5, pady=5)
+        self.__btn_micro = aButton(self, width=30,
+                                   height=30, text="",
+                                   image=image_micro,
+                                   command=micro_fnc)
+
+        self.__entry.bind("<FocusIn>", self.__on_focus)
+        self.__entry.bind("<FocusOut>", self.__on_unfocus)
+
+        self.__btn_micro.grid(row=0, column=0, padx=5, pady=5)
+        self.__entry.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
+        self.__btn_send.grid(row=0, column=2, padx=5, pady=5)
+
+    def __on_focus(self, event):
+        self.__entry.configure(width=500)
+
+        self.__btn_micro.grid_forget()
+        self.__btn_send.grid_forget()
+
+    def __on_unfocus(self, event):
+        self.__entry.configure(width=400)
+
+        self.__btn_micro.grid(row=0, column=0, padx=5, pady=5)
+        self.__btn_send.grid(row=0, column=2, padx=5, pady=5)
 
 
     def get_text_entry(self):
