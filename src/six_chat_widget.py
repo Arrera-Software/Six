@@ -127,7 +127,7 @@ class back_widget(aFrame):
         self.__entry.insert(0,text)
 
 class frame_conf(aFrame):
-    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,fnc_setting:Callable):
+    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,list_voice:list,fnc_setting:Callable):
         super().__init__(master)
 
         self.grid_rowconfigure(0, weight=1)
@@ -144,7 +144,7 @@ class frame_conf(aFrame):
 
         l = aLabel(self,text="Arrera Six",police_size=25)
 
-        self.__m_voice = aOptionMenu(self,value=["voix1","voix2"])
+        self.__m_voice = aOptionMenu(self,value=list_voice)
 
         btn_voice_validate = aButton(self,text="Valider")
 

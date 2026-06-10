@@ -7,6 +7,7 @@ from src.languageSIX import *
 from librairy.arrera_tk import *
 import threading as th
 from brain.brain import ABrain
+from src.six_voice import SixVoice
 import random
 from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user
 
@@ -44,6 +45,16 @@ class six_gui_chat(aTk):
                                           resource_path("json_conf/conf-setting.json"))
         self.__gazelleUI.passFNCQuit(self.__quit_setting)
         self.__gazelleUI.passFNCBTNIcon(lambda: self.__about())
+
+        # Voix
+
+        self.__voice = SixVoice(self.__objOS)
+
+        self.__voice.load_voice_model()
+
+        self.__th_voice = th.Thread(target=self.__check_voice_model)
+
+        self.__th_speak = th.Thread()
 
         # Partie Icone
 
@@ -110,18 +121,10 @@ class six_gui_chat(aTk):
         self.__conf_frame = frame_conf(self.__assistant_frame,
                                        dir_gui_light=self.__dir_GUIl_light,
                                        dir_gui_dark=self.__dir_GUI_dark,
+                                       list_voice=self.__voice.get_list_voice_model(),
                                        fnc_setting=self.__open_setting)
 
-        # Placement des widget
-        self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
-        self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
-        # Placement des Frame
-        self.__main_frame.grid(row=0, column=0, sticky="nsew")
-        self.__top_frame.grid(row=0, column=0, sticky="ew")
-        self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
-        self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
 
-        self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
 
     def __view_frame_conf(self):
         self.__assistant_frame.grid_columnconfigure(0, weight=1)
@@ -146,7 +149,30 @@ class six_gui_chat(aTk):
 
         label_assistant(self.__assistant_out,text_boot).view()
 
+        self.__th_voice.start()
+
+        self.after(1000, self.__updating_during_check_voice_model)
+
         self.mainloop()
+
+    def __check_voice_model(self):
+        if not self.__voice.check_voice_model():
+            showerror("Error","Le model de voix ne sont pas disponible")
+
+    def __updating_during_check_voice_model(self):
+        if self.__th_voice.is_alive():
+            self.after(1000,self.__updating_during_check_voice_model)
+        else :
+            # Placement des widget
+            self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
+            self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
+            # Placement des Frame
+            self.__main_frame.grid(row=0, column=0, sticky="nsew")
+            self.__top_frame.grid(row=0, column=0, sticky="ew")
+            self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
+            self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+
+            self.__assistant_out.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
     def __send_assistant(self):
         text = self.__back_widget.get_text_entry()
@@ -168,6 +194,17 @@ class six_gui_chat(aTk):
             text = self.__assistant_six.getListSortie()[0]
             label_assistant(self.__assistant_out,text).view()
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+            self.__th_speak = th.Thread(target=self.__voice.speak,args=(text,))
+            self.__th_speak.start()
+            self.__update_during_speak()
+
+    def __update_during_speak(self):
+        if self.__th_speak.is_alive():
+            self.after(100, self.__update_during_speak)
+            self.update()
+        else :
+            del self.__th_speak
+            self.__th_speak = th.Thread()
 
     def __open_setting(self):
         self.__unview_frame_conf()
