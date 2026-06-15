@@ -5,6 +5,7 @@ from librairy.dectectionOS import OS
 import os
 import glob
 from librairy.travailJSON import *
+import json
 from piper.voice import PiperVoice
 
 class SixVoice:
@@ -41,16 +42,33 @@ class SixVoice:
 
 
     def check_voice_model(self):
-        if len(self.__list_model) == 0:
+        tom_onnx = self.__model_dir + "fr_FR-tom-medium.onnx"
+        tom_json = tom_onnx + ".json"
+        siwis_onnx = self.__model_dir + "fr_FR-siwis-medium.onnx"
+        siwis_json = siwis_onnx + ".json"
+
+        def is_valid_json_file(filepath):
+            if not os.path.exists(filepath):
+                return False
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    json.load(f)
+                return True
+            except Exception:
+                return False
+
+        if not os.path.exists(tom_onnx) or not is_valid_json_file(tom_json):
             if not self.__download_model("https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/tom/medium/fr_FR-tom-medium.onnx?download=true",
                                 "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/tom/medium/fr_FR-tom-medium.onnx.json?download=true",
                                   "tom"): # Tom
                 return False
+        if not os.path.exists(siwis_onnx) or not is_valid_json_file(siwis_json):
             if not self.__download_model("https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx?download=true",
-                                "https://huggingface.co/rhasspy/piper-voices/blob/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json?download=true",
+                                "https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json?download=true",
                                   "siwis") : # Siwis
                 return False
 
+        self.__list_model = glob.glob(self.__model_dir+"*.onnx")
         return True
 
     def __download_model(self, link_onnx:str, link_json:str,voice_model:str):
@@ -96,6 +114,9 @@ class SixVoice:
 
     def get_list_voice_model(self):
         return ["tom","siwis"]
+
+    def get_current_model(self):
+        return self.__json_conf.getContentJsonFlag("voice_selected")
 
     def set_voice_model(self,voice_model:str):
         if voice_model != "tom" and voice_model != "siwis":

@@ -127,7 +127,8 @@ class back_widget(aFrame):
         self.__entry.insert(0,text)
 
 class frame_conf(aFrame):
-    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,list_voice:list,fnc_setting:Callable):
+    def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,list_voice:list,
+                 fnc_setting:Callable,fnc_change_voice:Callable,fnc_get_voice_model):
         super().__init__(master)
 
         self.grid_rowconfigure(0, weight=1)
@@ -144,17 +145,24 @@ class frame_conf(aFrame):
 
         l = aLabel(self,text="Arrera Six",police_size=25)
 
-        self.__m_voice = aOptionMenu(self,value=list_voice)
+        btn_voice_validate = aButton(self, text="Valider",
+                                     command=fnc_change_voice)
 
-        btn_voice_validate = aButton(self,text="Valider")
+        self.__m_voice = aOptionMenu(self,value=list_voice,
+                                     fg_color=btn_voice_validate.cget("fg_color"),
+                                     text_color=btn_voice_validate.cget("text_color"))
+
+        self.__m_voice.set_text(fnc_get_voice_model())
 
         setting_btn = aButton(self,text="",image=img_setting,command=fnc_setting)
-
 
         l.grid(row=0, column=0, sticky="n", pady=10)
         self.__m_voice.grid(row=1, column=0, sticky="n", pady=5)
         btn_voice_validate.grid(row=2, column=0, sticky="n", pady=5)
         setting_btn.grid(row=4, column=0, sticky="s", pady=10)
+
+    def get_value_voice_menu(self):
+        return self.__m_voice.getValue()
 
 class label_parole(aLabel):
     def __init__(self,master,fg_color:str,text_color:str,justify:str,text:str):

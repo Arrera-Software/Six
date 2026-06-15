@@ -1,4 +1,6 @@
 #import signal
+from tkinter import messagebox
+
 import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
 import time
@@ -122,7 +124,9 @@ class six_gui_chat(aTk):
                                        dir_gui_light=self.__dir_GUIl_light,
                                        dir_gui_dark=self.__dir_GUI_dark,
                                        list_voice=self.__voice.get_list_voice_model(),
-                                       fnc_setting=self.__open_setting)
+                                       fnc_setting=self.__open_setting,
+                                       fnc_change_voice=self.__change_voice,
+                                       fnc_get_voice_model=lambda : self.__voice.get_current_model())
 
 
 
@@ -214,6 +218,15 @@ class six_gui_chat(aTk):
         self.update_idletasks()
         self.update()
 
+    def __change_voice(self):
+        voice_model = self.__conf_frame.get_value_voice_menu()
+        if self.__voice.set_voice_model(voice_model):
+            if self.__voice.load_voice_model():
+                showinfo("Info","Le model de voix a été changé avec succès")
+            else :
+                showerror("Error","Le model de voix ne sont pas disponible")
+        else :
+            showerror("Error","Le model ne sont pas disponible")
 
     def __quit_setting(self):
         self.__gazelleUI.clearAllFrame()
