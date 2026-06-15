@@ -163,6 +163,7 @@ class six_gui_chat(aTk):
         if self.__th_voice.is_alive():
             self.after(1000,self.__updating_during_check_voice_model)
         else :
+            self.__voice.load_voice_model()
             # Placement des widget
             self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
             self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
