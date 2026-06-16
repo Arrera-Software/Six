@@ -1,6 +1,4 @@
-#import signal
-from tkinter import messagebox
-
+import signal
 import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
 import time
@@ -39,8 +37,12 @@ class six_gui_chat(aTk):
                          fg_color=("#ffffff", "#000000"))
 
         self.geometry("550x700+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
 
         self.__key_gest = keyboad_manager(self)
+
+        self.__language = language_six(resource_path("language/six/phraseSix.json"),
+                                       resource_path("language/six/firstBootSix.json"))
 
         # Parametre
         self.__gazelleUI = arrera_gazelle(self, self.__gestionnaire,
@@ -183,6 +185,10 @@ class six_gui_chat(aTk):
         text = self.__back_widget.get_text_entry()
         if text != "":
             label_user(self.__assistant_out,text).view()
+            text_lower = text.lower()
+            if "parametre" in text_lower or "settings" in text_lower:
+                self.__open_setting()
+                return
             self.__th_thinking_assistant = th.Thread(target=self.__thinking_assistant,args=(text,))
             self.__th_thinking_assistant.start()
             self.__update_during_thinking()
@@ -196,12 +202,62 @@ class six_gui_chat(aTk):
             self.after(100, self.__update_during_thinking)
         else:
             self.__th_thinking_assistant = th.Thread()
+
             text = self.__assistant_six.getListSortie()[0]
-            label_assistant(self.__assistant_out,text).view()
+            nb_sortie = self.__assistant_six.getValeurSortie()
+
+            self.__treatment_out_assistant(nb_sortie,text)
+
+        # STOP ASSISTANT
+    def __on_close(self):
+        if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
+            self.title(self.__nameSoft)
+            self.__gazelleUI.clearAllFrame()
+            self.update()
+
+            self.__beginning_sequence_stop()
+
+    def __stop_assistant(self):
+        self.__six_speaking = True
+        self.__on_close()
+
+    def __beginning_sequence_stop(self):
+        self.__six_speaking = True
+        texte = self.__assistant_six.shutdown()
+
+        label_assistant(self.__assistant_out,texte).view()
+
+        self.__th_speak_stop = th.Thread(target=self.__voice.speak, args=(texte,))
+
+        self.__th_speak_stop.start()
+
+        self.__update_durring_stopping_speak()
+
+    def __update_durring_stopping_speak(self):
+        if self.__th_speak_stop.is_alive():
+            self.update()
+            self.after(100,self.__update_durring_stopping_speak)
+        else :
+
+            if self.__objOS.osWindows():
+                os.kill(os.getpid(), signal.SIGINT)
+            elif self.__objOS.osLinux() or self.__objOS.osMac():
+                os.kill(os.getpid(), signal.SIGKILL)
+
+
+    def __treatment_out_assistant(self,var:int,text:str):
+        if var == 15:
+            self.__stop_assistant()
+        else :
+            label_assistant(self.__assistant_out, text).view()
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
-            self.__th_speak = th.Thread(target=self.__voice.speak,args=(text,))
+            self.__th_speak = th.Thread(target=self.__voice.speak, args=(text,))
             self.__th_speak.start()
             self.__update_during_speak()
+
+        self.__information_widget.update_state(tableur=self.__assistant_six.getTableur(),
+                                               doc=self.__assistant_six.getWord(),
+                                               projet=self.__assistant_six.getProject())
 
     def __update_during_speak(self):
         if self.__th_speak.is_alive():
@@ -233,6 +289,11 @@ class six_gui_chat(aTk):
         self.__main_frame.grid(row=0, column=0, sticky="nsew")
         self.update_idletasks()
         self.update()
+        text = self.__language.getPhQuitSetting()
+        label_assistant(self.__assistant_out, text).view()
+        self.__th_speak = th.Thread(target=self.__voice.speak, args=(text,))
+        self.__th_speak.start()
+        self.__update_during_speak()
 
     def __about(self):
         windows_about(nameSoft=self.__nameSoft,
