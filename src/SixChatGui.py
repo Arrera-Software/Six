@@ -37,7 +37,7 @@ class six_gui_chat(aTk):
         # Theard
         self.__th_thinking_assistant = th.Thread()
 
-        super().__init__(title=self.__nameSoft,resizable=True, theme_file=theme_file,
+        super().__init__(title=self.__nameSoft, theme_file=theme_file,
                          fg_color=("#ffffff", "#000000"))
 
         self.__key_gest = keyboad_manager(self)
