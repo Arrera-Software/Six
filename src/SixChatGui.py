@@ -1,6 +1,7 @@
 import signal
 import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
+from lynx_gui.arrera_lynx import arrera_lynx
 import time
 from tkinter.messagebox import *
 from src.languageSIX import *
@@ -18,6 +19,8 @@ class six_gui_chat(aTk):
                  version: str):
 
         self.__nameSoft = "Arrera Six"
+
+        self.__state_conf = True
 
         # Objet
         self.__assistant_six = ABrain(conf)
@@ -37,19 +40,20 @@ class six_gui_chat(aTk):
         super().__init__(title=self.__nameSoft,resizable=True, theme_file=theme_file,
                          fg_color=("#ffffff", "#000000"))
 
-        self.geometry("550x700+5+30")
-        self.protocol("WM_DELETE_WINDOW", self.__on_close)
-
         self.__key_gest = keyboad_manager(self)
 
         self.__language = language_six(resource_path("language/six/phraseSix.json"),
                                        resource_path("language/six/firstBootSix.json"))
 
-        # Parametre
+        # Parametre et firt boot
         self.__gazelleUI = arrera_gazelle(self, self.__gestionnaire,
                                           resource_path("json_conf/conf-setting.json"))
         self.__gazelleUI.passFNCQuit(self.__quit_setting)
         self.__gazelleUI.passFNCBTNIcon(lambda: self.__about())
+
+        self.__lynx = arrera_lynx(self,self.__gestionnaire,
+                                  resource_path("json_conf/configLynx.json"),
+                                  lambda : self.__end_lynx())
 
         # Voix
 
@@ -60,6 +64,8 @@ class six_gui_chat(aTk):
         self.__th_voice = th.Thread(target=self.__check_voice_model)
 
         self.__th_speak = th.Thread()
+
+        self.__th_firt_boot = th.Thread()
 
         # Partie Icone
 
@@ -151,16 +157,85 @@ class six_gui_chat(aTk):
         self.__conf_frame.grid_forget()
         self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
 
-    def active(self,firstBoot:bool,update_available:bool):
+    def active(self,update_available:bool):
+        firstBoot = self.__gestionnaire.getUserConf().getFirstRun()
+        if firstBoot:
+            self.resizable(False, False)
+            self.geometry(self.__lynx.get_geometry())
+            self.update()
+            self.__lynx.active()
+        else :
+            self.__boot()
+
+        self.mainloop()
+
+    def __view_gui(self):
+        # Placement des widget
+        self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
+        self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
+        # Placement des Frame
+        self.__main_frame.grid(row=0, column=0, sticky="nsew")
+        self.__top_frame.grid(row=0, column=0, sticky="ew")
+        self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
+        self.__assistant_out.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+
+    def __boot(self):
+        self.resizable(True, True)
+        self.geometry("550x700+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
         text_boot = self.__assistant_six.boot()
 
-        label_assistant(self.__assistant_out,text_boot).view()
+        label_assistant(self.__assistant_out, text_boot).view()
+
+        self.__view_gui()
+
+        self.__th_voice = th.Thread(target=self.__voice.speak, args=(text_boot,))
 
         self.__th_voice.start()
 
         self.after(1000, self.__updating_during_check_voice_model)
 
-        self.mainloop()
+    def __end_lynx(self):
+        self.__lynx.place_forget()
+        del self.__lynx
+        self.resizable(True, True)
+        self.geometry("550x700+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
+        self.__view_gui()
+        self.update()
+
+        # Placement des Frame
+
+        name = self.__gest_user.getLastnameUser()
+        genre = self.__gest_user.getGenre()
+
+        self.__th_firt_boot = th.Thread(target=self.__sequence_firt_boot,
+                                        args=(self.__language.getPhraseFirstBoot(genre,name,1),
+                                              self.__language.getPhraseFirstBoot(genre,name,2),))
+
+        self.__th_firt_boot.start()
+        self.__update_during_firt_boot()
+
+
+    def __sequence_firt_boot(self,text1:str,text2:str):
+        self.__voice.check_voice_model()
+        self.__voice.load_voice_model()
+
+        label_assistant(self.__assistant_out, text1).view()
+
+        self.__voice.speak(text1)
+
+        label_assistant(self.__assistant_out, text2).view()
+        self.__voice.speak(text2)
+
+
+    def __update_during_firt_boot(self):
+        if self.__th_firt_boot.is_alive():
+            self.after(500, self.__update_during_firt_boot)
+        else :
+            self.__th_firt_boot = th.Thread()
+            self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+
 
     def __check_voice_model(self):
         if not self.__voice.check_voice_model():
@@ -171,16 +246,7 @@ class six_gui_chat(aTk):
             self.after(1000,self.__updating_during_check_voice_model)
         else :
             self.__voice.load_voice_model()
-            # Placement des widget
-            self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
-            self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
-            # Placement des Frame
-            self.__main_frame.grid(row=0, column=0, sticky="nsew")
-            self.__top_frame.grid(row=0, column=0, sticky="ew")
-            self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
-
-            self.__assistant_out.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
     def __send_assistant(self):
         text = self.__back_widget.get_text_entry()

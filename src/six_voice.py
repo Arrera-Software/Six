@@ -116,7 +116,10 @@ class SixVoice:
         return ["tom","siwis"]
 
     def get_current_model(self):
-        return self.__json_conf.getContentJsonFlag("voice_selected")
+        voice = self.__json_conf.getContentJsonFlag("voice_selected")
+        if voice == "" :
+            voice = "tom"
+        return voice
 
     def set_voice_model(self,voice_model:str):
         if voice_model != "tom" and voice_model != "siwis":
