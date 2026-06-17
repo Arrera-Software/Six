@@ -49,50 +49,10 @@ class six_assistant :
         # Demon de MAJ
         self.__demon = tiger_demon("six",VERSION)
 
-        # Demarage du reseau de neuron
-        self.__assistant = ABrain(self.__assistant_conf)
-        self.__gestionnaire = self.__assistant.getGestionnaire()
-
-        # Var
-        self.__first_boot = self.__gestionnaire.getUserConf().getFirstRun()
-        self.__state_conf = False
-
     def active(self):
-        if self.__first_boot:
-            l = arrera_lynx(self.__gestionnaire,
-                        resource_path("json_conf/configLynx.json"),
-                        THEME_FILE)
-            self.__state_conf = l.return_state_lynx()
-        else :
-            self.__state_conf = True
-        self.__boot()
-
-
-    def __boot(self):
-        if not self.__state_conf:
-            w = aTk(title="Arrera Six",resizable=False,width=500,height=350,
-                         theme_file=THEME_FILE)
-            img_cavas = aBackgroundImage(w,
-                                        background_dark="asset/IMGinterface/dark/NoConfig.png",
-                                        background_light="asset/IMGinterface/white/NoConfig.png",
-                                        width=500,height=350)
-            label_text = aLabel(w,text="Désolé, mais vous n'avez pas configuré l'assistant correctement",
-                               police_size=20,fg_color="#2b3ceb",
-                               text_color="white",wraplength=300,justify="left")
-            btn_conf = aButton(w,text="Configurer",
-                              size=20,command=lambda:self.__restartConf(w))
-            img_cavas.pack()
-            label_text.place(x=190,y=40)
-            btn_conf.placeBottomCenter()
-            w.mainloop()
-        else :
-            assistant = six_gui("asset/icon/",
-                                "icon",
-                                self.__assistant,
-                                THEME_FILE,
-                                self.__demon.get_local_version())
-            assistant.active(self.__first_boot,self.__demon.checkUpdate())
-
-    def __restartConf(self,windows:aTk):
-        windows.destroy()
-        self.active()
+        assistant = six_gui(iconFolder="asset/icon/",
+                            iconName="icon",
+                            conf=self.__assistant_conf,
+                            theme_file=THEME_FILE,
+                            version=self.__demon.get_local_version())
+        assistant.active(self.__demon.checkUpdate())

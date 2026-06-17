@@ -6,13 +6,14 @@ from tkinter.messagebox import *
 from src.languageSIX import *
 from librairy.arrera_tk import *
 import threading as th
-from brain.brain import ABrain
+from brain.brain import ABrain,confNeuron
+from lynx_gui.arrera_lynx import arrera_lynx
 import random
 from src.six_widget import six_speak,back_widget
 
 class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
-                 brain:ABrain,theme_file:str,
+                 conf:confNeuron,theme_file:str,
                  version:str):
         # var
         self.__nameSoft = "Arrera Six"
@@ -20,7 +21,6 @@ class six_gui(aTk) :
         self.__version = version
         self.__mute_is_enable = False
         self.__setting_is_open = False
-        self.__first_boot = False
         self.__assistant_load = False
         self.__index_load = 0
 
@@ -53,7 +53,7 @@ class six_gui(aTk) :
                                            width=30, height=30)]
 
         # Objet
-        self.__assistant_six = brain
+        self.__assistant_six = ABrain(conf)
         self.__gestionnaire = self.__assistant_six.getGestionnaire()
         self.__objOS = self.__gestionnaire.getOSObjet()
         self.__avoice = self.__gestionnaire.getArrVoice()
@@ -111,6 +111,10 @@ class six_gui(aTk) :
                                           resource_path("json_conf/conf-setting.json"))
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
+
+        self.__lynx = arrera_lynx(self,self.__gestionnaire,
+                                  resource_path("json_conf/configLynx.json"),
+                                  lambda : self.__end_lynx())
         # widget et canvas
 
         # Canvas Acceuil
@@ -153,22 +157,33 @@ class six_gui(aTk) :
         self.__thBoot = th.Thread()
 
 
-    def active(self,firstBoot:bool,update_available:bool):
+    def active(self,update_available:bool):
 
-        self.__first_boot = firstBoot
+        first_boot = self.__gestionnaire.getUserConf().getFirstRun()
 
-        if update_available:
-            self.__c_maj.place(x=0,y=0)
+        if first_boot :
+            self.geometry(self.__lynx.get_geometry())
+            self.update()
+            self.__lynx.active()
         else :
-            self.__boot()
+            if update_available:
+                self.__c_maj.place(x=0,y=0)
+            else :
+                self.__boot()
 
         self.mainloop()
 
+    def __end_lynx(self):
+        self.__lynx.place_forget()
+        del self.__lynx
+        self.geometry("500x400+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
+        self.__sequence_first_boot()
+
     def __boot(self):
-        if self.__first_boot:
-            self.__sequence_first_boot()
-        else :
-            self.__sequence_boot()
+        self.geometry("500x400+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
+        self.__sequence_boot()
 
     # Declaration des diferente page de l'inteface
 
