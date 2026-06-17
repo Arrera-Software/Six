@@ -6,20 +6,21 @@ from tkinter.messagebox import *
 from src.languageSIX import *
 from librairy.arrera_tk import *
 import threading as th
-from brain.brain import ABrain
+from brain.brain import confNeuron,ABrain
 from src.six_voice import SixVoice
 import random
 from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
-                 brain: ABrain, theme_file: str,
+                 conf : confNeuron,
+                 theme_file: str,
                  version: str):
 
         self.__nameSoft = "Arrera Six"
 
         # Objet
-        self.__assistant_six = brain
+        self.__assistant_six = ABrain(conf)
         self.__gestionnaire = self.__assistant_six.getGestionnaire()
         self.__objOS = self.__gestionnaire.getOSObjet()
         self.__avoice = self.__gestionnaire.getArrVoice()
