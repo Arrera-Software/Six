@@ -30,8 +30,8 @@ class back_widget(aFrame):
 
         self.__entry = aEntry(self,police_size=20,width=360)
 
-        imageMicroSimple = aImage(path_light=dir_gui_light + "microsimple.png",
-                                  path_dark=dir_gui_dark + "microsimple.png",
+        imageMicroSimple = aImage(path_light=dir_gui_dark + "microsimple.png",
+                                  path_dark=dir_gui_light + "microsimple.png",
                                   width=30, height=30)
         imageParametre = aImage(path_light=dir_gui_light + "settings.png",
                                 path_dark=dir_gui_dark + "settings.png",
