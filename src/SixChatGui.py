@@ -151,6 +151,10 @@ class six_gui_chat(aTk):
         self.__conf_frame.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
         self.__assistant_out.grid(row=0, column=1, sticky="nsew",padx=5,pady=5)
 
+    def __frame_mute(self):
+        f = aFrame(self.__main_frame)
+
+
     def __unview_frame_conf(self):
         self.__assistant_frame.grid_columnconfigure(0, weight=1)
         self.__assistant_frame.grid_columnconfigure(1, weight=0)
