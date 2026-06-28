@@ -3,7 +3,8 @@ from librairy.arrera_tk import *
 
 class six_information_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
-                 fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable):
+                 fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable,
+                 fnc_sound:Callable,micro_fnc:Callable):
         super().__init__(master)
 
         self.__img_tableur = [
@@ -33,9 +34,24 @@ class six_information_widget(aFrame):
                    width=32, height=32),
         ]
 
+        self.__img_sound = [
+            aImage(path_light=dir_gui_light+"sound.png",
+                   path_dark=dir_gui_dark+"sound.png",
+                   width=32,height=32),
+            aImage(path_light=dir_gui_light + "mute_icone.png",
+                   path_dark=dir_gui_dark + "mute_icone.png",
+                   width=32, height=32)
+        ]
+
+        image_micro = aImage(path_light=dir_gui_light + "microsimple.png",
+                             path_dark=dir_gui_dark + "microsimple.png",
+                             width=30, height=30)
+
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(3, weight=1)
+        self.grid_columnconfigure(4, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
         self.__b_tableur = aButton(self, image=self.__img_tableur[0], text="",
@@ -47,10 +63,18 @@ class six_information_widget(aFrame):
         self.__b_projet = aButton(self, image=self.__img_projet[0], text="",
                                   width=32, height=32, fg_color="transparent",
                                   command=fnc_projet)
+        self.__b_sound = aButton(self, image=self.__img_sound[0], text="",
+                                 width=32, height=32, fg_color="transparent",
+                                  command=fnc_sound)
+        self.__btn_micro = aButton(self, width=32, height=32, text="",
+                                   image=image_micro,fg_color="transparent",
+                                   command=micro_fnc)
 
         self.__b_tableur.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
         self.__b_doc.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
         self.__b_projet.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+        self.__b_sound.grid(row=0, column=3, padx=10, pady=10, sticky="ew")
+        self.__btn_micro.grid(row=0, column=4, padx=10, pady=10, sticky="ew")
 
     def update_state(self,tableur:bool,doc:bool,projet:bool):
         if tableur:
@@ -70,12 +94,11 @@ class six_information_widget(aFrame):
 
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
-                 send_fnc:Callable,micro_fnc:Callable):
+                 send_fnc:Callable):
         super().__init__(master)
 
-        self.columnconfigure(0, weight=0)
-        self.columnconfigure(1, weight=1)
-        self.columnconfigure(2, weight=0)
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=0)
 
         self.__entry = aEntry(self,police_size=25,width=400)
 
@@ -83,38 +106,29 @@ class back_widget(aFrame):
                                   path_dark=dir_gui_dark + "sendsimple.png",
                                   width=30, height=30)
 
-        image_micro = aImage(path_light=dir_gui_light + "microsimple.png",
-                             path_dark=dir_gui_dark + "microsimple.png",
-                             width=30, height=30)
+
 
 
         self.__btn_send = aButton(self, width=30, height=30, text="",
                                   image=image_send,
                                   command=send_fnc)
 
-        self.__btn_micro = aButton(self, width=30,
-                                   height=30, text="",
-                                   image=image_micro,
-                                   command=micro_fnc)
+
 
         self.__entry.bind("<FocusIn>", self.__on_focus)
         self.__entry.bind("<FocusOut>", self.__on_unfocus)
 
-        self.__btn_micro.grid(row=0, column=0, padx=5, pady=5)
-        self.__entry.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
-        self.__btn_send.grid(row=0, column=2, padx=5, pady=5)
+        self.__entry.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
+        self.__btn_send.grid(row=0, column=1, padx=5, pady=5)
 
     def __on_focus(self, event):
         self.__entry.configure(width=500)
-
-        self.__btn_micro.grid_forget()
         self.__btn_send.grid_forget()
 
     def __on_unfocus(self, event):
         self.__entry.configure(width=400)
 
-        self.__btn_micro.grid(row=0, column=0, padx=5, pady=5)
-        self.__btn_send.grid(row=0, column=2, padx=5, pady=5)
+        self.__btn_send.grid(row=0, column=1, padx=5, pady=5)
 
 
     def get_text_entry(self):

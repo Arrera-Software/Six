@@ -105,8 +105,7 @@ class six_gui_chat(aTk):
         self.__assistant_frame = aFrame(self.__main_frame)
         self.__back_widget = back_widget(self.__main_frame, dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
-                                         send_fnc=lambda: print("send"),
-                                         micro_fnc=lambda: print("micro"))
+                                         send_fnc=lambda: print("send"))
 
         # Config Frame
 
@@ -127,8 +126,12 @@ class six_gui_chat(aTk):
                                                     dir_gui_dark=self.__dir_GUI_dark,
                                                     fnc_doc=lambda: print("doc"),
                                                     fnc_tableur=lambda: print("tableur"),
-                                                    fnc_projet=lambda: print("projet"))
+                                                    fnc_projet=lambda: print("projet"),
+                                                    fnc_sound=lambda : print("Sound"),
+                                                    micro_fnc=lambda : print("micro"))
+
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
+
         self.__conf_frame = frame_conf(self.__assistant_frame,
                                        dir_gui_light=self.__dir_GUIl_light,
                                        dir_gui_dark=self.__dir_GUI_dark,
