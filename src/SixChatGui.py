@@ -21,6 +21,7 @@ class six_gui_chat(aTk):
         self.__nameSoft = "Arrera Six"
 
         self.__state_conf = True
+        self.__mute_enable = False
 
         # Objet
         self.__assistant_six = ABrain(conf)
@@ -127,7 +128,7 @@ class six_gui_chat(aTk):
                                                     fnc_doc=lambda: print("doc"),
                                                     fnc_tableur=lambda: print("tableur"),
                                                     fnc_projet=lambda: print("projet"),
-                                                    fnc_sound=lambda : print("Sound"),
+                                                    fnc_sound=lambda : self.__action_mute(),
                                                     micro_fnc=lambda : print("micro"))
 
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
@@ -140,29 +141,111 @@ class six_gui_chat(aTk):
                                        fnc_change_voice=self.__change_voice,
                                        fnc_get_voice_model=lambda : self.__voice.get_current_model())
 
+        self.__mute_frame = self.__frame_mute()
+
 
 
     def __view_frame_conf(self):
-        self.__assistant_frame.grid_columnconfigure(0, weight=1)
-        self.__assistant_frame.grid_columnconfigure(1, weight=5)
+        if not self.__mute_enable:
+            self.__assistant_frame.grid_columnconfigure(0, weight=1)
+            self.__assistant_frame.grid_columnconfigure(1, weight=5)
 
-        self.__btn_six.configure(command=self.__unview_frame_conf)
+            self.__btn_six.configure(command=self.__unview_frame_conf)
 
-        self.__conf_frame.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
-        self.__assistant_out.grid(row=0, column=1, sticky="nsew",padx=5,pady=5)
-
-    def __frame_mute(self):
-        f = aFrame(self.__main_frame)
+            self.__conf_frame.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+            self.__assistant_out.grid(row=0, column=1, sticky="nsew",padx=5,pady=5)
 
 
     def __unview_frame_conf(self):
-        self.__assistant_frame.grid_columnconfigure(0, weight=1)
-        self.__assistant_frame.grid_columnconfigure(1, weight=0)
+        if not self.__mute_enable:
+            self.__assistant_frame.grid_columnconfigure(0, weight=1)
+            self.__assistant_frame.grid_columnconfigure(1, weight=0)
 
-        self.__btn_six.configure(command=self.__view_frame_conf)
+            self.__btn_six.configure(command=self.__view_frame_conf)
 
-        self.__conf_frame.grid_forget()
-        self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+            self.__conf_frame.grid_forget()
+            self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+
+    def __action_mute(self):
+        if not self.__mute_enable:
+            self.__mute_enable = True
+
+            self.__information_widget.unview()
+
+            self.__information_widget.active_mute()
+
+            text = self.__language.getPhActiveMute()
+
+            label_assistant(self.__assistant_out,text ).view()
+
+            self.__th_voice = th.Thread(target=self.__voice.speak, args=(text,))
+
+            self.__th_voice.start()
+
+            self.after(100, self.__update_mute)
+
+
+        else :
+            self.__mute_enable = False
+
+            self.__information_widget.unview()
+
+            self.__information_widget.active_mute()
+
+            self.__mute_frame.grid_forget()
+            self.__assistant_out.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+
+            text = self.__language.getPhQuitMute()
+
+            label_assistant(self.__assistant_out,text).view()
+
+            self.__th_voice = th.Thread(target=self.__voice.speak, args=(text,))
+
+            self.__th_voice.start()
+
+            self.after(100, self.__update_mute)
+
+
+    def __update_mute(self):
+        if self.__th_voice.is_alive():
+            self.after(100, self.__update_mute)
+        else :
+            if self.__mute_enable:
+                nb = random.randint(0, 1)
+
+                self.__assistant_out.grid_forget()
+                self.__conf_frame.grid_forget()
+
+                self.__icon_mute.configure(image=self.__mute_icon[nb])
+
+                self.__mute_frame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+
+                self.__back_widget.grid_forget()
+
+                self.__information_widget.view()
+            elif not self.__mute_enable:
+                self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+                self.__information_widget.view()
+
+
+    def __frame_mute(self):
+        f = aFrame(self.__assistant_frame)
+        f.grid_columnconfigure(0, weight=1)
+        f.grid_rowconfigure(0, weight=2)
+        f.grid_rowconfigure(1, weight=1)
+
+        self.__mute_icon = [aImage(width=256, height=256,
+            path_light="asset/IMGinterface/chat/mute1.png"),
+             aImage(width=256, height=256,
+                    path_light="asset/IMGinterface/chat/mute2.png")]
+
+        self.__icon_mute = aLabel(f, image=self.__mute_icon[0])
+        text_label = aLabel(f, text="Mode Mute Activer", police_size=30)
+
+        self.__icon_mute.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        text_label.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
+
+        return f
 
     def active(self,update_available:bool):
         firstBoot = self.__gestionnaire.getUserConf().getFirstRun()
@@ -179,7 +262,7 @@ class six_gui_chat(aTk):
     def __view_gui(self):
         # Placement des widget
         self.__btn_six.grid(row=0, column=0, padx=10, pady=10)
-        self.__information_widget.grid(row=0, column=2, padx=10, pady=10)
+        self.__information_widget.view()
         # Placement des Frame
         self.__main_frame.grid(row=0, column=0, sticky="nsew")
         self.__top_frame.grid(row=0, column=0, sticky="ew")
@@ -263,6 +346,9 @@ class six_gui_chat(aTk):
             if "parametre" in text_lower or "settings" in text_lower:
                 self.__open_setting()
                 return
+            elif "mute" in text_lower :
+                self.__action_mute()
+                return
             self.__th_thinking_assistant = th.Thread(target=self.__thinking_assistant,args=(text,))
             self.__th_thinking_assistant.start()
             self.__update_during_thinking()
@@ -284,12 +370,17 @@ class six_gui_chat(aTk):
 
         # STOP ASSISTANT
     def __on_close(self):
-        if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
-            self.title(self.__nameSoft)
-            self.__gazelleUI.clearAllFrame()
-            self.update()
+        if not self.__mute_enable :
+            if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
+                self.title(self.__nameSoft)
+                self.__gazelleUI.clearAllFrame()
+                self.update()
 
-            self.__beginning_sequence_stop()
+                self.__beginning_sequence_stop()
+        else :
+            self.__action_mute()
+            self.update()
+            self.__on_close()
 
     def __stop_assistant(self):
         self.__six_speaking = True

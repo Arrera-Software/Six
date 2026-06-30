@@ -92,6 +92,18 @@ class six_information_widget(aFrame):
         else :
             self.__b_projet.configure(image=self.__img_projet[0], text="")
 
+    def active_mute(self):
+        self.__b_sound.configure(image=self.__img_sound[1], text="")
+
+    def inactive_mute(self):
+        self.__b_sound.configure(image=self.__img_sound[0], text="")
+
+    def view(self):
+        self.grid(row=0, column=2, padx=10, pady=10)
+
+    def unview(self):
+        self.grid_forget()
+
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  send_fnc:Callable):
