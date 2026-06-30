@@ -213,3 +213,34 @@ class label_user(label_parole):
 
     def view(self):
         self.pack(anchor="e",pady=6)
+
+class view_boot(aFrame):
+    def __init__(self,master):
+        super().__init__(master)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=2)
+
+        self.__boot_icon = [aImage(width=256, height=256,
+                                   path_light="asset/IMGinterface/chat/boot0.png"),
+                            aImage(width=256, height=256,
+                                   path_light="asset/IMGinterface/chat/boot1.png"),
+                            aImage(width=256, height=256,
+                                   path_light="asset/IMGinterface/chat/boot2.png"),
+                            aImage(width=256, height=256,
+                                   path_light="asset/IMGinterface/chat/boot3.png")]
+
+        self.__l_icon = aLabel(self, image=self.__boot_icon[0],text="",fg_color="transparent")
+
+        self.__l_icon.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+
+    def b0(self):
+        self.__l_icon.configure(image=self.__boot_icon[0],text="",fg_color="transparent")
+
+    def b1(self):
+        self.__l_icon.configure(image=self.__boot_icon[1],text="",fg_color="transparent")
+
+    def b2(self):
+        self.__l_icon.configure(image=self.__boot_icon[2],text="",fg_color="transparent")
+
+    def b3(self):
+        self.__l_icon.configure(image=self.__boot_icon[3],text="",fg_color="transparent")

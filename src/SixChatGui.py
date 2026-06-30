@@ -10,7 +10,7 @@ import threading as th
 from brain.brain import confNeuron,ABrain
 from src.six_voice import SixVoice
 import random
-from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user
+from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user,view_boot
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -143,6 +143,8 @@ class six_gui_chat(aTk):
 
         self.__mute_frame = self.__frame_mute()
 
+        self.__boot_widget = view_boot(self)
+
 
 
     def __view_frame_conf(self):
@@ -269,9 +271,35 @@ class six_gui_chat(aTk):
         self.__assistant_frame.grid(row=1, column=0, sticky="nsew")
         self.__assistant_out.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
+    def __unview_gui(self):
+        # Placement des widget
+        self.__btn_six.grid_forget()
+        self.__information_widget.unview()
+        # Placement des Frame
+        self.__main_frame.grid_forget()
+        self.__top_frame.grid_forget()
+        self.__assistant_frame.grid_forget()
+        self.__assistant_out.grid_forget()
+
     def __boot(self):
         self.resizable(True, True)
         self.geometry("550x700+5+30")
+
+        self.__boot_widget.b0()
+        self.__boot_widget.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+        self.update()
+        time.sleep(0.2)
+        self.__boot_widget.b1()
+        self.update()
+        time.sleep(0.2)
+        self.__boot_widget.b2()
+        self.update()
+        time.sleep(0.2)
+        self.__boot_widget.b3()
+        self.update()
+        time.sleep(0.2)
+        self.__boot_widget.grid_forget()
+
         self.protocol("WM_DELETE_WINDOW", self.__on_close)
         text_boot = self.__assistant_six.boot()
 
@@ -403,6 +431,20 @@ class six_gui_chat(aTk):
             self.update()
             self.after(100,self.__update_durring_stopping_speak)
         else :
+            self.__boot_widget.b3()
+            self.__unview_gui()
+            self.__boot_widget.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+            self.update()
+            time.sleep(0.2)
+            self.__boot_widget.b2()
+            self.update()
+            time.sleep(0.2)
+            self.__boot_widget.b0()
+            self.update()
+            time.sleep(0.2)
+            self.__boot_widget.b1()
+            self.update()
+            time.sleep(0.2)
 
             if self.__objOS.osWindows():
                 os.kill(os.getpid(), signal.SIGINT)
