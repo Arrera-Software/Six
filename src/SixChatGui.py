@@ -106,7 +106,7 @@ class six_gui_chat(aTk):
         self.__assistant_frame = aFrame(self.__main_frame)
         self.__back_widget = back_widget(self.__main_frame, dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
-                                         send_fnc=lambda: print("send"))
+                                         send_fnc=self.__send_assistant)
 
         # Config Frame
 
