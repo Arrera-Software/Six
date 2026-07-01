@@ -10,7 +10,7 @@ import threading as th
 from brain.brain import confNeuron,ABrain
 from src.six_voice import SixVoice
 import random
-from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user,view_boot
+from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user,view_boot,six_load
 
 class six_gui_chat(aTk):
     def __init__(self, iconFolder: str, iconName: str,
@@ -144,6 +144,8 @@ class six_gui_chat(aTk):
         self.__mute_frame = self.__frame_mute()
 
         self.__boot_widget = view_boot(self)
+
+        self.__load_widget = six_load(self.__assistant_out)
 
 
 
@@ -379,14 +381,20 @@ class six_gui_chat(aTk):
                 return
             self.__th_thinking_assistant = th.Thread(target=self.__thinking_assistant,args=(text,))
             self.__th_thinking_assistant.start()
-            self.__update_during_thinking()
+            self.__update_during_thinking(True)
 
     def __thinking_assistant(self,text:str):
         self.__back_widget.grid_forget()
         self.__assistant_six.neuron(text)
 
-    def __update_during_thinking(self):
+    def __update_during_thinking(self,firt:bool=False):
+
         if self.__th_thinking_assistant.is_alive():
+
+            if firt:
+                self.__load_widget.view()
+            else :
+                self.__load_widget.update_load()
             self.after(100, self.__update_during_thinking)
         else:
             self.__th_thinking_assistant = th.Thread()
@@ -402,6 +410,7 @@ class six_gui_chat(aTk):
             if askyesno("Atention", "Voulez-vous vraiment fermer Six"):
                 self.title(self.__nameSoft)
                 self.__gazelleUI.clearAllFrame()
+                self.__load_widget.unview()
                 self.update()
 
                 self.__beginning_sequence_stop()
@@ -456,6 +465,7 @@ class six_gui_chat(aTk):
         if var == 15:
             self.__stop_assistant()
         else :
+            self.__load_widget.unview()
             label_assistant(self.__assistant_out, text).view()
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
             self.__th_speak = th.Thread(target=self.__voice.speak, args=(text,))
