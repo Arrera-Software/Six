@@ -1,4 +1,6 @@
 from abc import abstractmethod
+from random import randint
+
 from librairy.arrera_tk import *
 
 class six_information_widget(aFrame):
@@ -244,3 +246,63 @@ class view_boot(aFrame):
 
     def b3(self):
         self.__l_icon.configure(image=self.__boot_icon[3],text="",fg_color="transparent")
+
+class six_load(aFrame):
+    def __init__(self,master):
+        super().__init__(master)
+
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+
+        self.__current_icon = 0
+        self.__delay_load = 0
+
+        self.__img_load = [aImage(height=32,width=32,path_light="asset/IMGinterface/chat/load0.png"),
+                           aImage(height=32,width=32,path_light="asset/IMGinterface/chat/load1.png"),
+                           aImage(height=32,width=32,path_light="asset/IMGinterface/chat/load2.png")]
+
+        self.__list_text = [
+            "Arrera SIX réfléchir deux secondes.",
+            "Arrera SIX active son cerveau.",
+            "je cogite, signé SIX.",
+            "Arrera SIX analyse",
+            "SIX réfléchit…",
+            "Arrera SIX assemble les idées.",
+            "SIX pense que ça mérite réflexion.",
+            "SIX en mode réflexion",
+            "Arrera SIX met ses neurones en ligne.",
+            "Arrera SIX réfléchit…"
+        ]
+
+        self.__icon_view = aLabel(self, image=self.__img_load[0],text="",fg_color="transparent")
+        self.__text_view = aLabel(self, text=self.__list_text[0], police_size=14, fg_color="transparent")
+
+        self.__icon_view.grid(row=0, column=0, padx=(8, 4), pady=6, sticky="w")
+        self.__text_view.grid(row=0, column=1, padx=(4, 8), pady=6, sticky="ew")
+
+    def __reset_load(self):
+        self.__current_icon = 0
+        nb_random = randint(0, (len(self.__list_text) - 1))
+
+        self.__icon_view.configure(image=self.__img_load[0],text="",fg_color="transparent")
+        self.__text_view.configure(text=self.__list_text[nb_random], fg_color="transparent")
+
+    def update_load(self):
+        self.__current_icon = self.__current_icon + 1
+        if self.__current_icon >= len(self.__img_load):
+            self.__current_icon = 0
+        if self.__delay_load == 10:
+            nb_random = randint(0, (len(self.__list_text) - 1))
+            self.__text_view.configure(text=self.__list_text[nb_random], fg_color="transparent")
+            self.__delay_load = 0
+        self.__delay_load += 1
+
+        self.__icon_view.configure(image=self.__img_load[self.__current_icon],text="",fg_color="transparent")
+
+
+    def view(self):
+        self.__reset_load()
+        self.pack(anchor="w", pady=6)
+
+    def unview(self):
+        self.pack_forget()
