@@ -125,9 +125,9 @@ class six_gui_chat(aTk):
         self.__information_widget = six_information_widget(self.__top_frame,
                                                     dir_gui_light=self.__dir_GUIl_light,
                                                     dir_gui_dark=self.__dir_GUI_dark,
-                                                    fnc_doc=lambda: print("doc"),
-                                                    fnc_tableur=lambda: print("tableur"),
-                                                    fnc_projet=lambda: print("projet"),
+                                                    fnc_doc=lambda: self.__set_requette_with_btn("aide word"),
+                                                    fnc_tableur=lambda: self.__set_requette_with_btn("aide tableur"),
+                                                    fnc_projet=lambda: self.__set_requette_with_btn("aide projet"),
                                                     fnc_sound=lambda : self.__action_mute(),
                                                     micro_fnc=lambda : print("micro"))
 
@@ -460,6 +460,9 @@ class six_gui_chat(aTk):
             elif self.__objOS.osLinux() or self.__objOS.osMac():
                 os.kill(os.getpid(), signal.SIGKILL)
 
+    def __set_requette_with_btn(self,requette:str):
+        self.__back_widget.set_text_entry(requette)
+        self.__send_assistant()
 
     def __treatment_out_assistant(self,var:int,text:str):
         if var == 15:
