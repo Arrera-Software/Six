@@ -22,3 +22,8 @@ class language_six :
 
     def getPhraseFirstBoot(self, genre:str, name:str, nb:int):
         return self.__firstBoot.getContentJsonFlag(str(nb)).format(genre=genre, lastname=name)
+
+    def getPhraseGiveHelp(self,genre:str, name:str, ):
+        l = self.__language.getFlagListJson("phGiveHelp")
+        nb = random.randint(0, len(l) - 1)
+        return l[nb].format(genre=genre, lastname=name)

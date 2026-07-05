@@ -5,5 +5,7 @@
   "phOpenInterface": [
     "Voici une fenêtre pour mieux lire l’aide {genre}.",
     "Je vous ai ouvert une interface pour simplifier la lecture."
-  ]
+  ],
+  "phGiveHelp": ["Je vous ai affiché une aide pour mieux comprendre ma fonctionnalité",
+    "J'ai affiché une aide pour vous sur la fonctionnalité que vous avez demandée."]
 }

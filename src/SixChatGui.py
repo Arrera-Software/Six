@@ -467,6 +467,16 @@ class six_gui_chat(aTk):
     def __treatment_out_assistant(self,var:int,text:str):
         if var == 15:
             self.__stop_assistant()
+        elif var == 17 :
+            self.__load_widget.unview()
+            text_speak = self.__language.getPhraseGiveHelp(self.__gest_user.getGenre(),self.__gest_user.getLastnameUser())
+            text_help = self.__assistant_six.getListSortie()[0]
+            label_assistant(self.__assistant_out, text_speak).view()
+            label_assistant(self.__assistant_out, text_help).view()
+
+            self.__th_speak = th.Thread(target=self.__voice.speak, args=(text_speak,))
+            self.__th_speak.start()
+            self.__update_during_speak()
         else :
             self.__load_widget.unview()
             label_assistant(self.__assistant_out, text).view()
