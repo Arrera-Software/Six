@@ -16,6 +16,7 @@ class CArreraVoice:
         self.__nbWord = 0
         self.__outPutText = ""
         self.__resource_lib = resource_lib()
+        self.__stop_flag = False
 
         if self.__gestionnaire.getNetworkObjet().getEtatInternet():
             self.__tts = None
@@ -65,15 +66,30 @@ class CArreraVoice:
     def playFile(self,file:str):
         pl(file)
 
+    def stop_listen(self):
+        self.__stop_flag = True
+
     def listen(self):
         self.loadConfig()
         if self.__soundMicro:
             pl(self.__emplacementSoundMicro)
 
         r = sr.Recognizer()
+        self.__stop_flag = False
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
+            audio = None
+            while not self.__stop_flag:
+                try:
+                    audio = r.listen(source, timeout=0.5)
+                    break
+                except sr.WaitTimeoutError:
+                    continue
+        
+        if self.__stop_flag or audio is None:
+            self.__outPutText = ""
+            return -1
+
         try:
             text = r.recognize_google(audio, language='fr-FR')
             self.__outPutText = text
