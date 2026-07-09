@@ -1,12 +1,13 @@
 from abc import abstractmethod
 from random import randint
-
+from librairy.arrera_voice import CArreraVoice
+from src.six_micro import six_micro
 from librairy.arrera_tk import *
 
 class six_information_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable,
-                 fnc_sound:Callable,micro_fnc:Callable):
+                 fnc_sound:Callable,arr_voice:CArreraVoice):
         super().__init__(master)
 
         self.__img_tableur = [
@@ -45,10 +46,6 @@ class six_information_widget(aFrame):
                    width=32, height=32)
         ]
 
-        image_micro = aImage(path_light=dir_gui_light + "microsimple.png",
-                             path_dark=dir_gui_dark + "microsimple.png",
-                             width=30, height=30)
-
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
@@ -68,9 +65,8 @@ class six_information_widget(aFrame):
         self.__b_sound = aButton(self, image=self.__img_sound[0], text="",
                                  width=32, height=32, fg_color="transparent",
                                   command=fnc_sound)
-        self.__btn_micro = aButton(self, width=32, height=32, text="",
-                                   image=image_micro,fg_color="transparent",
-                                   command=micro_fnc)
+
+        self.__btn_micro = six_micro(self,arr_voice=arr_voice,fg_color="transparent")
 
         self.__b_tableur.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
         self.__b_doc.grid(row=0, column=1, padx=10, pady=10, sticky="ew")

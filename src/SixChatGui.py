@@ -1,5 +1,4 @@
 import signal
-import requests
 from setting_gui.arrera_gazelle import arrera_gazelle
 from lynx_gui.arrera_lynx import arrera_lynx
 import time
@@ -8,6 +7,7 @@ from src.languageSIX import *
 from librairy.arrera_tk import *
 import threading as th
 from brain.brain import confNeuron,ABrain
+from src.six_micro import six_micro
 from src.six_voice import SixVoice
 import random
 from src.six_chat_widget import back_widget,six_information_widget,frame_conf,label_assistant,label_user,view_boot,six_load
@@ -122,6 +122,7 @@ class six_gui_chat(aTk):
         self.__btn_six = aButton(self.__top_frame,text="",image=img_six,fg_color="transparent",
                           corner_radius=25,width=15,height=15,command=self.__view_frame_conf)
 
+
         self.__information_widget = six_information_widget(self.__top_frame,
                                                     dir_gui_light=self.__dir_GUIl_light,
                                                     dir_gui_dark=self.__dir_GUI_dark,
@@ -129,7 +130,7 @@ class six_gui_chat(aTk):
                                                     fnc_tableur=lambda: self.__set_requette_with_btn("aide tableur"),
                                                     fnc_projet=lambda: self.__set_requette_with_btn("aide projet"),
                                                     fnc_sound=lambda : self.__action_mute(),
-                                                    micro_fnc=lambda : print("micro"))
+                                                    arr_voice=self.__avoice)
 
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
 
