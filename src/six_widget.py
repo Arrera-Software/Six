@@ -1,4 +1,6 @@
 from librairy.arrera_tk import *
+from src.six_micro import six_micro
+from librairy.arrera_voice import CArreraVoice
 
 class six_speak(aLabel):
     def __init__(self,master):
@@ -24,21 +26,21 @@ class six_speak(aLabel):
 
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
-                 micro_fnc:Callable,parametre_fnc:Callable):
+                 parametre_fnc:Callable,arr_voice:CArreraVoice,
+                 fnc_send:Callable,use_trigger:bool=False):
         super().__init__(master,width=500,height=50)
         self.__btn_micro_is_enable = True
 
         self.__entry = aEntry(self,police_size=20,width=360)
 
-        imageMicroSimple = aImage(path_light=dir_gui_dark + "microsimple.png",
-                                  path_dark=dir_gui_light + "microsimple.png",
-                                  width=30, height=30)
         imageParametre = aImage(path_light=dir_gui_light + "settings.png",
                                 path_dark=dir_gui_dark + "settings.png",
                                 width=30, height=30)
 
-        self.__btn_microphone = aButton(self, width=30, height=30, text="",
-                                        image=imageMicroSimple, command=micro_fnc)
+        self.__btn_microphone = six_micro(self,arr_voice=arr_voice,
+                                          back_widget=self,
+                                          fnc_send=fnc_send,
+                                          use_trigger=use_trigger)
 
         self.__btnParametre = aButton(self, width=30, height=30, text="",
                                       image=imageParametre, command=parametre_fnc)
@@ -73,10 +75,5 @@ class back_widget(aFrame):
         self.__entry.delete(0,END)
         self.__entry.insert(0,text)
 
-    def disable_btn_micro(self):
-        self.__btn_micro_is_enable = False
-        self.__btn_microphone.place_forget()
-
-    def enable_btn_micro(self):
-        self.__btn_micro_is_enable = True
-        self.__btn_microphone.placeCenterRight()
+    def set_use_trigger(self, use_trigger: bool):
+        self.__btn_microphone.set_use_trigger(use_trigger)
