@@ -8,7 +8,9 @@ if TYPE_CHECKING:
 
 
 class six_micro(aButton):
-    def __init__(self,master,arr_voice:CArreraVoice,back_widget:'back_widget',fnc_send:Callable,fg_color:str=None):
+    def __init__(self,master,arr_voice:CArreraVoice,back_widget:'back_widget',
+                 fnc_send:Callable,fg_color:str=None,
+                 use_trigger:bool=False):
         self.__img_micro = aImage(path_light="asset/icon/microphone/microphone_dark.png",
                                   path_dark="asset/icon/microphone/microphone_white.png",
                                   height=32,width=32)
@@ -31,6 +33,7 @@ class six_micro(aButton):
 
         self.__back_widget = back_widget
         self.__fnc_send = fnc_send
+        self.__use_trigger = use_trigger
 
         self.configure(command=self.__action_btn_micro)
 
@@ -38,7 +41,10 @@ class six_micro(aButton):
 
     def __action_btn_micro(self):
         if not self.__th_listen.is_alive():
-            self.__enable_micro_no_trigger()
+            if self.__use_trigger:
+                self.__enable_micro_trigger()
+            else:
+                self.__enable_micro_no_trigger()
         else :
             self.__arr_voice.stop_listen()
 
@@ -47,11 +53,15 @@ class six_micro(aButton):
             self.update()
             self.after(100, self.__update_microphone_no_trigger)
         else :
-            self.configure(image=self.__img_micro,text="")
             text = self.__arr_voice.getTextMicro()
             if text != "":
                 self.__back_widget.set_text_entry(text)
                 self.__fnc_send()
+                
+            if self.__use_trigger:
+                self.__enable_micro_trigger()
+            else:
+                self.configure(image=self.__img_micro,text="")
 
     # Getteur
 
@@ -60,6 +70,33 @@ class six_micro(aButton):
 
     def get_texte_microphone(self):
         return self.__arr_voice.getTextMicro()
+
+    def set_use_trigger(self, use_trigger: bool):
+        self.__use_trigger = use_trigger
+
+    # Avec trigger
+
+    def __enable_micro_trigger(self):
+        self.__th_listen = th.Thread(target=self.__arr_voice.trigerWord)
+        self.configure(image=self.__img_trigger, text="")
+        self.__th_listen.start()
+        self.__update_microphone_trigger()
+
+    def __update_microphone_trigger(self):
+        if self.__th_listen.is_alive():
+            self.update()
+            self.after(100, self.__update_microphone_trigger)
+        else:
+            status = self.__arr_voice.get_trigger_status()
+            if status == 1:
+                # Mot de déclenchement détecté ! On lance l'écoute.
+                self.__enable_micro_no_trigger()
+            elif status in [0, -1]:
+                # Rien entendu ou pas compris, on relance la veille
+                self.__enable_micro_trigger()
+            else:
+                # -3 (pas de mot), -4 (arrêt manuel), -2 (erreur)
+                self.configure(image=self.__img_micro, text="")
 
     # Sans trigger
 

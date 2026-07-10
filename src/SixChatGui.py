@@ -132,7 +132,8 @@ class six_gui_chat(aTk):
                                                     fnc_sound=lambda : self.__action_mute(),
                                                     arr_voice=self.__avoice,
                                                     back_widget=self.__back_widget,
-                                                    fnc_send=self.__send_assistant)
+                                                    fnc_send=self.__send_assistant,
+                                                    use_trigger=self.__gazelleUI.gettigerWordSet())
 
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
 
@@ -522,6 +523,9 @@ class six_gui_chat(aTk):
         self.__main_frame.grid(row=0, column=0, sticky="nsew")
         self.update_idletasks()
         self.update()
+        
+        self.__information_widget.set_use_trigger(self.__gazelleUI.gettigerWordSet())
+
         text = self.__language.getPhQuitSetting()
         label_assistant(self.__assistant_out, text).view()
         self.__th_speak = th.Thread(target=self.__voice.speak, args=(text,))

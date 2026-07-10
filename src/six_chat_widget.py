@@ -8,7 +8,7 @@ class six_information_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable,
                  fnc_sound:Callable,arr_voice:CArreraVoice,
-                 back_widget:back_widget,fnc_send:Callable):
+                 back_widget:back_widget,fnc_send:Callable, use_trigger:bool=False):
         super().__init__(master)
 
         self.__img_tableur = [
@@ -70,7 +70,8 @@ class six_information_widget(aFrame):
         self.__btn_micro = six_micro(self,arr_voice=arr_voice,
                                      fg_color="transparent",
                                      back_widget=back_widget,
-                                     fnc_send=fnc_send)
+                                     fnc_send=fnc_send,
+                                     use_trigger=use_trigger)
 
         self.__b_tableur.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
         self.__b_doc.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
@@ -105,6 +106,9 @@ class six_information_widget(aFrame):
 
     def unview(self):
         self.grid_forget()
+
+    def set_use_trigger(self, use_trigger: bool):
+        self.__btn_micro.set_use_trigger(use_trigger)
 
 class back_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
