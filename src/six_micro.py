@@ -1,9 +1,14 @@
 import threading as th
+from typing import Callable, TYPE_CHECKING
 from librairy.arrera_tk import *
 from librairy.arrera_voice import CArreraVoice
 
+if TYPE_CHECKING:
+    from src.six_chat_widget import back_widget
+
+
 class six_micro(aButton):
-    def __init__(self,master,arr_voice:CArreraVoice,fg_color:str=None):
+    def __init__(self,master,arr_voice:CArreraVoice,back_widget:'back_widget',fnc_send:Callable,fg_color:str=None):
         self.__img_micro = aImage(path_light="asset/icon/microphone/microphone_dark.png",
                                   path_dark="asset/icon/microphone/microphone_white.png",
                                   height=32,width=32)
@@ -24,6 +29,9 @@ class six_micro(aButton):
         else :
             super().__init__(master, text="", image=self.__img_micro,width=32, height=32)
 
+        self.__back_widget = back_widget
+        self.__fnc_send = fnc_send
+
         self.configure(command=self.__action_btn_micro)
 
     # Methode du micro
@@ -40,7 +48,10 @@ class six_micro(aButton):
             self.after(100, self.__update_microphone_no_trigger)
         else :
             self.configure(image=self.__img_micro,text="")
-
+            text = self.__arr_voice.getTextMicro()
+            if text != "":
+                self.__back_widget.set_text_entry(text)
+                self.__fnc_send()
 
     # Getteur
 

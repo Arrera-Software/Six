@@ -130,7 +130,9 @@ class six_gui_chat(aTk):
                                                     fnc_tableur=lambda: self.__set_requette_with_btn("aide tableur"),
                                                     fnc_projet=lambda: self.__set_requette_with_btn("aide projet"),
                                                     fnc_sound=lambda : self.__action_mute(),
-                                                    arr_voice=self.__avoice)
+                                                    arr_voice=self.__avoice,
+                                                    back_widget=self.__back_widget,
+                                                    fnc_send=self.__send_assistant)
 
         self.__assistant_out = aScrollableFrame(self.__assistant_frame)
 

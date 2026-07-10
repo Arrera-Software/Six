@@ -7,7 +7,8 @@ from librairy.arrera_tk import *
 class six_information_widget(aFrame):
     def __init__(self,master,dir_gui_light:str,dir_gui_dark:str,
                  fnc_tableur:Callable,fnc_doc:Callable,fnc_projet:Callable,
-                 fnc_sound:Callable,arr_voice:CArreraVoice):
+                 fnc_sound:Callable,arr_voice:CArreraVoice,
+                 back_widget:back_widget,fnc_send:Callable):
         super().__init__(master)
 
         self.__img_tableur = [
@@ -66,7 +67,10 @@ class six_information_widget(aFrame):
                                  width=32, height=32, fg_color="transparent",
                                   command=fnc_sound)
 
-        self.__btn_micro = six_micro(self,arr_voice=arr_voice,fg_color="transparent")
+        self.__btn_micro = six_micro(self,arr_voice=arr_voice,
+                                     fg_color="transparent",
+                                     back_widget=back_widget,
+                                     fnc_send=fnc_send)
 
         self.__b_tableur.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
         self.__b_doc.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
