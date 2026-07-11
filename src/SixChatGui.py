@@ -147,6 +147,8 @@ class six_gui_chat(aTk):
 
         self.__mute_frame = self.__frame_mute()
 
+        self.__maj_frame = self.__frame_maj()
+
         self.__boot_widget = view_boot(self)
 
         self.__load_widget = six_load(self.__assistant_out)
@@ -235,6 +237,28 @@ class six_gui_chat(aTk):
                 self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
                 self.__information_widget.view()
 
+    def __frame_maj(self):
+        f = aFrame(self)
+        
+        f.grid_columnconfigure(0, weight=1)
+        f.grid_rowconfigure(0, weight=1)
+
+        maj_update = aImage(width=256, height=256,
+                            path_light="asset/IMGinterface/chat/update.png")
+
+        label_icon = aLabel(f, image=maj_update,text="")
+        label_text = aLabel(f, text="Une mise à jour d'ARRERA SIX est disponible.\n"
+                                    "Installez-la pour bénéficier des dernières fonctionnalités.",
+                            police_size=20)
+
+        btn_after = aButton(f,text="Me rappeler plus tard",
+                            command=self.__boot)
+        
+        label_icon.grid(row=0, column=0, sticky="nsew", pady=(20, 10))
+        label_text.grid(row=1, column=0, sticky="ew", pady=10)
+        btn_after.grid(row=2, column=0, sticky="", pady=(10, 20))
+        
+        return f
 
     def __frame_mute(self):
         f = aFrame(self.__assistant_frame)
@@ -263,7 +287,15 @@ class six_gui_chat(aTk):
             self.update()
             self.__lynx.active()
         else :
-            self.__boot()
+            if update_available:
+
+                self.resizable(True, True)
+                self.geometry("550x700+5+30")
+
+                self.__maj_frame.grid(row=0, column=0, sticky="nsew",padx=5,pady=5)
+
+            else:
+                self.__boot()
 
         self.mainloop()
 
@@ -288,6 +320,7 @@ class six_gui_chat(aTk):
         self.__assistant_out.grid_forget()
 
     def __boot(self):
+        self.__maj_frame.grid_forget()
         self.resizable(True, True)
         self.geometry("550x700+5+30")
 
