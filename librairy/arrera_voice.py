@@ -16,6 +16,8 @@ class CArreraVoice:
         self.__nbWord = 0
         self.__outPutText = ""
         self.__resource_lib = resource_lib()
+        self.__stop_flag = False
+        self.__trigger_status = 0
 
         if self.__gestionnaire.getNetworkObjet().getEtatInternet():
             self.__tts = None
@@ -65,15 +67,30 @@ class CArreraVoice:
     def playFile(self,file:str):
         pl(file)
 
+    def stop_listen(self):
+        self.__stop_flag = True
+
     def listen(self):
         self.loadConfig()
         if self.__soundMicro:
             pl(self.__emplacementSoundMicro)
 
         r = sr.Recognizer()
+        self.__stop_flag = False
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
+            audio = None
+            while not self.__stop_flag:
+                try:
+                    audio = r.listen(source, timeout=0.5)
+                    break
+                except sr.WaitTimeoutError:
+                    continue
+        
+        if self.__stop_flag or audio is None:
+            self.__outPutText = ""
+            return -1
+
         try:
             text = r.recognize_google(audio, language='fr-FR')
             self.__outPutText = text
@@ -89,21 +106,43 @@ class CArreraVoice:
     def getNbWord(self):
         return self.__nbWord
 
+    def get_trigger_status(self):
+        return self.__trigger_status
+
     def trigerWord(self):
         self.loadConfig()
+        self.__trigger_status = 0
         if self.__nbWord == 0:
+            self.__trigger_status = -3
             return -3
+            
         r = sr.Recognizer()
+        self.__stop_flag = False
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
+            audio = None
+            while not self.__stop_flag:
+                try:
+                    audio = r.listen(source, timeout=0.5)
+                    break
+                except sr.WaitTimeoutError:
+                    continue
+                    
+        if self.__stop_flag or audio is None:
+            self.__trigger_status = -4 # Code pour dire qu'on a arrêté manuellement
+            return -4
+
         try:
             text = r.recognize_google(audio, language='fr-FR')
             for word in self.__listWord:
                 if word in text:
+                    self.__trigger_status = 1
                     return 1
+            self.__trigger_status = 0
+            return 0
         except sr.UnknownValueError:
+            self.__trigger_status = -1
             return -1
         except sr.RequestError as e:
+            self.__trigger_status = -2
             return -2
-        return 0

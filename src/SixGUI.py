@@ -6,13 +6,14 @@ from tkinter.messagebox import *
 from src.languageSIX import *
 from librairy.arrera_tk import *
 import threading as th
-from brain.brain import ABrain
+from brain.brain import ABrain,confNeuron
+from lynx_gui.arrera_lynx import arrera_lynx
 import random
 from src.six_widget import six_speak,back_widget
 
 class six_gui(aTk) :
     def __init__(self,iconFolder:str,iconName:str,
-                 brain:ABrain,theme_file:str,
+                 conf:confNeuron,theme_file:str,
                  version:str):
         # var
         self.__nameSoft = "Arrera Six"
@@ -20,7 +21,6 @@ class six_gui(aTk) :
         self.__version = version
         self.__mute_is_enable = False
         self.__setting_is_open = False
-        self.__first_boot = False
         self.__assistant_load = False
         self.__index_load = 0
 
@@ -53,7 +53,7 @@ class six_gui(aTk) :
                                            width=30, height=30)]
 
         # Objet
-        self.__assistant_six = brain
+        self.__assistant_six = ABrain(conf)
         self.__gestionnaire = self.__assistant_six.getGestionnaire()
         self.__objOS = self.__gestionnaire.getOSObjet()
         self.__avoice = self.__gestionnaire.getArrVoice()
@@ -87,12 +87,7 @@ class six_gui(aTk) :
             self.__key_gest.add_key(889192475, lambda: self.focus())
 
         # Variable des theard
-        self.__thSixListen = th.Thread()
-        self.__thTrigger = th.Thread()
-        self.__TriggerWorkStop = th.Event()
-
         self.__th_reflect = th.Thread()
-
         self.__th_speak_stop = th.Thread()
 
         # Teste de la connextion internet
@@ -111,6 +106,10 @@ class six_gui(aTk) :
                                           resource_path("json_conf/conf-setting.json"))
         self.__gazelleUI.passFNCQuit(self.__quitParametre)
         self.__gazelleUI.passFNCBTNIcon(lambda : self.__about())
+
+        self.__lynx = arrera_lynx(self,self.__gestionnaire,
+                                  resource_path("json_conf/configLynx.json"),
+                                  lambda : self.__end_lynx())
         # widget et canvas
 
         # Canvas Acceuil
@@ -140,8 +139,10 @@ class six_gui(aTk) :
         # Back Widget
         self.__back_widget = back_widget(self,dir_gui_light=self.__dir_GUIl_light,
                                          dir_gui_dark=self.__dir_GUI_dark,
-                                         micro_fnc=lambda : self.__sixMicroEnable(),
-                                         parametre_fnc= lambda : self.__activeParametre())
+                                         parametre_fnc= lambda : self.__activeParametre(),
+                                         arr_voice=self.__avoice,
+                                         fnc_send=self.__send_assistant,
+                                         use_trigger=self.__gazelleUI.gettigerWordSet())
 
         self.__widget_main_windows()
 
@@ -153,22 +154,33 @@ class six_gui(aTk) :
         self.__thBoot = th.Thread()
 
 
-    def active(self,firstBoot:bool,update_available:bool):
+    def active(self,update_available:bool):
 
-        self.__first_boot = firstBoot
+        first_boot = self.__gestionnaire.getUserConf().getFirstRun()
 
-        if update_available:
-            self.__c_maj.place(x=0,y=0)
+        if first_boot :
+            self.geometry(self.__lynx.get_geometry())
+            self.update()
+            self.__lynx.active()
         else :
-            self.__boot()
+            if update_available:
+                self.__c_maj.place(x=0,y=0)
+            else :
+                self.__boot()
 
         self.mainloop()
 
+    def __end_lynx(self):
+        self.__lynx.place_forget()
+        del self.__lynx
+        self.geometry("500x400+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
+        self.__sequence_first_boot()
+
     def __boot(self):
-        if self.__first_boot:
-            self.__sequence_first_boot()
-        else :
-            self.__sequence_boot()
+        self.geometry("500x400+5+30")
+        self.protocol("WM_DELETE_WINDOW", self.__on_close)
+        self.__sequence_boot()
 
     # Declaration des diferente page de l'inteface
 
@@ -305,29 +317,7 @@ class six_gui(aTk) :
         return c
 
     def __widget_main_windows(self):
-
-        #self.__entryUser = aEntry(self,police_size=20,width=360)
-
-        imageMicroTriger= aImage(path_light=self.__dir_GUIl_light+"micro.png",
-                                 path_dark=self.__dir_GUI_dark+"micro.png",
-                                 width=50,height=50)
-        imageMicroRequette=aImage(path_light=self.__dir_GUIl_light+"microIcon.png",
-                                  path_dark=self.__dir_GUI_dark+"microIcon.png",
-                                  width=50,height=50)
-        imageMicroSimple = aImage(path_light=self.__dir_GUIl_light+"microsimple.png",
-                                  path_dark=self.__dir_GUI_dark+"microsimple.png",
-                                  width=30,height=30)
-        imageParametre = aImage(path_light=self.__dir_GUIl_light+"settings.png",
-                                path_dark=self.__dir_GUI_dark+"settings.png",
-                                width=30,height=30)
-
-        self.__labelTriggerMicro = aLabel(self,text="",width=50,height=50,image=imageMicroTriger)
-        self.__labelMicroRequette = aLabel(self,text="",width=50,height=50,image=imageMicroRequette)
-
-        # Bouton pour activer le micro quand le trigger word est pas activer
-        #self.__btn_microphone = aButton(self, width=30, height=30,text="",image=imageMicroSimple, command=lambda  : self.__sixMicroEnable())
-        # Bouton pour activer les parametre
-        #self.__btnParametre = aButton(self,width=30, height=30,text="",image=imageParametre,command=self.__activeParametre)
+        pass
 
     # Methode qui modifie les image des canvas
 
@@ -486,7 +476,6 @@ class six_gui(aTk) :
         self.__avoice.say(texte)
     
     def __clear_view(self):
-        self.__labelTriggerMicro.place_forget()
         self.__c_welcome.place_forget()
         self.__c_boot.place_forget()
         self.__c_speak.place_forget()
@@ -651,20 +640,14 @@ class six_gui(aTk) :
             self.__back_widget.placeBottomCenter()
             self.__change_img_canvas_speak(1)
             self.__label_six_speak.view_after_speak()
-            if not self.__gazelleUI.gettigerWordSet():
-                self.__back_widget.enable_btn_micro()
-            else :
-                self.__back_widget.disable_btn_micro()
             self.update()
             self.__six_speaking = False
-            self.__startingTriggerWord() # Relance l'écoute du trigger word après que l'assistant ait fini de parler
             if boot:
                 self.__update__assistant()
     
     def __activeParametre(self):
         self.__setting_is_open = True
         self.__timer = 0
-        self.__stopingTriggerWord()
         self.title(self.__nameSoft+" : Parametre")
         self.update()
         self.__clear_view()
@@ -676,6 +659,7 @@ class six_gui(aTk) :
         self.title(self.__nameSoft)
         self.__gazelleUI.clearAllFrame()
         self.update()
+        self.__back_widget.set_use_trigger(self.__gazelleUI.gettigerWordSet())
         texte = self.__language.getPhQuitSetting()
         self.__th_speak = th.Thread(target=self.__avoice.say, args=(texte,))
         self.__view_beggin_speak(texte)
@@ -684,50 +668,7 @@ class six_gui(aTk) :
         self.__setting_is_open = False
         self.__gestionnaire.getLanguageObjet().setVarUser()
     
-    def __sixTrigerWord(self):
-        while not self.__TriggerWorkStop.is_set():
-            self.__microTriggerEnable()
-            sortieTriger = self.__avoice.trigerWord()
-            self.__microTriggerDisable()
-            if sortieTriger == 1:
-                self.__microRequetteEnable()
-                microOK = self.__avoice.listen()
-                if microOK == 0:
-                    sortieMicro = self.__avoice.getTextMicro()
-                    if sortieMicro!= "nothing":
-                        self.__back_widget.set_text_entry(sortieMicro)
-                self.__microRequetteDisable()
-                time.sleep(0.2)
-                self.__send_assistant()
 
-    def __sixMicroEnable(self):
-        self.__thSixListen = th.Thread(target=self.__sixLinstenTheard)
-        self.__thSixListen.start()
-        self.__duringSixListen()
-
-    def __duringTigerWord(self):
-        if self.__thTrigger.is_alive():
-            self.update()
-            self.after(100,self.__duringSixListen)
-        else :
-            self.__microTriggerDisable()
-
-
-    def __sixLinstenTheard(self):
-        self.__microRequetteEnable()
-        microOK = self.__avoice.listen()
-        self.__microRequetteDisable()
-        if microOK == 0:
-            sortieMicro = self.__avoice.getTextMicro()
-            if sortieMicro != "nothing":
-                self.__back_widget.set_text_entry(sortieMicro)
-                time.sleep(0.5)
-                self.__send_assistant()
-
-    def __duringSixListen(self):
-        if self.__thSixListen.is_alive():
-            self.update()
-            self.after(100,self.__duringSixListen)
     
     def __active_mode_mute(self):
         self.__mute_is_enable = True
@@ -743,7 +684,6 @@ class six_gui(aTk) :
             self.after(100,self.__update_active_mute)
         else :
             self.__clear_view()
-            self.__stopingTriggerWord()
             self.__back_widget.place_forget()
             self.update()
             nb = random.randint(0,1)
@@ -763,43 +703,9 @@ class six_gui(aTk) :
         self.__mute_is_enable = False
         self.__view_beggin_speak(texte)
         self.__th_speak.start()
-        self.__startingTriggerWord()
         self.__update_speak()
     
-    def __microTriggerEnable(self):
-        self.__labelTriggerMicro.place(relx=1.0, rely=0.0, anchor='ne')
-        self.update()
-    
-    def __microTriggerDisable(self):
-        self.__labelTriggerMicro.place_forget()
-        self.update()
-    
-    def __microRequetteEnable(self):
-        self.__labelMicroRequette.place(relx=1.0, rely=0.0, anchor='ne')
-        self.update()
-    
-    def __microRequetteDisable(self):
-        self.__labelMicroRequette.place_forget()
-        self.update()
-    
-    def __startingTriggerWord(self):
-        # Création du thread Trigger word
-        if self.__gazelleUI.gettigerWordSet():
-            self.__back_widget.disable_btn_micro()
-            if not self.__thTrigger.is_alive():
-                self.__thTrigger = th.Thread(target=self.__sixTrigerWord)
-                self.__TriggerWorkStop.clear()
-                self.__thTrigger.start()
-                self.after(100, self.__duringTigerWord)
-        else :
-            self.__back_widget.enable_btn_micro()
 
-
-    def __stopingTriggerWord(self):
-        self.__TriggerWorkStop.set()
-
-    def __checkTrigerWord(self):
-        self.__startingTriggerWord()
 
     def __manage_btn_open_fnc(self):
         if self.__assistant_six.getTableur() :

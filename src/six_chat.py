@@ -1,6 +1,6 @@
 from brain.brain import ABrain,confNeuron
 from lynx_gui.arrera_lynx import arrera_lynx
-from src.SixGUI import six_gui
+from src.SixChatGui import six_gui_chat
 from config.tiger_demon import tiger_demon
 from librairy.arrera_tk import *
 
@@ -9,7 +9,7 @@ THEME_FILE = "asset/theme/theme_blanc_gris.json"
 
 VERSION = "dev"
 
-class six_assistant :
+class six_chat:
     def __init__(self):
         # Init de la conf
         self.__assistant_conf = confNeuron(
@@ -41,18 +41,19 @@ class six_assistant :
             etatWork=1,
             etatSocket=1,
             lienDoc="https://arrera-software.fr/docSix",
-            fichierLangue="language/", # Path to language files
-            fichierKeyword="keyword/",            # Path to keyword files
+            fichierLangue="language/",  # Path to language files
+            fichierKeyword="keyword/",  # Path to keyword files
             voiceAssistant=True
         )
 
         # Demon de MAJ
-        self.__demon = tiger_demon("six",VERSION)
+        self.__demon = tiger_demon("six", VERSION)
 
     def active(self):
-        assistant = six_gui(iconFolder="asset/icon/",
-                            iconName="icon",
-                            conf=self.__assistant_conf,
-                            theme_file=THEME_FILE,
-                            version=self.__demon.get_local_version())
+        assistant = six_gui_chat(iconFolder="asset/icon/",
+                                 iconName="icon",
+                                 conf=self.__assistant_conf,
+                                 theme_file=THEME_FILE,
+                                 version=self.__demon.get_local_version())
         assistant.active(self.__demon.checkUpdate())
+
