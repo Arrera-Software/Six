@@ -4,7 +4,7 @@ import os, sys
 
 # ========= CONFIG À ADAPTER (Windows) =========
 APP_NAME = "Arrera Six"
-ENTRY_SCRIPT = "main.py"
+ENTRY_SCRIPT = "main_assistant.py"
 ICON_FILE = "asset/icon/win/icon.ico"
 # CONSEIL : Mettre à False pour éviter les faux positifs antivirus
 # et les erreurs de DLL corrompues avec llama_cpp
@@ -33,7 +33,7 @@ HIDDENIMPORTS += hiddenimports_llama
 
 # --- Ajout des dossiers asset, config, keyword, language ---
 extra_datas = []
-for folder in ['asset', 'config', 'keyword', 'language']:
+for folder in ['asset', 'config', 'keyword', 'language', 'json_conf', 'instruction_ia']:
     source_path = os.path.join(PROJECT_ROOT, folder)
     if os.path.exists(source_path):
         extra_datas.append((source_path, folder))

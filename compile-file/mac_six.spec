@@ -5,7 +5,7 @@ from PyInstaller.utils.hooks import collect_all
 
 # ========= CONFIGURATION =========
 APP_NAME = "Arrera Six"
-ENTRY_SCRIPT = "main.py"
+ENTRY_SCRIPT = "main_assistant.py"
 ICON_ICNS = "asset/icon/macos/six-icon.icns"
 BUNDLE_ID = "com.arrera.six"
 MIN_MACOS = "10.13"
@@ -13,6 +13,10 @@ TARGET_ARCH = None
 # =================================
 
 PROJECT_ROOT = os.path.abspath(".")
+
+# Sécurité: ce .spec ne doit être utilisé que sous macOS
+if not sys.platform.startswith("darwin"):
+    raise SystemExit("Ce fichier .spec est prévu uniquement pour macOS.")
 
 # --- PARTIE 1 : FONCTION DE COLLECTE INTELLIGENTE ---
 def collect_data_recursive(folders_list):
@@ -58,7 +62,7 @@ binaries = []
 
 # 2.1 Collecte des dossiers demandés
 # Cela inclura récursivement tous les fichiers (json, png, txt, etc.) sauf les .py
-target_folders = ['asset', 'config', 'keyword', 'language', 'json_conf', 'img_doc']
+target_folders = ['asset', 'config', 'keyword', 'language', 'json_conf', 'instruction_ia']
 datas += collect_data_recursive(target_folders)
 
 # 2.2 Fichier VERSION (s'il existe à la racine)

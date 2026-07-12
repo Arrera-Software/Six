@@ -1,10 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 import os
+import sys
 
 # ========= CONFIG =========
-APP_NAME = "Arrera Six"
-ENTRY_SCRIPT = "main.py"
+APP_NAME = "Arrera Six Chat"
+ENTRY_SCRIPT = "main_chat.py"
 ICON_FILE = "asset/icon/linux/icon.png"
 UPX_ENABLED = False
 DEBUG_BUILD = False
@@ -21,6 +22,11 @@ EXCLUDES = []
 # ========= FIN CONFIG =========
 
 block_cipher = None
+
+# Sécurité: ce .spec ne doit être utilisé que sous Linux
+if not sys.platform.startswith("linux"):
+    raise SystemExit("Ce fichier .spec est prévu uniquement pour Linux.")
+
 PROJECT_ROOT = os.path.abspath(".")
 
 # --- Récupération massive des dépendances ---
@@ -39,7 +45,7 @@ final_hiddenimports = list(set(HIDDENIMPORTS + combined_hidden))
 
 # --- Ajout des dossiers locaux ---
 extra_datas = []
-for folder in ['asset', 'config', 'keyword', 'language']:
+for folder in ['asset', 'config', 'keyword', 'language', 'json_conf','instruction_ia']:
     source_path = os.path.join(PROJECT_ROOT, folder)
     if os.path.exists(source_path):
         extra_datas.append((source_path, folder))
