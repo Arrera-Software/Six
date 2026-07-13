@@ -70,14 +70,17 @@ version_file = os.path.join(PROJECT_ROOT, "VERSION")
 if os.path.isfile(version_file):
     datas.append((version_file, "."))
 
-# 2.3 LLAMA CPP (Gestion des binaires si présents)
-try:
-    llama_datas, llama_binaries, llama_hiddenimports = collect_all('llama_cpp')
-    datas += llama_datas
-    binaries += llama_binaries
-except Exception:
-    print("⚠️ Attention : llama_cpp n'a pas pu être collecté.")
-    llama_hiddenimports = []
+# 2.3 LLAMA CPP ET MODULES VOCAUX (Gestion des binaires si présents)
+llama_hiddenimports = []
+libs = ['llama_cpp', 'customtkinter', 'pyttsx3', 'speech_recognition', 'playsound3', 'piper']
+for lib in libs:
+    try:
+        tmp_datas, tmp_binaries, tmp_hidden = collect_all(lib)
+        datas += tmp_datas
+        binaries += tmp_binaries
+        llama_hiddenimports += tmp_hidden
+    except Exception as e:
+        print(f"⚠️ Attention : {lib} n'a pas pu être collecté ({e}).")
 
 # --- PARTIE 3 : CONFIGURATION TECHNIQUE ---
 
@@ -94,7 +97,8 @@ excludes_modules = [
 # Imports nécessaires
 hiddenimports = [
     "pyaudio", "sounddevice", "AppKit", "Foundation", "objc",
-    "numpy", "google.protobuf", "PIL", "PIL.Image", "tkinter", "customtkinter"
+    "numpy", "google.protobuf", "PIL", "PIL.Image", "tkinter", "customtkinter",
+    "pyttsx3.drivers", "pyttsx3.drivers.nsss", "gtts", "speech_recognition"
 ] + llama_hiddenimports
 
 # --- PARTIE 4 : BUILD ---

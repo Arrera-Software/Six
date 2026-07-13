@@ -30,7 +30,7 @@ if not sys.platform.startswith("linux"):
 PROJECT_ROOT = os.path.abspath(".")
 
 # --- Récupération massive des dépendances ---
-libs = ['llama_cpp', 'customtkinter', 'pyttsx3', 'speech_recognition', 'playsound3']
+libs = ['llama_cpp', 'customtkinter', 'pyttsx3', 'speech_recognition', 'playsound3', 'piper']
 combined_datas = []
 combined_binaries = []
 combined_hidden = []
@@ -67,6 +67,27 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
+
+# ====================================================================
+# --- FIX ESPEAK (CORRIGÉ) ---
+# On retire la librairie système espeak pour éviter le bug 'phontab',
+# MAIS on garde 'espeakbridge' qui est indispensable pour le module piper.
+# ====================================================================
+filtered_binaries = []
+for b in a.binaries:
+    nom_fichier = b[0].lower()
+
+    # On garde absolument le module espeakbridge pour piper
+    if 'espeakbridge' in nom_fichier:
+        filtered_binaries.append(b)
+    # On retire les autres fichiers contenant espeak (libespeak-ng.so, etc.)
+    elif 'espeak' in nom_fichier:
+        continue
+    # On garde tout le reste
+    else:
+        filtered_binaries.append(b)
+
+a.binaries = filtered_binaries
 
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
