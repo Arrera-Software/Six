@@ -340,17 +340,15 @@ class six_gui_chat(aTk):
         self.__boot_widget.grid_forget()
 
         self.protocol("WM_DELETE_WINDOW", self.__on_close)
-        text_boot = self.__assistant_six.boot()
-
-        label_assistant(self.__assistant_out, text_boot).view()
 
         self.__view_gui()
+        
+        self.__load_widget.view_voice()
 
-        self.__th_voice = th.Thread(target=self.__voice.speak, args=(text_boot,))
-
+        self.__th_voice = th.Thread(target=self.__check_voice_model)
         self.__th_voice.start()
 
-        self.after(1000, self.__updating_during_check_voice_model)
+        self.after(100, self.__updating_during_check_voice_model)
 
     def __end_lynx(self):
         self.__lynx.place_forget()
@@ -400,10 +398,17 @@ class six_gui_chat(aTk):
 
     def __updating_during_check_voice_model(self):
         if self.__th_voice.is_alive():
-            self.after(1000,self.__updating_during_check_voice_model)
+            self.__load_widget.update_load_voice()
+            self.after(100,self.__updating_during_check_voice_model)
         else :
+            self.__text_boot = self.__assistant_six.boot()
+            label_assistant(self.__assistant_out, self.__text_boot).view()
+            self.__load_widget.unview()
             self.__voice.load_voice_model()
             self.__back_widget.grid(row=2, column=0, sticky="", pady=5)
+            self.__th_speak = th.Thread(target=self.__voice.speak, args=(self.__text_boot,))
+            self.__th_speak.start()
+            self.__update_during_speak()
 
     def __send_assistant(self):
         text = self.__back_widget.get_text_entry()

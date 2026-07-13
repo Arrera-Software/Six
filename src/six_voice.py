@@ -21,10 +21,10 @@ class SixVoice:
 
         self.__list_model = glob.glob(self.__model_dir+"*.onnx")
 
-        if not os.path.isfile(self.__model_dir):
-            os.makedirs(os.path.dirname(self.__model_dir), exist_ok=True)
+        if not os.path.exists(self.__model_dir):
+            os.makedirs(self.__model_dir, exist_ok=True)
 
-        if not os.path.isfile(model_conf):
+        if not os.path.exists(model_conf):
             os.makedirs(os.path.dirname(model_conf), exist_ok=True)
             with open(model_conf, "x", encoding="utf-8") as f:
                 json.dump({
@@ -84,27 +84,27 @@ class SixVoice:
         try :
             response = requests.get(link_onnx,stream=True)
 
-            if response.status_code == 200:
-                full_path = self.__model_dir + onnx_path
+            if response.status_code != 200:
+                return False
 
-                with open(full_path, "wb") as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        if chunk:
-                            f.write(chunk)
-
-                    self.__json_conf.setValeurJson(voice_model+"_onnx",full_path)
+            full_path = self.__model_dir + onnx_path
+            with open(full_path, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+            self.__json_conf.setValeurJson(voice_model+"_onnx",full_path)
 
             response = requests.get(link_json, stream=True)
 
-            if response.status_code == 200:
-                full_path = self.__model_dir + json_file
+            if response.status_code != 200:
+                return False
 
-                with open(full_path, "wb") as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        if chunk:
-                            f.write(chunk)
-
-                    self.__json_conf.setValeurJson(voice_model + "_json", full_path)
+            full_path = self.__model_dir + json_file
+            with open(full_path, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+            self.__json_conf.setValeurJson(voice_model + "_json", full_path)
 
             return True
 

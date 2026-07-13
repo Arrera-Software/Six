@@ -278,6 +278,12 @@ class six_load(aFrame):
             "Arrera SIX réfléchit…"
         ]
 
+        self.__list_download_voice = [
+            "Arrera Six initialise ses modules vocaux",
+            "Téléchargement des cordes vocales de Six en cours",
+            "Arrera Six télécharge sa voix",
+            "Installation des capacités vocales en cours"]
+
         self.__icon_view = aLabel(self, image=self.__img_load[0],text="",fg_color="transparent")
         self.__text_view = aLabel(self, text=self.__list_text[0], police_size=14, fg_color="transparent")
 
@@ -291,6 +297,13 @@ class six_load(aFrame):
         self.__icon_view.configure(image=self.__img_load[0],text="",fg_color="transparent")
         self.__text_view.configure(text=self.__list_text[nb_random], fg_color="transparent")
 
+    def __reset_load_voice(self):
+        self.__current_icon = 0
+        nb_random = randint(0, (len(self.__list_download_voice) - 1))
+
+        self.__icon_view.configure(image=self.__img_load[0],text="",fg_color="transparent")
+        self.__text_view.configure(text=self.__list_download_voice[nb_random], fg_color="transparent")
+
     def update_load(self):
         self.__current_icon = self.__current_icon + 1
         if self.__current_icon >= len(self.__img_load):
@@ -303,6 +316,18 @@ class six_load(aFrame):
 
         self.__icon_view.configure(image=self.__img_load[self.__current_icon],text="",fg_color="transparent")
 
+    def update_load_voice(self):
+        self.__current_icon = self.__current_icon + 1
+        if self.__current_icon >= len(self.__img_load):
+            self.__current_icon = 0
+        if self.__delay_load == 10:
+            nb_random = randint(0, (len(self.__list_download_voice) - 1))
+            self.__text_view.configure(text=self.__list_download_voice[nb_random], fg_color="transparent")
+            self.__delay_load = 0
+        self.__delay_load += 1
+
+        self.__icon_view.configure(image=self.__img_load[self.__current_icon],text="",fg_color="transparent")
+
 
     def view(self):
         self.__reset_load()
@@ -310,3 +335,7 @@ class six_load(aFrame):
 
     def unview(self):
         self.pack_forget()
+
+    def view_voice(self):
+        self.__reset_load_voice()
+        self.pack(anchor="w", pady=6)
